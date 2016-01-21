@@ -1,0 +1,18 @@
+repositories{    
+  jcenter()
+  flatDir{
+      dirs 'aar'
+   }
+}
+
+dependencies {
+   compile(name:'LibRecognizer', ext:'aar')
+   compile 'com.android.support:support-v4:23.1.1'
+}
+
+android {
+  packagingOptions {
+    exclude 'META-INF/NOTICE'
+    exclude 'META-INF/LICENSE'
+  }
+}

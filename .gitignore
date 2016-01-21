@@ -1,0 +1,8 @@
+# Mac
+.DS_Store
+
+# demo app
+BlinkIdDemo
+
+# res
+resources/signing

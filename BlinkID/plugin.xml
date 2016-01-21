@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.microblink.BlinkIdScanner" 
+        version="1.0.0">
+
+    <name>BlinkIdScanner</name>
+    <description>A small and powerful ID card scanning library</description>
+    <license>MIT</license>
+    <keywords>ID</keywords>
+    <author>MicroBlink Team info@microblink.com</author>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+        <engine name="cordova-android" version=">=4.0.0" />
+    </engines>   
+
+    <js-module src="www/blinkIdScanner.js" name="BlinkIdScanner">
+        <clobbers target="cordova.plugins.blinkIdScanner" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="BlinkIdScanner">
+                <param name="android-package" value="com.phonegap.plugins.blinkid.BlinkIdScanner" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.FLASHLIGHT" />
+            
+            <uses-feature android:name="android.hardware.camera" />
+            <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+            <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+            <supports-screens
+                android:anyDensity="true"
+                android:largeScreens="true"
+                android:normalScreens="true"
+                android:resizeable="true"
+                android:smallScreens="true" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity
+                    android:name="com.microblink.activity.ScanCard"
+                    android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                    android:configChanges="orientation|screenSize"
+                    android:screenOrientation="portrait" >
+            </activity>
+        </config-file>
+
+
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="src/com/phonegap/plugins/blinkid" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="src/com/phonegap/plugins/blinkid" />
+        
+        <source-file src="src/android/blinkid-android/BlinkIDDemo/BlinkIDDemo/src/main/res/raw/beep.mp3" target-dir="res/raw" />
+
+        <framework src="src/android/libRecognizer.gradle" custom="true" type="gradleReference" />
+        <resource-file src="src/android/blinkid-android/LibRecognizer.aar" target="aar/LibRecognizer.aar" />
+        
+        <hook type="after_prepare" src="scripts/fix-largeheap.js" />
+    </platform>
+
+    <platform name="ios">
+        <source-file src="src/ios/sources/CDVblinkIdScanner.m" />
+        <header-file src="src/ios/sources/CDVblinkIdScanner.h" />
+        
+        <framework src="libc++.dylib" />
+        <framework src="libz.dylib" />
+        <framework src="libiconv.dylib" />
+
+        <framework src="CoreVideo.framework" />
+        <framework src="CoreMedia.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="AudioToolbox.framework" />
+        <framework src="OpenGLES.framework" />
+        <framework src="Accelerate.framework" />
+        <framework src="src/ios/MicroBlink.framework" custom="true" />
+
+        <resource-file src="src/ios/MicroBlink.bundle" />
+        <config-file target="config.xml" parent="/*">
+            <feature name="blinkIdScanner">
+                <param name="ios-package" value="CDVblinkIdScanner" />
+            </feature>
+        </config-file>
+    </platform>
+    
+</plugin>
