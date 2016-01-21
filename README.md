@@ -124,7 +124,7 @@ var types = ["PDF417", "UKDL", "MRTD"];
 // Note that each platform requires its own license key
 
 // This license key allows setting overlay views for this application ID: com.microblink.blinkid
-var licenseiOs = "YDCCXDCG-I4WB47RS-VULGLXBK-DZ7HF3O6-4M7BRCEG-TK4JGLAC-IRX7S6O2-NAMP7H2B";
+var licenseiOs = "OLJJAUDF-CIV2HMG3-ZFEVNWIC-2FNSXP3W-YLKHF4MV-LTSI5GR7-I5ARBPXV-WRCTMCMT";
 
 // This license is only valid for package name "com.microblink.blinkid"
 var licenseAndroid = "NFRZVYWD-MCK7SSO7-TJ7ZWOC4-AT2AYDM7-JDHZQMHY-V3PZU4SX-54PGUFQM-AUX5RGYJ";
