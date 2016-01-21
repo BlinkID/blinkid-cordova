@@ -8,8 +8,6 @@ git submodule update
 
 ## How to get started
 
-- [Download](https://github.com/BlinkID/blinkid-phonegap/archive/master.zip) BlinkID PhoneGap SDK, and try the sample app for iOS od Android.
-
 Sample app is generated with a script
 
 ```shell
