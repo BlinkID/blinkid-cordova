@@ -48,7 +48,7 @@ import java.util.Set;
 
 public class BlinkIdScanner extends CordovaPlugin {
 
-	private static final int REQUEST_CODE = 1337;
+    private static final int REQUEST_CODE = 1337;
 
     // keys for recognizer types
     private static final String PDF417_TYPE = "PDF417";
@@ -69,86 +69,86 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
 
 
-	private static final String SCAN = "scan";
-	private static final String CANCELLED = "cancelled";
+    private static final String SCAN = "scan";
+    private static final String CANCELLED = "cancelled";
 
-	private static final String RESULT_LIST = "resultList";
-	private static final String RESULT_TYPE = "resultType";
-	private static final String TYPE = "type";
-	private static final String DATA = "data";
-	private static final String FIELDS = "fields";
-	private static final String RAW_DATA = "raw";
+    private static final String RESULT_LIST = "resultList";
+    private static final String RESULT_TYPE = "resultType";
+    private static final String TYPE = "type";
+    private static final String DATA = "data";
+    private static final String FIELDS = "fields";
+    private static final String RAW_DATA = "raw";
 
-	private static final String LOG_TAG = "BlinkIdScanner";
+    private static final String LOG_TAG = "BlinkIdScanner";
 
-	private CallbackContext callbackContext;
+    private CallbackContext callbackContext;
 
-	/**
-	 * Constructor.
-	 */
-	public BlinkIdScanner() {
-	}
+    /**
+     * Constructor.
+     */
+    public BlinkIdScanner() {
+    }
 
-	/**
-	 * Executes the request.
-	 * 
-	 * This method is called from the WebView thread. To do a non-trivial amount
-	 * of work, use: cordova.getThreadPool().execute(runnable);
-	 * 
-	 * To run on the UI thread, use:
-	 * cordova.getActivity().runOnUiThread(runnable);
-	 * 
-	 * @param action
-	 *            The action to execute.
-	 * @param args
-	 *            The exec() arguments.
-	 * @param callbackContext
-	 *            The callback context used when calling back into JavaScript.
-	 * @return Whether the action was valid.
-	 * 
-	 * @sa 
-	 *     https://github.com/apache/cordova-android/blob/master/framework/src/org
-	 *     /apache/cordova/CordovaPlugin.java
-	 */
-	@Override
-	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
-		this.callbackContext = callbackContext;
+    /**
+     * Executes the request.
+     * 
+     * This method is called from the WebView thread. To do a non-trivial amount
+     * of work, use: cordova.getThreadPool().execute(runnable);
+     * 
+     * To run on the UI thread, use:
+     * cordova.getActivity().runOnUiThread(runnable);
+     * 
+     * @param action
+     *            The action to execute.
+     * @param args
+     *            The exec() arguments.
+     * @param callbackContext
+     *            The callback context used when calling back into JavaScript.
+     * @return Whether the action was valid.
+     * 
+     * @sa 
+     *     https://github.com/apache/cordova-android/blob/master/framework/src/org
+     *     /apache/cordova/CordovaPlugin.java
+     */
+    @Override
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
+        this.callbackContext = callbackContext;
 
-		if (action.equals(SCAN)) {
-			Set<String> types = new HashSet<String>();
+        if (action.equals(SCAN)) {
+            Set<String> types = new HashSet<String>();
 
-			JSONArray typesArg = args.optJSONArray(0);
-			for (int i = 0; i < typesArg.length(); ++i) {
-				types.add(typesArg.optString(i));
-			}
+            JSONArray typesArg = args.optJSONArray(0);
+            for (int i = 0; i < typesArg.length(); ++i) {
+                types.add(typesArg.optString(i));
+            }
 
             String licenseKey = null;
-			if (!args.isNull(2)) {
-				licenseKey = args.optString(2);
-			}
-			scan(types, licenseKey);
-		} else {
-			return false;
-		}
-		return true;
-	}
+            if (!args.isNull(2)) {
+                licenseKey = args.optString(2);
+            }
+            scan(types, licenseKey);
+        } else {
+            return false;
+        }
+        return true;
+    }
 
 
-	/**
-	 * Starts an intent from provided class to scan and return result.
-	 */
-	public void scan(Set<String> types, String license) {
+    /**
+     * Starts an intent from provided class to scan and return result.
+     */
+    public void scan(Set<String> types, String license) {
 
-		Context context = this.cordova.getActivity().getApplicationContext();
-		FakeR fakeR = new FakeR(this.cordova.getActivity());
+        Context context = this.cordova.getActivity().getApplicationContext();
+        FakeR fakeR = new FakeR(this.cordova.getActivity());
 
-		Intent intent = new Intent(context, ScanCard.class);
+        Intent intent = new Intent(context, ScanCard.class);
 
         // set the license key - obtain your key at
         // http://help.microblink.com.
         if (license != null) {
-        	intent.putExtra(ScanCard.EXTRAS_LICENSE_KEY, license);
-		}
+            intent.putExtra(ScanCard.EXTRAS_LICENSE_KEY, license);
+        }
 
         List<RecognizerSettings> recSett = new ArrayList<RecognizerSettings>();
         for (String type : types) {
@@ -160,7 +160,7 @@ public class BlinkIdScanner extends CordovaPlugin {
             }
         }
 
-		// finally, when you have defined settings for each recognizer you want to use,
+        // finally, when you have defined settings for each recognizer you want to use,
         // you should put them into array held by global settings object
 
         RecognitionSettings recognitionSettings = new RecognitionSettings();
@@ -181,12 +181,12 @@ public class BlinkIdScanner extends CordovaPlugin {
         intent.putExtra(ScanCard.EXTRAS_RECOGNITION_SETTINGS, recognitionSettings);
 
 
-		// If you want sound to be played after the scanning process ends, 
-		// put here the resource ID of your sound file. (optional)
+        // If you want sound to be played after the scanning process ends, 
+        // put here the resource ID of your sound file. (optional)
         intent.putExtra(ScanCard.EXTRAS_BEEP_RESOURCE, fakeR.getId("raw", "beep"));
 
-		this.cordova.startActivityForResult((CordovaPlugin)this, intent, REQUEST_CODE);
-	}
+        this.cordova.startActivityForResult((CordovaPlugin)this, intent, REQUEST_CODE);
+    }
 
 
     private RecognizerSettings buildRecognizerSettings(String type) {
@@ -319,46 +319,46 @@ public class BlinkIdScanner extends CordovaPlugin {
         return zxing;
     }
 
-	/**
-	 * Called when the scanner intent completes.
-	 * 
-	 * @param requestCode
-	 *            The request code originally supplied to
-	 *            startActivityForResult(), allowing you to identify who this
-	 *            result came from.
-	 * @param resultCode
-	 *            The integer result code returned by the child activity through
-	 *            its setResult().
-	 * @param data
-	 *            An Intent, which can return result data to the caller (various
-	 *            data can be attached to Intent "extras").
-	 */
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    /**
+     * Called when the scanner intent completes.
+     * 
+     * @param requestCode
+     *            The request code originally supplied to
+     *            startActivityForResult(), allowing you to identify who this
+     *            result came from.
+     * @param resultCode
+     *            The integer result code returned by the child activity through
+     *            its setResult().
+     * @param data
+     *            An Intent, which can return result data to the caller (various
+     *            data can be attached to Intent "extras").
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (requestCode == REQUEST_CODE) {
+        if (requestCode == REQUEST_CODE) {
 
-			if (resultCode == ScanCard.RESULT_OK) {
+            if (resultCode == ScanCard.RESULT_OK) {
 
-				// First, obtain recognition result
-            	RecognitionResults results = data.getParcelableExtra(ScanCard.EXTRAS_RECOGNITION_RESULTS);
-            	// Get scan results array. If scan was successful, array will contain at least one element.
-           	 	// Multiple element may be in array if multiple scan results from single image were allowed in settings.
-            	BaseRecognitionResult[] resultArray = results.getRecognitionResults();
+                // First, obtain recognition result
+                RecognitionResults results = data.getParcelableExtra(ScanCard.EXTRAS_RECOGNITION_RESULTS);
+                // Get scan results array. If scan was successful, array will contain at least one element.
+                // Multiple element may be in array if multiple scan results from single image were allowed in settings.
+                BaseRecognitionResult[] resultArray = results.getRecognitionResults();
 
-	            // Each recognition result corresponds to active recognizer. There are 7 types of
-	            // recognizers available (PDF417, USDL, Bardecoder, ZXing, MRTD, UKDL and MyKad),
-	            // so there are 7 types of results available.
+                // Each recognition result corresponds to active recognizer. There are 7 types of
+                // recognizers available (PDF417, USDL, Bardecoder, ZXing, MRTD, UKDL and MyKad),
+                // so there are 7 types of results available.
 
-	            JSONArray resultsList = new JSONArray();	            
+                JSONArray resultsList = new JSONArray();                
 
-				for (BaseRecognitionResult res : resultArray) {
-					try {
-		                if (res instanceof Pdf417ScanResult) { // check if scan result is result of Pdf417 recognizer
-		                    resultsList.put(buildPdf417Result((Pdf417ScanResult) res));
+                for (BaseRecognitionResult res : resultArray) {
+                    try {
+                        if (res instanceof Pdf417ScanResult) { // check if scan result is result of Pdf417 recognizer
+                            resultsList.put(buildPdf417Result((Pdf417ScanResult) res));
                         } else if (res instanceof BarDecoderScanResult) { // check if scan result is result of BarDecoder recognizer
-		                   resultsList.put(buildBarDecoderResult((BarDecoderScanResult) res));
-		                } else if (res instanceof ZXingScanResult) { // check if scan result is result of ZXing recognizer
+                           resultsList.put(buildBarDecoderResult((BarDecoderScanResult) res));
+                        } else if (res instanceof ZXingScanResult) { // check if scan result is result of ZXing recognizer
                             resultsList.put(buildZxingResult((ZXingScanResult) res));
                         } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
                             resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
@@ -369,35 +369,35 @@ public class BlinkIdScanner extends CordovaPlugin {
                         } else if (res instanceof MyKadRecognitionResult) { // check if scan result is result of MyKad recognizer
                             resultsList.put(buildMyKadResult((MyKadRecognitionResult) res));
                         }
-	                } catch (Exception e) {
-	                	Log.e(LOG_TAG, "Error parsing " + res.getClass().getName());
-	                }
-	            }
-				
-				try {
-					JSONObject root = new JSONObject();
-					root.put(RESULT_LIST, resultsList);				
-					root.put(CANCELLED, false);
-					this.callbackContext.success(root);
-				} catch (JSONException e) {
-					Log.e(LOG_TAG, "This should never happen");
-				}
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "Error parsing " + res.getClass().getName());
+                    }
+                }
+                
+                try {
+                    JSONObject root = new JSONObject();
+                    root.put(RESULT_LIST, resultsList);             
+                    root.put(CANCELLED, false);
+                    this.callbackContext.success(root);
+                } catch (JSONException e) {
+                    Log.e(LOG_TAG, "This should never happen");
+                }
 
-			} else if (resultCode == ScanCard.RESULT_CANCELED) {
-				JSONObject obj = new JSONObject();
-				try {
-					obj.put(CANCELLED, true);
+            } else if (resultCode == ScanCard.RESULT_CANCELED) {
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put(CANCELLED, true);
 
-				} catch (JSONException e) {
-					Log.e(LOG_TAG, "This should never happen");
-				}
-				this.callbackContext.success(obj);
+                } catch (JSONException e) {
+                    Log.e(LOG_TAG, "This should never happen");
+                }
+                this.callbackContext.success(obj);
 
-			} else {
-				this.callbackContext.error("Unexpected error");
-			}
-		}
-	}
+            } else {
+                this.callbackContext.error("Unexpected error");
+            }
+        }
+    }
 
 
     private JSONObject buildPdf417Result(Pdf417ScanResult res) throws JSONException {
@@ -409,44 +409,44 @@ public class BlinkIdScanner extends CordovaPlugin {
         // are only interested in raw bytes, you can obtain them with getAllData getter
         byte[] rawDataBuffer = rawData.getAllData();
 
-		JSONObject result = new JSONObject();
-		result.put(RESULT_TYPE, PDF417_RESULT_TYPE);
-		result.put(TYPE, "PDF417");
-		result.put(DATA, barcodeData);
-		result.put(RAW_DATA, byteArrayToHex(rawDataBuffer));
+        JSONObject result = new JSONObject();
+        result.put(RESULT_TYPE, PDF417_RESULT_TYPE);
+        result.put(TYPE, "PDF417");
+        result.put(DATA, barcodeData);
+        result.put(RAW_DATA, byteArrayToHex(rawDataBuffer));
         return result;
-	}
+    }
 
-	private JSONObject buildBarDecoderResult(BarDecoderScanResult res) throws JSONException {
+    private JSONObject buildBarDecoderResult(BarDecoderScanResult res) throws JSONException {
         // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
         BarcodeType type = res.getBarcodeType();
         // as with PDF417, getStringData will return the string contents of barcode
         String barcodeData = res.getStringData();
 
-		JSONObject result = new JSONObject();
-		result.put(RESULT_TYPE, BARDECODER_RESULT_TYPE);
-		result.put(TYPE, type.name());
-		result.put(DATA, barcodeData);
+        JSONObject result = new JSONObject();
+        result.put(RESULT_TYPE, BARDECODER_RESULT_TYPE);
+        result.put(TYPE, type.name());
+        result.put(DATA, barcodeData);
         return result;
-	}
+    }
 
-	private JSONObject buildZxingResult(ZXingScanResult res) throws JSONException {
-		// with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
+    private JSONObject buildZxingResult(ZXingScanResult res) throws JSONException {
+        // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
         BarcodeType type = res.getBarcodeType();
 
         // as with PDF417, getStringData will return the string contents of barcode
         String barcodeData = res.getStringData();
 
-		JSONObject result = new JSONObject();
-		result.put(RESULT_TYPE, ZXING_RESULT_TYPE);
-		result.put(TYPE, type.name());
-		result.put(DATA, barcodeData);
-	    return result;
-	}
+        JSONObject result = new JSONObject();
+        result.put(RESULT_TYPE, ZXING_RESULT_TYPE);
+        result.put(TYPE, type.name());
+        result.put(DATA, barcodeData);
+        return result;
+    }
 
-	private JSONObject buildUSDLResult(USDLScanResult res) throws JSONException {
-		return buildKeyValueResult(res, USDL_RESULT_TYPE);
-	}
+    private JSONObject buildUSDLResult(USDLScanResult res) throws JSONException {
+        return buildKeyValueResult(res, USDL_RESULT_TYPE);
+    }
 
     private JSONObject buildMyKadResult(MyKadRecognitionResult res) throws JSONException {
        return buildKeyValueResult(res, MYKAD_RESULT_TYPE);
