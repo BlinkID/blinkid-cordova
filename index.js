@@ -52,7 +52,7 @@ var app = {
          * Use these scanner types
          * Available: "PDF417", "USDL", "Bar Decoder", "Zxing", "MRTD", "UKDL", "MyKad"
          */
-		var types = ["PDF417", "UKDL", "MRTD"];
+        var types = ["PDF417", "UKDL", "MRTD"];
 
         // Note that each platform requires its own license key
 
@@ -65,23 +65,23 @@ var app = {
         scanButton.addEventListener('click', function() {    
             cordova.plugins.blinkIdScanner.scan(
             
-           		// Register the callback handler
+                // Register the callback handler
                 function callback(scanningResult) {
                     
                     // handle cancelled scanning
                     if (scanningResult.cancelled == true) {
-						resultDiv.innerHTML = "Cancelled!";
-						return;
-					}
-					
-					// Obtain list of recognizer results
-					var resultList = scanningResult.resultList;
-					
-					// Iterate through all results
-					for (var i = 0; i < resultList.length; i++) {
+                        resultDiv.innerHTML = "Cancelled!";
+                        return;
+                    }
+                    
+                    // Obtain list of recognizer results
+                    var resultList = scanningResult.resultList;
+                    
+                    // Iterate through all results
+                    for (var i = 0; i < resultList.length; i++) {
 
                         // Get individual resilt
-						var recognizerResult = resultList[i];
+                        var recognizerResult = resultList[i];
                         if (recognizerResult.resultType == "Barcode result") {
                             // handle Barcode scanning result
 
@@ -123,7 +123,7 @@ var app = {
 
                         } else if (recognizerResult.resultType == "MRTD result") {
                         
-                        	var fields = recognizerResult.fields;
+                            var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
                                                 "Family name: " + fields[kPPmrtdPrimaryId] + "; " +
@@ -139,8 +139,8 @@ var app = {
                                                 "Opt1: " + fields[kPPmrtdOpt1] + "; " +
                                                 "Opt2: " + fields[kPPmrtdOpt2] + "; ";
 
-						} else if (recognizerResult.resultType == "UKDL result") {
-    						
+                        } else if (recognizerResult.resultType == "UKDL result") {
+                            
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -153,8 +153,8 @@ var app = {
                                                 "First name: " + fields[kPPukdlFirstName] + "; " +
                                                 "Last name: " + fields[kPPukdlLastName] + "; ";
 
-						} else if (recognizerResult.resultType == "MyKad result") {
-						    
+                        } else if (recognizerResult.resultType == "MyKad result") {
+                            
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -165,8 +165,8 @@ var app = {
                                                 "Full Name: " + fields[kPPmyKadFullName] + "; " +
                                                 "Religion: " + fields[kPPmyKadReligion] + "; " +
                                                 "Sex: " + fields[kPPmyKadSex] + "; ";
-						}
-					}
+                        }
+                    }
                 },
                 
                 // Register the error callback

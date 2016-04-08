@@ -29,8 +29,9 @@ import com.microblink.recognizers.blinkid.malaysia.MyKadRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.MyKadRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
-import com.microblink.recognizers.blinkid.ukdl.UKDLRecognitionResult;
-import com.microblink.recognizers.blinkid.ukdl.UKDLRecognizerSettings;
+import com.microblink.recognizers.blinkid.eudl.EUDLCountry;
+import com.microblink.recognizers.blinkid.eudl.EUDLRecognitionResult;
+import com.microblink.recognizers.blinkid.eudl.EUDLRecognizerSettings;
 import com.microblink.recognizers.settings.RecognitionSettings;
 import com.microblink.recognizers.settings.RecognizerSettings;
 import com.microblink.results.barcode.BarcodeDetailedData;
@@ -218,9 +219,11 @@ public class BlinkIdScanner extends CordovaPlugin {
         return mrtd;
     }
 
-    private UKDLRecognizerSettings buildUkdlSettings() {
-        // prepare settings for United Kingdom Driver's Licence recognizer
-        UKDLRecognizerSettings ukdl = new UKDLRecognizerSettings();
+    private EUDLRecognizerSettings buildUkdlSettings() {
+        // To specify we want to perform EUDL (EU Driver's License) recognition,
+        // prepare settings for EUDL recognizer. Pass country as parameter to EUDLRecognizerSettings
+        // constructor. Here we choose UK.
+        EUDLRecognizerSettings ukdl = new EUDLRecognizerSettings(EUDLCountry.EUDL_COUNTRY_UK);
         // Defines if issue date should be extracted. Default is true
         ukdl.setExtractIssueDate(true);
         // Defines if expiry date should be extracted. Default is true.
@@ -364,8 +367,8 @@ public class BlinkIdScanner extends CordovaPlugin {
                             resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
                         } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
                             resultsList.put(buildUSDLResult((USDLScanResult) res));
-                        } else if (res instanceof UKDLRecognitionResult) { // check if scan result is result of UKDL recognizer
-                            resultsList.put(buildUKDLResult((UKDLRecognitionResult) res));
+                        } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
+                            resultsList.put(buildUKDLResult((EUDLRecognitionResult) res));
                         } else if (res instanceof MyKadRecognitionResult) { // check if scan result is result of MyKad recognizer
                             resultsList.put(buildMyKadResult((MyKadRecognitionResult) res));
                         }
@@ -452,7 +455,7 @@ public class BlinkIdScanner extends CordovaPlugin {
        return buildKeyValueResult(res, MYKAD_RESULT_TYPE);
     }
 
-    private JSONObject buildUKDLResult(UKDLRecognitionResult res) throws JSONException{
+    private JSONObject buildUKDLResult(EUDLRecognitionResult res) throws JSONException{
         return buildKeyValueResult(res, UKDL_RESULT_TYPE);
     }
 

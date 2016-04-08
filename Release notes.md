@@ -1,3 +1,6 @@
+## 1.0.2
+- updated [Android SDK](https://github.com/BlinkID/blinkid-android) to  v2.5.0
+
 ## 1.0.1
 - updated [Android SDK](https://github.com/BlinkID/blinkid-android) to  v2.2.0
 
