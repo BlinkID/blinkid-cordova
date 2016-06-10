@@ -57,7 +57,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="src/com/phonegap/plugins/blinkid" />
         <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="src/com/phonegap/plugins/blinkid" />
         
-        <source-file src="src/android/blinkid-android/BlinkIDDemo/BlinkIDDemo/src/main/res/raw/beep.mp3" target-dir="res/raw" />
+        <source-file src="src/android/blinkid-android/beep.mp3" target-dir="res/raw" />
 
         <framework src="src/android/libRecognizer.gradle" custom="true" type="gradleReference" />
         <resource-file src="src/android/blinkid-android/LibRecognizer.aar" target="aar/LibRecognizer.aar" />
