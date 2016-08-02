@@ -1,3 +1,13 @@
+## Dependencies
+MicroBlink.framework/MicroBlink file in iOS submodule exceeds GitHubs limited file size of 100MB.
+To correctly init the submodule Git LFS is needed. Git LFS can be installed with homebrew:
+
+```shell
+brew install git-lfs
+```
+
+After installation, don't forget to restart the terminal!
+
 ## Submodules
 After cloning repository, make sure you clone also its submodules:
 
