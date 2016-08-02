@@ -79,9 +79,9 @@
         <framework src="AudioToolbox.framework" />
         <framework src="OpenGLES.framework" />
         <framework src="Accelerate.framework" />
-        <framework src="src/ios/MicroBlink.framework" custom="true" />
+        <framework src="src/ios/blinkid-ios/MicroBlink.framework" custom="true" />
 
-        <resource-file src="src/ios/MicroBlink.bundle" />
+        <resource-file src="src/ios/blinkid-ios/MicroBlink.bundle" />
         <config-file target="config.xml" parent="/*">
             <feature name="blinkIdScanner">
                 <param name="ios-package" value="CDVblinkIdScanner" />
