@@ -74,6 +74,7 @@
         <framework src="libiconv.dylib" />
 
         <framework src="CoreVideo.framework" />
+        <framework src="CoreText.framework" />
         <framework src="CoreMedia.framework" />
         <framework src="QuartzCore.framework" />
         <framework src="AudioToolbox.framework" />
