@@ -18,10 +18,12 @@ git submodule update
 
 ## How to get started
 
-Sample app is generated with a script
+### Cordova
+
+Sample Cordova app is generated with a script
 
 ```shell
-./initDemoApp.sh
+./initCordovaDemoApp.sh
 ```
 
 To run iOS demo application open Xcode project BlinkIdDemo.xcodeproj
@@ -31,6 +33,24 @@ To run Android demo application type
 ```shell
 cordova run android
 ```
+
+### Ionic
+
+Sample Ionic app is generated with a script
+
+```shell
+./initIonicDemoApp.sh
+```
+
+To run iOS demo application open Xcode project BlinkIdDemo.xcodeproj
+
+To run Android demo application type
+
+```shell
+ionic run android
+```
+
+### Licensing
 
 - [Generate](https://microblink.com/login?url=/customer/generatedemolicence) a **free demo license key** to start using the SDK in your app (registration required)
 
@@ -44,7 +64,7 @@ First generate a empty project if needed:
 cordova create <path> <package> <name>
 ```
 
-> The shown instructions are for **Cordova**, the instructions for **PhoneGap** are practically the same, except for some slight command line argument differences.
+> The shown instructions are for **Cordova**, the instructions for **Ionic** and **PhoneGap** are practically the same, except for some slight command line argument differences.
 
 Add the **BlinkID** plugin to your project:
 
