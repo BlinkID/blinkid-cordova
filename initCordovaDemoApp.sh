@@ -21,20 +21,12 @@ cordova platform add android
 cordova platform add ios
 # cordova platform add wp8
 
-# copy index.html, index.js and usdl_keys.js
-cp  -f ../index.html www/index.html
-cp  -f ../index.js www/js/index.js
-cp  -f ../usdl_keys.js www/js/usdl_keys.js
-cp  -f ../mrtd_keys.js www/js/mrtd_keys.js
-cp  -f ../mykad_keys.js www/js/mykad_keys.js
-cp  -f ../ukdl_keys.js www/js/ukdl_keys.js
-
-# add logo
-cp  -f ../logo.png www/img/logo.png
+# copy content of the www folder
+cp  -f -r ../www .
 
 # build app
 cordova build
 
 # how to run
 echo "To run iOS demo application open Xcode project BlinkIdDemo.xcodeproj"
-echo "To run Android demo application type cordova run android"
+echo "To run Android demo application, position to BlinkIdDemo folder and type: cordova run android"
