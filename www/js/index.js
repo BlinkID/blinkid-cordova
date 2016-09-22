@@ -46,13 +46,26 @@ var app = {
         app.receivedEvent('deviceready');
         
         var resultDiv = document.getElementById('resultDiv');
+        var resultImgDiv = document.getElementById('imageDiv');
+        var resultImg = document.getElementById('documentImage');
     
-        
+        resultImgDiv.style.visibility = "hidden"
+
         /**
          * Use these scanner types
          * Available: "PDF417", "USDL", "Bar Decoder", "Zxing", "MRTD", "UKDL", "MyKad"
          */
         var types = ["PDF417", "UKDL", "MRTD"];
+
+        /**
+         * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
+         * available:
+         *  "IMAGE_NONE" : do not return image in scan result
+         *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
+         *  "IMAGE_CROPPED" : return cropped document image (successful scan)
+         *
+         */
+        var imageType = "IMAGE_CROPPED"
 
         // Note that each platform requires its own license key
 
@@ -76,6 +89,15 @@ var app = {
                     
                     // Obtain list of recognizer results
                     var resultList = scanningResult.resultList;
+                    // Image is returned as Base64 encoded JPEG
+                    var image = scanningResult.resultImage;
+
+                    if (image) {
+                        resultImg.src = "data:image/jpg;base64, " + image;
+                        resultImgDiv.style.visibility = "visible"
+                    } else {
+                        resultImgDiv.style.visibility = "hidden"
+                    }
                     
                     // Iterate through all results
                     for (var i = 0; i < resultList.length; i++) {
@@ -174,7 +196,7 @@ var app = {
                     alert('Error: ' + err);
                 },
 
-                types, licenseiOs, licenseAndroid
+                types, imageType, licenseiOs, licenseAndroid
             );
         });
 
