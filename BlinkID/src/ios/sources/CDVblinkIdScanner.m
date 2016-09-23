@@ -27,6 +27,12 @@
 
 @end
 
+@interface CDVblinkIdScanner ()
+
+@property (nonatomic) PPImageMetadata *lastImageMetadata;
+
+@end
+
 @implementation CDVblinkIdScanner
 
 @synthesize lastCommand;
@@ -314,13 +320,22 @@
     // Initialize the scanner settings object. This initialize settings with all default values.
     PPSettings *settings = [[PPSettings alloc] init];
     
+    NSString *imageType = [self.lastCommand argumentAtIndex:1];
+    if ([imageType isEqualToString:@"IMAGE_SUCCESSFUL_SCAN"]) {
+        settings.metadataSettings.successfulFrame = YES;
+    } else if ([imageType isEqualToString:@"IMAGE_CROPPED"]) {
+        settings.metadataSettings.dewarpedImage = YES;
+    }
+    
+    
+    
     // Set PPCameraPresetOptimal for very dense or lower quality barcodes
     settings.cameraSettings.cameraPreset = PPCameraPresetOptimal;
     
     /** 2. Setup the license key */
     
     // Visit www.microblink.com to get the license key for your app
-    settings.licenseSettings.licenseKey = [self.lastCommand argumentAtIndex:1];
+    settings.licenseSettings.licenseKey = [self.lastCommand argumentAtIndex:2];
     
     /**
      * 3. Set up what is being scanned. See detailed guides for specific use cases.
@@ -531,6 +546,11 @@
         [resultDict setObject:resultArray forKey:@"resultList"];
     }
     
+    NSData *image = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
+    
+    
+    [resultDict setObject:[image base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:@"resultImage"];
+    
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
     
     /*
@@ -586,6 +606,12 @@
     
     // As scanning view controller is presented full screen and modally, dismiss it
     [[self viewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)scanningViewController:(UIViewController<PPScanningViewController> *)scanningViewController didOutputMetadata:(PPMetadata *)metadata {
+    if ([metadata isKindOfClass:[PPImageMetadata class]]) {
+        self.lastImageMetadata = (PPImageMetadata *)metadata;
+    }
 }
 
 @end
