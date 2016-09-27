@@ -7,64 +7,55 @@
  */
 
 
-	var exec = require("cordova/exec");
+    var exec = require("cordova/exec");
 
-	/**
-	 * Constructor.
-	 *
-	 * @returns {BlinkIdScanner}
-	 */
-	function BlinkIdScanner() {
+    /**
+     * Constructor.
+     *
+     * @returns {BlinkIdScanner}
+     */
+    function BlinkIdScanner() {
 
-	};
+    };
 
 /**
- * Types of barcodes supported (pass as array of desired barcode strings):
+ * types: Types of supported scanners (pass as array of desired scanner types):
+ *  "PDF417"
+ *  "USDL"
+ *  "Bar Decoder"
+ *  "Zxing"
+ *  "MRTD"
+ *  "UKDL"
+ *  "MyKad"
  *
- *	"PDF417"
- *	"QR Code"
- *	"Code 128"
- *	"Code 39"
- *	"EAN 13"
- *	"EAN 8"
- *	"ITF"
- *	"UPCA"
- *	"UPCE"
+ * imageType - image type that should be returned if image is captured (depends on used scanner):
+ *  "IMAGE_NONE" : do not return image in scan result
+ *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
+ *  "IMAGE_CROPPED" : return cropped document image (successful scan)
  *
- * Options properties:
- * 	- beep - determine whether to play the beep sound upon barcode recoginition (default is true)
- * 	- noDialog - determine if dialog is presented after successfull scan (default is false)
- * 	- removeOverlay - if license permits this, remove Pdf417.mobi logo overlay on scan activity (default is false)
- * 	- uncertain - Set this to true to scan even barcode not compliant with standards, For example, malformed PDF417 barcodes which were incorrectly encoded. Use only if necessary because it slows down the recognition process
- * 	- quietZone - Set this to true to scan barcodes which don't have quiet zone (white area) around it. Use only if necessary because it drastically slows down the recognition process.
- *	- highRes - Set to true if you want to always use highest possible camera resolution (enabled by default for all devices that support at least 720p camera preview frame size)
- *	- frontFace - Set to true to use front facing camera. Note that front facing cameras do not have autofocus support, so it will not be possible to scan denser and smaller codes.
- *  - customUI - Use custom UI activity
- *
- * License iOS - license key to enable all features (not required)
- * License Android - license key to enable all features (not required)
- * License WP8 - license key to enable all features (not required)
+ * licenseiOS - iOS license key to enable all features (not required)
+ * licenseAndroid - Android license key to enable all features (not required)
  */
 
-	BlinkIdScanner.prototype.scan = function (successCallback, errorCallback, types, options, licenseiOs, licenseAndroid, licenseWP8) {
-		if (errorCallback == null) {
-			errorCallback = function () {
-			};
-		}
+    BlinkIdScanner.prototype.scan = function (successCallback, errorCallback, types, imageType, licenseiOs, licenseAndroid) {
+        if (errorCallback == null) {
+            errorCallback = function () {
+            };
+        }
 
-		if (typeof errorCallback != "function") {
-			console.log("BlinkIdScanner.scan failure: failure parameter not a function");
-			return;
-		}
+        if (typeof errorCallback != "function") {
+            console.log("BlinkIdScanner.scan failure: failure parameter not a function");
+            return;
+        }
 
-		if (typeof successCallback != "function") {
-			console.log("BlinkIdScanner.scan failure: success callback parameter must be a function");
-			return;
-		}
+        if (typeof successCallback != "function") {
+            console.log("BlinkIdScanner.scan failure: success callback parameter must be a function");
+            return;
+        }
 
-		exec(successCallback, errorCallback, 'BlinkIdScanner', 'scan', [types, options, licenseiOs, licenseAndroid, licenseWP8]);
-	};
+        exec(successCallback, errorCallback, 'BlinkIdScanner', 'scan', [types, imageType, licenseiOs, licenseAndroid]);
+    };
 
-	var blinkIdScanner = new BlinkIdScanner();
-	module.exports = blinkIdScanner;
+    var blinkIdScanner = new BlinkIdScanner();
+    module.exports = blinkIdScanner;
 

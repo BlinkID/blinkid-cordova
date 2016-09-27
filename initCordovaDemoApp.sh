@@ -16,10 +16,9 @@ cd BlinkIdDemo
 # add the BlinkID plugin
 cordova plugin add ../BlinkID
 
-# add ios, android and wp8 support to the project
+# add ios and android support to the project
 cordova platform add android
 cordova platform add ios
-# cordova platform add wp8
 
 # copy content of the www folder
 cp  -f -r ../www .

@@ -149,6 +149,16 @@ To use the plugin you call it in your Javascript code like the demo application:
 */
 var types = ["PDF417", "UKDL", "MRTD"];
 
+/**
+ * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
+ * available:
+ *  "IMAGE_NONE" : do not return image in scan result
+ *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
+ *  "IMAGE_CROPPED" : return cropped document image (successful scan)
+ *
+ */
+var imageType = "IMAGE_CROPPED"
+
 // Note that each platform requires its own license key
 
 // This license key allows setting overlay views for this application ID: com.microblink.blinkid
@@ -171,6 +181,15 @@ scanButton.addEventListener('click', function() {
                     
             // Obtain list of recognizer results
             var resultList = scanningResult.resultList;
+			// Image is returned as Base64 encoded JPEG
+			var image = scanningResult.resultImage;
+			
+			if (image) {
+                 resultImg.src = "data:image/jpg;base64, " + image;
+                 resultImgDiv.style.visibility = "visible"
+            } else {
+                resultImgDiv.style.visibility = "hidden"
+            }
                     
             // Iterate through all results
             for (var i = 0; i < resultList.length; i++) {
@@ -280,6 +299,11 @@ scanButton.addEventListener('click', function() {
     + **MRTD** - scans Machine Readable Travel Document, contained in various IDs and passports
     + **UKDL** - scans the front of United Kingom driver's license
     + **MyKad** - scans the front of Malaysian ID cards
+	
++ On returned result, image can also be returned (under "resultImage" field) as base64 string of JPEG image. Type of returned image is specified as second argument and can be:
+	+ "IMAGE_NONE" - No image will be returned
+	+ "IMAGE_SUCCESSFUL_SCAN" - Whole input image which returned the result.
+	+ "IMAGE_CROPPED" - Cropped and dewarped image of scanned object. For example, ID recognizers will return cropped and dewarped image of ID
 
 
 + All license parameters must be provided (for **iOS** and **Android**) even if you do not plan to run the application on both platforms. The licenses that you do not have/use must be set to `null`.

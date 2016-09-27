@@ -10,9 +10,16 @@ package com.phonegap.plugins.blinkid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.util.Base64;
 import android.util.Log;
 
 import com.microblink.activity.ScanCard;
+import com.microblink.image.Image;
+import com.microblink.image.ImageListener;
+import com.microblink.image.ImageType;
+import com.microblink.metadata.MetadataSettings;
 import com.microblink.recognizers.BaseRecognitionResult;
 import com.microblink.recognizers.IResultHolder;
 import com.microblink.recognizers.RecognitionResults;
@@ -42,6 +49,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -74,14 +83,25 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String CANCELLED = "cancelled";
 
     private static final String RESULT_LIST = "resultList";
+    private static final String RESULT_IMAGE = "resultImage";
     private static final String RESULT_TYPE = "resultType";
     private static final String TYPE = "type";
     private static final String DATA = "data";
     private static final String FIELDS = "fields";
     private static final String RAW_DATA = "raw";
 
+    private static final int COMPRESSED_IMAGE_QUALITY = 90;
+
+    private static final String IMAGE_SUCCESSFUL_SCAN_STR = "IMAGE_SUCCESSFUL_SCAN";
+    private static final String IMAGE_CROPPED_STR = "IMAGE_CROPPED";
+
+    private static final int IMAGE_NONE = 0;
+    private static final int IMAGE_SUCCESSFUL_SCAN = 1;
+    private static final int IMAGE_CROPPED = 2;
+
     private static final String LOG_TAG = "BlinkIdScanner";
 
+    private int mImageType = IMAGE_NONE;
     private CallbackContext callbackContext;
 
     /**
@@ -123,9 +143,18 @@ public class BlinkIdScanner extends CordovaPlugin {
                 types.add(typesArg.optString(i));
             }
 
+            String imageTypeStr = args.optString(1);
+            if (imageTypeStr.equals(IMAGE_CROPPED_STR)) {
+                mImageType = IMAGE_CROPPED;
+            } else if (imageTypeStr.equals(IMAGE_SUCCESSFUL_SCAN_STR)) {
+                mImageType = IMAGE_SUCCESSFUL_SCAN;
+            }
+
+            // ios license key is at index 2 in args
+
             String licenseKey = null;
-            if (!args.isNull(2)) {
-                licenseKey = args.optString(2);
+            if (!args.isNull(3)) {
+                licenseKey = args.optString(3);
             }
             scan(types, licenseKey);
         } else {
@@ -181,6 +210,20 @@ public class BlinkIdScanner extends CordovaPlugin {
         // use ScanCard.EXTRAS_RECOGNITION_SETTINGS to set recognizer settings
         intent.putExtra(ScanCard.EXTRAS_RECOGNITION_SETTINGS, recognitionSettings);
 
+        // set image metadata settings to define which images will be obtained as metadata during scan process
+        MetadataSettings.ImageMetadataSettings ims = new MetadataSettings.ImageMetadataSettings();
+        if (mImageType == IMAGE_CROPPED) {
+            // enable obtaining of dewarped(cropped) images
+            ims.setDewarpedImageEnabled(true);
+        } else if (mImageType == IMAGE_SUCCESSFUL_SCAN) {
+            // enable obtaining of successful frames
+            ims.setSuccessfulScanFrameEnabled(true);
+        }
+        // pass prepared image metadata settings to scan activity
+        intent.putExtra(ScanCard.EXTRAS_IMAGE_METADATA_SETTINGS, ims);
+
+        // pass image listener to scan activity
+        intent.putExtra(ScanCard.EXTRAS_IMAGE_LISTENER, new ScanImageListener(mImageType));
 
         // If you want sound to be played after the scanning process ends, 
         // put here the resource ID of your sound file. (optional)
@@ -216,6 +259,9 @@ public class BlinkIdScanner extends CordovaPlugin {
         // By default this is off. The reason for this is that we want to ensure best possible
         // data quality when returning results.
         mrtd.setAllowUnparsedResults(false);
+        if (mImageType == IMAGE_CROPPED) {
+            mrtd.setShowFullDocument(true);
+        }
         return mrtd;
     }
 
@@ -230,12 +276,18 @@ public class BlinkIdScanner extends CordovaPlugin {
         ukdl.setExtractExpiryDate(true);
         // Defines if address should be extracted. Default is true.
         ukdl.setExtractAddress(true);
+        if (mImageType == IMAGE_CROPPED) {
+            ukdl.setShowFullDocument(true);
+        }
         return ukdl;
     }
 
     private MyKadRecognizerSettings buildMyKadSettings() {
         // prepare settings for Malaysian MyKad ID document recognizer
         MyKadRecognizerSettings myKad = new MyKadRecognizerSettings();
+        if (mImageType == IMAGE_CROPPED) {
+            myKad.setShowFullDocument(true);
+        }
         return myKad;
     }
 
@@ -379,7 +431,25 @@ public class BlinkIdScanner extends CordovaPlugin {
                 
                 try {
                     JSONObject root = new JSONObject();
-                    root.put(RESULT_LIST, resultsList);             
+                    root.put(RESULT_LIST, resultsList);
+                    if (mImageType != IMAGE_NONE) {
+                        Image resultImage = ImageHolder.getInstance().getLastImage();
+                        if (resultImage != null) {
+                            Bitmap resultImgBmp = resultImage.convertToBitmap();
+                            if (resultImgBmp != null) {
+                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                boolean success = resultImgBmp.compress(Bitmap.CompressFormat.JPEG, COMPRESSED_IMAGE_QUALITY, byteArrayOutputStream);
+                                if (success) {
+                                    String resultImgBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                                    root.put(RESULT_IMAGE, resultImgBase64);
+                                }
+                                try {
+                                    byteArrayOutputStream.close();
+                                } catch (IOException ignorable) {}
+                            }
+                            ImageHolder.getInstance().clear();
+                        }
+                    }
                     root.put(CANCELLED, false);
                     this.callbackContext.success(root);
                 } catch (JSONException e) {
@@ -487,6 +557,98 @@ public class BlinkIdScanner extends CordovaPlugin {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+
+    public static class ScanImageListener implements ImageListener {
+
+        private int mImageType;
+
+        public ScanImageListener(int imageType) {
+            mImageType = imageType;
+        }
+
+        public ScanImageListener() {
+            mImageType = IMAGE_NONE;
+        }
+
+        /**
+         * Called when library has image available.
+         */
+        @Override
+        public void onImageAvailable(Image image) {
+            switch(mImageType) {
+                case IMAGE_CROPPED:
+                    if (image.getImageType() == ImageType.DEWARPED) {
+                        ImageHolder.getInstance().setImage(image.clone());
+                    }
+                    break;
+                case IMAGE_SUCCESSFUL_SCAN:
+                    if (image.getImageType() == ImageType.SUCCESSFUL_SCAN) {
+                        ImageHolder.getInstance().setImage(image.clone());
+                    }
+                    break;
+            }
+        }
+
+        /**
+         * ImageListener interface extends Parcelable interface, so we also need to implement
+         * that interface. The implementation of Parcelable interface is below this line.
+         */
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(mImageType);
+        }
+
+        public static final Creator<ScanImageListener> CREATOR = new Creator<ScanImageListener>() {
+            @Override
+            public ScanImageListener createFromParcel(Parcel source) {
+                return new ScanImageListener(source.readInt());
+            }
+
+            @Override
+            public ScanImageListener[] newArray(int size) {
+                return new ScanImageListener[size];
+            }
+        };
+    }
+
+    public static class ImageHolder {
+
+        private static ImageHolder sInstance = new ImageHolder();
+        private Image mLastImage = null;
+
+        private ImageHolder() {
+
+        }
+
+        public static ImageHolder getInstance() {
+            return sInstance;
+        }
+
+        public void setImage(Image image) {
+            if (mLastImage != null) {
+                mLastImage.dispose();
+            }
+            mLastImage = image;
+        }
+
+        public Image getLastImage() {
+            return mLastImage;
+        }
+
+        public void clear() {
+            if (mLastImage != null) {
+                mLastImage.dispose();
+            }
+            mLastImage = null;
+        }
     }
 
 }
