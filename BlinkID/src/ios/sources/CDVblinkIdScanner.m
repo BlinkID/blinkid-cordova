@@ -31,6 +31,10 @@
 
 @property (nonatomic) PPImageMetadata *lastImageMetadata;
 
+@property (nonatomic) BOOL shouldReturnCroppedDocument;
+
+@property (nonatomic) BOOL shouldReturnSuccessfulFrame;
+
 @end
 
 @implementation CDVblinkIdScanner
@@ -212,12 +216,17 @@
     // successful in parsing (this can happen since MRZ isn't always formatted accoring to ICAO Document 9303 standard.
     // @see http://www.icao.int/Security/mrtd/pages/Document9303.aspx
     mrtdRecognizerSettings.allowUnparsedResults = NO;
-    
-    // This is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
+
+    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
     // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
     // as PPImageMetadata objects with name @"MRTD"
-    mrtdRecognizerSettings.dewarpFullDocument = NO;
-    
+
+    if (self.shouldReturnCroppedDocument) {
+        mrtdRecognizerSettings.dewarpFullDocument = YES;
+    } else {
+        mrtdRecognizerSettings.dewarpFullDocument = NO;
+    }
+
     return mrtdRecognizerSettings;
 }
 
@@ -319,15 +328,20 @@
     
     // Initialize the scanner settings object. This initialize settings with all default values.
     PPSettings *settings = [[PPSettings alloc] init];
+
+    self.shouldReturnCroppedDocument = NO;
+    self.shouldReturnSuccessfulFrame = NO;
     
     NSString *imageType = [self.lastCommand argumentAtIndex:1];
     if ([imageType isEqualToString:@"IMAGE_SUCCESSFUL_SCAN"]) {
         settings.metadataSettings.successfulFrame = YES;
+        self.shouldReturnSuccessfulFrame = YES;
     } else if ([imageType isEqualToString:@"IMAGE_CROPPED"]) {
         settings.metadataSettings.dewarpedImage = YES;
-    }
-    
-    
+        self.shouldReturnCroppedDocument = YES;
+    };
+
+    self.lastImageMetadata = nil;
     
     // Set PPCameraPresetOptimal for very dense or lower quality barcodes
     settings.cameraSettings.cameraPreset = PPCameraPresetOptimal;
@@ -592,6 +606,10 @@
 }
 
 - (void)scanningViewControllerDidClose:(UIViewController<PPScanningViewController> *)scanningViewController {
+
+    if ((self.shouldReturnSuccessfulFrame || self.shouldReturnCroppedDocument) && self.lastImageMetadata == nil) {
+        return;
+    }
     
     [self returnResults:nil cancelled:YES];
     
