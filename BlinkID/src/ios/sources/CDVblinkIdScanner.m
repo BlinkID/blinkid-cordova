@@ -561,7 +561,7 @@
     }
     
     NSData *image = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
-    
+    NSAssert(image != nil, @"Image cannot be nil!");
     
     [resultDict setObject:[image base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:@"resultImage"];
     
@@ -607,10 +607,6 @@
 
 - (void)scanningViewControllerDidClose:(UIViewController<PPScanningViewController> *)scanningViewController {
 
-    if ((self.shouldReturnSuccessfulFrame || self.shouldReturnCroppedDocument) && self.lastImageMetadata == nil) {
-        return;
-    }
-    
     [self returnResults:nil cancelled:YES];
     
     // As scanning view controller is presented full screen and modally, dismiss it
@@ -619,7 +615,11 @@
 
 - (void)scanningViewController:(UIViewController<PPScanningViewController> *)scanningViewController
               didOutputResults:(NSArray *)results {
-    
+
+    if ((self.shouldReturnSuccessfulFrame || self.shouldReturnCroppedDocument) && self.lastImageMetadata == nil) {
+        return;
+    }
+
     [self returnResults:results cancelled:(results == nil)];
     
     // As scanning view controller is presented full screen and modally, dismiss it
