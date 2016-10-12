@@ -559,11 +559,12 @@
     if ([resultArray count] > 0) {
         [resultDict setObject:resultArray forKey:@"resultList"];
     }
-    
-    NSData *image = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
-    NSAssert(image != nil, @"Image cannot be nil!");
-    
-    [resultDict setObject:[image base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:@"resultImage"];
+
+    if (!cancelled) {
+        NSData *image = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
+        NSAssert(image != nil, @"Image cannot be nil!");
+        [resultDict setObject:[image base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:@"resultImage"];
+    }
     
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
     
