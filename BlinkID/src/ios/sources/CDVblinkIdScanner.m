@@ -561,9 +561,11 @@
     }
 
     if (!cancelled) {
-        NSData *image = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
-        NSAssert(image != nil, @"Image cannot be nil!");
-        [resultDict setObject:[image base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:@"resultImage"];
+        UIImage *image = self.lastImageMetadata.image;
+        if (image) {
+            NSData *imageData = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
+            [resultDict setObject:[imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:@"resultImage"];
+        }
     }
     
     CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
@@ -614,10 +616,34 @@
     [[self viewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)scanningViewController:(UIViewController<PPScanningViewController> *)scanningViewController
-              didOutputResults:(NSArray *)results {
+- (BOOL)resultCanOutputCroppedImage:(NSArray<PPRecognizerResult *> *)results {
 
-    if ((self.shouldReturnSuccessfulFrame || self.shouldReturnCroppedDocument) && self.lastImageMetadata == nil) {
+    NSArray<Class> *classes = @[[PPMrtdRecognizerResult class],
+                                [PPEudlRecognizerResult class],
+                                [PPMyKadRecognizerResult class]];
+
+    for (PPRecognizerResult *result in results) {
+        for (Class class in classes) {
+            if ([result isKindOfClass:class]) {
+                return YES;
+            }
+        }
+    }
+
+    return NO;
+}
+
+- (void)scanningViewController:(UIViewController<PPScanningViewController> *)scanningViewController
+              didOutputResults:(NSArray<PPRecognizerResult *> *)results {
+
+    if (self.shouldReturnSuccessfulFrame && self.lastImageMetadata == nil) {
+        // We need to have image saved if the user requested a successful frame
+        return;
+    }
+
+    if (self.shouldReturnCroppedDocument && self.lastImageMetadata == nil && [self resultCanOutputCroppedImage:results]) {
+        // We need to have image saved if the user requested cropped image
+        // and the recognizer which gave the result was able to output it
         return;
     }
 
