@@ -14,7 +14,7 @@ cordova create BlinkIdDemo com.microblink.blinkid BlinkIdDemo
 cd BlinkIdDemo
 
 # add the BlinkID plugin
-cordova plugin add ../BlinkID
+cordova plugin add ../BlinkID --variable CAMERA_USAGE_DESCRIPTION="Camera permission is required for automated scanning"
 
 # add ios and android support to the project
 cordova platform add android

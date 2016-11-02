@@ -81,7 +81,12 @@
         <framework src="OpenGLES.framework" />
         <framework src="Accelerate.framework" />
         <framework src="src/ios/blinkid-ios/MicroBlink.framework" custom="true" />
-
+        
+        <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>$CAMERA_USAGE_DESCRIPTION</string>
+        </config-file>
+        
         <resource-file src="src/ios/blinkid-ios/MicroBlink.bundle" />
         <config-file target="config.xml" parent="/*">
             <feature name="blinkIdScanner">
