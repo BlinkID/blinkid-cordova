@@ -287,7 +287,7 @@ scanButton.addEventListener('click', function() {
             alert('Error: ' + err);
         },
 
-        types, licenseiOs, licenseAndroid
+        types, imageType, licenseiOs, licenseAndroid
     );
 });
 ```
