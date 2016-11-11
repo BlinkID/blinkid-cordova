@@ -91,7 +91,7 @@ Here's a complete example of how to create and build a project for **Android** a
 
 ```shell
 # pull the plugin and sample application from Github
-git clone git@github.com:BlinkID/blinkid-phonegap.git
+git clone https://github.com/BlinkID/blinkid-phonegap.git
 
 # initialize and update submodules
 git submodule init
