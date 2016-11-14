@@ -6,8 +6,8 @@ repositories{
 }
 
 dependencies {
-   compile(name:'LibRecognizer', ext:'aar')
-   compile 'com.android.support:support-v4:23.1.1'
+   compile(name:'LibBlinkID', ext:'aar')
+   compile 'com.android.support:appcompat-v7:25.0.0'
 }
 
 android {

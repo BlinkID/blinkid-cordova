@@ -1,3 +1,7 @@
+# BlinkID SDK wrapper for PhoneGap
+
+This repository contains example wrapper for BlinkID native SDKs ([iOS](https://github.com/BlinkID/blinkid-ios) and [Android](https://github.com/BlinkID/blinkid-android)). Not all features of native SDKs are available in PhoneGap wrapper. However, the wrapper is open source, so you can easily add features that you need. For 100% of features and maximum control, consider using native SDKs.
+
 ## Dependencies
 MicroBlink.framework/MicroBlink file in iOS submodule exceeds GitHubs limited file size of 100MB.
 To correctly init the submodule Git LFS is needed. Git LFS can be installed with homebrew:

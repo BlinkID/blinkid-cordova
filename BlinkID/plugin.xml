@@ -59,8 +59,8 @@
         
         <source-file src="src/android/blinkid-android/beep.mp3" target-dir="res/raw" />
 
-        <framework src="src/android/libRecognizer.gradle" custom="true" type="gradleReference" />
-        <resource-file src="src/android/blinkid-android/LibRecognizer.aar" target="aar/LibRecognizer.aar" />
+        <framework src="src/android/libBlinkID.gradle" custom="true" type="gradleReference" />
+        <resource-file src="src/android/blinkid-android/LibBlinkID.aar" target="aar/LibBlinkID.aar" />
         
         <hook type="after_prepare" src="scripts/fix-largeheap.js" />
     </platform>
