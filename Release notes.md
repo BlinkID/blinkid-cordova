@@ -1,3 +1,9 @@
+## 1.1.2
+- fixed returning of date of birth and date of expiry for Machine Readable Travel Documents
+
+## 1.1.1
+- updated iOS native SDK to [v2.5.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.5.1). This changes the default UI when scanning IDs.
+
 ## 1.1.0
 - updated Android SDK to [v3.2.0](https://github.com/BlinkID/blinkid-android/releases/tag/v3.2.0)
 - updated iOS SDK to [v2.5.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.5.0)

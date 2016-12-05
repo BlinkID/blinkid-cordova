@@ -468,7 +468,10 @@
 }
 
 - (void)setDictionary:(NSMutableDictionary*)dict withMrtdRecognizerResult:(PPMrtdRecognizerResult*)mrtdResult {
-    [dict setObject:[mrtdResult getAllStringElements] forKey:@"fields"];
+    NSMutableDictionary* stringElements = [NSMutableDictionary dictionaryWithDictionary:[mrtdResult getAllStringElements]];
+    [stringElements setObject:[mrtdResult rawDateOfBirth] forKey:@"DateOfBirth"];
+    [stringElements setObject:[mrtdResult rawDateOfExpiry] forKey:@"DateOfExpiry"];
+    [dict setObject:stringElements forKey:@"fields"];
     [dict setObject:[mrtdResult mrzText] forKey:@"raw"];
     [dict setObject:@"MRTD result" forKey:@"resultType"];
 }
