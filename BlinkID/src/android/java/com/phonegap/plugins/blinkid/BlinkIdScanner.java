@@ -42,6 +42,7 @@ import com.microblink.recognizers.blinkid.eudl.EUDLRecognizerSettings;
 import com.microblink.recognizers.settings.RecognitionSettings;
 import com.microblink.recognizers.settings.RecognizerSettings;
 import com.microblink.results.barcode.BarcodeDetailedData;
+import com.microblink.results.date.DateResult;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -540,7 +541,9 @@ public class BlinkIdScanner extends CordovaPlugin {
         for (String key : resultHolder.keySet()) {
             Object value = resultHolder.getObject(key);
             if (value instanceof String) {
-                fields.put(key, (String)value);
+                fields.put(key, (String) value);
+            } else if (value instanceof DateResult) {
+                fields.put( key, ((DateResult) value).getOriginalDateString());
             } else {
                 Log.d(LOG_TAG, "Ignoring non string key '" + key + "'");
             }
