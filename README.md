@@ -12,6 +12,17 @@ brew install git-lfs
 
 After installation, don't forget to restart the terminal!
 
+## Clone or Download repository
+Downloading a repository just downloads the files from the most recent commit of the default branch but without all the dependencies which are in submodules. We recommend that you clone directory. With a clone option you will get a copy of the history and it’s functional git repository.
+
+To clone repository:
++ **Copy URL from Clone or download button: https://github.com/BlinkID/blinkid-phonegap.git**
++ **Open terminal on Mac/Linux or [GitBash](https://git-for-windows.github.io/) on Windows.**
++ **cd into directory where you want the cloned directory to be made.**
++ **Type `git clone https://github.com/BlinkID/blinkid-phonegap.git` , than past URL**
++ **Press enter**
+
+
 ## Submodules
 After cloning repository, make sure you clone also its submodules:
 
