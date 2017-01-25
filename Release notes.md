@@ -1,3 +1,6 @@
+## 1.1.3
+- update Android SDK to [v3.4.1](https://github.com/BlinkID/blinkid-android/releases/tag/v3.4.1)
+
 ## 1.1.2
 - fixed returning of date of birth and date of expiry for Machine Readable Travel Documents
 
