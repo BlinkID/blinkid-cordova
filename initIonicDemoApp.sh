@@ -4,7 +4,7 @@
 rm -rf BlinkIdDemo
 
 # create a sample application
-ionic start --id=com.microblink.blinkid BlinkIdDemo ./www
+ionic start --id=com.microblink.blinkid BlinkIdDemo ./www --v2
 
 # enter into demo project folder
 cd BlinkIdDemo
@@ -15,6 +15,9 @@ ionic plugin add ../BlinkID
 # add ios and android support to the project
 ionic platform add android
 ionic platform add ios
+
+# copy content of the www folder
+cp  -f -r ../www/* ./src/
 
 # build app
 ionic build android
