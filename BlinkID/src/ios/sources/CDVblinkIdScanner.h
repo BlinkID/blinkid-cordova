@@ -20,16 +20,16 @@
 /**
  * Starts the scanning process
  */
-- (void)scan:(CDVInvokedUrlCommand*)command;
+- (void)scan:(CDVInvokedUrlCommand *)command;
 
 /**
- * Returns successful recognition 
+ * Returns successful recognition
  */
 - (void)returnResults:(NSArray *)results cancelled:(BOOL)cancelled;
 
 /**
  * Returns error, for example, not supported pdf417
  */
-- (void)returnError:(NSString*)message;
+- (void)returnError:(NSString *)message;
 
 @end
