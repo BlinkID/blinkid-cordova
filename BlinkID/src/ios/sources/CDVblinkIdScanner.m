@@ -253,8 +253,17 @@
      * Set this to NO if youre not interested in this data to speed up the scanning process!
      */
     eudlRecognizerSettings.extractAddress = YES;
-    
-    
+
+    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
+    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
+    // as PPImageMetadata objects with name @"MRTD"
+
+    if (self.shouldReturnCroppedDocument) {
+        eudlRecognizerSettings.showFullDocument = YES;
+    } else {
+        eudlRecognizerSettings.showFullDocument = NO;
+    }
+
     return eudlRecognizerSettings;
 }
 
@@ -279,12 +288,15 @@
     
     PPMyKadRecognizerSettings *myKadRecognizerSettings = [[PPMyKadRecognizerSettings alloc] init];
     
-    /********* All recognizer settings are set to their default values. Change accordingly. *********/
-    
-    /**
-     * If YES, full image of the document will be dewarped and returned via the API.
-     */
-    myKadRecognizerSettings.showFullDocument = NO;
+    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
+    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
+    // as PPImageMetadata objects with name @"MRTD"
+
+    if (self.shouldReturnCroppedDocument) {
+        myKadRecognizerSettings.showFullDocument = YES;
+    } else {
+        myKadRecognizerSettings.showFullDocument = NO;
+    }
     
     return myKadRecognizerSettings;
 }
