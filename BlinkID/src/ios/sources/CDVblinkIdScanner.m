@@ -258,6 +258,23 @@
     return eudlRecognizerSettings;
 }
 
+- (PPDocumentFaceRecognizerSettings *)documentFaceRecognizerSettings {
+
+    PPDocumentFaceRecognizerSettings *documentFaceReconizerSettings = [[PPDocumentFaceRecognizerSettings alloc] init];
+
+    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
+    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
+    // as PPImageMetadata objects with name @"MRTD"
+
+    if (self.shouldReturnCroppedDocument) {
+        documentFaceReconizerSettings.showFullDocument = YES;
+    } else {
+        documentFaceReconizerSettings.showFullDocument = NO;
+    }
+
+    return documentFaceReconizerSettings;
+}
+
 - (PPMyKadRecognizerSettings *)myKadRecognizerSettings {
     
     PPMyKadRecognizerSettings *myKadRecognizerSettings = [[PPMyKadRecognizerSettings alloc] init];
@@ -306,6 +323,10 @@
 
 - (BOOL)shouldUseDedlRecognizerForTypes:(NSArray *)types {
     return [types containsObject:@"DEDL"];
+}
+
+- (BOOL)shouldUseDocumentFaceRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:@"DocumentFace"];
 }
 
 - (BOOL)shouldUseMyKadRecognizerForTypes:(NSArray *)types {
@@ -387,6 +408,10 @@
     
     if ([self shouldUseDedlRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self eudlRecognizerSettingsWithCountry:PPEudlCountryGermany]];
+    }
+
+    if ([self shouldUseDocumentFaceRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self documentFaceRecognizerSettings]];
     }
     
     if ([self shouldUseMyKadRecognizerForTypes:types]) {
@@ -487,6 +512,11 @@
 - (void)setDictionary:(NSMutableDictionary*)dict withMyKadRecognizerResult:(PPMyKadRecognizerResult*)myKadResult {
     [dict setObject:[myKadResult getAllStringElements] forKey:@"fields"];
     [dict setObject:@"MyKad result" forKey:@"resultType"];
+}
+
+- (void)setDictionary:(NSMutableDictionary*)dict withDocumentFaceResult:(PPDocumentFaceRecognizerResult*)documentFaceResult {
+    [dict setObject:[documentFaceResult getAllStringElements] forKey:@"fields"];
+    [dict setObject:@"DocumentFace result" forKey:@"resultType"];
 }
 
 - (void)returnResults:(NSArray *)results cancelled:(BOOL)cancelled {
