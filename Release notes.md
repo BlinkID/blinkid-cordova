@@ -1,3 +1,8 @@
+## 1.1.4
+- update iOS SDK to [v2.6.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.6.6)
+- added DocumentFace recognizer
+- Fixed issues with obtaining images of EUDL and MyKad documents
+
 ## 1.1.3
 - update Android SDK to [v3.4.1](https://github.com/BlinkID/blinkid-android/releases/tag/v3.4.1)
 
