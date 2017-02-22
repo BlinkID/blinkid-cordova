@@ -60,7 +60,7 @@
      * Set this to YES to scan barcodes which don't have quiet zone (white area) around it
      * Use only if necessary because it slows down the recognition process
      */
-    pdf417RecognizerSettings.allowNullQuietZone = NO;
+    pdf417RecognizerSettings.allowNullQuietZone = YES;
     
     /**
      * Set this to YES to allow scanning barcodes with inverted intensities
