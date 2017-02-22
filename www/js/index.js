@@ -53,7 +53,7 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Bar Decoder", "Zxing", "MRTD", "UKDL", "MyKad"
+         * Available: "PDF417", "USDL", "Bar Decoder", "Zxing", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
          */
         var types = ["PDF417", "UKDL", "MRTD"];
 
@@ -70,7 +70,7 @@ var app = {
         // Note that each platform requires its own license key
 
         // This license key allows setting overlay views for this application ID: com.microblink.blinkid
-        var licenseiOs = "OLJJAUDF-CIV2HMG3-ZFEVNWIC-2FNSXP3W-YLKHF4MV-LTSI5GR7-I5ARBPXV-WRCTMCMT";
+        var licenseiOs = "SKM5EHOC-2RYRUIEI-E5CT7PZZ-BKMLKJQU-XCIJBEEQ-SCIJBEEQ-SCIJAMA4-CTCG2HA7"; // valid until 2017-05-23
 
         // This license is only valid for package name "com.microblink.blinkid"
         var licenseAndroid = "NFRZVYWD-MCK7SSO7-TJ7ZWOC4-AT2AYDM7-JDHZQMHY-V3PZU4SX-54PGUFQM-AUX5RGYJ";
@@ -161,7 +161,7 @@ var app = {
                                                 "Opt1: " + fields[kPPmrtdOpt1] + "; " +
                                                 "Opt2: " + fields[kPPmrtdOpt2] + "; ";
 
-                        } else if (recognizerResult.resultType == "UKDL result") {
+                        } else if (recognizerResult.resultType == "EUDL result") {
                             
                             var fields = recognizerResult.fields;
 
@@ -187,6 +187,12 @@ var app = {
                                                 "Full Name: " + fields[kPPmyKadFullName] + "; " +
                                                 "Religion: " + fields[kPPmyKadReligion] + "; " +
                                                 "Sex: " + fields[kPPmyKadSex] + "; ";
+
+                        } else if (recognizerResult.resultType == "DocumentFace result") {
+
+                            var fields = recognizerResult.fields;
+
+                            resultDiv.innerHTML = "Found document with face";
                         }
                     }
                 },

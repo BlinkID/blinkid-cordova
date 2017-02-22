@@ -60,7 +60,7 @@
      * Set this to YES to scan barcodes which don't have quiet zone (white area) around it
      * Use only if necessary because it slows down the recognition process
      */
-    pdf417RecognizerSettings.allowNullQuietZone = NO;
+    pdf417RecognizerSettings.allowNullQuietZone = YES;
     
     /**
      * Set this to YES to allow scanning barcodes with inverted intensities
@@ -253,21 +253,50 @@
      * Set this to NO if youre not interested in this data to speed up the scanning process!
      */
     eudlRecognizerSettings.extractAddress = YES;
-    
-    
+
+    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
+    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
+    // as PPImageMetadata objects with name @"MRTD"
+
+    if (self.shouldReturnCroppedDocument) {
+        eudlRecognizerSettings.showFullDocument = YES;
+    } else {
+        eudlRecognizerSettings.showFullDocument = NO;
+    }
+
     return eudlRecognizerSettings;
+}
+
+- (PPDocumentFaceRecognizerSettings *)documentFaceRecognizerSettings {
+
+    PPDocumentFaceRecognizerSettings *documentFaceReconizerSettings = [[PPDocumentFaceRecognizerSettings alloc] init];
+
+    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
+    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
+    // as PPImageMetadata objects with name @"MRTD"
+
+    if (self.shouldReturnCroppedDocument) {
+        documentFaceReconizerSettings.showFullDocument = YES;
+    } else {
+        documentFaceReconizerSettings.showFullDocument = NO;
+    }
+
+    return documentFaceReconizerSettings;
 }
 
 - (PPMyKadRecognizerSettings *)myKadRecognizerSettings {
     
     PPMyKadRecognizerSettings *myKadRecognizerSettings = [[PPMyKadRecognizerSettings alloc] init];
     
-    /********* All recognizer settings are set to their default values. Change accordingly. *********/
-    
-    /**
-     * If YES, full image of the document will be dewarped and returned via the API.
-     */
-    myKadRecognizerSettings.showFullDocument = NO;
+    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and cropped
+    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
+    // as PPImageMetadata objects with name @"MRTD"
+
+    if (self.shouldReturnCroppedDocument) {
+        myKadRecognizerSettings.showFullDocument = YES;
+    } else {
+        myKadRecognizerSettings.showFullDocument = NO;
+    }
     
     return myKadRecognizerSettings;
 }
@@ -306,6 +335,10 @@
 
 - (BOOL)shouldUseDedlRecognizerForTypes:(NSArray *)types {
     return [types containsObject:@"DEDL"];
+}
+
+- (BOOL)shouldUseDocumentFaceRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:@"DocumentFace"];
 }
 
 - (BOOL)shouldUseMyKadRecognizerForTypes:(NSArray *)types {
@@ -388,6 +421,10 @@
     if ([self shouldUseDedlRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self eudlRecognizerSettingsWithCountry:PPEudlCountryGermany]];
     }
+
+    if ([self shouldUseDocumentFaceRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self documentFaceRecognizerSettings]];
+    }
     
     if ([self shouldUseMyKadRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self myKadRecognizerSettings]];
@@ -422,6 +459,9 @@
     
     /** Allocate and present the scanning view controller */
     UIViewController<PPScanningViewController>* scanningViewController = [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
+
+    scanningViewController.autorotate = YES;
+
     
     /** You can use other presentation methods as well */
     [[self viewController] presentViewController:scanningViewController animated:YES completion:nil];
@@ -484,6 +524,11 @@
 - (void)setDictionary:(NSMutableDictionary*)dict withMyKadRecognizerResult:(PPMyKadRecognizerResult*)myKadResult {
     [dict setObject:[myKadResult getAllStringElements] forKey:@"fields"];
     [dict setObject:@"MyKad result" forKey:@"resultType"];
+}
+
+- (void)setDictionary:(NSMutableDictionary*)dict withDocumentFaceResult:(PPDocumentFaceRecognizerResult*)documentFaceResult {
+    [dict setObject:[documentFaceResult getAllStringElements] forKey:@"fields"];
+    [dict setObject:@"DocumentFace result" forKey:@"resultType"];
 }
 
 - (void)returnResults:(NSArray *)results cancelled:(BOOL)cancelled {
@@ -555,6 +600,15 @@
             NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
             [self setDictionary:dict withMyKadRecognizerResult:myKadDecoderResult];
             
+            [resultArray addObject:dict];
+        }
+
+        if ([result isKindOfClass:[PPDocumentFaceRecognizerResult class]]) {
+            PPDocumentFaceRecognizerResult *documentFaceResult = (PPDocumentFaceRecognizerResult *)result;
+
+            NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withDocumentFaceResult:documentFaceResult];
+
             [resultArray addObject:dict];
         }
     };
