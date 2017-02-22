@@ -602,6 +602,15 @@
             
             [resultArray addObject:dict];
         }
+
+        if ([result isKindOfClass:[PPDocumentFaceRecognizerResult class]]) {
+            PPDocumentFaceRecognizerResult *documentFaceResult = (PPDocumentFaceRecognizerResult *)result;
+
+            NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withDocumentFaceResult:documentFaceResult];
+
+            [resultArray addObject:dict];
+        }
     };
     
     if ([resultArray count] > 0) {
