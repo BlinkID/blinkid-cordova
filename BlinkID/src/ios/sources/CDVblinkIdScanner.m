@@ -422,6 +422,9 @@
     
     /** Allocate and present the scanning view controller */
     UIViewController<PPScanningViewController>* scanningViewController = [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
+
+    scanningViewController.autorotate = YES;
+
     
     /** You can use other presentation methods as well */
     [[self viewController] presentViewController:scanningViewController animated:YES completion:nil];
