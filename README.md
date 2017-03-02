@@ -64,6 +64,15 @@ To run Android demo application type
 ```shell
 ionic run android
 ```
+### Video tutorial
+Step by step guide how to start BlinkID Ionic v2. A tutorial flows from git clone to successfully deployed demo application on Android and iOS device with real-time screen mirroring. Application demo contains simple use of MRTD recognizer with Croatian ID card.
+<p align="center" >
+  <a href="https://vimeo.com/205045804" target="_blank">
+    <img src="https://i.vimeocdn.com/video/621406873.webp?mw=960&mh=540" alt="Video tutorial" />
+  </a>
+  <a href="https://vimeo.com/191807117" target="_blank">Watch on Vimeo</a>
+</p>
+
 
 ### Licensing
 
