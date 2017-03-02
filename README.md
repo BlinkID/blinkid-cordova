@@ -70,7 +70,7 @@ Step by step guide how to start BlinkID Ionic v2. A tutorial flows from git clon
   <a href="https://vimeo.com/205045804" target="_blank">
     <img src="https://i.vimeocdn.com/video/621406873.webp?mw=960&mh=540" alt="Video tutorial" />
   </a>
-  <a href="https://vimeo.com/191807117" target="_blank">Watch on Vimeo</a>
+  <a href="https://vimeo.com/205045804" target="_blank">Watch on Vimeo</a>
 </p>
 
 
