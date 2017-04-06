@@ -1,3 +1,6 @@
+## 1.1.5
+- update iOS SDK to [v2.7.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.7.1)
+
 ## 1.1.4
 - update iOS SDK to [v2.6.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.6.6)
 - added DocumentFace recognizer

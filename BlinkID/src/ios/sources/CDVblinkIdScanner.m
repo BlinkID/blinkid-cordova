@@ -280,9 +280,9 @@
     // as PPImageMetadata objects with name @"MRTD"
 
     if (self.shouldReturnCroppedDocument) {
-        documentFaceReconizerSettings.showFullDocument = YES;
+        documentFaceReconizerSettings.returnFullDocument = YES;
     } else {
-        documentFaceReconizerSettings.showFullDocument = NO;
+        documentFaceReconizerSettings.returnFullDocument = NO;
     }
 
     return documentFaceReconizerSettings;
@@ -388,6 +388,9 @@
 
     // Visit www.microblink.com to get the license key for your app
     settings.licenseSettings.licenseKey = [self.lastCommand argumentAtIndex:2];
+    
+    // Do not timeout
+    settings.scanSettings.partialRecognitionTimeout = 0.0f;
 
     /**
      * 3. Set up what is being scanned. See detailed guides for specific use cases.
