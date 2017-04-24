@@ -229,6 +229,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         // If you want sound to be played after the scanning process ends, 
         // put here the resource ID of your sound file. (optional)
         intent.putExtra(ScanCard.EXTRAS_BEEP_RESOURCE, fakeR.getId("raw", "beep"));
+        intent.putExtra(ScanCard.EXTRAS_SPLASH_SCREEN_LAYOUT_RESOURCE, fakeR.getId("layout", "splash_screen"));
 
         this.cordova.startActivityForResult((CordovaPlugin)this, intent, REQUEST_CODE);
     }
