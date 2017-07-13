@@ -53,9 +53,9 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Bar Decoder", "Zxing", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
          */
-        var types = ["PDF417", "UKDL", "MRTD"];
+        var types = ["PDF417", "UKDL", "MRTD", "Barcode"];
 
         /**
          * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
