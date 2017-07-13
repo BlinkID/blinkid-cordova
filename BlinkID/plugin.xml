@@ -67,6 +67,8 @@
         <hook type="after_prepare" src="scripts/fix-largeheap.js" />
     </platform>
 
+    <hook type="after_platform_add" src="addEmbedded.js" />
+
     <platform name="ios">
         <source-file src="src/ios/sources/CDVblinkIdScanner.m" />
         <header-file src="src/ios/sources/CDVblinkIdScanner.h" />
@@ -82,7 +84,7 @@
         <framework src="AudioToolbox.framework" />
         <framework src="OpenGLES.framework" />
         <framework src="Accelerate.framework" />
-        <framework src="src/ios/blinkid-ios/MicroBlink.framework" custom="true" />
+        <framework src="src/ios/blinkid-ios/MicroBlink.framework" custom="true" embed="true"/>
         
         <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
         <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
