@@ -24,6 +24,8 @@ import com.microblink.recognizers.BaseRecognitionResult;
 import com.microblink.recognizers.IResultHolder;
 import com.microblink.recognizers.RecognitionResults;
 import com.microblink.recognizers.blinkbarcode.BarcodeType;
+import com.microblink.recognizers.blinkbarcode.barcode.BarcodeRecognizerSettings;
+import com.microblink.recognizers.blinkbarcode.barcode.BarcodeScanResult;
 import com.microblink.recognizers.blinkbarcode.bardecoder.BarDecoderRecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.bardecoder.BarDecoderScanResult;
 import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417RecognizerSettings;
@@ -69,6 +71,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String MRTD_TYPE = "MRTD";
     private static final String UKDL_TYPE = "UKDL";
     private static final String MYKAD_TYPE = "MyKad";
+    private static final String BARCODE_TYPE = "Barcode";
 
     // keys for result types
     private static final String PDF417_RESULT_TYPE = "Barcode result";
@@ -78,6 +81,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String MRTD_RESULT_TYPE = "MRTD result";
     private static final String UKDL_RESULT_TYPE = "UKDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
+    private static final String BARCODE_RESULT_TYPE = "Barcode result";
 
 
     private static final String SCAN = "scan";
@@ -113,13 +117,13 @@ public class BlinkIdScanner extends CordovaPlugin {
 
     /**
      * Executes the request.
-     * 
+     *
      * This method is called from the WebView thread. To do a non-trivial amount
      * of work, use: cordova.getThreadPool().execute(runnable);
-     * 
+     *
      * To run on the UI thread, use:
      * cordova.getActivity().runOnUiThread(runnable);
-     * 
+     *
      * @param action
      *            The action to execute.
      * @param args
@@ -127,8 +131,8 @@ public class BlinkIdScanner extends CordovaPlugin {
      * @param callbackContext
      *            The callback context used when calling back into JavaScript.
      * @return Whether the action was valid.
-     * 
-     * @sa 
+     *
+     * @sa
      *     https://github.com/apache/cordova-android/blob/master/framework/src/org
      *     /apache/cordova/CordovaPlugin.java
      */
@@ -226,7 +230,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         // pass image listener to scan activity
         intent.putExtra(ScanCard.EXTRAS_IMAGE_LISTENER, new ScanImageListener(mImageType));
 
-        // If you want sound to be played after the scanning process ends, 
+        // If you want sound to be played after the scanning process ends,
         // put here the resource ID of your sound file. (optional)
         intent.putExtra(ScanCard.EXTRAS_BEEP_RESOURCE, fakeR.getId("raw", "beep"));
         intent.putExtra(ScanCard.EXTRAS_SPLASH_SCREEN_LAYOUT_RESOURCE, fakeR.getId("layout", "splash_screen"));
@@ -249,7 +253,9 @@ public class BlinkIdScanner extends CordovaPlugin {
         } else if (type.equals(UKDL_TYPE)) {
             return buildUkdlSettings();
         } else if (type.equals(MYKAD_TYPE)) {
-            return  buildMyKadSettings();
+            return buildMyKadSettings();
+        } else if(type.equals(BARCODE_TYPE)) {
+            return buildBarcodeSettings();
         }
         throw new IllegalArgumentException("Recognizer type not supported: " + type);
     }
@@ -376,9 +382,35 @@ public class BlinkIdScanner extends CordovaPlugin {
         return zxing;
     }
 
+    private BarcodeRecognizerSettings buildBarcodeSettings() {
+        // prepare settings for the Barcode recognizer
+        BarcodeRecognizerSettings barcode = new BarcodeRecognizerSettings();
+        // disable or enable scanning of various barcode types, by default all barcode types are
+        // disabled
+        barcode.setScanQRCode(true);
+        barcode.setScanAztecCode(false);
+        barcode.setScanCode128(true);
+        barcode.setScanCode39(true);
+        barcode.setScanDataMatrixCode(false);
+        barcode.setScanEAN13Code(true);
+        barcode.setScanEAN8Code(true);
+        barcode.setScanITFCode(false);
+        barcode.setScanUPCACode(true);
+        barcode.setScanUPCECode(true);
+
+        // By setting this to true, you will enable scanning of barcodes with inverse intensity
+        // values (i.e. white barcodes on dark background). This option can significantly increase
+        // recognition time. Default is false.
+        barcode.setInverseScanning(false);
+        // Use this method to enable slower, but more thorough scan procedure when scanning barcodes.
+        // By default, this option is turned on.
+        barcode.setSlowThoroughScan(true);
+        return barcode;
+    }
+
     /**
      * Called when the scanner intent completes.
-     * 
+     *
      * @param requestCode
      *            The request code originally supplied to
      *            startActivityForResult(), allowing you to identify who this
@@ -407,7 +439,7 @@ public class BlinkIdScanner extends CordovaPlugin {
                 // recognizers available (PDF417, USDL, Bardecoder, ZXing, MRTD, UKDL and MyKad),
                 // so there are 7 types of results available.
 
-                JSONArray resultsList = new JSONArray();                
+                JSONArray resultsList = new JSONArray();
 
                 for (BaseRecognitionResult res : resultArray) {
                     try {
@@ -425,12 +457,14 @@ public class BlinkIdScanner extends CordovaPlugin {
                             resultsList.put(buildUKDLResult((EUDLRecognitionResult) res));
                         } else if (res instanceof MyKadRecognitionResult) { // check if scan result is result of MyKad recognizer
                             resultsList.put(buildMyKadResult((MyKadRecognitionResult) res));
+                        } else if (res instanceof BarcodeScanResult) {
+                            resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
                         }
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Error parsing " + res.getClass().getName());
                     }
                 }
-                
+
                 try {
                     JSONObject root = new JSONObject();
                     root.put(RESULT_LIST, resultsList);
@@ -500,6 +534,19 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         JSONObject result = new JSONObject();
         result.put(RESULT_TYPE, BARDECODER_RESULT_TYPE);
+        result.put(TYPE, type.name());
+        result.put(DATA, barcodeData);
+        return result;
+    }
+
+    private JSONObject buildBarcodeResult(BarcodeScanResult res) throws JSONException {
+        // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
+        BarcodeType type = res.getBarcodeType();
+        // as with PDF417, getStringData will return the string contents of barcode
+        String barcodeData = res.getStringData();
+
+        JSONObject result = new JSONObject();
+        result.put(RESULT_TYPE, BARCODE_RESULT_TYPE);
         result.put(TYPE, type.name());
         result.put(DATA, barcodeData);
         return result;

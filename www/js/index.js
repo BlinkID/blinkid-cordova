@@ -73,7 +73,7 @@ var app = {
         var licenseiOs = "3P4HLPUO-TI6I7SCG-GYTGUCZK-MGI7VRQA-EVEKOK57-O3BNI4XR-SVOOILWG-BB6XUOIO"; // valid until 2017-10-31
 
         // This license is only valid for package name "com.microblink.blinkid"
-        var licenseAndroid = "NFRZVYWD-MCK7SSO7-TJ7ZWOC4-AT2AYDM7-JDHZQMHY-V3PZU4SX-54PGUFQM-AUX5RGYJ";
+        var licenseAndroid = "F4BVPIOQ-3FTQ3HYI-5VLZCAKD-CPJAVQHH-NRDZTCHV-O54D3WWW-FT5F5BVG-HYE4GW36";
 
         scanButton.addEventListener('click', function() {    
             cordova.plugins.blinkIdScanner.scan(
