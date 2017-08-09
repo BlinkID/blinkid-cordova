@@ -41,6 +41,9 @@ import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
 import com.microblink.recognizers.blinkid.eudl.EUDLCountry;
 import com.microblink.recognizers.blinkid.eudl.EUDLRecognitionResult;
 import com.microblink.recognizers.blinkid.eudl.EUDLRecognizerSettings;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognizerSettings;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceDetectorType;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognitionResult;
 import com.microblink.recognizers.settings.RecognitionSettings;
 import com.microblink.recognizers.settings.RecognizerSettings;
 import com.microblink.results.barcode.BarcodeDetailedData;
@@ -72,6 +75,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String UKDL_TYPE = "UKDL";
     private static final String MYKAD_TYPE = "MyKad";
     private static final String BARCODE_TYPE = "Barcode";
+    private static final String DOCUMENTFACE_TYPE = "DocumentFace";
 
     // keys for result types
     private static final String PDF417_RESULT_TYPE = "Barcode result";
@@ -82,7 +86,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String UKDL_RESULT_TYPE = "UKDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
     private static final String BARCODE_RESULT_TYPE = "Barcode result";
-
+    private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
 
     private static final String SCAN = "scan";
     private static final String CANCELLED = "cancelled";
@@ -256,6 +260,8 @@ public class BlinkIdScanner extends CordovaPlugin {
             return buildMyKadSettings();
         } else if(type.equals(BARCODE_TYPE)) {
             return buildBarcodeSettings();
+        } else if (type.equals(DOCUMENTFACE_TYPE)) {
+          return buildDocumentFaceSettings();
         }
         throw new IllegalArgumentException("Recognizer type not supported: " + type);
     }
@@ -407,6 +413,18 @@ public class BlinkIdScanner extends CordovaPlugin {
         barcode.setSlowThoroughScan(true);
         return barcode;
     }
+    
+    private DocumentFaceRecognizerSettings buildDocumentFaceSettings() {
+      // prepare settings for the DocumentFace recognizer
+      DocumentFaceRecognizerSettings docFace = new DocumentFaceRecognizerSettings(DocumentFaceDetectorType.IDENTITY_CARD_TD1);
+      
+      // This method allows sending the dewraped face image to the MetadataListener.
+      docFace.setShowFaceImage(true);
+      // This method allows sending the dewraped document image to the MetadataListener.
+      // docFace.setShowFullDocument(true);
+      
+      return docFace;
+    }
 
     /**
      * Called when the scanner intent completes.
@@ -459,6 +477,8 @@ public class BlinkIdScanner extends CordovaPlugin {
                             resultsList.put(buildMyKadResult((MyKadRecognitionResult) res));
                         } else if (res instanceof BarcodeScanResult) {
                             resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
+                        } else if (res instanceof DocumentFaceRecognitionResult) {
+                            resultsList.put(buildDocumentFaceResult((DocumentFaceRecognitionResult) res));
                         }
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Error parsing " + res.getClass().getName());
@@ -581,6 +601,10 @@ public class BlinkIdScanner extends CordovaPlugin {
     private JSONObject buildMRTDResult(MRTDRecognitionResult res) throws JSONException{
         return buildKeyValueResult(res, MRTD_RESULT_TYPE);
     }
+    
+      private JSONObject buildDocumentFaceResult(DocumentFaceRecognitionResult res) throws JSONException {
+        return buildKeyValueResult(res, DOCUMENTFACE_RESULT_TYPE);
+      }
 
     private JSONObject buildKeyValueResult(BaseRecognitionResult res, String resultType)
             throws JSONException {
