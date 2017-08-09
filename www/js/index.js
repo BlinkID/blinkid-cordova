@@ -161,7 +161,7 @@ var app = {
                                                 "Opt1: " + fields[kPPmrtdOpt1] + "; " +
                                                 "Opt2: " + fields[kPPmrtdOpt2] + "; ";
 
-                        } else if (recognizerResult.resultType == "EUDL result") {
+                        } else if (recognizerResult.resultType == "EUDL result" || recognizerResult.resultType == "UKDL result" || recognizerResult.resultType == "DEDL result") {
                             
                             var fields = recognizerResult.fields;
 

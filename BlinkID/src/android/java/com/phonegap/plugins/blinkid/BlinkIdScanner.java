@@ -41,6 +41,9 @@ import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
 import com.microblink.recognizers.blinkid.eudl.EUDLCountry;
 import com.microblink.recognizers.blinkid.eudl.EUDLRecognitionResult;
 import com.microblink.recognizers.blinkid.eudl.EUDLRecognizerSettings;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognizerSettings;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceDetectorType;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognitionResult;
 import com.microblink.recognizers.settings.RecognitionSettings;
 import com.microblink.recognizers.settings.RecognizerSettings;
 import com.microblink.results.barcode.BarcodeDetailedData;
@@ -70,8 +73,11 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String ZXING_TYPE = "Zxing";
     private static final String MRTD_TYPE = "MRTD";
     private static final String UKDL_TYPE = "UKDL";
+    private static final String DEDL_TYPE = "DEDL";
+    private static final String EUDL_TYPE = "EUDL";
     private static final String MYKAD_TYPE = "MyKad";
     private static final String BARCODE_TYPE = "Barcode";
+    private static final String DOCUMENTFACE_TYPE = "DocumentFace";
 
     // keys for result types
     private static final String PDF417_RESULT_TYPE = "Barcode result";
@@ -80,9 +86,11 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String ZXING_RESULT_TYPE = "Barcode result";
     private static final String MRTD_RESULT_TYPE = "MRTD result";
     private static final String UKDL_RESULT_TYPE = "UKDL result";
+    private static final String DEDL_RESULT_TYPE = "DEDL result";
+    private static final String EUDL_RESULT_TYPE = "EUDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
     private static final String BARCODE_RESULT_TYPE = "Barcode result";
-
+    private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
 
     private static final String SCAN = "scan";
     private static final String CANCELLED = "cancelled";
@@ -252,10 +260,16 @@ public class BlinkIdScanner extends CordovaPlugin {
             return buildMrtdSettings();
         } else if (type.equals(UKDL_TYPE)) {
             return buildUkdlSettings();
+        } else if (type.equals(DEDL_TYPE)) {
+            return buildDedlSettings();
+        } else if (type.equals(EUDL_TYPE)) {
+            return buildEudlSettings();
         } else if (type.equals(MYKAD_TYPE)) {
             return buildMyKadSettings();
         } else if(type.equals(BARCODE_TYPE)) {
             return buildBarcodeSettings();
+        } else if (type.equals(DOCUMENTFACE_TYPE)) {
+          return buildDocumentFaceSettings();
         }
         throw new IllegalArgumentException("Recognizer type not supported: " + type);
     }
@@ -289,6 +303,40 @@ public class BlinkIdScanner extends CordovaPlugin {
         }
         return ukdl;
     }
+    
+    private EUDLRecognizerSettings buildDedlSettings() {
+        // To specify we want to perform EUDL (EU Driver's License) recognition,
+        // prepare settings for EUDL recognizer. Pass country as parameter to EUDLRecognizerSettings
+        // constructor. Here we choose UK.
+        EUDLRecognizerSettings dedl = new EUDLRecognizerSettings(EUDLCountry.EUDL_COUNTRY_GERMANY);
+        // Defines if issue date should be extracted. Default is true
+        dedl.setExtractIssueDate(true);
+        // Defines if expiry date should be extracted. Default is true.
+        dedl.setExtractExpiryDate(true);
+        // Defines if address should be extracted. Default is true.
+        dedl.setExtractAddress(true);
+        if (mImageType == IMAGE_CROPPED) {
+            dedl.setShowFullDocument(true);
+        }
+        return dedl;
+    }
+    
+    private EUDLRecognizerSettings buildEudlSettings() {
+        // To specify we want to perform EUDL (EU Driver's License) recognition,
+        // prepare settings for EUDL recognizer. Pass country as parameter to EUDLRecognizerSettings
+        // constructor. Here we choose UK.
+        EUDLRecognizerSettings eudl = new EUDLRecognizerSettings(EUDLCountry.EUDL_COUNTRY_AUTO);
+        // Defines if issue date should be extracted. Default is true
+        eudl.setExtractIssueDate(true);
+        // Defines if expiry date should be extracted. Default is true.
+        eudl.setExtractExpiryDate(true);
+        // Defines if address should be extracted. Default is true.
+        eudl.setExtractAddress(true);
+        if (mImageType == IMAGE_CROPPED) {
+            eudl.setShowFullDocument(true);
+        }
+        return eudl;
+    }
 
     private MyKadRecognizerSettings buildMyKadSettings() {
         // prepare settings for Malaysian MyKad ID document recognizer
@@ -314,7 +362,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         // These barcodes usually contain only reduntant information and are therefore not read by
         // default. However, if you feel that some information is missing, you can enable scanning
         // of those barcodes by setting this to true.
-        usdl.setScan1DBarcodes(true);
+        // usdl.setScan1DBarcodes(true);
         return usdl;
     }
 
@@ -407,6 +455,18 @@ public class BlinkIdScanner extends CordovaPlugin {
         barcode.setSlowThoroughScan(true);
         return barcode;
     }
+    
+    private DocumentFaceRecognizerSettings buildDocumentFaceSettings() {
+      // prepare settings for the DocumentFace recognizer
+      DocumentFaceRecognizerSettings docFace = new DocumentFaceRecognizerSettings(DocumentFaceDetectorType.IDENTITY_CARD_TD1);
+      
+      // This method allows sending the dewraped face image to the MetadataListener.
+      docFace.setShowFaceImage(true);
+      // This method allows sending the dewraped document image to the MetadataListener.
+      // docFace.setShowFullDocument(true);
+      
+      return docFace;
+    }
 
     /**
      * Called when the scanner intent completes.
@@ -454,11 +514,13 @@ public class BlinkIdScanner extends CordovaPlugin {
                         } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
                             resultsList.put(buildUSDLResult((USDLScanResult) res));
                         } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
-                            resultsList.put(buildUKDLResult((EUDLRecognitionResult) res));
+                            resultsList.put(buildEUDLResult((EUDLRecognitionResult) res));
                         } else if (res instanceof MyKadRecognitionResult) { // check if scan result is result of MyKad recognizer
                             resultsList.put(buildMyKadResult((MyKadRecognitionResult) res));
                         } else if (res instanceof BarcodeScanResult) {
                             resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
+                        } else if (res instanceof DocumentFaceRecognitionResult) {
+                            resultsList.put(buildDocumentFaceResult((DocumentFaceRecognitionResult) res));
                         }
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Error parsing " + res.getClass().getName());
@@ -573,14 +635,32 @@ public class BlinkIdScanner extends CordovaPlugin {
     private JSONObject buildMyKadResult(MyKadRecognitionResult res) throws JSONException {
        return buildKeyValueResult(res, MYKAD_RESULT_TYPE);
     }
-
-    private JSONObject buildUKDLResult(EUDLRecognitionResult res) throws JSONException{
-        return buildKeyValueResult(res, UKDL_RESULT_TYPE);
+    
+    private JSONObject buildEUDLResult(EUDLRecognitionResult res) throws JSONException{
+      String resultType;
+      
+      // Select the result type by country.
+      switch(res.getCountry()) {
+        case EUDL_COUNTRY_UK:
+            resultType = UKDL_RESULT_TYPE;
+            break;
+        case EUDL_COUNTRY_GERMANY:
+            resultType = DEDL_RESULT_TYPE;
+            break;
+        default:
+            resultType = EUDL_RESULT_TYPE;
+      }
+      
+        return buildKeyValueResult(res, resultType);
     }
 
     private JSONObject buildMRTDResult(MRTDRecognitionResult res) throws JSONException{
         return buildKeyValueResult(res, MRTD_RESULT_TYPE);
     }
+    
+      private JSONObject buildDocumentFaceResult(DocumentFaceRecognitionResult res) throws JSONException {
+        return buildKeyValueResult(res, DOCUMENTFACE_RESULT_TYPE);
+      }
 
     private JSONObject buildKeyValueResult(BaseRecognitionResult res, String resultType)
             throws JSONException {
