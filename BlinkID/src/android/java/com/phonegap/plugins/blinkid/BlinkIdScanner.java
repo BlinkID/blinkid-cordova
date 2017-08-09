@@ -73,6 +73,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String ZXING_TYPE = "Zxing";
     private static final String MRTD_TYPE = "MRTD";
     private static final String UKDL_TYPE = "UKDL";
+    private static final String DEDL_TYPE = "DEDL";
     private static final String EUDL_TYPE = "EUDL";
     private static final String MYKAD_TYPE = "MyKad";
     private static final String BARCODE_TYPE = "Barcode";
@@ -85,6 +86,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String ZXING_RESULT_TYPE = "Barcode result";
     private static final String MRTD_RESULT_TYPE = "MRTD result";
     private static final String UKDL_RESULT_TYPE = "UKDL result";
+    private static final String DEDL_RESULT_TYPE = "DEDL result";
     private static final String EUDL_RESULT_TYPE = "EUDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
     private static final String BARCODE_RESULT_TYPE = "Barcode result";
@@ -258,6 +260,8 @@ public class BlinkIdScanner extends CordovaPlugin {
             return buildMrtdSettings();
         } else if (type.equals(UKDL_TYPE)) {
             return buildUkdlSettings();
+        } else if (type.equals(DEDL_TYPE)) {
+            return buildDedlSettings();
         } else if (type.equals(EUDL_TYPE)) {
             return buildEudlSettings();
         } else if (type.equals(MYKAD_TYPE)) {
@@ -298,6 +302,23 @@ public class BlinkIdScanner extends CordovaPlugin {
             ukdl.setShowFullDocument(true);
         }
         return ukdl;
+    }
+    
+    private EUDLRecognizerSettings buildDedlSettings() {
+        // To specify we want to perform EUDL (EU Driver's License) recognition,
+        // prepare settings for EUDL recognizer. Pass country as parameter to EUDLRecognizerSettings
+        // constructor. Here we choose UK.
+        EUDLRecognizerSettings dedl = new EUDLRecognizerSettings(EUDLCountry.EUDL_COUNTRY_GERMANY);
+        // Defines if issue date should be extracted. Default is true
+        dedl.setExtractIssueDate(true);
+        // Defines if expiry date should be extracted. Default is true.
+        dedl.setExtractExpiryDate(true);
+        // Defines if address should be extracted. Default is true.
+        dedl.setExtractAddress(true);
+        if (mImageType == IMAGE_CROPPED) {
+            dedl.setShowFullDocument(true);
+        }
+        return dedl;
     }
     
     private EUDLRecognizerSettings buildEudlSettings() {
@@ -341,7 +362,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         // These barcodes usually contain only reduntant information and are therefore not read by
         // default. However, if you feel that some information is missing, you can enable scanning
         // of those barcodes by setting this to true.
-        usdl.setScan1DBarcodes(true);
+        // usdl.setScan1DBarcodes(true);
         return usdl;
     }
 
@@ -622,6 +643,9 @@ public class BlinkIdScanner extends CordovaPlugin {
       switch(res.getCountry()) {
         case EUDL_COUNTRY_UK:
             resultType = UKDL_RESULT_TYPE;
+            break;
+        case EUDL_COUNTRY_GERMANY:
+            resultType = DEDL_RESULT_TYPE;
             break;
         default:
             resultType = EUDL_RESULT_TYPE;
