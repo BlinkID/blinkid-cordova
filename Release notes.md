@@ -1,3 +1,6 @@
+## 1.1.8
+- fixed support for DocumentFace, EUDL and German DL recognizers on Android
+
 ## 1.1.7
 - update Android SDK to [v3.10.0](https://github.com/BlinkID/blinkid-android/releases/tag/v3.10.0)
 
