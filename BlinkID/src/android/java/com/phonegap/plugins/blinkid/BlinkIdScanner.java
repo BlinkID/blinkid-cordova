@@ -73,6 +73,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String ZXING_TYPE = "Zxing";
     private static final String MRTD_TYPE = "MRTD";
     private static final String UKDL_TYPE = "UKDL";
+    private static final String EUDL_TYPE = "EUDL";
     private static final String MYKAD_TYPE = "MyKad";
     private static final String BARCODE_TYPE = "Barcode";
     private static final String DOCUMENTFACE_TYPE = "DocumentFace";
@@ -84,6 +85,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String ZXING_RESULT_TYPE = "Barcode result";
     private static final String MRTD_RESULT_TYPE = "MRTD result";
     private static final String UKDL_RESULT_TYPE = "UKDL result";
+    private static final String EUDL_RESULT_TYPE = "EUDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
     private static final String BARCODE_RESULT_TYPE = "Barcode result";
     private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
@@ -256,6 +258,8 @@ public class BlinkIdScanner extends CordovaPlugin {
             return buildMrtdSettings();
         } else if (type.equals(UKDL_TYPE)) {
             return buildUkdlSettings();
+        } else if (type.equals(EUDL_TYPE)) {
+            return buildEudlSettings();
         } else if (type.equals(MYKAD_TYPE)) {
             return buildMyKadSettings();
         } else if(type.equals(BARCODE_TYPE)) {
@@ -294,6 +298,23 @@ public class BlinkIdScanner extends CordovaPlugin {
             ukdl.setShowFullDocument(true);
         }
         return ukdl;
+    }
+    
+    private EUDLRecognizerSettings buildEudlSettings() {
+        // To specify we want to perform EUDL (EU Driver's License) recognition,
+        // prepare settings for EUDL recognizer. Pass country as parameter to EUDLRecognizerSettings
+        // constructor. Here we choose UK.
+        EUDLRecognizerSettings eudl = new EUDLRecognizerSettings(EUDLCountry.EUDL_COUNTRY_AUTO);
+        // Defines if issue date should be extracted. Default is true
+        eudl.setExtractIssueDate(true);
+        // Defines if expiry date should be extracted. Default is true.
+        eudl.setExtractExpiryDate(true);
+        // Defines if address should be extracted. Default is true.
+        eudl.setExtractAddress(true);
+        if (mImageType == IMAGE_CROPPED) {
+            eudl.setShowFullDocument(true);
+        }
+        return eudl;
     }
 
     private MyKadRecognizerSettings buildMyKadSettings() {
@@ -472,7 +493,7 @@ public class BlinkIdScanner extends CordovaPlugin {
                         } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
                             resultsList.put(buildUSDLResult((USDLScanResult) res));
                         } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
-                            resultsList.put(buildUKDLResult((EUDLRecognitionResult) res));
+                            resultsList.put(buildEUDLResult((EUDLRecognitionResult) res));
                         } else if (res instanceof MyKadRecognitionResult) { // check if scan result is result of MyKad recognizer
                             resultsList.put(buildMyKadResult((MyKadRecognitionResult) res));
                         } else if (res instanceof BarcodeScanResult) {
@@ -593,9 +614,20 @@ public class BlinkIdScanner extends CordovaPlugin {
     private JSONObject buildMyKadResult(MyKadRecognitionResult res) throws JSONException {
        return buildKeyValueResult(res, MYKAD_RESULT_TYPE);
     }
-
-    private JSONObject buildUKDLResult(EUDLRecognitionResult res) throws JSONException{
-        return buildKeyValueResult(res, UKDL_RESULT_TYPE);
+    
+    private JSONObject buildEUDLResult(EUDLRecognitionResult res) throws JSONException{
+      String resultType;
+      
+      // Select the result type by country.
+      switch(res.getCountry()) {
+        case EUDL_COUNTRY_UK:
+            resultType = UKDL_RESULT_TYPE;
+            break;
+        default:
+            resultType = EUDL_RESULT_TYPE;
+      }
+      
+        return buildKeyValueResult(res, resultType);
     }
 
     private JSONObject buildMRTDResult(MRTDRecognitionResult res) throws JSONException{
