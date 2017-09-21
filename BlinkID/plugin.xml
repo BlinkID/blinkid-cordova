@@ -57,12 +57,10 @@
         <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="src/com/phonegap/plugins/blinkid" />
         <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="src/com/phonegap/plugins/blinkid" />
         
-        <source-file src="src/android/blinkid-android/beep.mp3" target-dir="res/raw" />
-
+        <source-file src="src/android/res/raw/beep.mp3" target-dir="res/raw" />
         <source-file src="src/android/res/layout/splash_screen.xml" target-dir="res/layout" />
 
         <framework src="src/android/libBlinkID.gradle" custom="true" type="gradleReference" />
-        <resource-file src="src/android/blinkid-android/LibBlinkID.aar" target="aar/LibBlinkID.aar" />
         
         <hook type="after_prepare" src="scripts/fix-largeheap.js" />
     </platform>
