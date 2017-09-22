@@ -1,13 +1,14 @@
-repositories{    
-  jcenter()
-  flatDir{
-      dirs 'aar'
-   }
+repositories {
+    jcenter()
+    mavenCentral()
+    maven { url 'http://maven.microblink.com' }
 }
 
 dependencies {
-   compile(name:'LibBlinkID', ext:'aar')
-   compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile('com.microblink:blinkid:3.11.0@aar') {
+        transitive = false
+    }
 }
 
 android {
