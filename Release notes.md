@@ -1,3 +1,7 @@
+## 1.2.0
+- replaced BlinkID Android submodule dependency with Maven dependency
+- updated Android SDK to [v3.11.0](https://github.com/BlinkID/blinkid-android/releases/tag/v3.11.0)
+
 ## 1.1.9
 - update Android SDK to [v3.10.1](https://github.com/BlinkID/blinkid-android/releases/tag/v3.10.1)
 
