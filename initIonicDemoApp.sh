@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# enter BlinkID framework folder
+cd BlinkID
+# init blinkid-ios using cococapods
+./initIOSFramework.sh
+# go back to root folder
+cd ..
+
 # remove any existing code
 rm -rf BlinkIdDemo
 

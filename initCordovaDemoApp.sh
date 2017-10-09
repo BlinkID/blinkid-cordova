@@ -4,6 +4,13 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd $HERE >> /dev/null
 
+# enter BlinkID framework folder
+cd BlinkID
+# init blinkid-ios using cococapods
+./initIOSFramework.sh $1
+# go back to root folder
+cd ..
+
 # remove any existing code
 rm -rf BlinkIdDemo
 
