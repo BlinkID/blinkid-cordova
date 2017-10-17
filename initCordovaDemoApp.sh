@@ -1,5 +1,7 @@
 #!/bin/bash
 
+APP_NAME="BlinkIdDemo"
+
 # position to a relative path
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd $HERE >> /dev/null
@@ -12,10 +14,10 @@ cd BlinkID
 cd ..
 
 # remove any existing code
-rm -rf BlinkIdDemo
+rm -rf $APP_NAME
 
 # create a sample application
-cordova create BlinkIdDemo com.microblink.blinkid BlinkIdDemo
+cordova create $APP_NAME com.microblink.blinkid $APP_NAME
 
 # enter into demo project folder
 cd BlinkIdDemo
@@ -31,8 +33,8 @@ cordova platform add ios
 cp  -f -r ../www .
 
 # build app
-cordova build
+cordova prepare
 
 # how to run
-echo "To run iOS demo application open Xcode project BlinkIdDemo.xcodeproj"
-echo "To run Android demo application, position to BlinkIdDemo folder and type: cordova run android"
+echo "To run iOS demo application open Xcode project $APP_NAME.xcodeproj"
+echo "To run Android demo application, position to $APP_NAME folder and type: cordova run android"
