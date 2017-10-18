@@ -90,12 +90,6 @@
      */
     usdlRecognizerSettings.allowNullQuietZone = YES;
     
-    /**
-     * Set this to YES if you want to scan 1D barcodes if they are present on the DL.
-     * If NO, just PDF417 barcode will be scanned.
-     */
-    usdlRecognizerSettings.scan1DCodes = NO;
-    
     return usdlRecognizerSettings;
 }
 
