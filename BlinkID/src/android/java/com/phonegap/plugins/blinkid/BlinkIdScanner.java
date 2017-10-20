@@ -358,11 +358,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         // surrounding it (e.g. text concatenated with barcode). This option can significantly
         // increase recognition time. Default is true.
         usdl.setNullQuietZoneAllowed(true);
-        // Some driver's licenses contain 1D Code39 and Code128 barcodes alongside PDF417 barcode.
-        // These barcodes usually contain only reduntant information and are therefore not read by
-        // default. However, if you feel that some information is missing, you can enable scanning
-        // of those barcodes by setting this to true.
-        // usdl.setScan1DBarcodes(true);
+        
         return usdl;
     }
 
