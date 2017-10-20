@@ -1,3 +1,7 @@
+## 1.3.0
+- updated support for Ionic v3
+- replaced BlinkID iOS submodule dependency with cococapods dependency
+
 ## 1.2.0
 - replaced BlinkID Android submodule dependency with Maven dependency
 - updated Android SDK to [v3.11.0](https://github.com/BlinkID/blinkid-android/releases/tag/v3.11.0)
