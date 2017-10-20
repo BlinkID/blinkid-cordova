@@ -20,7 +20,7 @@ rm -rf $APP_NAME
 cordova create $APP_NAME com.microblink.blinkid $APP_NAME
 
 # enter into demo project folder
-cd BlinkIdDemo
+cd $APP_NAME
 
 # add the BlinkID plugin
 cordova plugin add ../BlinkID --variable CAMERA_USAGE_DESCRIPTION="Camera permission is required for automated scanning"
