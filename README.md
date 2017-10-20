@@ -16,20 +16,11 @@ After installation, don't forget to restart the terminal!
 Downloading a repository just downloads the files from the most recent commit of the default branch but without all the dependencies which are in submodules. We recommend that you clone directory. With a clone option you will get a copy of the history and it’s functional git repository.
 
 To clone repository:
-+ **Copy URL from Clone or download button: https://github.com/BlinkID/blinkid-phonegap.git**
++ **Copy URL from the `Clone or download` button: https://github.com/BlinkID/blinkid-phonegap.git**
 + **Open terminal on Mac/Linux or [GitBash](https://git-for-windows.github.io/) on Windows.**
 + **cd into directory where you want the cloned directory to be made.**
 + **Type `git clone ` , than past URL**
 + **Press enter**
-
-
-## Submodules
-After cloning repository, make sure you clone also its submodules:
-
-```shell
-git submodule init
-git submodule update
-```
 
 ## How to get started
 
@@ -90,11 +81,26 @@ cordova create <path> <package> <name>
 
 > The shown instructions are for **Cordova**, the instructions for **Ionic** and **PhoneGap** are practically the same, except for some slight command line argument differences.
 
+Initialize the iOS framework:
+
+```shell
+cd BlinkID
+./initIOSFramework.sh
+cd ..
+```
+
 Add the **BlinkID** plugin to your project:
 
 ```shell
 cd <path_to_your_project>
 cordova plugin add <blinkID_plugin_path>
+```
+
+**Ionic specific:**
+
+Copy the BlinkID plugin's JavaScript files to your project:
+```shell
+cp  -f -r <blinkID_plugin_path>/www/js ./www/
 ```
 
 ### Android
@@ -117,10 +123,6 @@ Here's a complete example of how to create and build a project for **Android** a
 # pull the plugin and sample application from Github
 git clone https://github.com/BlinkID/blinkid-phonegap.git
 
-# initialize and update submodules
-git submodule init
-git submodule update
-
 # create a empty application
 cordova create testcordova
 
@@ -142,12 +144,12 @@ cordova platform add ios
 cordova build ios
 ```
 
-In **phonegap** CLI instead of "platform add" just request a build for the platform using "build android" or "build ios". You will have to do the manual steps described above to be able to do a successfull build.
+In **phonegap** CLI instead of `platform add` just request a build for the platform using `build android` or `build ios`. You will have to do the manual steps described above to be able to do a successfull build.
 
 You can also use provided `initDemoApp.sh` script that will generate a demo app that uses the plugin:
 
 ```shell
-./initDemoApp.sh
+./initCordovaDemoApp.sh
 ```
 
 To run the script, you'll need BASH environment on Windows (Linux and MacOS use BASH by default).
@@ -325,9 +327,9 @@ scanButton.addEventListener('click', function() {
     + **MyKad** - scans the front of Malaysian ID cards
 	
 + On returned result, image can also be returned (under "resultImage" field) as base64 string of JPEG image. Type of returned image is specified as second argument and can be:
-	+ "IMAGE_NONE" - No image will be returned
-	+ "IMAGE_SUCCESSFUL_SCAN" - Whole input image which returned the result.
-	+ "IMAGE_CROPPED" - Cropped and dewarped image of scanned object. For example, ID recognizers will return cropped and dewarped image of ID
+	+ `IMAGE_NONE` - No image will be returned
+	+ `IMAGE_SUCCESSFUL_SCAN` - Whole input image which returned the result.
+	+ `IMAGE_CROPPED` - Cropped and dewarped image of scanned object. For example, ID recognizers will return cropped and dewarped image of ID
 
 
 + All license parameters must be provided (for **iOS** and **Android**) even if you do not plan to run the application on both platforms. The licenses that you do not have/use must be set to `null`.
@@ -335,4 +337,6 @@ scanButton.addEventListener('click', function() {
 
 ## Changing scanner settings
 
-To change scanner settings you need to modify Phonegap plugin classes for iOS and Android. Plugin classes are located in ./BlinkID/src . All necessary settings documentation is located in those source files.
+To change scanner settings you need to modify Phonegap plugin classes for iOS and Android. Plugin classes are located in `./BlinkID/src`. All necessary settings documentation is located in those source files. 
+
+For platform specific implementation details refer to the [BlinkID-iOS](https://github.com/BlinkID/blinkid-ios) and [BlinkID-android](https://github.com/BlinkID/blinkid-android) documentation.
