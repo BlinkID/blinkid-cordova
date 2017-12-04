@@ -93,6 +93,8 @@
                 <param name="ios-package" value="CDVblinkIdScanner" />
             </feature>
         </config-file>
+        
+        <hook type="after_platform_add" src="addEmbedded.js" />
     </platform>
     
 </plugin>
