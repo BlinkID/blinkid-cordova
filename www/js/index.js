@@ -70,10 +70,10 @@ var app = {
         // Note that each platform requires its own license key
 
         // This license key allows setting overlay views for this application ID: com.microblink.blinkid
-        var licenseiOs = "3P4HLPUO-TI6I7SCG-GYTGUCZK-MGI7VRQA-EVEKOK57-O3BNI4XR-SVOOILWG-BB6XUOIO"; // valid until 2017-10-31
+        var licenseiOs = "RYRTHFTE-BGSW25OV-22FACO5I-XKFH6NNV-EYKLREEQ-SCIJBEEQ-SCIJAMA4-CTCG345C"; // valid until 2018-03-04
 
         // This license is only valid for package name "com.microblink.blinkid"
-        var licenseAndroid = "F4BVPIOQ-3FTQ3HYI-5VLZCAKD-CPJAVQHH-NRDZTCHV-O54D3WWW-FT5F5BVG-HYE4GW36";
+        var licenseAndroid = "HOTRRR7E-GOK7UXTG-4EZJS4BX-QCZHZEPZ-JGPURT4Y-GD4K5X42-OJL67PQQ-K3FMQDM3";  // valid until 2018-03-04
 
         scanButton.addEventListener('click', function() {    
             cordova.plugins.blinkIdScanner.scan(
