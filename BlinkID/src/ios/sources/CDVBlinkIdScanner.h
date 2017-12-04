@@ -15,7 +15,7 @@
  * pdf417 plugin class.
  * Responds to JS calls
  */
-@interface CDVblinkIdScanner : CDVPlugin
+@interface CDVBlinkIdScanner : CDVPlugin
 
 /**
  * Starts the scanning process

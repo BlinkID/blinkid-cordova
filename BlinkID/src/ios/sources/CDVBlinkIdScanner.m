@@ -21,23 +21,71 @@
 
 #import <MicroBlink/MicroBlink.h>
 
+// keys for recognizer types
+const NSString *PDF417_TYPE = @"PDF417";
+const NSString *BARCODE_TYPE = @"Barcode";
+const NSString *USDL_TYPE = @"USDL";
+const NSString *MRTD_TYPE = @"MRTD";
+const NSString *UKDL_TYPE = @"UKDL";
+const NSString *DEDL_TYPE = @"DEDL";
+const NSString *EUDL_TYPE = @"EUDL";
+const NSString *MYKAD_TYPE = @"MyKad";
+const NSString *DOCUMENTFACE_TYPE = @"DocumentFace";
+
+const NSString *RESULT_LIST = @"resultList";
+const NSString *RESULT_IMAGE = @"resultImage";
+const NSString *RESULT_TYPE = @"resultType";
+const NSString *TYPE = @"type";
+const NSString *DATA = @"data";
+const NSString *FIELDS = @"fields";
+const NSString *RAW_DATA = @"raw";
+
+NSString *PDF417_RESULT_TYPE = @"Barcode result";
+NSString *USDL_RESULT_TYPE = @"USDL result";
+NSString *BARDECODER_RESULT_TYPE = @"Barcode result";
+NSString *ZXING_RESULT_TYPE = @"Barcode result";
+NSString *MRTD_RESULT_TYPE = @"MRTD result";
+NSString *UKDL_RESULT_TYPE = @"UKDL result";
+NSString *DEDL_RESULT_TYPE = @"DEDL result";
+NSString *EUDL_RESULT_TYPE = @"EUDL result";
+NSString *MYKAD_RESULT_TYPE = @"MyKad result";
+NSString *BARCODE_RESULT_TYPE = @"Barcode result";
+NSString *DOCUMENTFACE_RESULT_TYPE = @"DocumentFace result";
+
+const NSString *SCAN = @"scan";
+const NSString *CANCELLED = @"cancelled";
+
+const int COMPRESSED_IMAGE_QUALITY = 90;
+
+NSString *IMAGE_SUCCESSFUL_SCAN_STR = @"IMAGE_SUCCESSFUL_SCAN";
+NSString *IMAGE_CROPPED_STR = @"IMAGE_CROPPED";
+NSString *IMAGE_FACE_STR = @"IMAGE_FACE";
+
+const int IMAGE_NONE = 0;
+const int IMAGE_SUCCESSFUL_SCAN = 1;
+const int IMAGE_CROPPED = 2;
+const int IMAGE_FACE = 3;
+
+
 @interface CDVPlugin () <PPScanningDelegate>
 
 @property (nonatomic, retain) CDVInvokedUrlCommand *lastCommand;
 
 @end
 
-@interface CDVblinkIdScanner ()
+@interface CDVBlinkIdScanner ()
 
 @property (nonatomic) PPImageMetadata *lastImageMetadata;
 
 @property (nonatomic) BOOL shouldReturnCroppedDocument;
 
+@property (nonatomic) BOOL shouldReturnFaceImage;
+
 @property (nonatomic) BOOL shouldReturnSuccessfulFrame;
 
 @end
 
-@implementation CDVblinkIdScanner
+@implementation CDVBlinkIdScanner
 
 @synthesize lastCommand;
 
@@ -97,7 +145,7 @@
     
     PPBarcodeRecognizerSettings *barcodeRecognizerSettings = [[PPBarcodeRecognizerSettings alloc] init];
     
-    /********* All recognizer settings are set to their default values. To use Zxing Recognizer you must set atleast 1 standard which will
+    /********* All recognizer settings are set to their default values. To use Barcode Recognizer you must set atleast 1 standard which will
      * be used to true. *********/
     
     /**
@@ -150,25 +198,18 @@
      */
     barcodeRecognizerSettings.scanUPCE = YES;
     
-    
-    /********* All recognizer settings are set to their default values. Change accordingly. *********/
-    
-    /**
-     * Set this to YES to scan Code 39 barcodes
-     */
-    barcodeRecognizerSettings.scanCode39 = YES;
-    
-    /**
-     * Set this to YES to scan Code 128 barcodes
-     */
-    barcodeRecognizerSettings.scanCode128 = YES;
-    
     /**
      * Set this to YES to allow scanning barcodes with inverted intensities
      * (i.e. white barcodes on black background)
      * @Warning: this option doubles frame processing time
      */
     barcodeRecognizerSettings.scanInverse = NO;
+
+    /**
+     * Use this method to enable slower, but more thorough scan procedure when scanning barcodes.
+     * By default, this option is turned on.
+     */
+    barcodeRecognizerSettings.useSlowerThoroughScan = YES;
     
     return barcodeRecognizerSettings;
 }
@@ -276,50 +317,39 @@
 #pragma mark - Used Recognizers
 
 - (BOOL)shouldUsePdf417RecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"PDF417"];
-}
-
-- (BOOL)shouldUseUsdlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"USDL"];
-}
-
-- (BOOL)shouldUseBarDecoderRecognizerForTypes:(NSArray *)types {
-    
-    return [types containsObject:@"Bar Decoder"];
+    return [types containsObject:PDF417_TYPE];
 }
 
 - (BOOL)shouldUseBarcodeRecognizerForTypes:(NSArray *)types {
-    
-    return [types containsObject:@"Barcode"];
+    return [types containsObject:BARCODE_TYPE];
 }
 
-- (BOOL)shouldUseZxingRecognizerForTypes:(NSArray *)types {
-    
-    return [types containsObject:@"Zxing"];
+- (BOOL)shouldUseUsdlRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:USDL_TYPE];
 }
 
 - (BOOL)shouldUseMrtdRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"MRTD"];
+    return [types containsObject:MRTD_TYPE];
 }
 
 - (BOOL)shouldUseEudlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"EUDL"];
+    return [types containsObject:EUDL_TYPE];
 }
 
 - (BOOL)shouldUseUkdlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"UKDL"];
+    return [types containsObject:UKDL_TYPE];
 }
 
 - (BOOL)shouldUseDedlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"DEDL"];
+    return [types containsObject:DEDL_TYPE];
 }
 
 - (BOOL)shouldUseDocumentFaceRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"DocumentFace"];
+    return [types containsObject:DOCUMENTFACE_TYPE];
 }
 
 - (BOOL)shouldUseMyKadRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:@"MyKad"];
+    return [types containsObject:MYKAD_TYPE];
 }
 
 #pragma mark - Main
@@ -341,14 +371,18 @@
     
     self.shouldReturnCroppedDocument = NO;
     self.shouldReturnSuccessfulFrame = NO;
+    self.shouldReturnFaceImage = NO;
     
     NSString *imageType = [self.lastCommand argumentAtIndex:1];
-    if ([imageType isEqualToString:@"IMAGE_SUCCESSFUL_SCAN"]) {
+    if ([imageType isEqualToString:IMAGE_SUCCESSFUL_SCAN_STR]) {
         settings.metadataSettings.successfulFrame = YES;
         self.shouldReturnSuccessfulFrame = YES;
-    } else if ([imageType isEqualToString:@"IMAGE_CROPPED"]) {
+    } else if ([imageType isEqualToString:IMAGE_CROPPED_STR]) {
         settings.metadataSettings.dewarpedImage = YES;
         self.shouldReturnCroppedDocument = YES;
+    } else if ([imageType isEqualToString:IMAGE_FACE_STR]) {
+        settings.metadataSettings.dewarpedImage = YES;
+        self.shouldReturnFaceImage = YES;
     };
     
     self.lastImageMetadata = nil;
@@ -373,17 +407,17 @@
     if ([self shouldUsePdf417RecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self pdf417RecognizerSettings]];
     }
-    
+
+    if ([self shouldUseBarcodeRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self barcodeRecognizerSettings]];
+    }
+
     if ([self shouldUseUsdlRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self usdlRecognizerSettings]];
     }
     
     if ([self shouldUseMrtdRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self mrtdRecognizerSettings]];
-    }
-    
-    if ([self shouldUseBarcodeRecognizerForTypes:types]) {
-        [settings.scanSettings addRecognizerSettings:[self barcodeRecognizerSettings]];
     }
     
     if ([self shouldUseEudlRecognizerForTypes:types]) {
@@ -447,71 +481,77 @@
 #pragma mark - Result Processing
 
 - (void)setDictionary:(NSMutableDictionary *)dict withPdf417RecognizerResult:(PPPdf417RecognizerResult *)data {
-    
+    [dict setObject:PDF417_RESULT_TYPE forKey:RESULT_TYPE];
+    [dict setObject:@"PDF417" forKey:TYPE];
     if ([data stringUsingGuessedEncoding]) {
-        [dict setObject:[data stringUsingGuessedEncoding] forKey:@"data"];
+        [dict setObject:[data stringUsingGuessedEncoding] forKey:DATA];
     }
-    
-    [dict setObject:[PPRecognizerResult urlStringFromData:[data data]] forKey:@"raw"];
-    [dict setObject:@"PDF417" forKey:@"type"];
-    [dict setObject:@"Barcode result" forKey:@"resultType"];
+    [dict setObject:[PPRecognizerResult urlStringFromData:[data data]] forKey:RAW_DATA];
 }
 
-- (void)setDictionary:(NSMutableDictionary *)dict withZXingRecognizerResult:(PPZXingRecognizerResult *)data {
-    
-    if ([data stringUsingGuessedEncoding]) {
-        [dict setObject:[data stringUsingGuessedEncoding] forKey:@"data"];
-    }
-    
-    [dict setObject:[PPRecognizerResult urlStringFromData:[data data]] forKey:@"raw"];
-    [dict setObject:[PPZXingRecognizerResult toTypeName:data.barcodeType] forKey:@"type"];
-    [dict setObject:@"Barcode result" forKey:@"resultType"];
-}
+- (void)setDictionary:(NSMutableDictionary *)dict withBarcodeRecognizerResult:(PPBarcodeRecognizerResult *)data {
 
-- (void)setDictionary:(NSMutableDictionary *)dict withBarDecoderRecognizerResult:(PPBarDecoderRecognizerResult *)data {
-    
     if ([data stringUsingGuessedEncoding]) {
-        [dict setObject:[data stringUsingGuessedEncoding] forKey:@"data"];
+        [dict setObject:[data stringUsingGuessedEncoding] forKey:DATA];
     }
-    
-    [dict setObject:[PPRecognizerResult urlStringFromData:[data data]] forKey:@"raw"];
-    [dict setObject:[PPBarDecoderRecognizerResult toTypeName:data.barcodeType] forKey:@"type"];
-    [dict setObject:@"Barcode result" forKey:@"resultType"];
+
+    [dict setObject:[PPRecognizerResult urlStringFromData:[data data]] forKey:RAW_DATA];
+    [dict setObject:[CDVBlinkIdScanner nameForBarcodeType:data.barcodeType] forKey:TYPE];
+    [dict setObject:BARCODE_RESULT_TYPE forKey:RESULT_TYPE];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withUsdlResult:(PPUsdlRecognizerResult *)usdlResult {
-    [dict setObject:[usdlResult getAllStringElements] forKey:@"fields"];
-    [dict setObject:@"USDL result" forKey:@"resultType"];
+    [dict setObject:[usdlResult getAllStringElements] forKey:FIELDS];
+    [dict setObject:USDL_RESULT_TYPE forKey:RESULT_TYPE];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withMrtdRecognizerResult:(PPMrtdRecognizerResult *)mrtdResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[mrtdResult getAllStringElements]];
     [stringElements setObject:[mrtdResult rawDateOfBirth] forKey:@"DateOfBirth"];
     [stringElements setObject:[mrtdResult rawDateOfExpiry] forKey:@"DateOfExpiry"];
-    [dict setObject:stringElements forKey:@"fields"];
-    [dict setObject:[mrtdResult mrzText] forKey:@"raw"];
-    [dict setObject:@"MRTD result" forKey:@"resultType"];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:[mrtdResult mrzText] forKey:RAW_DATA];
+    [dict setObject:MRTD_RESULT_TYPE forKey:RESULT_TYPE];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withEudlRecognizerResult:(PPEudlRecognizerResult *)eudlResult {
-    [dict setObject:[eudlResult getAllStringElements] forKey:@"fields"];
-    [dict setObject:@"EUDL result" forKey:@"resultType"];
+    [dict setObject:[eudlResult getAllStringElements] forKey:FIELDS];
+
+    NSString *eudlResultType;
+
+    // Select the result type by country.
+    switch (eudlResult.country) {
+        case PPEudlCountryUnitedKingdom:
+            eudlResultType = UKDL_RESULT_TYPE;
+            break;
+        case PPEudlCountryGermany:
+            eudlResultType = DEDL_RESULT_TYPE;
+            break;
+        case PPEudlCountryAustria:
+            eudlResultType = EUDL_RESULT_TYPE;
+            break;
+        case PPEudlCountryAny:
+            eudlResultType = EUDL_RESULT_TYPE;
+            break;
+    }
+
+    [dict setObject:eudlResultType forKey:RESULT_TYPE];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withMyKadRecognizerResult:(PPMyKadRecognizerResult *)myKadResult {
-    [dict setObject:[myKadResult getAllStringElements] forKey:@"fields"];
-    [dict setObject:@"MyKad result" forKey:@"resultType"];
+    [dict setObject:[myKadResult getAllStringElements] forKey:FIELDS];
+    [dict setObject:MYKAD_RESULT_TYPE forKey:RESULT_TYPE];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withDocumentFaceResult:(PPDocumentFaceRecognizerResult *)documentFaceResult {
-    [dict setObject:[documentFaceResult getAllStringElements] forKey:@"fields"];
-    [dict setObject:@"DocumentFace result" forKey:@"resultType"];
+    [dict setObject:[documentFaceResult getAllStringElements] forKey:FIELDS];
+    [dict setObject:DOCUMENTFACE_RESULT_TYPE forKey:RESULT_TYPE];
 }
 
 - (void)returnResults:(NSArray *)results cancelled:(BOOL)cancelled {
     
     NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-    [resultDict setObject:[NSNumber numberWithInt:(cancelled ? 1 : 0)] forKey:@"cancelled"];
+    [resultDict setObject:[NSNumber numberWithInt:(cancelled ? 1 : 0)] forKey:CANCELLED];
     
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
     
@@ -525,13 +565,13 @@
             
             [resultArray addObject:dict];
         }
-        
-        if ([result isKindOfClass:[PPZXingRecognizerResult class]]) {
-            PPZXingRecognizerResult *zxingResult = (PPZXingRecognizerResult *)result;
-            
+
+        if ([result isKindOfClass:[PPBarcodeRecognizerResult class]]) {
+            PPBarcodeRecognizerResult *barcodeRecognizerResult = (PPBarcodeRecognizerResult *)result;
+
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            [self setDictionary:dict withZXingRecognizerResult:zxingResult];
-            
+            [self setDictionary:dict withBarcodeRecognizerResult:barcodeRecognizerResult];
+
             [resultArray addObject:dict];
         }
         
@@ -540,15 +580,6 @@
             
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
             [self setDictionary:dict withUsdlResult:usdlResult];
-            
-            [resultArray addObject:dict];
-        }
-        
-        if ([result isKindOfClass:[PPBarDecoderRecognizerResult class]]) {
-            PPBarDecoderRecognizerResult *barDecoderResult = (PPBarDecoderRecognizerResult *)result;
-            
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            [self setDictionary:dict withBarDecoderRecognizerResult:barDecoderResult];
             
             [resultArray addObject:dict];
         }
@@ -591,7 +622,7 @@
     };
     
     if ([resultArray count] > 0) {
-        [resultDict setObject:resultArray forKey:@"resultList"];
+        [resultDict setObject:resultArray forKey:RESULT_LIST];
     }
     
     if (!cancelled) {
@@ -599,7 +630,7 @@
         if (image) {
             NSData *imageData = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
             [resultDict setObject:[imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
-                           forKey:@"resultImage"];
+                           forKey:RESULT_IMAGE];
         }
     }
     
@@ -688,6 +719,33 @@
              didOutputMetadata:(PPMetadata *)metadata {
     if ([metadata isKindOfClass:[PPImageMetadata class]]) {
         self.lastImageMetadata = (PPImageMetadata *)metadata;
+    }
+}
+
++ (NSString *)nameForBarcodeType:(PPBarcodeType)type {
+    switch (type) {
+        case PPBarcodeNone:
+            return @"NONE";
+        case PPBarcodeTypeQR:
+            return @"QR";
+        case PPBarcodeTypeDataMatrix:
+            return @"DATA_MATRIX";
+        case PPBarcodeTypeUPCE:
+            return @"UPCE";
+        case PPBarcodeTypeUPCA:
+            return @"UPCA";
+        case PPBarcodeTypeEAN8:
+            return @"EAN8";
+        case PPBarcodeTypeEAN13:
+            return @"EAN13";
+        case PPBarcodeTypeCode128:
+            return @"CODE128";
+        case PPBarcodeTypeCode39:
+            return @"CODE39";
+        case PPBarcodeTypeITF:
+            return @"ITF";
+        case PPBarcodeTypeAztec:
+            return @"AZTEC";
     }
 }
 
