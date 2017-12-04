@@ -94,7 +94,7 @@
             </feature>
         </config-file>
         
-        <hook type="after_platform_add" src="addEmbedded.js" />
+        <hook type="after_platform_add" src="scripts/addEmbedded.js" />
     </platform>
     
 </plugin>
