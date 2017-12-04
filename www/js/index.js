@@ -46,26 +46,35 @@ var app = {
         app.receivedEvent('deviceready');
         
         var resultDiv = document.getElementById('resultDiv');
-        var resultImgDiv = document.getElementById('imageDiv');
-        var resultImg = document.getElementById('documentImage');
-    
-        resultImgDiv.style.visibility = "hidden"
+
+        var successfulImageDiv = document.getElementById('successfulImageDiv');
+        var successfulImage = document.getElementById('successfulImage');
+
+        var documentImageDiv = document.getElementById('documentImageDiv');
+        var documentImage = document.getElementById('documentImage');
+
+        var faceImageDiv = document.getElementById('faceImageDiv');
+        var faceImage = document.getElementById('faceImage');
+
+        successfulImageDiv.style.visibility = "hidden"
+        documentImageDiv.style.visibility = "hidden"
+        faceImageDiv.style.visibility = "hidden"
 
         /**
          * Use these scanner types
          * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
          */
-        var types = ["PDF417", "UKDL", "MRTD", "Barcode"];
+        var types = ["MyKad"];
 
         /**
          * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
          * available:
-         *  "IMAGE_NONE" : do not return image in scan result
+         *  empty - do not return any images - IMPORTANT : THIS IMPROVES SCANNING SPEED!
          *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
-         *  "IMAGE_CROPPED" : return cropped document image (successful scan)
-         *
+         *  "IMAGE_DOCUMENT" : return cropped document image
+         *  "IMAGE_FACE" : return image of the face from the ID
          */
-        var imageType = "IMAGE_CROPPED"
+        var imageTypes = ["IMAGE_SUCCESSFUL_SCAN", "IMAGE_FACE", "IMAGE_DOCUMENT"]
 
         // Note that each platform requires its own license key
 
@@ -89,14 +98,19 @@ var app = {
                     
                     // Obtain list of recognizer results
                     var resultList = scanningResult.resultList;
+
+                    successfulImageDiv.style.visibility = "hidden"
+                    documentImageDiv.style.visibility = "hidden"
+                    faceImageDiv.style.visibility = "hidden"
+
                     // Image is returned as Base64 encoded JPEG
                     var image = scanningResult.resultImage;
 
-                    if (image) {
-                        resultImg.src = "data:image/jpg;base64, " + image;
-                        resultImgDiv.style.visibility = "visible"
-                    } else {
-                        resultImgDiv.style.visibility = "hidden"
+                    // Successful image is returned as Base64 encoded JPEG
+                    var resultSuccessfulImage = scanningResult.resultSuccessfulImage;
+                    if (resultSuccessfulImage) {
+                        successfulImage.src = "data:image/jpg;base64, " + resultSuccessfulImage;
+                        successfulImageDiv.style.visibility = "visible"
                     }
                     
                     // Iterate through all results
@@ -104,6 +118,7 @@ var app = {
 
                         // Get individual resilt
                         var recognizerResult = resultList[i];
+
                         if (recognizerResult.resultType == "Barcode result") {
                             // handle Barcode scanning result
 
@@ -166,6 +181,7 @@ var app = {
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
+                                                recognizerResult.resultType + "; " + 
                                                 "ID Type: " + fields[kPPukdlDataType] + "; " +
                                                 "Date of Expiry: : " + fields[kPPukdlExpiry] + "; " +
                                                 "Issue Date: " + fields[kPPukdlIssueDate] + "; " +
@@ -194,6 +210,24 @@ var app = {
 
                             resultDiv.innerHTML = "Found document with face";
                         }
+
+                        // Document image is returned as Base64 encoded JPEG
+                        var resultDocumentImage = recognizerResult.resultDocumentImage;
+                        if (resultDocumentImage) {
+                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
+                            documentImageDiv.style.visibility = "visible"
+                        } else {
+                            documentImageDiv.style.visibility = "hidden"
+                        }
+
+                        // Face image is returned as Base64 encoded JPEG
+                        var resultFaceImage = recognizerResult.resultFaceImage;
+                        if (resultFaceImage) {
+                            faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
+                            faceImageDiv.style.visibility = "visible"
+                        } else {
+                            faceImageDiv.style.visibility = "hidden"
+                        }
                     }
                 },
                 
@@ -202,7 +236,7 @@ var app = {
                     alert('Error: ' + err);
                 },
 
-                types, imageType, licenseiOs, licenseAndroid
+                types, imageTypes, licenseiOs, licenseAndroid
             );
         });
 

@@ -33,12 +33,15 @@ const NSString *MYKAD_TYPE = @"MyKad";
 const NSString *DOCUMENTFACE_TYPE = @"DocumentFace";
 
 const NSString *RESULT_LIST = @"resultList";
-const NSString *RESULT_IMAGE = @"resultImage";
 const NSString *RESULT_TYPE = @"resultType";
 const NSString *TYPE = @"type";
 const NSString *DATA = @"data";
 const NSString *FIELDS = @"fields";
 const NSString *RAW_DATA = @"raw";
+
+NSString *RESULT_FACE_IMAGE = @"resultFaceImage";
+NSString *RESULT_DOCUMENT_IMAGE = @"resultDocumentImage";
+NSString *RESULT_SUCCESSFUL_IMAGE = @"resultSuccessfulImage";
 
 NSString *PDF417_RESULT_TYPE = @"Barcode result";
 NSString *USDL_RESULT_TYPE = @"USDL result";
@@ -57,15 +60,9 @@ const NSString *CANCELLED = @"cancelled";
 
 const int COMPRESSED_IMAGE_QUALITY = 90;
 
-NSString *IMAGE_SUCCESSFUL_SCAN_STR = @"IMAGE_SUCCESSFUL_SCAN";
-NSString *IMAGE_CROPPED_STR = @"IMAGE_CROPPED";
+NSString *IMAGE_SUCCESSFUL_STR = @"IMAGE_SUCCESSFUL_SCAN";
+NSString *IMAGE_DOCUMENT_STR = @"IMAGE_DOCUMENT";
 NSString *IMAGE_FACE_STR = @"IMAGE_FACE";
-
-const int IMAGE_NONE = 0;
-const int IMAGE_SUCCESSFUL_SCAN = 1;
-const int IMAGE_CROPPED = 2;
-const int IMAGE_FACE = 3;
-
 
 @interface CDVPlugin () <PPScanningDelegate>
 
@@ -73,15 +70,21 @@ const int IMAGE_FACE = 3;
 
 @end
 
+typedef NS_ENUM(NSUInteger, PPImageType) {
+    PPImageTypeFace,
+    PPImageTypeDocument,
+    PPImageTypeSuccessful,
+};
+
 @interface CDVBlinkIdScanner ()
 
-@property (nonatomic) PPImageMetadata *lastImageMetadata;
-
-@property (nonatomic) BOOL shouldReturnCroppedDocument;
+@property (nonatomic) NSMutableDictionary<NSString *, NSMutableDictionary *> *imageMetadatas;
 
 @property (nonatomic) BOOL shouldReturnFaceImage;
+@property (nonatomic) BOOL shouldReturnDocumentImage;
+@property (nonatomic) BOOL shouldReturnSuccessfulImage;
 
-@property (nonatomic) BOOL shouldReturnSuccessfulFrame;
+@property (nonatomic) PPImageMetadata *successfulImageMetadata;
 
 @end
 
@@ -220,23 +223,20 @@ const int IMAGE_FACE = 3;
     
     /********* All recognizer settings are set to their default values. Change accordingly. *********/
     
-    
     // Setting this will give you the chance to parse MRZ result, if Mrtd recognizer wasn't
     // successful in parsing (this can happen since MRZ isn't always formatted accoring to ICAO Document 9303 standard.
     // @see http://www.icao.int/Security/mrtd/pages/Document9303.aspx
     mrtdRecognizerSettings.allowUnparsedResults = NO;
     
-    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and
-    // cropped
-    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
-    // as PPImageMetadata objects with name @"MRTD"
-    
-    if (self.shouldReturnCroppedDocument) {
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
         mrtdRecognizerSettings.dewarpFullDocument = YES;
-    } else {
-        mrtdRecognizerSettings.dewarpFullDocument = NO;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMrtdRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
     }
-    
+
     return mrtdRecognizerSettings;
 }
 
@@ -264,15 +264,13 @@ const int IMAGE_FACE = 3;
      */
     eudlRecognizerSettings.extractAddress = YES;
     
-    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and
-    // cropped
-    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
-    // as PPImageMetadata objects with name @"MRTD"
-    
-    if (self.shouldReturnCroppedDocument) {
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
         eudlRecognizerSettings.showFullDocument = YES;
-    } else {
-        eudlRecognizerSettings.showFullDocument = NO;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPEudlRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
     }
     
     return eudlRecognizerSettings;
@@ -286,11 +284,23 @@ const int IMAGE_FACE = 3;
     // cropped
     // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
     // as PPImageMetadata objects with name @"MRTD"
-    
-    if (self.shouldReturnCroppedDocument) {
+
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
         documentFaceReconizerSettings.returnFullDocument = YES;
-    } else {
-        documentFaceReconizerSettings.returnFullDocument = NO;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPDocumentFaceRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    // Setup returning face image
+
+    if ([self shouldReturnFaceImage]) {
+        documentFaceReconizerSettings.returnFaceImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPDocumentFaceRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
     }
     
     return documentFaceReconizerSettings;
@@ -299,20 +309,40 @@ const int IMAGE_FACE = 3;
 - (PPMyKadRecognizerSettings *)myKadRecognizerSettings {
     
     PPMyKadRecognizerSettings *myKadRecognizerSettings = [[PPMyKadRecognizerSettings alloc] init];
-    
-    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and
-    // cropped
-    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
-    // as PPImageMetadata objects with name @"MRTD"
-    
-    if (self.shouldReturnCroppedDocument) {
+
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
         myKadRecognizerSettings.showFullDocument = YES;
-    } else {
-        myKadRecognizerSettings.showFullDocument = NO;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    // Setup returning face image
+
+    if ([self shouldReturnFaceImage]) {
+        myKadRecognizerSettings.showFaceImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
     }
     
     return myKadRecognizerSettings;
 }
+
+- (NSMutableDictionary *)getInitializedImagesDictionaryForClass:(Class)class {
+
+    NSMutableDictionary *dict = [self.imageMetadatas objectForKey:NSStringFromClass(class)];
+    if (dict != nil) {
+        return dict;
+    }
+
+    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
+    [self.imageMetadatas setObject:newDict forKey:NSStringFromClass(class)];
+    return newDict;
+}
+
 
 #pragma mark - Used Recognizers
 
@@ -368,24 +398,23 @@ const int IMAGE_FACE = 3;
     
     // Initialize the scanner settings object. This initialize settings with all default values.
     PPSettings *settings = [[PPSettings alloc] init];
+
+    self.imageMetadatas = [[NSMutableDictionary alloc] init];
+    self.successfulImageMetadata = nil;
     
-    self.shouldReturnCroppedDocument = NO;
-    self.shouldReturnSuccessfulFrame = NO;
-    self.shouldReturnFaceImage = NO;
-    
-    NSString *imageType = [self.lastCommand argumentAtIndex:1];
-    if ([imageType isEqualToString:IMAGE_SUCCESSFUL_SCAN_STR]) {
-        settings.metadataSettings.successfulFrame = YES;
-        self.shouldReturnSuccessfulFrame = YES;
-    } else if ([imageType isEqualToString:IMAGE_CROPPED_STR]) {
-        settings.metadataSettings.dewarpedImage = YES;
-        self.shouldReturnCroppedDocument = YES;
-    } else if ([imageType isEqualToString:IMAGE_FACE_STR]) {
+    NSArray *imageTypes = [self.lastCommand argumentAtIndex:1];
+    if ([imageTypes containsObject:IMAGE_FACE_STR]) {
         settings.metadataSettings.dewarpedImage = YES;
         self.shouldReturnFaceImage = YES;
+    }
+    if ([imageTypes containsObject:IMAGE_SUCCESSFUL_STR]) {
+        settings.metadataSettings.successfulFrame = YES;
+        self.shouldReturnSuccessfulImage = YES;
+    }
+    if ([imageTypes containsObject:IMAGE_DOCUMENT_STR]) {
+        settings.metadataSettings.dewarpedImage = YES;
+        self.shouldReturnDocumentImage = YES;
     };
-    
-    self.lastImageMetadata = nil;
     
     // Set PPCameraPresetOptimal for very dense or lower quality barcodes
     settings.cameraSettings.cameraPreset = PPCameraPresetOptimal;
@@ -469,10 +498,9 @@ const int IMAGE_FACE = 3;
     
     /** Allocate and present the scanning view controller */
     UIViewController<PPScanningViewController> *scanningViewController =
-    [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
+        [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
     
     scanningViewController.autorotate = YES;
-    
     
     /** You can use other presentation methods as well */
     [[self viewController] presentViewController:scanningViewController animated:YES completion:nil];
@@ -490,11 +518,9 @@ const int IMAGE_FACE = 3;
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withBarcodeRecognizerResult:(PPBarcodeRecognizerResult *)data {
-
     if ([data stringUsingGuessedEncoding]) {
         [dict setObject:[data stringUsingGuessedEncoding] forKey:DATA];
     }
-
     [dict setObject:[PPRecognizerResult urlStringFromData:[data data]] forKey:RAW_DATA];
     [dict setObject:[CDVBlinkIdScanner nameForBarcodeType:data.barcodeType] forKey:TYPE];
     [dict setObject:BARCODE_RESULT_TYPE forKey:RESULT_TYPE];
@@ -512,6 +538,7 @@ const int IMAGE_FACE = 3;
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:[mrtdResult mrzText] forKey:RAW_DATA];
     [dict setObject:MRTD_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:mrtdResult];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withEudlRecognizerResult:(PPEudlRecognizerResult *)eudlResult {
@@ -536,16 +563,20 @@ const int IMAGE_FACE = 3;
     }
 
     [dict setObject:eudlResultType forKey:RESULT_TYPE];
+
+    [self setupDictionary:dict withImagesForResult:eudlResult];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withMyKadRecognizerResult:(PPMyKadRecognizerResult *)myKadResult {
     [dict setObject:[myKadResult getAllStringElements] forKey:FIELDS];
     [dict setObject:MYKAD_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:myKadResult];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withDocumentFaceResult:(PPDocumentFaceRecognizerResult *)documentFaceResult {
     [dict setObject:[documentFaceResult getAllStringElements] forKey:FIELDS];
     [dict setObject:DOCUMENTFACE_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:documentFaceResult];
 }
 
 - (void)returnResults:(NSArray *)results cancelled:(BOOL)cancelled {
@@ -626,12 +657,7 @@ const int IMAGE_FACE = 3;
     }
     
     if (!cancelled) {
-        UIImage *image = self.lastImageMetadata.image;
-        if (image) {
-            NSData *imageData = UIImageJPEGRepresentation(self.lastImageMetadata.image, 0.9f);
-            [resultDict setObject:[imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength]
-                           forKey:RESULT_IMAGE];
-        }
+        [self setupDictionary:resultDict withImageMetadata:self.successfulImageMetadata resultKey:RESULT_SUCCESSFUL_IMAGE];
     }
     
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
@@ -646,6 +672,30 @@ const int IMAGE_FACE = 3;
     
     // As scanning view controller is presented full screen and modally, dismiss it
     [[self viewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)setupDictionary:(NSMutableDictionary *)dict withImageMetadata:(PPImageMetadata *)imageMetadata resultKey:(NSString *)resultKey {
+
+    if (imageMetadata == nil) return;
+    if (imageMetadata.image == nil) return;
+
+    NSData *imageData = UIImageJPEGRepresentation(imageMetadata.image, COMPRESSED_IMAGE_QUALITY / 100.f);
+    [dict setObject:[imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:resultKey];
+}
+
+- (void)setupDictionary:(NSMutableDictionary *)dict withImagesForResult:(PPRecognizerResult *)result {
+    NSDictionary *metadatas = [self.imageMetadatas objectForKey:NSStringFromClass([result class])];
+
+    [metadatas enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        switch ([key intValue]) {
+            case PPImageTypeFace:
+                [self setupDictionary:dict withImageMetadata:obj resultKey:RESULT_FACE_IMAGE];
+                break;
+            case PPImageTypeDocument:
+                [self setupDictionary:dict withImageMetadata:obj resultKey:RESULT_DOCUMENT_IMAGE];
+                break;
+        }
+    }];
 }
 
 - (void)returnError:(NSString *)message {
@@ -680,32 +730,29 @@ const int IMAGE_FACE = 3;
     [[self viewController] dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (BOOL)resultCanOutputCroppedImage:(NSArray<PPRecognizerResult *> *)results {
-    
-    NSArray<Class> *classes = @[ [PPMrtdRecognizerResult class], [PPEudlRecognizerResult class], [PPMyKadRecognizerResult class] ];
-    
+- (BOOL)checkAreImagesReturned:(NSArray<PPRecognizerResult *> *)results {
+
     for (PPRecognizerResult *result in results) {
-        for (Class class in classes) {
-            if ([result isKindOfClass:class]) {
-                return YES;
+        NSDictionary *metadatas = [self.imageMetadatas objectForKey:NSStringFromClass([result class])];
+
+        for (NSObject *obj in [metadatas allValues]) {
+            if ([obj isEqual:[NSNull null]]) {
+                return NO;
             }
         }
     }
-    
-    return NO;
+
+    return YES;
 }
 
 - (void)scanningViewController:(UIViewController<PPScanningViewController> *)scanningViewController
               didOutputResults:(NSArray<PPRecognizerResult *> *)results {
-    
-    if (self.shouldReturnSuccessfulFrame && self.lastImageMetadata == nil) {
-        // We need to have image saved if the user requested a successful frame
+
+    if (self.shouldReturnSuccessfulImage && (self.successfulImageMetadata == nil || self.successfulImageMetadata.image == nil)) {
         return;
     }
     
-    if (self.shouldReturnCroppedDocument && self.lastImageMetadata == nil && [self resultCanOutputCroppedImage:results]) {
-        // We need to have image saved if the user requested cropped image
-        // and the recognizer which gave the result was able to output it
+    if (![self checkAreImagesReturned:results]) {
         return;
     }
     
@@ -717,10 +764,34 @@ const int IMAGE_FACE = 3;
 
 - (void)scanningViewController:(UIViewController<PPScanningViewController> *)scanningViewController
              didOutputMetadata:(PPMetadata *)metadata {
+
     if ([metadata isKindOfClass:[PPImageMetadata class]]) {
-        self.lastImageMetadata = (PPImageMetadata *)metadata;
+        PPImageMetadata *imageMetadata = (PPImageMetadata *)metadata;
+
+        if ([imageMetadata imageType] == PPImageMetadataTypeSuccessfulFrame) {
+            self.successfulImageMetadata = imageMetadata;
+
+        } else if ([imageMetadata imageType] == PPImageMetadataTypeDewarpedImage) {
+
+            [self setImageMetadata:imageMetadata forName:[PPMrtdRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMrtdRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPDocumentFaceRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPMyKadRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPEudlRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPEudlRecognizerResult class]];
+
+            [self setImageMetadata:imageMetadata forName:[PPMyKadRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyKadRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPDocumentFaceRecognizerResult class]];
+        }
     }
 }
+
+- (void)setImageMetadata:(PPImageMetadata *)metadata forName:(NSString *)name imageType:(PPImageType)type resultClass:(Class)result {
+    if ([[metadata name] isEqualToString:name]) {
+        NSMutableDictionary *dict = [self.imageMetadatas objectForKey:NSStringFromClass(result)];
+        [dict setObject:metadata forKey:@(type)];
+    }
+}
+
+#pragma mark - String utils
 
 + (NSString *)nameForBarcodeType:(PPBarcodeType)type {
     switch (type) {
