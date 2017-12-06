@@ -200,6 +200,10 @@ var app = {
                                                 "ID Type: " + fields[kPPmyKadDataType] + "; " +
                                                 "NRIC Number: " + fields[kPPmyKadNricNumber] + "; " +
                                                 "Address: " + fields[kPPmyKadAddress] + "; " +
+                                                "Address ZIP Code: " + fields[kPPmyKadAddressZipCode] + "; " +
+                                                "Address Street: " + fields[kPPmyKadAddressStreet] + "; " +
+                                                "Address City: " + fields[kPPmyKadAddressCity] + "; " +
+                                                "Address State: " + fields[kPPmyKadAddressState] + "; " +
                                                 "Birth Date: " + fields[kPPmyKadBirthDate] + "; " +
                                                 "Full Name: " + fields[kPPmyKadFullName] + "; " +
                                                 "Religion: " + fields[kPPmyKadReligion] + "; " +

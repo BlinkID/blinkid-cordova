@@ -17,6 +17,18 @@ var kPPmyKadNricNumber = "nricNumber";
 var kPPmyKadAddress = "ownerAddress";
 
 
+var kPPmyKadAddressZipCode = "ownerAddressZipCode";
+
+
+var kPPmyKadAddressStreet = "ownerAddressStreet";
+
+
+var kPPmyKadAddressCity = "ownerAddressCity";
+
+
+var kPPmyKadAddressState = "ownerAddressState";
+
+
 var kPPmyKadBirthDate = "ownerBirthDate";
 
 
