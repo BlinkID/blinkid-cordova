@@ -18,7 +18,6 @@ import android.util.Log;
 import com.microblink.activity.ScanCard;
 import com.microblink.image.Image;
 import com.microblink.image.ImageListener;
-import com.microblink.image.ImageType;
 import com.microblink.metadata.MetadataSettings;
 import com.microblink.recognizers.BaseRecognitionResult;
 import com.microblink.recognizers.IResultHolder;
@@ -26,14 +25,10 @@ import com.microblink.recognizers.RecognitionResults;
 import com.microblink.recognizers.blinkbarcode.BarcodeType;
 import com.microblink.recognizers.blinkbarcode.barcode.BarcodeRecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.barcode.BarcodeScanResult;
-import com.microblink.recognizers.blinkbarcode.bardecoder.BarDecoderRecognizerSettings;
-import com.microblink.recognizers.blinkbarcode.bardecoder.BarDecoderScanResult;
 import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417RecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417ScanResult;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLRecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLScanResult;
-import com.microblink.recognizers.blinkbarcode.zxing.ZXingRecognizerSettings;
-import com.microblink.recognizers.blinkbarcode.zxing.ZXingScanResult;
 import com.microblink.recognizers.blinkid.malaysia.MyKadRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.MyKadRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
@@ -71,8 +66,6 @@ public class BlinkIdScanner extends CordovaPlugin {
     // keys for recognizer types
     private static final String PDF417_TYPE = "PDF417";
     private static final String USDL_TYPE = "USDL";
-    private static final String BARDECODER_TYPE = "Bar Decoder";
-    private static final String ZXING_TYPE = "Zxing";
     private static final String MRTD_TYPE = "MRTD";
     private static final String UKDL_TYPE = "UKDL";
     private static final String DEDL_TYPE = "DEDL";
@@ -84,14 +77,12 @@ public class BlinkIdScanner extends CordovaPlugin {
     // keys for result types
     private static final String PDF417_RESULT_TYPE = "Barcode result";
     private static final String USDL_RESULT_TYPE = "USDL result";
-    private static final String BARDECODER_RESULT_TYPE = "Barcode result";
-    private static final String ZXING_RESULT_TYPE = "Barcode result";
+    private static final String BARCODE_RESULT_TYPE = "Barcode result";
     private static final String MRTD_RESULT_TYPE = "MRTD result";
     private static final String UKDL_RESULT_TYPE = "UKDL result";
     private static final String DEDL_RESULT_TYPE = "DEDL result";
     private static final String EUDL_RESULT_TYPE = "EUDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
-    private static final String BARCODE_RESULT_TYPE = "Barcode result";
     private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
 
     private static final String SCAN = "scan";
@@ -262,10 +253,6 @@ public class BlinkIdScanner extends CordovaPlugin {
             return buildPDF417Settings();
         } else if (type.equals(USDL_TYPE)) {
             return buildUsdlSettings();
-        } else if (type.equals(BARDECODER_TYPE)) {
-            return buildBardecoderSettings();
-        } else if (type.equals(ZXING_TYPE)) {
-            return buildZXingSettings();
         } else if (type.equals(MRTD_TYPE)) {
             return buildMrtdSettings();
         } else if (type.equals(UKDL_TYPE)) {
@@ -402,52 +389,6 @@ public class BlinkIdScanner extends CordovaPlugin {
         return pdf417;
     }
 
-    private BarDecoderRecognizerSettings buildBardecoderSettings() {
-        // prepare settings for 1D barcode recognizer
-        BarDecoderRecognizerSettings bar1d = new BarDecoderRecognizerSettings();
-        // Method activates or deactivates the scanning of Code128 1D barcodes.
-        // Default (initial) value is false.
-        bar1d.setScanCode128(true);
-        // Method activates or deactivates the scanning of Code39 1D barcodes.
-        // Default (initial) value is false.
-        bar1d.setScanCode39(true);
-        // By setting this to true, you will enable scanning of barcodes with inverse intensity
-        // values (i.e. white barcodes on dark background). This option can significantly increase
-        // recognition time. Default is false.
-        bar1d.setInverseScanning(false);
-        // By setting this to true, you will enabled scanning of lower resolution barcodes at cost
-        // of additional processing time. This option can significantly increase recognition time.
-        // Default is false.
-        bar1d.setTryHarder(false);
-        return bar1d;
-    }
-
-    private ZXingRecognizerSettings buildZXingSettings() {
-        // prepare settings for ZXing barcode recognizer
-        ZXingRecognizerSettings zxing = new ZXingRecognizerSettings();
-        // disable or enable scanning of various barcode types, by default all barcode types are
-        // disabled
-        zxing.setScanQRCode(true);
-        zxing.setScanAztecCode(false);
-        zxing.setScanCode128(true);
-        zxing.setScanCode39(true);
-        zxing.setScanDataMatrixCode(false);
-        zxing.setScanEAN13Code(true);
-        zxing.setScanEAN8Code(true);
-        zxing.setScanITFCode(false);
-        zxing.setScanUPCACode(true);
-        zxing.setScanUPCECode(true);
-
-        // By setting this to true, you will enable scanning of barcodes with inverse intensity
-        // values (i.e. white barcodes on dark background). This option can significantly increase
-        // recognition time. Default is false.
-        zxing.setInverseScanning(false);
-        // Use this method to enable slower, but more thorough scan procedure when scanning barcodes.
-        // By default, this option is turned on.
-        zxing.setSlowThoroughScan(true);
-        return zxing;
-    }
-
     private BarcodeRecognizerSettings buildBarcodeSettings() {
         // prepare settings for the Barcode recognizer
         BarcodeRecognizerSettings barcode = new BarcodeRecognizerSettings();
@@ -525,10 +466,6 @@ public class BlinkIdScanner extends CordovaPlugin {
                     try {
                         if (res instanceof Pdf417ScanResult) { // check if scan result is result of Pdf417 recognizer
                             resultsList.put(buildPdf417Result((Pdf417ScanResult) res));
-                        } else if (res instanceof BarDecoderScanResult) { // check if scan result is result of BarDecoder recognizer
-                           resultsList.put(buildBarDecoderResult((BarDecoderScanResult) res));
-                        } else if (res instanceof ZXingScanResult) { // check if scan result is result of ZXing recognizer
-                            resultsList.put(buildZxingResult((ZXingScanResult) res));
                         } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
                             resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
                         } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
@@ -645,19 +582,6 @@ public class BlinkIdScanner extends CordovaPlugin {
         return result;
     }
 
-    private JSONObject buildBarDecoderResult(BarDecoderScanResult res) throws JSONException {
-        // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
-        BarcodeType type = res.getBarcodeType();
-        // as with PDF417, getStringData will return the string contents of barcode
-        String barcodeData = res.getStringData();
-
-        JSONObject result = new JSONObject();
-        result.put(RESULT_TYPE, BARDECODER_RESULT_TYPE);
-        result.put(TYPE, type.name());
-        result.put(DATA, barcodeData);
-        return result;
-    }
-
     private JSONObject buildBarcodeResult(BarcodeScanResult res) throws JSONException {
         // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
         BarcodeType type = res.getBarcodeType();
@@ -666,20 +590,6 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         JSONObject result = new JSONObject();
         result.put(RESULT_TYPE, BARCODE_RESULT_TYPE);
-        result.put(TYPE, type.name());
-        result.put(DATA, barcodeData);
-        return result;
-    }
-
-    private JSONObject buildZxingResult(ZXingScanResult res) throws JSONException {
-        // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
-        BarcodeType type = res.getBarcodeType();
-
-        // as with PDF417, getStringData will return the string contents of barcode
-        String barcodeData = res.getStringData();
-
-        JSONObject result = new JSONObject();
-        result.put(RESULT_TYPE, ZXING_RESULT_TYPE);
         result.put(TYPE, type.name());
         result.put(DATA, barcodeData);
         return result;
