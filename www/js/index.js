@@ -64,7 +64,7 @@ var app = {
          * Use these scanner types
          * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
          */
-        var types = ["MyKad"];
+        var types = ["USDL", "MRTD", "Barcode"];
 
         /**
          * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
@@ -182,14 +182,15 @@ var app = {
 
                             resultDiv.innerHTML = /** Personal information */
                                                 recognizerResult.resultType + "; " + 
-                                                "ID Type: " + fields[kPPukdlDataType] + "; " +
-                                                "Date of Expiry: : " + fields[kPPukdlExpiry] + "; " +
-                                                "Issue Date: " + fields[kPPukdlIssueDate] + "; " +
-                                                "Driver Number: " + fields[kPPukdlDriverNumber] + "; " +
-                                                "Address: " + fields[kPPukdlAddress] + "; " +
-                                                "Birth Data: " + fields[kPPukdlBirthData] + "; " +
-                                                "First name: " + fields[kPPukdlFirstName] + "; " +
-                                                "Last name: " + fields[kPPukdlLastName] + "; ";
+                                                "ID Type: " + fields[kPPeudlDataType] + "; " +
+                                                "Date of Expiry: " + fields[kPPeudlExpiry] + "; " +
+                                                "Issue Date: " + fields[kPPeudlIssueDate] + "; " +
+                                                "Issuing Authority: " + fields[kPPeudlIssuingAuthority] + "; " +
+                                                "Driver Number: " + fields[kPPeudlDriverNumber] + "; " +
+                                                "Address: " + fields[kPPeudlAddress] + "; " +
+                                                "Birth Data: " + fields[kPPeudlBirthData] + "; " +
+                                                "First name: " + fields[kPPeudlFirstName] + "; " +
+                                                "Last name: " + fields[kPPeudlLastName] + "; ";
 
                         } else if (recognizerResult.resultType == "MyKad result") {
                             
