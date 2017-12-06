@@ -163,14 +163,17 @@ To use the plugin you call it in your Javascript code like the demo application:
 
 /**
 * Use these scanner types
-* Available: "PDF417", "USDL", "Bar Decoder", "Zxing", "MRTD", "UKDL", "MyKad"
+* Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
 * PDF417 - scans PDF417 barcodes
 * USDL - scans barcodes located on the back of US driver's license
-* Bar Decoder - scans code39 and code128 type barcodes. Both Code 39 and Code 128 are scanned by default when using Bar Decoder.
-* Zxing - scans various types of codes (i.e. QR, Aztec). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
+* Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
 * MRTD - scans Machine Readable Travel Document, contained in various IDs and passports
+* EUDL - scans the front of European driver's license
 * UKDL - scans the front of United Kingom driver's license
+* DEDL - scans the front of German driver's license
 * MyKad - scans the front of Malaysian ID cards
+* DocumentFace - scans documents which contain owner's face image
+* 
 * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
 */
 var types = ["PDF417", "UKDL", "MRTD"];
@@ -178,159 +181,202 @@ var types = ["PDF417", "UKDL", "MRTD"];
 /**
  * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
  * available:
- *  "IMAGE_NONE" : do not return image in scan result
+ *  empty array - do not return any images - IMPORTANT : THIS IMPROVES SCANNING SPEED!
  *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
- *  "IMAGE_CROPPED" : return cropped document image (successful scan)
- *
+ *  "IMAGE_DOCUMENT" : return cropped document image
+ *  "IMAGE_FACE" : return image of the face from the ID
  */
-var imageType = "IMAGE_CROPPED"
+var imageTypes = ["IMAGE_SUCCESSFUL_SCAN", "IMAGE_FACE", "IMAGE_DOCUMENT"]
 
 // Note that each platform requires its own license key
 
 // This license key allows setting overlay views for this application ID: com.microblink.blinkid
-var licenseiOs = "OLJJAUDF-CIV2HMG3-ZFEVNWIC-2FNSXP3W-YLKHF4MV-LTSI5GR7-I5ARBPXV-WRCTMCMT";
+var licenseiOs = "RYRTHFTE-BGSW25OV-22FACO5I-XKFH6NNV-EYKLREEQ-SCIJBEEQ-SCIJAMA4-CTCG345C"; // valid until 2018-03-04
 
 // This license is only valid for package name "com.microblink.blinkid"
-var licenseAndroid = "NFRZVYWD-MCK7SSO7-TJ7ZWOC4-AT2AYDM7-JDHZQMHY-V3PZU4SX-54PGUFQM-AUX5RGYJ";
+var licenseAndroid = "HOTRRR7E-GOK7UXTG-4EZJS4BX-QCZHZEPZ-JGPURT4Y-GD4K5X42-OJL67PQQ-K3FMQDM3";  // valid until 2018-03-04
 
 scanButton.addEventListener('click', function() {    
     cordova.plugins.blinkIdScanner.scan(
-            
+
         // Register the callback handler
         function callback(scanningResult) {
-                    
+
             // handle cancelled scanning
             if (scanningResult.cancelled == true) {
                 resultDiv.innerHTML = "Cancelled!";
                 return;
             }
-                    
+            
             // Obtain list of recognizer results
             var resultList = scanningResult.resultList;
-			// Image is returned as Base64 encoded JPEG
-			var image = scanningResult.resultImage;
-			
-			if (image) {
-                 resultImg.src = "data:image/jpg;base64, " + image;
-                 resultImgDiv.style.visibility = "visible"
-            } else {
-                resultImgDiv.style.visibility = "hidden"
+
+            successfulImageDiv.style.visibility = "hidden"
+            documentImageDiv.style.visibility = "hidden"
+            faceImageDiv.style.visibility = "hidden"
+
+            // Image is returned as Base64 encoded JPEG
+            var image = scanningResult.resultImage;
+
+            // Successful image is returned as Base64 encoded JPEG
+            var resultSuccessfulImage = scanningResult.resultSuccessfulImage;
+            if (resultSuccessfulImage) {
+                successfulImage.src = "data:image/jpg;base64, " + resultSuccessfulImage;
+                successfulImageDiv.style.visibility = "visible"
             }
-                    
             // Iterate through all results
             for (var i = 0; i < resultList.length; i++) {
 
                 // Get individual resilt
                 var recognizerResult = resultList[i];
+
                 if (recognizerResult.resultType == "Barcode result") {
                     // handle Barcode scanning result
-    
+
                     var raw = "";
                     if (typeof(recognizerResult.raw) != "undefined" && recognizerResult.raw != null) {
                         raw = " (raw: " + hex2a(recognizerResult.raw) + ")";
                     }
-                    resultDiv.innerHTML = "Data: " + recognizerResult.data + raw +
-                                        " (Type: " + recognizerResult.type + ")";
-    
+                    resultDiv.innerHTML = "Data: " + recognizerResult.data +
+                                       raw +
+                                       " (Type: " + recognizerResult.type + ")";
+
                 } else if (recognizerResult.resultType == "USDL result") {
                     // handle USDL parsing result
-    
+
                     var fields = recognizerResult.fields;
-    
+
                     resultDiv.innerHTML = /** Personal information */
-                                           "USDL version: " + fields[kPPStandardVersionNumber] + "; " +
-                                           "Family name: " + fields[kPPCustomerFamilyName] + "; " +
-                                           "First name: " + fields[kPPCustomerFirstName] + "; " +
-                                           "Date of birth: " + fields[kPPDateOfBirth] + "; " +
-                                           "Sex: " + fields[kPPSex] + "; " +
-                                           "Eye color: " + fields[kPPEyeColor] + "; " +
-                                           "Height: " + fields[kPPHeight] + "; " +
-                                           "Street: " + fields[kPPAddressStreet] + "; " +
-                                           "City: " + fields[kPPAddressCity] + "; " +
-                                           "Jurisdiction: " + fields[kPPAddressJurisdictionCode] + "; " +
-                                           "Postal code: " + fields[kPPAddressPostalCode] + "; " +
-    
-                                            /** License information */
-                                            "Issue date: " + fields[kPPDocumentIssueDate] + "; " +
-                                            "Expiration date: " + fields[kPPDocumentExpirationDate] + "; " +
-                                            "Issuer ID: " + fields[kPPIssuerIdentificationNumber] + "; " +
-                                            "Jurisdiction version: " + fields[kPPJurisdictionVersionNumber] + "; " +
-                                            "Vehicle class: " + fields[kPPJurisdictionVehicleClass] + "; " +
-                                            "Restrictions: " + fields[kPPJurisdictionRestrictionCodes] + "; " +
-                                            "Endorsments: " + fields[kPPJurisdictionEndorsementCodes] + "; " +
-                                            "Customer ID: " + fields[kPPCustomerIdNumber] + "; ";
+                                       "USDL version: " + fields[kPPStandardVersionNumber] + "; " +
+                                        "Family name: " + fields[kPPCustomerFamilyName] + "; " +
+                                        "First name: " + fields[kPPCustomerFirstName] + "; " +
+                                        "Date of birth: " + fields[kPPDateOfBirth] + "; " +
+                                        "Sex: " + fields[kPPSex] + "; " +
+                                        "Eye color: " + fields[kPPEyeColor] + "; " +
+                                        "Height: " + fields[kPPHeight] + "; " +
+                                        "Street: " + fields[kPPAddressStreet] + "; " +
+                                        "City: " + fields[kPPAddressCity] + "; " +
+                                        "Jurisdiction: " + fields[kPPAddressJurisdictionCode] + "; " +
+                                        "Postal code: " + fields[kPPAddressPostalCode] + "; " +
+
+                                        /** License information */
+                                        "Issue date: " + fields[kPPDocumentIssueDate] + "; " +
+                                        "Expiration date: " + fields[kPPDocumentExpirationDate] + "; " +
+                                        "Issuer ID: " + fields[kPPIssuerIdentificationNumber] + "; " +
+                                        "Jurisdiction version: " + fields[kPPJurisdictionVersionNumber] + "; " +
+                                        "Vehicle class: " + fields[kPPJurisdictionVehicleClass] + "; " +
+                                        "Restrictions: " + fields[kPPJurisdictionRestrictionCodes] + "; " +
+                                        "Endorsments: " + fields[kPPJurisdictionEndorsementCodes] + "; " +
+                                        "Customer ID: " + fields[kPPCustomerIdNumber] + "; ";
 
                 } else if (recognizerResult.resultType == "MRTD result") {
-                            
+
                     var fields = recognizerResult.fields;
-    
+
                     resultDiv.innerHTML = /** Personal information */
-                                            "Family name: " + fields[kPPmrtdPrimaryId] + "; " +
-                                            "First name: " + fields[kPPmrtdSecondaryId] + "; " +
-                                            "Date of birth: " + fields[kPPmrtdBirthDate] + "; " +
-                                            "Sex: " + fields[kPPmrtdSex] + "; " +
-                                            "Nationality: " + fields[kPPmrtdNationality] + "; " +
-                                            "Date of Expiry: " + fields[kPPmrtdExpiry] + "; " +
-                                            "Document Code: " + fields[kPPmrtdDocCode] + "; " +
-                                            "Document Number: " + fields[kPPmrtdDocNumber] + "; " +
-                                            "Issuer: " + fields[kPPmrtdIssuer] + "; " +
-                                            "ID Type: " + fields[kPPmrtdDataType] + "; " +
-                                            "Opt1: " + fields[kPPmrtdOpt1] + "; " +
-                                            "Opt2: " + fields[kPPmrtdOpt2] + "; ";
-    
-                } else if (recognizerResult.resultType == "UKDL result") {
-                                
+                                        "Family name: " + fields[kPPmrtdPrimaryId] + "; " +
+                                        "First name: " + fields[kPPmrtdSecondaryId] + "; " +
+                                        "Date of birth: " + fields[kPPmrtdBirthDate] + "; " +
+                                        "Sex: " + fields[kPPmrtdSex] + "; " +
+                                        "Nationality: " + fields[kPPmrtdNationality] + "; " +
+                                        "Date of Expiry: " + fields[kPPmrtdExpiry] + "; " +
+                                        "Document Code: " + fields[kPPmrtdDocCode] + "; " +
+                                        "Document Number: " + fields[kPPmrtdDocNumber] + "; " +
+                                        "Issuer: " + fields[kPPmrtdIssuer] + "; " +
+                                        "ID Type: " + fields[kPPmrtdDataType] + "; " +
+                                        "Opt1: " + fields[kPPmrtdOpt1] + "; " +
+                                        "Opt2: " + fields[kPPmrtdOpt2] + "; ";
+
+                } else if (recognizerResult.resultType == "EUDL result" || recognizerResult.resultType == "UKDL result" || recognizerResult.resultType == "DEDL result") {
+                    
                     var fields = recognizerResult.fields;
-    
+
                     resultDiv.innerHTML = /** Personal information */
-                                            "ID Type: " + fields[kPPukdlDataType] + "; " +
-                                            "Date of Expiry: : " + fields[kPPukdlExpiry] + "; " +
-                                            "Issue Date: " + fields[kPPukdlIssueDate] + "; " +
-                                            "Driver Number: " + fields[kPPukdlDriverNumber] + "; " +
-                                            "Address: " + fields[kPPukdlAddress] + "; " +
-                                            "Birth Data: " + fields[kPPukdlBirthData] + "; " +
-                                            "First name: " + fields[kPPukdlFirstName] + "; " +
-                                            "Last name: " + fields[kPPukdlLastName] + "; ";
-    
+                                        recognizerResult.resultType + "; " + 
+                                        "ID Type: " + fields[kPPeudlDataType] + "; " +
+                                        "Date of Expiry: : " + fields[kPPeudlExpiry] + "; " +
+                                        "Issue Date: " + fields[kPPeudlIssueDate] + "; " +
+                                        "Issuing Authority: " + fields[kPPeudlIssuingAuthority] + "; " +
+                                        "Driver Number: " + fields[kPPeudlDriverNumber] + "; " +
+                                        "Address: " + fields[kPPeudlAddress] + "; " +
+                                        "Birth Data: " + fields[kPPeudlBirthData] + "; " +
+                                        "First name: " + fields[kPPeudlFirstName] + "; " +
+                                        "Last name: " + fields[kPPeudlLastName] + "; ";
+
                 } else if (recognizerResult.resultType == "MyKad result") {
-                                
+                    
                     var fields = recognizerResult.fields;
-    
+
                     resultDiv.innerHTML = /** Personal information */
-                                            "ID Type: " + fields[kPPmyKadDataType] + "; " +
-                                            "NRIC Number: " + fields[kPPmyKadNricNumber] + "; " +
-                                            "Address: " + fields[kPPmyKadAddress] + "; " +
-                                            "Birth Date: " + fields[kPPmyKadBirthDate] + "; " +
-                                            "Full Name: " + fields[kPPmyKadFullName] + "; " +
-                                            "Religion: " + fields[kPPmyKadReligion] + "; " +
-                                            "Sex: " + fields[kPPmyKadSex] + "; ";
+                                        "ID Type: " + fields[kPPmyKadDataType] + "; " +
+                                        "NRIC Number: " + fields[kPPmyKadNricNumber] + "; " +
+                                        "Address: " + fields[kPPmyKadAddress] + "; " +
+                                        "Birth Date: " + fields[kPPmyKadBirthDate] + "; " +
+                                        "Full Name: " + fields[kPPmyKadFullName] + "; " +
+                                        "Religion: " + fields[kPPmyKadReligion] + "; " +
+                                        "Sex: " + fields[kPPmyKadSex] + "; ";
+
+                } else if (recognizerResult.resultType == "DocumentFace result") {
+
+                    var fields = recognizerResult.fields;
+
+                    resultDiv.innerHTML = "Found document with face";
                 }
-            }   
+
+                // Document image is returned as Base64 encoded JPEG
+                var resultDocumentImage = recognizerResult.resultDocumentImage;
+                if (resultDocumentImage) {
+                    documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
+                    documentImageDiv.style.visibility = "visible"
+                } else {
+                    documentImageDiv.style.visibility = "hidden"
+                }
+
+                // Face image is returned as Base64 encoded JPEG
+                var resultFaceImage = recognizerResult.resultFaceImage;
+                if (resultFaceImage) {
+                    faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
+                    faceImageDiv.style.visibility = "visible"
+                } else {
+                    faceImageDiv.style.visibility = "hidden"
+                }
+            }
         },
-                
+
         // Register the error callback
         function errorHandler(err) {
             alert('Error: ' + err);
         },
 
-        types, imageType, licenseiOs, licenseAndroid
+        types, imageTypes, licenseiOs, licenseAndroid
     );
 });
 ```
+* PDF417 - scans PDF417 barcodes
+* USDL - scans barcodes located on the back of US driver's license
+* Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
+* MRTD - scans Machine Readable Travel Document, contained in various IDs and passports
+* EUDL - scans the front of European driver's license
+* UKDL - scans the front of United Kingom driver's license
+* DEDL - scans the front of German driver's license
+* MyKad - scans the front of Malaysian ID cards
+* DocumentFace - scans documents which contain owner's face image
+
 + Available scanners are:
     + **PDF417** - scans PDF417 barcodes
     + **USDL**  - scans barcodes located on the back of US driver's license
-    + **Bar Decoder** - scans code39 and code128 type barcodes. Both Code 39 and Code 128 are scanned by default when using Bar Decoder.
-    + **Zxing** - scans various types of codes (i.e. QR, Aztec). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
+    + **Barcode** - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE.
     + **MRTD** - scans Machine Readable Travel Document, contained in various IDs and passports
+    + **EUDL** - scans the front of European driver's license
     + **UKDL** - scans the front of United Kingom driver's license
+    + **DEDL** - scans the front of German driver's license
     + **MyKad** - scans the front of Malaysian ID cards
+    + **DocumentFace** - scans documents which contain owner's face image
 	
-+ On returned result, image can also be returned (under "resultImage" field) as base64 string of JPEG image. Type of returned image is specified as second argument and can be:
-	+ `IMAGE_NONE` - No image will be returned
-	+ `IMAGE_SUCCESSFUL_SCAN` - Whole input image which returned the result.
-	+ `IMAGE_CROPPED` - Cropped and dewarped image of scanned object. For example, ID recognizers will return cropped and dewarped image of ID
-
++ On returned result, images can also be returned (under "resultSuccessfulImage" field for successful scan image and under fields "resultDocumentImage" and "resultFaceImage" in each concrete recognizer result) as base64 string of JPEG image. Image types that should be returned are specified as second argument (array). Set empty array to disable returning of images - **IMPORTANT : THIS IMPROVES SCANNING SPEED!**. Available types are:
+	+ `IMAGE_SUCCESSFUL_SCAN` - Full camera frame of successful scan.
+	+ `IMAGE_DOCUMENT` - Cropped document image.
+	+ `IMAGE_FACE` - Image of the face from the ID.
 
 + All license parameters must be provided (for **iOS** and **Android**) even if you do not plan to run the application on both platforms. The licenses that you do not have/use must be set to `null`.
 
