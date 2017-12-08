@@ -66,8 +66,8 @@
     </platform>
 
     <platform name="ios">
-        <source-file src="src/ios/sources/CDVblinkIdScanner.m" />
-        <header-file src="src/ios/sources/CDVblinkIdScanner.h" />
+        <source-file src="src/ios/sources/CDVBlinkIdScanner.m" />
+        <header-file src="src/ios/sources/CDVBlinkIdScanner.h" />
         
         <framework src="libc++.dylib" />
         <framework src="libz.dylib" />
@@ -90,11 +90,11 @@
         <resource-file src="src/ios/blinkid-ios/MicroBlink.bundle" />
         <config-file target="config.xml" parent="/*">
             <feature name="blinkIdScanner">
-                <param name="ios-package" value="CDVblinkIdScanner" />
+                <param name="ios-package" value="CDVBlinkIdScanner" />
             </feature>
         </config-file>
         
-        <hook type="after_platform_add" src="addEmbedded.js" />
+        <hook type="after_platform_add" src="scripts/addEmbedded.js" />
     </platform>
     
 </plugin>

@@ -22,22 +22,26 @@
  * types: Types of supported scanners (pass as array of desired scanner types):
  *  "PDF417"
  *  "USDL"
- *  "Bar Decoder"
- *  "Zxing"
+ *  "Barcode"
  *  "MRTD"
+ *  "EUDL"
  *  "UKDL"
+ *  "DEDL"
  *  "MyKad"
+ *  "DocumentFace"
  *
- * imageType - image type that should be returned if image is captured (depends on used scanner):
- *  "IMAGE_NONE" : do not return image in scan result
+ * imageTypes - array of image types that should be returned if image is captured (depends on used scanner)
+ * available types:
+ *  empty array - do not return any images - IMPORTANT : THIS IMPROVES SCANNING SPEED!
  *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
- *  "IMAGE_CROPPED" : return cropped document image (successful scan)
+ *  "IMAGE_DOCUMENT" : return cropped document image
+ *  "IMAGE_FACE" : return image of the face from the ID
  *
  * licenseiOS - iOS license key to enable all features (not required)
  * licenseAndroid - Android license key to enable all features (not required)
  */
 
-    BlinkIdScanner.prototype.scan = function (successCallback, errorCallback, types, imageType, licenseiOs, licenseAndroid) {
+    BlinkIdScanner.prototype.scan = function (successCallback, errorCallback, types, imageTypes, licenseiOs, licenseAndroid) {
         if (errorCallback == null) {
             errorCallback = function () {
             };
@@ -53,7 +57,7 @@
             return;
         }
 
-        exec(successCallback, errorCallback, 'BlinkIdScanner', 'scan', [types, imageType, licenseiOs, licenseAndroid]);
+        exec(successCallback, errorCallback, 'BlinkIdScanner', 'scan', [types, imageTypes, licenseiOs, licenseAndroid]);
     };
 
     var blinkIdScanner = new BlinkIdScanner();

@@ -18,7 +18,6 @@ import android.util.Log;
 import com.microblink.activity.ScanCard;
 import com.microblink.image.Image;
 import com.microblink.image.ImageListener;
-import com.microblink.image.ImageType;
 import com.microblink.metadata.MetadataSettings;
 import com.microblink.recognizers.BaseRecognitionResult;
 import com.microblink.recognizers.IResultHolder;
@@ -26,14 +25,10 @@ import com.microblink.recognizers.RecognitionResults;
 import com.microblink.recognizers.blinkbarcode.BarcodeType;
 import com.microblink.recognizers.blinkbarcode.barcode.BarcodeRecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.barcode.BarcodeScanResult;
-import com.microblink.recognizers.blinkbarcode.bardecoder.BarDecoderRecognizerSettings;
-import com.microblink.recognizers.blinkbarcode.bardecoder.BarDecoderScanResult;
 import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417RecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417ScanResult;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLRecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLScanResult;
-import com.microblink.recognizers.blinkbarcode.zxing.ZXingRecognizerSettings;
-import com.microblink.recognizers.blinkbarcode.zxing.ZXingScanResult;
 import com.microblink.recognizers.blinkid.malaysia.MyKadRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.MyKadRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
@@ -58,8 +53,10 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class BlinkIdScanner extends CordovaPlugin {
@@ -69,8 +66,6 @@ public class BlinkIdScanner extends CordovaPlugin {
     // keys for recognizer types
     private static final String PDF417_TYPE = "PDF417";
     private static final String USDL_TYPE = "USDL";
-    private static final String BARDECODER_TYPE = "Bar Decoder";
-    private static final String ZXING_TYPE = "Zxing";
     private static final String MRTD_TYPE = "MRTD";
     private static final String UKDL_TYPE = "UKDL";
     private static final String DEDL_TYPE = "DEDL";
@@ -82,21 +77,21 @@ public class BlinkIdScanner extends CordovaPlugin {
     // keys for result types
     private static final String PDF417_RESULT_TYPE = "Barcode result";
     private static final String USDL_RESULT_TYPE = "USDL result";
-    private static final String BARDECODER_RESULT_TYPE = "Barcode result";
-    private static final String ZXING_RESULT_TYPE = "Barcode result";
+    private static final String BARCODE_RESULT_TYPE = "Barcode result";
     private static final String MRTD_RESULT_TYPE = "MRTD result";
     private static final String UKDL_RESULT_TYPE = "UKDL result";
     private static final String DEDL_RESULT_TYPE = "DEDL result";
     private static final String EUDL_RESULT_TYPE = "EUDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
-    private static final String BARCODE_RESULT_TYPE = "Barcode result";
     private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
 
     private static final String SCAN = "scan";
     private static final String CANCELLED = "cancelled";
 
     private static final String RESULT_LIST = "resultList";
-    private static final String RESULT_IMAGE = "resultImage";
+    private static final String RESULT_SUCCESSFUL_IMAGE = "resultSuccessfulImage";
+    private static final String RESULT_DOCUMENT_IMAGE = "resultDocumentImage";
+    private static final String RESULT_FACE_IMAGE = "resultFaceImage";
     private static final String RESULT_TYPE = "resultType";
     private static final String TYPE = "type";
     private static final String DATA = "data";
@@ -106,16 +101,16 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final int COMPRESSED_IMAGE_QUALITY = 90;
 
     private static final String IMAGE_SUCCESSFUL_SCAN_STR = "IMAGE_SUCCESSFUL_SCAN";
-    private static final String IMAGE_CROPPED_STR = "IMAGE_CROPPED";
-
-    private static final int IMAGE_NONE = 0;
-    private static final int IMAGE_SUCCESSFUL_SCAN = 1;
-    private static final int IMAGE_CROPPED = 2;
+    private static final String IMAGE_DOCUMENT_STR = "IMAGE_DOCUMENT";
+    private static final String IMAGE_FACE_STR = "IMAGE_FACE";
 
     private static final String LOG_TAG = "BlinkIdScanner";
 
-    private int mImageType = IMAGE_NONE;
-    private CallbackContext callbackContext;
+    private static boolean sReturnSuccessfulImage;
+    private static boolean sReturnDocumentImage;
+    private static boolean sReturnFaceImage;
+
+    private static CallbackContext sCallbackContext;
 
     /**
      * Constructor.
@@ -146,7 +141,7 @@ public class BlinkIdScanner extends CordovaPlugin {
      */
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) {
-        this.callbackContext = callbackContext;
+        sCallbackContext = callbackContext;
 
         if (action.equals(SCAN)) {
             Set<String> types = new HashSet<String>();
@@ -156,11 +151,15 @@ public class BlinkIdScanner extends CordovaPlugin {
                 types.add(typesArg.optString(i));
             }
 
-            String imageTypeStr = args.optString(1);
-            if (imageTypeStr.equals(IMAGE_CROPPED_STR)) {
-                mImageType = IMAGE_CROPPED;
-            } else if (imageTypeStr.equals(IMAGE_SUCCESSFUL_SCAN_STR)) {
-                mImageType = IMAGE_SUCCESSFUL_SCAN;
+            JSONArray imageTypes = args.optJSONArray(1);
+            for (int i = 0; i < imageTypes.length(); ++i) {
+                if (imageTypes.optString(i).equals(IMAGE_SUCCESSFUL_SCAN_STR)) {
+                    sReturnSuccessfulImage = true;
+                } else if (imageTypes.optString(i).equals(IMAGE_DOCUMENT_STR)) {
+                    sReturnDocumentImage = true;
+                } else if (imageTypes.optString(i).equals(IMAGE_FACE_STR)) {
+                    sReturnFaceImage = true;
+                }
             }
 
             // ios license key is at index 2 in args
@@ -198,7 +197,7 @@ public class BlinkIdScanner extends CordovaPlugin {
             try {
                 recSett.add(buildRecognizerSettings(type));
             } catch (IllegalArgumentException ex) {
-                this.callbackContext.error(ex.getMessage());
+                sCallbackContext.error(ex.getMessage());
                 return;
             }
         }
@@ -225,10 +224,11 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         // set image metadata settings to define which images will be obtained as metadata during scan process
         MetadataSettings.ImageMetadataSettings ims = new MetadataSettings.ImageMetadataSettings();
-        if (mImageType == IMAGE_CROPPED) {
+        if (sReturnDocumentImage || sReturnFaceImage) {
             // enable obtaining of dewarped(cropped) images
             ims.setDewarpedImageEnabled(true);
-        } else if (mImageType == IMAGE_SUCCESSFUL_SCAN) {
+        }
+        if (sReturnSuccessfulImage) {
             // enable obtaining of successful frames
             ims.setSuccessfulScanFrameEnabled(true);
         }
@@ -236,13 +236,14 @@ public class BlinkIdScanner extends CordovaPlugin {
         intent.putExtra(ScanCard.EXTRAS_IMAGE_METADATA_SETTINGS, ims);
 
         // pass image listener to scan activity
-        intent.putExtra(ScanCard.EXTRAS_IMAGE_LISTENER, new ScanImageListener(mImageType));
+        intent.putExtra(ScanCard.EXTRAS_IMAGE_LISTENER, new ScanImageListener());
 
         // If you want sound to be played after the scanning process ends,
         // put here the resource ID of your sound file. (optional)
         intent.putExtra(ScanCard.EXTRAS_BEEP_RESOURCE, fakeR.getId("raw", "beep"));
         intent.putExtra(ScanCard.EXTRAS_SPLASH_SCREEN_LAYOUT_RESOURCE, fakeR.getId("layout", "splash_screen"));
 
+        ImageHolder.getInstance().clear();
         this.cordova.startActivityForResult((CordovaPlugin)this, intent, REQUEST_CODE);
     }
 
@@ -252,10 +253,6 @@ public class BlinkIdScanner extends CordovaPlugin {
             return buildPDF417Settings();
         } else if (type.equals(USDL_TYPE)) {
             return buildUsdlSettings();
-        } else if (type.equals(BARDECODER_TYPE)) {
-            return buildBardecoderSettings();
-        } else if (type.equals(ZXING_TYPE)) {
-            return buildZXingSettings();
         } else if (type.equals(MRTD_TYPE)) {
             return buildMrtdSettings();
         } else if (type.equals(UKDL_TYPE)) {
@@ -281,7 +278,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         // By default this is off. The reason for this is that we want to ensure best possible
         // data quality when returning results.
         mrtd.setAllowUnparsedResults(false);
-        if (mImageType == IMAGE_CROPPED) {
+        if (sReturnDocumentImage) {
             mrtd.setShowFullDocument(true);
         }
         return mrtd;
@@ -298,8 +295,11 @@ public class BlinkIdScanner extends CordovaPlugin {
         ukdl.setExtractExpiryDate(true);
         // Defines if address should be extracted. Default is true.
         ukdl.setExtractAddress(true);
-        if (mImageType == IMAGE_CROPPED) {
+        if (sReturnDocumentImage) {
             ukdl.setShowFullDocument(true);
+        }
+        if (sReturnFaceImage) {
+            ukdl.setShowFaceImage(true);
         }
         return ukdl;
     }
@@ -315,8 +315,11 @@ public class BlinkIdScanner extends CordovaPlugin {
         dedl.setExtractExpiryDate(true);
         // Defines if address should be extracted. Default is true.
         dedl.setExtractAddress(true);
-        if (mImageType == IMAGE_CROPPED) {
+        if (sReturnDocumentImage) {
             dedl.setShowFullDocument(true);
+        }
+        if (sReturnFaceImage) {
+            dedl.setShowFaceImage(true);
         }
         return dedl;
     }
@@ -332,8 +335,11 @@ public class BlinkIdScanner extends CordovaPlugin {
         eudl.setExtractExpiryDate(true);
         // Defines if address should be extracted. Default is true.
         eudl.setExtractAddress(true);
-        if (mImageType == IMAGE_CROPPED) {
+        if (sReturnDocumentImage) {
             eudl.setShowFullDocument(true);
+        }
+        if (sReturnFaceImage) {
+            eudl.setShowFaceImage(true);
         }
         return eudl;
     }
@@ -341,8 +347,11 @@ public class BlinkIdScanner extends CordovaPlugin {
     private MyKadRecognizerSettings buildMyKadSettings() {
         // prepare settings for Malaysian MyKad ID document recognizer
         MyKadRecognizerSettings myKad = new MyKadRecognizerSettings();
-        if (mImageType == IMAGE_CROPPED) {
+        if (sReturnDocumentImage) {
             myKad.setShowFullDocument(true);
+        }
+        if (sReturnFaceImage) {
+            myKad.setShowFaceImage(true);
         }
         return myKad;
     }
@@ -380,52 +389,6 @@ public class BlinkIdScanner extends CordovaPlugin {
         return pdf417;
     }
 
-    private BarDecoderRecognizerSettings buildBardecoderSettings() {
-        // prepare settings for 1D barcode recognizer
-        BarDecoderRecognizerSettings bar1d = new BarDecoderRecognizerSettings();
-        // Method activates or deactivates the scanning of Code128 1D barcodes.
-        // Default (initial) value is false.
-        bar1d.setScanCode128(true);
-        // Method activates or deactivates the scanning of Code39 1D barcodes.
-        // Default (initial) value is false.
-        bar1d.setScanCode39(true);
-        // By setting this to true, you will enable scanning of barcodes with inverse intensity
-        // values (i.e. white barcodes on dark background). This option can significantly increase
-        // recognition time. Default is false.
-        bar1d.setInverseScanning(false);
-        // By setting this to true, you will enabled scanning of lower resolution barcodes at cost
-        // of additional processing time. This option can significantly increase recognition time.
-        // Default is false.
-        bar1d.setTryHarder(false);
-        return bar1d;
-    }
-
-    private ZXingRecognizerSettings buildZXingSettings() {
-        // prepare settings for ZXing barcode recognizer
-        ZXingRecognizerSettings zxing = new ZXingRecognizerSettings();
-        // disable or enable scanning of various barcode types, by default all barcode types are
-        // disabled
-        zxing.setScanQRCode(true);
-        zxing.setScanAztecCode(false);
-        zxing.setScanCode128(true);
-        zxing.setScanCode39(true);
-        zxing.setScanDataMatrixCode(false);
-        zxing.setScanEAN13Code(true);
-        zxing.setScanEAN8Code(true);
-        zxing.setScanITFCode(false);
-        zxing.setScanUPCACode(true);
-        zxing.setScanUPCECode(true);
-
-        // By setting this to true, you will enable scanning of barcodes with inverse intensity
-        // values (i.e. white barcodes on dark background). This option can significantly increase
-        // recognition time. Default is false.
-        zxing.setInverseScanning(false);
-        // Use this method to enable slower, but more thorough scan procedure when scanning barcodes.
-        // By default, this option is turned on.
-        zxing.setSlowThoroughScan(true);
-        return zxing;
-    }
-
     private BarcodeRecognizerSettings buildBarcodeSettings() {
         // prepare settings for the Barcode recognizer
         BarcodeRecognizerSettings barcode = new BarcodeRecognizerSettings();
@@ -453,15 +416,17 @@ public class BlinkIdScanner extends CordovaPlugin {
     }
     
     private DocumentFaceRecognizerSettings buildDocumentFaceSettings() {
-      // prepare settings for the DocumentFace recognizer
-      DocumentFaceRecognizerSettings docFace = new DocumentFaceRecognizerSettings(DocumentFaceDetectorType.IDENTITY_CARD_TD1);
+        // prepare settings for the DocumentFace recognizer
+        DocumentFaceRecognizerSettings docFace = new DocumentFaceRecognizerSettings(DocumentFaceDetectorType.IDENTITY_CARD_TD1);
       
-      // This method allows sending the dewraped face image to the MetadataListener.
-      docFace.setShowFaceImage(true);
-      // This method allows sending the dewraped document image to the MetadataListener.
-      // docFace.setShowFullDocument(true);
+        if (sReturnDocumentImage) {
+            docFace.setShowFullDocument(true);
+        }
+        if (sReturnFaceImage) {
+            docFace.setShowFaceImage(true);
+        }
       
-      return docFace;
+        return docFace;
     }
 
     /**
@@ -501,10 +466,6 @@ public class BlinkIdScanner extends CordovaPlugin {
                     try {
                         if (res instanceof Pdf417ScanResult) { // check if scan result is result of Pdf417 recognizer
                             resultsList.put(buildPdf417Result((Pdf417ScanResult) res));
-                        } else if (res instanceof BarDecoderScanResult) { // check if scan result is result of BarDecoder recognizer
-                           resultsList.put(buildBarDecoderResult((BarDecoderScanResult) res));
-                        } else if (res instanceof ZXingScanResult) { // check if scan result is result of ZXing recognizer
-                            resultsList.put(buildZxingResult((ZXingScanResult) res));
                         } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
                             resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
                         } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
@@ -526,30 +487,16 @@ public class BlinkIdScanner extends CordovaPlugin {
                 try {
                     JSONObject root = new JSONObject();
                     root.put(RESULT_LIST, resultsList);
-                    if (mImageType != IMAGE_NONE) {
-                        Image resultImage = ImageHolder.getInstance().getLastImage();
-                        if (resultImage != null) {
-                            Bitmap resultImgBmp = resultImage.convertToBitmap();
-                            if (resultImgBmp != null) {
-                                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                boolean success = resultImgBmp.compress(Bitmap.CompressFormat.JPEG, COMPRESSED_IMAGE_QUALITY, byteArrayOutputStream);
-                                if (success) {
-                                    String resultImgBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                                    root.put(RESULT_IMAGE, resultImgBase64);
-                                }
-                                try {
-                                    byteArrayOutputStream.close();
-                                } catch (IOException ignorable) {}
-                            }
-                            ImageHolder.getInstance().clear();
-                        }
+                    String successfulImageBase64 = encodeImageBase64(ImageHolder.getInstance().getSuccessfulImage());
+                    if (successfulImageBase64 != null) {
+                        root.put(RESULT_SUCCESSFUL_IMAGE, successfulImageBase64);
                     }
                     root.put(CANCELLED, false);
-                    this.callbackContext.success(root);
+//                    ImageHolder.getInstance().clear();
+                    sCallbackContext.success(root);
                 } catch (JSONException e) {
                     Log.e(LOG_TAG, "This should never happen");
                 }
-
             } else if (resultCode == ScanCard.RESULT_CANCELED) {
                 JSONObject obj = new JSONObject();
                 try {
@@ -558,12 +505,63 @@ public class BlinkIdScanner extends CordovaPlugin {
                 } catch (JSONException e) {
                     Log.e(LOG_TAG, "This should never happen");
                 }
-                this.callbackContext.success(obj);
+                sCallbackContext.success(obj);
 
             } else {
-                this.callbackContext.error("Unexpected error");
+                sCallbackContext.error("Unexpected error");
             }
+            ImageHolder.getInstance().clear();
         }
+    }
+
+    private String encodeImageBase64(Image image) {
+        if (image == null) {
+            return null;
+        }
+        Bitmap resultImgBmp = image.convertToBitmap();
+        if (resultImgBmp == null) {
+            return null;
+        }
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        boolean success = resultImgBmp.compress(Bitmap.CompressFormat.JPEG, COMPRESSED_IMAGE_QUALITY, byteArrayOutputStream);
+        String resultImgBase64 = null;
+        if (success) {
+            resultImgBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+        }
+        try {
+            byteArrayOutputStream.close();
+        } catch (IOException ignorable) {}
+        return resultImgBase64;
+    }
+
+    private boolean putDocumentImageToResultJson(JSONObject resultHolder, Class<? extends BaseRecognitionResult> resultType) {
+        ImagesBundle imagesBundle =  ImageHolder.getInstance().getImages(resultType);
+        String documentImageBase64 = null;
+        if (imagesBundle != null) {
+            documentImageBase64 = encodeImageBase64(imagesBundle.getDocumentImage());
+        }
+        if (documentImageBase64 != null) {
+            try {
+                resultHolder.put(RESULT_DOCUMENT_IMAGE, documentImageBase64);
+                return true;
+            } catch (JSONException e) {}
+        }
+        return false;
+    }
+
+    private boolean putFaceImageToResultJson(JSONObject resultHolder, Class<? extends BaseRecognitionResult> resultType) {
+        ImagesBundle imagesBundle =  ImageHolder.getInstance().getImages(resultType);
+        String faceImageBase64 = null;
+        if (imagesBundle != null) {
+            faceImageBase64 = encodeImageBase64(imagesBundle.getFaceImage());
+        }
+        if (faceImageBase64 != null) {
+            try {
+                resultHolder.put(RESULT_FACE_IMAGE, faceImageBase64);
+                return true;
+            } catch (JSONException e) {}
+        }
+        return false;
     }
 
 
@@ -584,19 +582,6 @@ public class BlinkIdScanner extends CordovaPlugin {
         return result;
     }
 
-    private JSONObject buildBarDecoderResult(BarDecoderScanResult res) throws JSONException {
-        // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
-        BarcodeType type = res.getBarcodeType();
-        // as with PDF417, getStringData will return the string contents of barcode
-        String barcodeData = res.getStringData();
-
-        JSONObject result = new JSONObject();
-        result.put(RESULT_TYPE, BARDECODER_RESULT_TYPE);
-        result.put(TYPE, type.name());
-        result.put(DATA, barcodeData);
-        return result;
-    }
-
     private JSONObject buildBarcodeResult(BarcodeScanResult res) throws JSONException {
         // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
         BarcodeType type = res.getBarcodeType();
@@ -610,26 +595,15 @@ public class BlinkIdScanner extends CordovaPlugin {
         return result;
     }
 
-    private JSONObject buildZxingResult(ZXingScanResult res) throws JSONException {
-        // with getBarcodeType you can obtain barcode type enum that tells you the type of decoded barcode
-        BarcodeType type = res.getBarcodeType();
-
-        // as with PDF417, getStringData will return the string contents of barcode
-        String barcodeData = res.getStringData();
-
-        JSONObject result = new JSONObject();
-        result.put(RESULT_TYPE, ZXING_RESULT_TYPE);
-        result.put(TYPE, type.name());
-        result.put(DATA, barcodeData);
-        return result;
-    }
-
     private JSONObject buildUSDLResult(USDLScanResult res) throws JSONException {
         return buildKeyValueResult(res, USDL_RESULT_TYPE);
     }
 
     private JSONObject buildMyKadResult(MyKadRecognitionResult res) throws JSONException {
-       return buildKeyValueResult(res, MYKAD_RESULT_TYPE);
+       JSONObject result = buildKeyValueResult(res, MYKAD_RESULT_TYPE);
+       putDocumentImageToResultJson(result, MyKadRecognitionResult.class);
+       putFaceImageToResultJson(result, MyKadRecognitionResult.class);
+       return result;
     }
     
     private JSONObject buildEUDLResult(EUDLRecognitionResult res) throws JSONException{
@@ -646,17 +620,24 @@ public class BlinkIdScanner extends CordovaPlugin {
         default:
             resultType = EUDL_RESULT_TYPE;
       }
-      
-        return buildKeyValueResult(res, resultType);
+      JSONObject result = buildKeyValueResult(res, resultType);
+      putDocumentImageToResultJson(result, EUDLRecognitionResult.class);
+      putFaceImageToResultJson(result, EUDLRecognitionResult.class);
+      return result;
     }
 
     private JSONObject buildMRTDResult(MRTDRecognitionResult res) throws JSONException{
-        return buildKeyValueResult(res, MRTD_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, MRTD_RESULT_TYPE);
+        putDocumentImageToResultJson(result, MRTDRecognitionResult.class);
+        return result;
     }
     
-      private JSONObject buildDocumentFaceResult(DocumentFaceRecognitionResult res) throws JSONException {
-        return buildKeyValueResult(res, DOCUMENTFACE_RESULT_TYPE);
-      }
+    private JSONObject buildDocumentFaceResult(DocumentFaceRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, DOCUMENTFACE_RESULT_TYPE);
+        putDocumentImageToResultJson(result, DocumentFaceRecognitionResult.class);
+        putFaceImageToResultJson(result, DocumentFaceRecognitionResult.class);
+        return result;
+    }
 
     private JSONObject buildKeyValueResult(BaseRecognitionResult res, String resultType)
             throws JSONException {
@@ -689,33 +670,59 @@ public class BlinkIdScanner extends CordovaPlugin {
 
     public static class ScanImageListener implements ImageListener {
 
-        private int mImageType;
-
-        public ScanImageListener(int imageType) {
-            mImageType = imageType;
-        }
-
-        public ScanImageListener() {
-            mImageType = IMAGE_NONE;
-        }
-
         /**
          * Called when library has image available.
          */
         @Override
         public void onImageAvailable(Image image) {
-            switch(mImageType) {
-                case IMAGE_CROPPED:
-                    if (image.getImageType() == ImageType.DEWARPED) {
-                        ImageHolder.getInstance().setImage(image.clone());
+            switch (image.getImageType()) {
+                case DEWARPED:
+                    if (sReturnFaceImage && storeFaceImage(image)) {
+                        return;
+                    } else if (sReturnDocumentImage && storeDocumentImage(image)) {
+                        return;
                     }
                     break;
-                case IMAGE_SUCCESSFUL_SCAN:
-                    if (image.getImageType() == ImageType.SUCCESSFUL_SCAN) {
-                        ImageHolder.getInstance().setImage(image.clone());
-                    }
+                case SUCCESSFUL_SCAN:
+                    ImageHolder.getInstance().setSuccessfulImage(image.clone());
                     break;
             }
+        }
+
+        private boolean storeFaceImage(Image image) {
+            String imageName = image.getImageName();
+            Class<? extends BaseRecognitionResult> resultType = null;
+            if (imageName.equals(EUDLRecognizerSettings.FACE_IMAGE_NAME)) {
+                resultType = EUDLRecognitionResult.class;
+            } else if (imageName.equals(MyKadRecognizerSettings.FACE_IMAGE_NAME)) {
+                resultType = MyKadRecognitionResult.class;
+            } else if (imageName.equals(DocumentFaceRecognizerSettings.FACE_IMAGE_NAME)) {
+                resultType = DocumentFaceRecognitionResult.class;
+            }
+            if (resultType != null) {
+                ImageHolder.getInstance().setFaceImage(resultType, image.clone());
+                return true;
+            }
+            return false;
+        }
+
+        private boolean storeDocumentImage(Image image) {
+            String imageName = image.getImageName();
+            Class<? extends BaseRecognitionResult> resultType = null;
+            if (imageName.equals(MRTDRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = MRTDRecognitionResult.class;
+            } else if (imageName.equals(EUDLRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = EUDLRecognitionResult.class;
+            } else if (imageName.equals(MyKadRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = MyKadRecognitionResult.class;
+            } else if (imageName.equals(DocumentFaceRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = DocumentFaceRecognitionResult.class;
+            }
+            if (resultType != null) {
+                ImageHolder.getInstance().setDocumentImage(resultType, image.clone());
+                return true;
+            }
+            return false;
         }
 
         /**
@@ -730,13 +737,12 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeInt(mImageType);
         }
 
         public static final Creator<ScanImageListener> CREATOR = new Creator<ScanImageListener>() {
             @Override
             public ScanImageListener createFromParcel(Parcel source) {
-                return new ScanImageListener(source.readInt());
+                return new ScanImageListener();
             }
 
             @Override
@@ -749,32 +755,93 @@ public class BlinkIdScanner extends CordovaPlugin {
     public static class ImageHolder {
 
         private static ImageHolder sInstance = new ImageHolder();
-        private Image mLastImage = null;
+        private Map<Class<? extends BaseRecognitionResult>, ImagesBundle> mImages;
+        private Image mLastSuccessfulImage;
 
         private ImageHolder() {
-
+            mImages = new HashMap<Class<? extends BaseRecognitionResult>, ImagesBundle>();
         }
 
         public static ImageHolder getInstance() {
             return sInstance;
         }
 
-        public void setImage(Image image) {
-            if (mLastImage != null) {
-                mLastImage.dispose();
-            }
-            mLastImage = image;
+        public void setSuccessfulImage(Image image) {
+            mLastSuccessfulImage = image;
         }
 
-        public Image getLastImage() {
-            return mLastImage;
+        public void setDocumentImage(Class<? extends BaseRecognitionResult> resultClass, Image image) {
+            getAndCreateBundle(resultClass).setDocumentImage(image);
+        }
+
+        public void setFaceImage(Class<? extends BaseRecognitionResult> resultClass, Image image) {
+            getAndCreateBundle(resultClass).setFaceImage(image);
+        }
+
+        private ImagesBundle getAndCreateBundle(Class<? extends BaseRecognitionResult> resultClass) {
+            ImagesBundle imagesBundle = mImages.get(resultClass);
+            if (imagesBundle == null) {
+                imagesBundle = new ImagesBundle();
+                mImages.put(resultClass, imagesBundle);
+            }
+            return imagesBundle;
+        }
+
+        public ImagesBundle getImages(Class<? extends BaseRecognitionResult> resultClass) {
+            return mImages.get(resultClass);
+        }
+
+        public Image getSuccessfulImage() {
+            return mLastSuccessfulImage;
         }
 
         public void clear() {
-            if (mLastImage != null) {
-                mLastImage.dispose();
+            for (ImagesBundle ib : mImages.values()) {
+                ib.dispose();
             }
-            mLastImage = null;
+            mImages.clear();
+            if (mLastSuccessfulImage != null) {
+                mLastSuccessfulImage.dispose();
+                mLastSuccessfulImage = null;
+            }
+        }
+    }
+
+    private static class ImagesBundle {
+        private Image mDocumentImage;
+        private Image mFaceImage;
+
+        public Image getDocumentImage() {
+            return mDocumentImage;
+        }
+
+        public void setDocumentImage(Image documentImage) {
+            if (mDocumentImage != null) {
+                mDocumentImage.dispose();
+            }
+            mDocumentImage = documentImage;
+        }
+
+        public Image getFaceImage() {
+            return mFaceImage;
+        }
+
+        public void setFaceImage(Image faceImage) {
+            if (mFaceImage != null) {
+                mFaceImage.dispose();
+            }
+            mFaceImage = faceImage;
+        }
+
+        public void dispose() {
+            if (mDocumentImage != null) {
+                mDocumentImage.dispose();
+                mDocumentImage = null;
+            }
+            if (mFaceImage != null) {
+                mFaceImage.dispose();
+                mFaceImage = null;
+            }
         }
     }
 
