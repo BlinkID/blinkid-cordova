@@ -1,3 +1,14 @@
+## 1.4.0
+- updated Android SDK to [v3.13.0](https://github.com/BlinkID/blinkid-android/releases/tag/v3.13.0)
+- updated iOS SDK to [v2.14.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.14.0)
+- added feature to return Face images from ID documents
+- images of cropped documents and face images are returned per Recognizer. This means that each result now (optionally) has keys "resultDocumentImage" for image of the document, and "resultFaceImage" for image of the Face
+- frame which resulted with a successful scan is now returned under key "resultSuccessfulImage"
+- muliple image types can now be returned. Specify which with new property "imageTypes" ->, e.g var imageTypes = ["IMAGE\_SUCCESSFUL\_SCAN", "IMAGE\_FACE", "IMAGE\_DOCUMENT"]
+- removed deprecated recognizers "ZXing" and "BarDecoder". Use "Barcode" instead.
+- fixed issue with type of the EUDL being returned as EUDL on iOS, and as UKDL or DEDL on Android. Now we always return the more specific type, e.g "DEDL" for German Driver's license
+- added new result keys for Malaysian MyKad to mykad_keys.js for obtaining parsed address fields (ZIP code, street, city and state)
+
 ## 1.3.0
 - updated support for Ionic v3
 - replaced BlinkID iOS submodule dependency with cococapods dependency
