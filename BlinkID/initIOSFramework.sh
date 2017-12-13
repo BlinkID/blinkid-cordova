@@ -9,7 +9,7 @@ VERSION='2.14.0'
 if [ ! -d 'blinkid-ios' ] ; then
     echo "Cloning repo with Microblink framework v${VERSION}"
     # clone blinkID repository
-    git clone "git@github.com:BlinkID/blinkid-ios.git"
+    git clone "https://github.com/BlinkID/blinkid-ios.git"
 fi
 
 echo "Checking out v${VERSION}"
