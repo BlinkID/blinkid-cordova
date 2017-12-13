@@ -1,3 +1,9 @@
+## 1.4.1
+- upgraded support for Cordova v7.0.0 or higher
+- upgraded support for Cordova Android platform v7.0.0 or higher
+  * sources for Android are now compliant with the Android Studio project structure
+- replaced the SSH link with the HTTPS link in the iOS init script (solves `public-key denied` issues)
+
 ## 1.4.0
 - updated Android SDK to [v3.13.0](https://github.com/BlinkID/blinkid-android/releases/tag/v3.13.0)
 - updated iOS SDK to [v2.14.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.14.0)

@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.microblink.BlinkIdScanner" 
-        version="1.3.0">
+        version="1.4.1">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -11,8 +11,8 @@
     <author>MicroBlink Team info@microblink.com</author>
 
     <engines>
-        <engine name="cordova" version=">=3.0.0" />
-        <engine name="cordova-android" version=">=4.0.0" />
+        <engine name="cordova" version=">=7.0.0" />
+        <engine name="cordova-android" version=">=7.0.0" />
     </engines>   
 
     <js-module src="www/blinkIdScanner.js" name="BlinkIdScanner">
@@ -28,7 +28,7 @@
             </feature>
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest">
+        <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.CAMERA" />
             <uses-permission android:name="android.permission.FLASHLIGHT" />
             
@@ -44,7 +44,7 @@
                 android:smallScreens="true" />
         </config-file>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+        <config-file target="app/src/main/AndroidManifest.xml" parent="/manifest/application">
             <activity
                     android:name="com.microblink.activity.ScanCard"
                     android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
@@ -54,11 +54,11 @@
         </config-file>
 
 
-        <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="src/com/phonegap/plugins/blinkid" />
-        <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="src/com/phonegap/plugins/blinkid" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
         
-        <source-file src="src/android/res/raw/beep.mp3" target-dir="res/raw" />
-        <source-file src="src/android/res/layout/splash_screen.xml" target-dir="res/layout" />
+        <source-file src="src/android/res/raw/beep.mp3" target-dir="app/src/main/res/raw" />
+        <source-file src="src/android/res/layout/splash_screen.xml" target-dir="app/src/main/res/layout" />
 
         <framework src="src/android/libBlinkID.gradle" custom="true" type="gradleReference" />
         
