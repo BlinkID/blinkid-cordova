@@ -423,7 +423,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     
     // Visit www.microblink.com to get the license key for your app
     settings.licenseSettings.licenseKey = [self.lastCommand argumentAtIndex:2];
-    
+
+    // Set specified language
+    settings.uiSettings.language = [self.lastCommand argumentAtIndex:4 withDefault:nil];
+
     // Do not timeout
     settings.scanSettings.partialRecognitionTimeout = 0.0f;
     
