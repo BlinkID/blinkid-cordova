@@ -191,6 +191,14 @@ var types = ["PDF417", "UKDL", "MRTD"];
  */
 var imageTypes = ["IMAGE_SUCCESSFUL_SCAN", "IMAGE_FACE", "IMAGE_DOCUMENT"]
 
+/**
+* Language to be used in the scanning UI
+* Available:
+*  - English: "en"
+*  - Croatian: "hr"
+*/
+var language = "en"
+
 // Note that each platform requires its own license key
 
 // This license key allows setting overlay views for this application ID: com.microblink.blinkid
@@ -351,19 +359,10 @@ scanButton.addEventListener('click', function() {
             alert('Error: ' + err);
         },
 
-        types, imageTypes, licenseiOs, licenseAndroid
+        types, imageTypes, licenseiOs, licenseAndroid, language
     );
 });
 ```
-* PDF417 - scans PDF417 barcodes
-* USDL - scans barcodes located on the back of US driver's license
-* Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
-* MRTD - scans Machine Readable Travel Document, contained in various IDs and passports
-* EUDL - scans the front of European driver's license
-* UKDL - scans the front of United Kingom driver's license
-* DEDL - scans the front of German driver's license
-* MyKad - scans the front of Malaysian ID cards
-* DocumentFace - scans documents which contain owner's face image
 
 + Available scanners are:
     + **PDF417** - scans PDF417 barcodes

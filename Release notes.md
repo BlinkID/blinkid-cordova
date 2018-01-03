@@ -1,7 +1,6 @@
 ## 1.4.2
 - added languages support for scanning window
     - out-of-the-box support for English and Croatian
-    - to add custom languages read [android](https://github.com/BlinkID/blinkid-android#-adding-new-language) and [ios]() documentation TODO
 - updated Android SDK to [v3.14.0](https://github.com/BlinkID/blinkid-android/releases/tag/v3.14.0)
     - introduced API changes regarding MyKad (read [release notes](https://github.com/BlinkID/blinkid-android/releases/tag/v3.14.0))
 
