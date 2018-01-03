@@ -15,6 +15,7 @@ import android.os.Parcel;
 import android.util.Base64;
 import android.util.Log;
 
+import com.microblink.locale.LanguageUtils;
 import com.microblink.activity.ScanCard;
 import com.microblink.image.Image;
 import com.microblink.image.ImageListener;
@@ -29,8 +30,8 @@ import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417RecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417ScanResult;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLRecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLScanResult;
-import com.microblink.recognizers.blinkid.malaysia.MyKadRecognitionResult;
-import com.microblink.recognizers.blinkid.malaysia.MyKadRecognizerSettings;
+import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognitionResult;
+import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
 import com.microblink.recognizers.blinkid.eudl.EUDLCountry;
@@ -168,7 +169,13 @@ public class BlinkIdScanner extends CordovaPlugin {
             if (!args.isNull(3)) {
                 licenseKey = args.optString(3);
             }
-            scan(types, licenseKey);
+
+            String language = null;
+            if (!args.isNull(4)) {
+              language = args.optString(4);
+            }
+
+            scan(types, licenseKey, language);
         } else {
             return false;
         }
@@ -179,10 +186,15 @@ public class BlinkIdScanner extends CordovaPlugin {
     /**
      * Starts an intent from provided class to scan and return result.
      */
-    public void scan(Set<String> types, String license) {
+    public void scan(Set<String> types, String license, String language) {
 
         Context context = this.cordova.getActivity().getApplicationContext();
         FakeR fakeR = new FakeR(this.cordova.getActivity());
+
+        // set the language if it's specified
+        if (language != null) {
+            LanguageUtils.setLanguageAndCountry(language, "", context);
+        }
 
         Intent intent = new Intent(context, ScanCard.class);
 
@@ -344,9 +356,9 @@ public class BlinkIdScanner extends CordovaPlugin {
         return eudl;
     }
 
-    private MyKadRecognizerSettings buildMyKadSettings() {
+    private MyKadFrontSideRecognizerSettings buildMyKadSettings() {
         // prepare settings for Malaysian MyKad ID document recognizer
-        MyKadRecognizerSettings myKad = new MyKadRecognizerSettings();
+        MyKadFrontSideRecognizerSettings myKad = new MyKadFrontSideRecognizerSettings();
         if (sReturnDocumentImage) {
             myKad.setShowFullDocument(true);
         }
@@ -472,8 +484,8 @@ public class BlinkIdScanner extends CordovaPlugin {
                             resultsList.put(buildUSDLResult((USDLScanResult) res));
                         } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
                             resultsList.put(buildEUDLResult((EUDLRecognitionResult) res));
-                        } else if (res instanceof MyKadRecognitionResult) { // check if scan result is result of MyKad recognizer
-                            resultsList.put(buildMyKadResult((MyKadRecognitionResult) res));
+                        } else if (res instanceof MyKadFrontSideRecognitionResult) { // check if scan result is result of MyKad recognizer
+                            resultsList.put(buildMyKadResult((MyKadFrontSideRecognitionResult) res));
                         } else if (res instanceof BarcodeScanResult) {
                             resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
                         } else if (res instanceof DocumentFaceRecognitionResult) {
@@ -599,10 +611,10 @@ public class BlinkIdScanner extends CordovaPlugin {
         return buildKeyValueResult(res, USDL_RESULT_TYPE);
     }
 
-    private JSONObject buildMyKadResult(MyKadRecognitionResult res) throws JSONException {
+    private JSONObject buildMyKadResult(MyKadFrontSideRecognitionResult res) throws JSONException {
        JSONObject result = buildKeyValueResult(res, MYKAD_RESULT_TYPE);
-       putDocumentImageToResultJson(result, MyKadRecognitionResult.class);
-       putFaceImageToResultJson(result, MyKadRecognitionResult.class);
+       putDocumentImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
+       putFaceImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
        return result;
     }
     
@@ -694,8 +706,8 @@ public class BlinkIdScanner extends CordovaPlugin {
             Class<? extends BaseRecognitionResult> resultType = null;
             if (imageName.equals(EUDLRecognizerSettings.FACE_IMAGE_NAME)) {
                 resultType = EUDLRecognitionResult.class;
-            } else if (imageName.equals(MyKadRecognizerSettings.FACE_IMAGE_NAME)) {
-                resultType = MyKadRecognitionResult.class;
+            } else if (imageName.equals(MyKadFrontSideRecognizerSettings.FACE_IMAGE_NAME)) {
+                resultType = MyKadFrontSideRecognitionResult.class;
             } else if (imageName.equals(DocumentFaceRecognizerSettings.FACE_IMAGE_NAME)) {
                 resultType = DocumentFaceRecognitionResult.class;
             }
@@ -713,8 +725,8 @@ public class BlinkIdScanner extends CordovaPlugin {
                 resultType = MRTDRecognitionResult.class;
             } else if (imageName.equals(EUDLRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
                 resultType = EUDLRecognitionResult.class;
-            } else if (imageName.equals(MyKadRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = MyKadRecognitionResult.class;
+            } else if (imageName.equals(MyKadFrontSideRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = MyKadFrontSideRecognitionResult.class;
             } else if (imageName.equals(DocumentFaceRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
                 resultType = DocumentFaceRecognitionResult.class;
             }

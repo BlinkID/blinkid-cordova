@@ -41,7 +41,7 @@
  * licenseAndroid - Android license key to enable all features (not required)
  */
 
-    BlinkIdScanner.prototype.scan = function (successCallback, errorCallback, types, imageTypes, licenseiOs, licenseAndroid) {
+    BlinkIdScanner.prototype.scan = function (successCallback, errorCallback, types, imageTypes, licenseiOs, licenseAndroid, language) {
         if (errorCallback == null) {
             errorCallback = function () {
             };
@@ -57,7 +57,7 @@
             return;
         }
 
-        exec(successCallback, errorCallback, 'BlinkIdScanner', 'scan', [types, imageTypes, licenseiOs, licenseAndroid]);
+        exec(successCallback, errorCallback, 'BlinkIdScanner', 'scan', [types, imageTypes, licenseiOs, licenseAndroid, language]);
     };
 
     var blinkIdScanner = new BlinkIdScanner();
