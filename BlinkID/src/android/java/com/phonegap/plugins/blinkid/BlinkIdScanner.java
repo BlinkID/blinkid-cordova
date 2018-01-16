@@ -40,6 +40,8 @@ import com.microblink.recognizers.blinkid.germany.back.GermanIDBackSideRecogniti
 import com.microblink.recognizers.blinkid.germany.back.GermanIDBackSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.front.GermanIDFrontSideRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.front.GermanIDFrontSideRecognizerSettings;
+import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
+import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognitionResult;
@@ -553,25 +555,25 @@ public class BlinkIdScanner extends CordovaPlugin {
                     try {
                         if (res instanceof Pdf417ScanResult) { // check if scan result is result of Pdf417 recognizer
                             resultsList.put(buildPdf417Result((Pdf417ScanResult) res));
-                        } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
-                            resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
                         } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
                             resultsList.put(buildUSDLResult((USDLScanResult) res));
                         } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
                             resultsList.put(buildEUDLResult((EUDLRecognitionResult) res));
                         } else if (res instanceof MyKadFrontSideRecognitionResult) { // check if scan result is result of MyKad recognizer
                             resultsList.put(buildMyKadResult((MyKadFrontSideRecognitionResult) res));
-                        } else if (res instanceof BarcodeScanResult) {
+                        } else if (res instanceof BarcodeScanResult) {  // check if scan result is result of Barcode recognizer
                             resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
-                        } else if (res instanceof GermanOldIDRecognitionResult) {
+                        } else if (res instanceof GermanOldIDRecognitionResult) { // check if scan result is result of German Old ID recognizer
                             resultsList.put(buildGermanOldIDResult((GermanOldIDRecognitionResult) res));
-                        } else if (res instanceof GermanIDFrontSideRecognitionResult) {
+                        } else if (res instanceof GermanIDFrontSideRecognitionResult) { // check if scan result is result of German ID Front recognizer
                             resultsList.put(buildGermanIDFrontResult((GermanIDFrontSideRecognitionResult) res));
-                        } else if (res instanceof GermanIDBackSideRecognitionResult) {
+                        } else if (res instanceof GermanIDBackSideRecognitionResult) { // check if scan result is result of German ID Back recognizer
                             resultsList.put(buildGermanIDBackResult((GermanIDBackSideRecognitionResult) res));
-                        } else if (res instanceof GermanPassportRecognitionResult) {
+                        } else if (res instanceof GermanPassportRecognitionResult) { // check if scan result is result of German Passport recognizer
                             resultsList.put(buildGermanPassResult((GermanPassportRecognitionResult) res));
-                        } else if (res instanceof DocumentFaceRecognitionResult) {
+                        } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
+                            resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
+                        } else if (res instanceof DocumentFaceRecognitionResult) { // check if scan result is result of Documant Face recognizer
                             resultsList.put(buildDocumentFaceResult((DocumentFaceRecognitionResult) res));
                         }
                     } catch (Exception e) {
