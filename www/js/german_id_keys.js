@@ -43,6 +43,3 @@ var kPPgermanIdIssuingAuthority = "DeIDAuthority.Authority";
 
 
 var kPPgermanIdAddress = "DeIDAddress.Address";
-
-
-var kPPgermanIdSex = "Sex";
