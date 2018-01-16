@@ -1,3 +1,11 @@
+## 1.4.3
+- added the following recognizers:
+    - `GermanOldID` - scans the front of old German ID cards
+    - `GermanIDFront` - scans the front of German ID cards
+    - `GermanIDBack` - scans the back of German ID cards
+    - `GermanPassport` - scans the front of German passports
+- updated iOS SDK to [2.15.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.15.0)
+
 ## 1.4.2
 - added languages support for scanning window
     - out-of-the-box support for English and Croatian
