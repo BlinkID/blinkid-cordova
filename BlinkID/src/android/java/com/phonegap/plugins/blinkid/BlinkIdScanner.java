@@ -15,10 +15,10 @@ import android.os.Parcel;
 import android.util.Base64;
 import android.util.Log;
 
-import com.microblink.locale.LanguageUtils;
 import com.microblink.activity.ScanCard;
 import com.microblink.image.Image;
 import com.microblink.image.ImageListener;
+import com.microblink.locale.LanguageUtils;
 import com.microblink.metadata.MetadataSettings;
 import com.microblink.recognizers.BaseRecognitionResult;
 import com.microblink.recognizers.IResultHolder;
@@ -30,16 +30,24 @@ import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417RecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.pdf417.Pdf417ScanResult;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLRecognizerSettings;
 import com.microblink.recognizers.blinkbarcode.usdl.USDLScanResult;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceDetectorType;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognitionResult;
+import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognizerSettings;
+import com.microblink.recognizers.blinkid.eudl.EUDLCountry;
+import com.microblink.recognizers.blinkid.eudl.EUDLRecognitionResult;
+import com.microblink.recognizers.blinkid.eudl.EUDLRecognizerSettings;
+import com.microblink.recognizers.blinkid.germany.back.GermanIDBackSideRecognitionResult;
+import com.microblink.recognizers.blinkid.germany.back.GermanIDBackSideRecognizerSettings;
+import com.microblink.recognizers.blinkid.germany.front.GermanIDFrontSideRecognitionResult;
+import com.microblink.recognizers.blinkid.germany.front.GermanIDFrontSideRecognizerSettings;
+import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
+import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognitionResult;
+import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognitionResult;
+import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
-import com.microblink.recognizers.blinkid.eudl.EUDLCountry;
-import com.microblink.recognizers.blinkid.eudl.EUDLRecognitionResult;
-import com.microblink.recognizers.blinkid.eudl.EUDLRecognizerSettings;
-import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognizerSettings;
-import com.microblink.recognizers.blinkid.documentface.DocumentFaceDetectorType;
-import com.microblink.recognizers.blinkid.documentface.DocumentFaceRecognitionResult;
 import com.microblink.recognizers.settings.RecognitionSettings;
 import com.microblink.recognizers.settings.RecognizerSettings;
 import com.microblink.results.barcode.BarcodeDetailedData;
@@ -73,6 +81,10 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String EUDL_TYPE = "EUDL";
     private static final String MYKAD_TYPE = "MyKad";
     private static final String BARCODE_TYPE = "Barcode";
+    private static final String GERMAN_OLD_ID_TYPE = "GermanOldID";
+    private static final String GERMAN_ID_FRONT_TYPE = "GermanIDFront";
+    private static final String GERMAN_ID_BACK_TYPE = "GermanIDBack";
+    private static final String GERMAN_PASS_TYPE = "GermanPassport";
     private static final String DOCUMENTFACE_TYPE = "DocumentFace";
 
     // keys for result types
@@ -84,6 +96,10 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String DEDL_RESULT_TYPE = "DEDL result";
     private static final String EUDL_RESULT_TYPE = "EUDL result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
+    private static final String GERMAN_OLD_ID_RESULT_TYPE = "GermanOldID result";
+    private static final String GERMAN_ID_FRONT_RESULT_TYPE = "GermanFrontID result";
+    private static final String GERMAN_ID_BACK_RESULT_TYPE = "GermanBackID result";
+    private static final String GERMAN_PASS_RESULT_TYPE = "GermanPassport result";
     private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
 
     private static final String SCAN = "scan";
@@ -277,6 +293,14 @@ public class BlinkIdScanner extends CordovaPlugin {
             return buildMyKadSettings();
         } else if(type.equals(BARCODE_TYPE)) {
             return buildBarcodeSettings();
+        } else if (type.equals(GERMAN_OLD_ID_TYPE)) {
+            return buildGermanOldIDSettings();
+        } else if (type.equals(GERMAN_ID_FRONT_TYPE)) {
+            return buildGermanIDFrontSettings();
+        } else if (type.equals(GERMAN_ID_BACK_TYPE)) {
+            return buildGermanIDBackSettings();
+        } else if (type.equals(GERMAN_PASS_TYPE)) {
+            return buildGermanPassSettings();
         } else if (type.equals(DOCUMENTFACE_TYPE)) {
           return buildDocumentFaceSettings();
         }
@@ -315,7 +339,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         }
         return ukdl;
     }
-    
+
     private EUDLRecognizerSettings buildDedlSettings() {
         // To specify we want to perform EUDL (EU Driver's License) recognition,
         // prepare settings for EUDL recognizer. Pass country as parameter to EUDLRecognizerSettings
@@ -441,6 +465,59 @@ public class BlinkIdScanner extends CordovaPlugin {
         return docFace;
     }
 
+    private GermanOldIDRecognizerSettings buildGermanOldIDSettings() {
+        // prepare settings for the GermanIDFrontSide recognizer
+        GermanOldIDRecognizerSettings settings = new GermanOldIDRecognizerSettings();
+
+        if(sReturnDocumentImage){
+            settings.setDisplayFullDocumentImage(true);
+        }
+        if(sReturnFaceImage) {
+            settings.setDisplayFaceImage(true);
+        }
+
+        return settings;
+    }
+
+    private GermanIDFrontSideRecognizerSettings buildGermanIDFrontSettings() {
+        // prepare settings for the GermanIDFrontSide recognizer
+        GermanIDFrontSideRecognizerSettings settings = new GermanIDFrontSideRecognizerSettings();
+
+        if(sReturnDocumentImage){
+            settings.setDisplayFullDocumentImage(true);
+        }
+        if(sReturnFaceImage) {
+            settings.setDisplayFaceImage(true);
+        }
+
+        return settings;
+    }
+
+    private GermanIDBackSideRecognizerSettings buildGermanIDBackSettings() {
+        // prepare settings for the GermanIDBackSide recognizer
+        GermanIDBackSideRecognizerSettings settings = new GermanIDBackSideRecognizerSettings();
+
+        if(sReturnDocumentImage){
+            settings.setDisplayFullDocumentImage(true);
+        }
+
+        return settings;
+    }
+
+    private GermanPassportRecognizerSettings buildGermanPassSettings() {
+        // prepare settings for the GermanPassport recognizer
+        GermanPassportRecognizerSettings settings = new GermanPassportRecognizerSettings();
+
+        if(sReturnDocumentImage){
+            settings.setDisplayFullDocumentImage(true);
+        }
+        if(sReturnFaceImage) {
+            settings.setDisplayFaceImage(true);
+        }
+
+        return settings;
+    }
+
     /**
      * Called when the scanner intent completes.
      *
@@ -478,17 +555,25 @@ public class BlinkIdScanner extends CordovaPlugin {
                     try {
                         if (res instanceof Pdf417ScanResult) { // check if scan result is result of Pdf417 recognizer
                             resultsList.put(buildPdf417Result((Pdf417ScanResult) res));
-                        } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
-                            resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
                         } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
                             resultsList.put(buildUSDLResult((USDLScanResult) res));
                         } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
                             resultsList.put(buildEUDLResult((EUDLRecognitionResult) res));
                         } else if (res instanceof MyKadFrontSideRecognitionResult) { // check if scan result is result of MyKad recognizer
                             resultsList.put(buildMyKadResult((MyKadFrontSideRecognitionResult) res));
-                        } else if (res instanceof BarcodeScanResult) {
+                        } else if (res instanceof BarcodeScanResult) {  // check if scan result is result of Barcode recognizer
                             resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
-                        } else if (res instanceof DocumentFaceRecognitionResult) {
+                        } else if (res instanceof GermanOldIDRecognitionResult) { // check if scan result is result of German Old ID recognizer
+                            resultsList.put(buildGermanOldIDResult((GermanOldIDRecognitionResult) res));
+                        } else if (res instanceof GermanIDFrontSideRecognitionResult) { // check if scan result is result of German ID Front recognizer
+                            resultsList.put(buildGermanIDFrontResult((GermanIDFrontSideRecognitionResult) res));
+                        } else if (res instanceof GermanIDBackSideRecognitionResult) { // check if scan result is result of German ID Back recognizer
+                            resultsList.put(buildGermanIDBackResult((GermanIDBackSideRecognitionResult) res));
+                        } else if (res instanceof GermanPassportRecognitionResult) { // check if scan result is result of German Passport recognizer
+                            resultsList.put(buildGermanPassResult((GermanPassportRecognitionResult) res));
+                        } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
+                            resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
+                        } else if (res instanceof DocumentFaceRecognitionResult) { // check if scan result is result of Documant Face recognizer
                             resultsList.put(buildDocumentFaceResult((DocumentFaceRecognitionResult) res));
                         }
                     } catch (Exception e) {
@@ -651,6 +736,34 @@ public class BlinkIdScanner extends CordovaPlugin {
         return result;
     }
 
+    private JSONObject buildGermanOldIDResult(GermanOldIDRecognitionResult res)throws JSONException {
+        JSONObject result = buildKeyValueResult(res, GERMAN_OLD_ID_RESULT_TYPE);
+        putDocumentImageToResultJson(result, GermanOldIDRecognitionResult.class);
+        putFaceImageToResultJson(result, GermanOldIDRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildGermanIDFrontResult(GermanIDFrontSideRecognitionResult res)throws JSONException {
+        JSONObject result = buildKeyValueResult(res, GERMAN_ID_FRONT_RESULT_TYPE);
+        putDocumentImageToResultJson(result, GermanIDFrontSideRecognitionResult.class);
+        putFaceImageToResultJson(result, GermanIDFrontSideRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildGermanIDBackResult(GermanIDBackSideRecognitionResult res) throws JSONException{
+        JSONObject result = buildKeyValueResult(res, GERMAN_ID_BACK_RESULT_TYPE);
+        putDocumentImageToResultJson(result, GermanIDBackSideRecognitionResult.class);
+        putFaceImageToResultJson(result, GermanIDBackSideRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildGermanPassResult(GermanPassportRecognitionResult res) throws JSONException{
+        JSONObject result = buildKeyValueResult(res, GERMAN_PASS_RESULT_TYPE);
+        putDocumentImageToResultJson(result, GermanPassportRecognitionResult.class);
+        putFaceImageToResultJson(result, GermanPassportRecognitionResult.class);
+        return result;
+    }
+
     private JSONObject buildKeyValueResult(BaseRecognitionResult res, String resultType)
             throws JSONException {
         JSONObject fields = new JSONObject();
@@ -708,6 +821,12 @@ public class BlinkIdScanner extends CordovaPlugin {
                 resultType = EUDLRecognitionResult.class;
             } else if (imageName.equals(MyKadFrontSideRecognizerSettings.FACE_IMAGE_NAME)) {
                 resultType = MyKadFrontSideRecognitionResult.class;
+            } else if (imageName.equals(GermanOldIDRecognizerSettings.FACE_IMAGE_NAME)) {
+                resultType = GermanOldIDRecognitionResult.class;
+            } else if (imageName.equals(GermanIDFrontSideRecognizerSettings.FACE_IMAGE_NAME)) {
+                resultType = GermanIDFrontSideRecognitionResult.class;
+            } else if (imageName.equals(GermanPassportRecognizerSettings.FACE_IMAGE_NAME)) {
+                resultType = GermanPassportRecognitionResult.class;
             } else if (imageName.equals(DocumentFaceRecognizerSettings.FACE_IMAGE_NAME)) {
                 resultType = DocumentFaceRecognitionResult.class;
             }
@@ -727,6 +846,12 @@ public class BlinkIdScanner extends CordovaPlugin {
                 resultType = EUDLRecognitionResult.class;
             } else if (imageName.equals(MyKadFrontSideRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
                 resultType = MyKadFrontSideRecognitionResult.class;
+            } else if (imageName.equals(GermanOldIDRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = GermanOldIDRecognitionResult.class;
+            } else if (imageName.equals(GermanIDFrontSideRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = GermanIDFrontSideRecognitionResult.class;
+            } else if (imageName.equals(GermanPassportRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
+                resultType = GermanPassportRecognitionResult.class;
             } else if (imageName.equals(DocumentFaceRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
                 resultType = DocumentFaceRecognitionResult.class;
             }

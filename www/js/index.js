@@ -62,9 +62,9 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace", "GermanIDFront", "GermanIDBack", "GermanOldID", "GermanPassport"
          */
-        var types = ["USDL", "MRTD", "Barcode"];
+        var types = ["USDL", "MRTD", "Barcode", "GermanIDFront", "GermanIDBack", "GermanPassport"];
 
         /**
          * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
@@ -167,7 +167,7 @@ var app = {
                                                 "Customer ID: " + fields[kPPCustomerIdNumber] + "; ";
 
                         } else if (recognizerResult.resultType == "MRTD result") {
-                        
+
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -201,7 +201,7 @@ var app = {
                                                 "Last name: " + fields[kPPeudlLastName] + "; ";
 
                         } else if (recognizerResult.resultType == "MyKad result") {
-                            
+
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -217,12 +217,57 @@ var app = {
                                                 "Religion: " + fields[kPPmyKadReligion] + "; " +
                                                 "Sex: " + fields[kPPmyKadSex] + "; ";
 
+                        } else if (recognizerResult.resultType == "GermanFrontID result") {
+
+                            var fields = recognizerResult.fields;
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "Last name: " + fields[kPPgermanIdLastName] + "; " +
+                                                "First name: " + fields[kPPgermanIdFirstName] + "; " +
+                                                "Date of birth: " + fields[kPPgermanIdBirthDate] + "; " +
+                                                "Place of birth: " + fields[kPPgermanIdBirthPlace] + "; " +
+                                                "Nationality: " + fields[kPPgermanIdNationality] + "; " +
+                                                "Date of expiry: " + fields[kPPgermanIdExpiryDate] + "; " +
+                                                "Card number: " + fields[kPPgermanIdCardNumber] + "; ";
+
+                        } else if (recognizerResult.resultType == "GermanBackID result") {
+
+                            var fields = recognizerResult.fields;
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "Colour of eyes: " + fields[kPPgermanIdEyeColour] + "; " +
+                                                "Height: " + fields[kPPgermanIdHeight] + "; " +
+                                                "Issue date: " + fields[kPPgermanIdIssueDate] + "; " +
+                                                "Issuing authority: " + fields[kPPgermanIdIssuingAuthority] + "; " +
+                                                "Address: " + fields[kPPgermanIdAddress] + "; " +
+                                                "Sex: " + fields[kPPgermanIdSex] + "; ";
+
+                        } else if (recognizerResult.resultType == "GermanPassport result") {
+
+                            var fields = recognizerResult.fields;
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "Passport number: " + fields[kPPmrtdDocNumber] + "; " +
+                                                "Surname: " + fields[kPPgermanPassSurname] + "; " +
+                                                "Name: " + fields[kPPgermanPassName] + "; " +
+                                                "Nationality: " + fields[kPPgermanPassNationality] + "; " +
+                                                "Date of birth: " + fields[kPPmrtdBirthDate] + "; " +
+                                                "Sex: " + fields[kPPmrtdSex] + "; " +
+                                                "Place of birth: " + fields[kPPgermanPassBirthPlace] + "; " +
+                                                "Date of issue: " + fields[kPPgermanPassIssueDate] + "; " +
+                                                "Date of expiry: " + fields[kPPmrtdExpiry] + "; " +
+                                                "Authority: " + fields[kPPgermanPassIssuingAuthority] + "; ";
+
                         } else if (recognizerResult.resultType == "DocumentFace result") {
 
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = "Found document with face";
-                        }
+                        } else {
+                          var fields = recognizerResult.fields;
+                          
+                          resultDiv.innerHTML = recognizerResult.resultType;
+                        } 
 
                         // Document image is returned as Base64 encoded JPEG
                         var resultDocumentImage = recognizerResult.resultDocumentImage;
