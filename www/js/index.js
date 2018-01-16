@@ -62,7 +62,7 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace", "GermanIDFront", "GermanIDBack", "GermanPassport"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace", "GermanIDFront", "GermanIDBack", "GermanOldID", "GermanPassport"
          */
         var types = ["USDL", "MRTD", "Barcode", "GermanIDFront", "GermanIDBack", "GermanPassport"];
 
@@ -167,7 +167,7 @@ var app = {
                                                 "Customer ID: " + fields[kPPCustomerIdNumber] + "; ";
 
                         } else if (recognizerResult.resultType == "MRTD result") {
-                        
+
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -201,7 +201,7 @@ var app = {
                                                 "Last name: " + fields[kPPeudlLastName] + "; ";
 
                         } else if (recognizerResult.resultType == "MyKad result") {
-                            
+
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -218,7 +218,7 @@ var app = {
                                                 "Sex: " + fields[kPPmyKadSex] + "; ";
 
                         } else if (recognizerResult.resultType == "GermanFrontID result") {
-                            
+
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -228,11 +228,10 @@ var app = {
                                                 "Place of birth: " + fields[kPPgermanIdBirthPlace] + "; " +
                                                 "Nationality: " + fields[kPPgermanIdNationality] + "; " +
                                                 "Date of expiry: " + fields[kPPgermanIdExpiryDate] + "; " +
-                                                "Card number: " + fields[kPPgermanIdCardNumber] + "; " +
-                                                "Sex: " + fields[kPPgermanIdSex] + "; ";
-                                                
+                                                "Card number: " + fields[kPPgermanIdCardNumber] + "; ";
+
                         } else if (recognizerResult.resultType == "GermanBackID result") {
-                            
+
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
@@ -240,25 +239,25 @@ var app = {
                                                 "Height: " + fields[kPPgermanIdHeight] + "; " +
                                                 "Issue date: " + fields[kPPgermanIdIssueDate] + "; " +
                                                 "Issuing authority: " + fields[kPPgermanIdIssuingAuthority] + "; " +
-                                                "Address: " + fields[kPPgermanIdAddress] + "; ";
-                                                
-                        } else if (recognizerResult.resultType == "GermanPassport result") { // TODO
-                            
+                                                "Address: " + fields[kPPgermanIdAddress] + "; " +
+                                                "Sex: " + fields[kPPgermanIdSex] + "; ";
+
+                        } else if (recognizerResult.resultType == "GermanPassport result") {
+
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = /** Personal information */
-                                                "ID Type: " + fields[kPPmyKadDataType] + "; " +
-                                                "NRIC Number: " + fields[kPPmyKadNricNumber] + "; " +
-                                                "Address: " + fields[kPPmyKadAddress] + "; " +
-                                                "Address ZIP Code: " + fields[kPPmyKadAddressZipCode] + "; " +
-                                                "Address Street: " + fields[kPPmyKadAddressStreet] + "; " +
-                                                "Address City: " + fields[kPPmyKadAddressCity] + "; " +
-                                                "Address State: " + fields[kPPmyKadAddressState] + "; " +
-                                                "Birth Date: " + fields[kPPmyKadBirthDate] + "; " +
-                                                "Full Name: " + fields[kPPmyKadFullName] + "; " +
-                                                "Religion: " + fields[kPPmyKadReligion] + "; " +
-                                                "Sex: " + fields[kPPmyKadSex] + "; ";
-                                                                      
+                                                "Passport number: " + fields[kPPmrtdDocNumber] + "; " +
+                                                "Surname: " + fields[kPPgermanPassSurname] + "; " +
+                                                "Name: " + fields[kPPgermanPassName] + "; " +
+                                                "Nationality: " + fields[kPPgermanPassNationality] + "; " +
+                                                "Date of birth: " + fields[kPPmrtdBirthDate] + "; " +
+                                                "Sex: " + fields[kPPmrtdSex] + "; " +
+                                                "Place of birth: " + fields[kPPgermanPassBirthPlace] + "; " +
+                                                "Date of issue: " + fields[kPPgermanPassIssueDate] + "; " +
+                                                "Date of expiry: " + fields[kPPmrtdExpiry] + "; " +
+                                                "Authority: " + fields[kPPgermanPassIssuingAuthority] + "; ";
+
                         } else if (recognizerResult.resultType == "DocumentFace result") {
 
                             var fields = recognizerResult.fields;
