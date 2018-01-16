@@ -165,21 +165,25 @@ To use the plugin you call it in your Javascript code like the demo application:
 ```javascript
 
 /**
-* Use these scanner types
-* Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace"
-* PDF417 - scans PDF417 barcodes
-* USDL - scans barcodes located on the back of US driver's license
-* Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
-* MRTD - scans Machine Readable Travel Document, contained in various IDs and passports
-* EUDL - scans the front of European driver's license
-* UKDL - scans the front of United Kingom driver's license
-* DEDL - scans the front of German driver's license
-* MyKad - scans the front of Malaysian ID cards
-* DocumentFace - scans documents which contain owner's face image
-* 
-* Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
-*/
-var types = ["PDF417", "UKDL", "MRTD"];
+ * Use these scanner types
+ * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "DocumentFace"
+ * PDF417 - scans PDF417 barcodes
+ * USDL - scans barcodes located on the back of US driver's license
+ * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
+ * MRTD - scans Machine Readable Travel Document, contained in various IDs and passports
+ * EUDL - scans the front of European driver's license
+ * UKDL - scans the front of United Kingom driver's license
+ * DEDL - scans the front of German driver's license
+ * MyKad - scans the front of Malaysian ID cards
+ * GermanOldID - scans the front of old German ID cards
+ * GermanIDFront - scans the front of German ID cards
+ * GermanIDBack - scans the back of German ID cards
+ * GermanPassport - scans the front of German passports
+ * DocumentFace - scans documents which contain owner's face image
+ *
+ * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
+ */
+ var types = ["USDL", "MRTD", "Barcode", "MyKad"];
 
 /**
  * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
@@ -258,80 +262,143 @@ scanButton.addEventListener('click', function() {
                     var fields = recognizerResult.fields;
 
                     resultDiv.innerHTML = /** Personal information */
-                                       "USDL version: " + fields[kPPStandardVersionNumber] + "; " +
-                                        "Family name: " + fields[kPPCustomerFamilyName] + "; " +
-                                        "First name: " + fields[kPPCustomerFirstName] + "; " +
-                                        "Date of birth: " + fields[kPPDateOfBirth] + "; " +
-                                        "Sex: " + fields[kPPSex] + "; " +
-                                        "Eye color: " + fields[kPPEyeColor] + "; " +
-                                        "Height: " + fields[kPPHeight] + "; " +
-                                        "Street: " + fields[kPPAddressStreet] + "; " +
-                                        "City: " + fields[kPPAddressCity] + "; " +
-                                        "Jurisdiction: " + fields[kPPAddressJurisdictionCode] + "; " +
-                                        "Postal code: " + fields[kPPAddressPostalCode] + "; " +
+                                       "USDL version: " + fields[kPPStandardVersionNumber] + "<br>" +
+                                        "Family name: " + fields[kPPCustomerFamilyName] + "<br>" +
+                                        "First name: " + fields[kPPCustomerFirstName] + "<br>" +
+                                        "Date of birth: " + fields[kPPDateOfBirth] + "<br>" +
+                                        "Sex: " + fields[kPPSex] + "<br>" +
+                                        "Eye color: " + fields[kPPEyeColor] + "<br>" +
+                                        "Height: " + fields[kPPHeight] + "<br>" +
+                                        "Street: " + fields[kPPAddressStreet] + "<br>" +
+                                        "City: " + fields[kPPAddressCity] + "<br>" +
+                                        "Jurisdiction: " + fields[kPPAddressJurisdictionCode] + "<br>" +
+                                        "Postal code: " + fields[kPPAddressPostalCode] + "<br>" +
 
                                         /** License information */
-                                        "Issue date: " + fields[kPPDocumentIssueDate] + "; " +
-                                        "Expiration date: " + fields[kPPDocumentExpirationDate] + "; " +
-                                        "Issuer ID: " + fields[kPPIssuerIdentificationNumber] + "; " +
-                                        "Jurisdiction version: " + fields[kPPJurisdictionVersionNumber] + "; " +
-                                        "Vehicle class: " + fields[kPPJurisdictionVehicleClass] + "; " +
-                                        "Restrictions: " + fields[kPPJurisdictionRestrictionCodes] + "; " +
-                                        "Endorsments: " + fields[kPPJurisdictionEndorsementCodes] + "; " +
-                                        "Customer ID: " + fields[kPPCustomerIdNumber] + "; ";
+                                        "Issue date: " + fields[kPPDocumentIssueDate] + "<br>" +
+                                        "Expiration date: " + fields[kPPDocumentExpirationDate] + "<br>" +
+                                        "Issuer ID: " + fields[kPPIssuerIdentificationNumber] + "<br>" +
+                                        "Jurisdiction version: " + fields[kPPJurisdictionVersionNumber] + "<br>" +
+                                        "Vehicle class: " + fields[kPPJurisdictionVehicleClass] + "<br>" +
+                                        "Restrictions: " + fields[kPPJurisdictionRestrictionCodes] + "<br>" +
+                                        "Endorsments: " + fields[kPPJurisdictionEndorsementCodes] + "<br>" +
+                                        "Customer ID: " + fields[kPPCustomerIdNumber] + "<br>";
 
                 } else if (recognizerResult.resultType == "MRTD result") {
 
                     var fields = recognizerResult.fields;
 
                     resultDiv.innerHTML = /** Personal information */
-                                        "Family name: " + fields[kPPmrtdPrimaryId] + "; " +
-                                        "First name: " + fields[kPPmrtdSecondaryId] + "; " +
-                                        "Date of birth: " + fields[kPPmrtdBirthDate] + "; " +
-                                        "Sex: " + fields[kPPmrtdSex] + "; " +
-                                        "Nationality: " + fields[kPPmrtdNationality] + "; " +
-                                        "Date of Expiry: " + fields[kPPmrtdExpiry] + "; " +
-                                        "Document Code: " + fields[kPPmrtdDocCode] + "; " +
-                                        "Document Number: " + fields[kPPmrtdDocNumber] + "; " +
-                                        "Issuer: " + fields[kPPmrtdIssuer] + "; " +
-                                        "ID Type: " + fields[kPPmrtdDataType] + "; " +
-                                        "Opt1: " + fields[kPPmrtdOpt1] + "; " +
-                                        "Opt2: " + fields[kPPmrtdOpt2] + "; ";
+                                        "Family name: " + fields[kPPmrtdPrimaryId] + "<br>" +
+                                        "First name: " + fields[kPPmrtdSecondaryId] + "<br>" +
+                                        "Date of birth: " + fields[kPPmrtdBirthDate] + "<br>" +
+                                        "Sex: " + fields[kPPmrtdSex] + "<br>" +
+                                        "Nationality: " + fields[kPPmrtdNationality] + "<br>" +
+                                        "Date of Expiry: " + fields[kPPmrtdExpiry] + "<br>" +
+                                        "Document Code: " + fields[kPPmrtdDocCode] + "<br>" +
+                                        "Document Number: " + fields[kPPmrtdDocNumber] + "<br>" +
+                                        "Issuer: " + fields[kPPmrtdIssuer] + "<br>" +
+                                        "ID Type: " + fields[kPPmrtdDataType] + "<br>" +
+                                        "Opt1: " + fields[kPPmrtdOpt1] + "<br>" +
+                                        "Opt2: " + fields[kPPmrtdOpt2] + "<br>";
 
                 } else if (recognizerResult.resultType == "EUDL result" || recognizerResult.resultType == "UKDL result" || recognizerResult.resultType == "DEDL result") {
                     
                     var fields = recognizerResult.fields;
 
                     resultDiv.innerHTML = /** Personal information */
-                                        recognizerResult.resultType + "; " + 
-                                        "ID Type: " + fields[kPPeudlDataType] + "; " +
-                                        "Date of Expiry: : " + fields[kPPeudlExpiry] + "; " +
-                                        "Issue Date: " + fields[kPPeudlIssueDate] + "; " +
-                                        "Issuing Authority: " + fields[kPPeudlIssuingAuthority] + "; " +
-                                        "Driver Number: " + fields[kPPeudlDriverNumber] + "; " +
-                                        "Address: " + fields[kPPeudlAddress] + "; " +
-                                        "Birth Data: " + fields[kPPeudlBirthData] + "; " +
-                                        "First name: " + fields[kPPeudlFirstName] + "; " +
-                                        "Last name: " + fields[kPPeudlLastName] + "; ";
+                                        recognizerResult.resultType + "<br>" + 
+                                        "ID Type: " + fields[kPPeudlDataType] + "<br>" +
+                                        "Date of Expiry: " + fields[kPPeudlExpiry] + "<br>" +
+                                        "Issue Date: " + fields[kPPeudlIssueDate] + "<br>" +
+                                        "Issuing Authority: " + fields[kPPeudlIssuingAuthority] + "<br>" +
+                                        "Driver Number: " + fields[kPPeudlDriverNumber] + "<br>" +
+                                        "Address: " + fields[kPPeudlAddress] + "<br>" +
+                                        "Birth Data: " + fields[kPPeudlBirthData] + "<br>" +
+                                        "First name: " + fields[kPPeudlFirstName] + "<br>" +
+                                        "Last name: " + fields[kPPeudlLastName] + "<br>";
 
                 } else if (recognizerResult.resultType == "MyKad result") {
-                    
+
                     var fields = recognizerResult.fields;
 
                     resultDiv.innerHTML = /** Personal information */
-                                        "ID Type: " + fields[kPPmyKadDataType] + "; " +
-                                        "NRIC Number: " + fields[kPPmyKadNricNumber] + "; " +
-                                        "Address: " + fields[kPPmyKadAddress] + "; " +
-                                        "Birth Date: " + fields[kPPmyKadBirthDate] + "; " +
-                                        "Full Name: " + fields[kPPmyKadFullName] + "; " +
-                                        "Religion: " + fields[kPPmyKadReligion] + "; " +
-                                        "Sex: " + fields[kPPmyKadSex] + "; ";
+                                        "ID Type: " + fields[kPPmyKadDataType] + "<br>" +
+                                        "NRIC Number: " + fields[kPPmyKadNricNumber] + "<br>" +
+                                        "Address: " + fields[kPPmyKadAddress] + "<br>" +
+                                        "Address ZIP Code: " + fields[kPPmyKadAddressZipCode] + "<br>" +
+                                        "Address Street: " + fields[kPPmyKadAddressStreet] + "<br>" +
+                                        "Address City: " + fields[kPPmyKadAddressCity] + "<br>" +
+                                        "Address State: " + fields[kPPmyKadAddressState] + "<br>" +
+                                        "Birth Date: " + fields[kPPmyKadBirthDate] + "<br>" +
+                                        "Full Name: " + fields[kPPmyKadFullName] + "<br>" +
+                                        "Religion: " + fields[kPPmyKadReligion] + "<br>" +
+                                        "Sex: " + fields[kPPmyKadSex] + "<br>";
+
+                } else if (recognizerResult.resultType == "GermanOldID result") {
+
+                    var fields = recognizerResult.fields;
+
+                    resultDiv.innerHTML = /** Personal information */
+                                        "ID Type: " + fields[kPPmrtdDataType] + "<br>" +
+                                        "Family name: " + fields[kPPmrtdPrimaryId] + "<br>" +
+                                        "First name: " + fields[kPPmrtdSecondaryId] + "<br>" +
+                                        "Date of birth: " + fields[kPPmrtdBirthDate] + "<br>" +
+                                        "Nationality: " + fields[kPPmrtdNationality] + "<br>" +
+                                        "Document Code: " + fields[kPPmrtdDocCode] + "<br>" +
+                                        "Document Number: " + fields[kPPmrtdDocNumber] + "<br>" +
+                                        "Issuer: " + fields[kPPmrtdIssuer] + "<br>" +
+                                        "Place of birth: " + fields[kPPgermanIdBirthPlace] + "<br>";
+
+                } else if (recognizerResult.resultType == "GermanFrontID result") {
+
+                    var fields = recognizerResult.fields;
+
+                    resultDiv.innerHTML = /** Personal information */
+                                        "Last name: " + fields[kPPgermanIdLastName] + "<br>" +
+                                        "First name: " + fields[kPPgermanIdFirstName] + "<br>" +
+                                        "Date of birth: " + fields[kPPgermanIdBirthDate] + "<br>" +
+                                        "Place of birth: " + fields[kPPgermanIdBirthPlace] + "<br>" +
+                                        "Nationality: " + fields[kPPgermanIdNationality] + "<br>" +
+                                        "Date of expiry: " + fields[kPPgermanIdExpiryDate] + "<br>" +
+                                        "Card number: " + fields[kPPgermanIdCardNumber] + "<br>";
+
+                } else if (recognizerResult.resultType == "GermanBackID result") {
+
+                    var fields = recognizerResult.fields;
+
+                    resultDiv.innerHTML = /** Personal information */
+                                        "Colour of eyes: " + fields[kPPgermanIdEyeColour] + "<br>" +
+                                        "Height: " + fields[kPPgermanIdHeight] + "<br>" +
+                                        "Issue date: " + fields[kPPgermanIdIssueDate] + "<br>" +
+                                        "Issuing authority: " + fields[kPPgermanIdIssuingAuthority] + "<br>" +
+                                        "Address: " + fields[kPPgermanIdAddress] + "<br>";
+
+                } else if (recognizerResult.resultType == "GermanPassport result") {
+
+                    var fields = recognizerResult.fields;
+
+                    resultDiv.innerHTML = /** Personal information */
+                                        "Passport number: " + fields[kPPmrtdDocNumber] + "<br>" +
+                                        "Surname: " + fields[kPPgermanPassSurname] + "<br>" +
+                                        "Name: " + fields[kPPgermanPassName] + "<br>" +
+                                        "Nationality: " + fields[kPPgermanPassNationality] + "<br>" +
+                                        "Date of birth: " + fields[kPPmrtdBirthDate] + "<br>" +
+                                        "Sex: " + fields[kPPmrtdSex] + "<br>" +
+                                        "Place of birth: " + fields[kPPgermanPassBirthPlace] + "<br>" +
+                                        "Date of issue: " + fields[kPPgermanPassIssueDate] + "<br>" +
+                                        "Date of expiry: " + fields[kPPmrtdExpiry] + "<br>" +
+                                        "Authority: " + fields[kPPgermanPassIssuingAuthority] + "<br>";
 
                 } else if (recognizerResult.resultType == "DocumentFace result") {
 
                     var fields = recognizerResult.fields;
 
                     resultDiv.innerHTML = "Found document with face";
+                } else {
+                  var fields = recognizerResult.fields;
+                  
+                  resultDiv.innerHTML = recognizerResult.resultType;
                 }
 
                 // Document image is returned as Base64 encoded JPEG
@@ -373,6 +440,10 @@ scanButton.addEventListener('click', function() {
     + **UKDL** - scans the front of United Kingom driver's license
     + **DEDL** - scans the front of German driver's license
     + **MyKad** - scans the front of Malaysian ID cards
+    + **GermanOldID** - scans the front of old German ID cards
+    + **GermanIDFront** - scans the front of German ID cards
+    + **GermanIDBack** - scans the back of German ID cards
+    + **GermanPassport** - scans the front of German passports
     + **DocumentFace** - scans documents which contain owner's face image
 	
 + On returned result, images can also be returned (under "resultSuccessfulImage" field for successful scan image and under fields "resultDocumentImage" and "resultFaceImage" in each concrete recognizer result) as base64 string of JPEG image. Image types that should be returned are specified as second argument (array). Set empty array to disable returning of images - **IMPORTANT : THIS IMPROVES SCANNING SPEED!**. Available types are:
