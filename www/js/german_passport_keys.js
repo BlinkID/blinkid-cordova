@@ -6,44 +6,24 @@
 //
 
 
-//pragma mark - Keys for obtaining data on German Passports
-
-TODO
-
-var kPPgermanIdLastName = "LastName";
+//pragma mark - Keys for obtaining data on German Pass
 
 
-var kPPgermanIdFirstName = "FirstName";
+var kPPgermanPassSurname = "GermanPassportSurname.Surname";
 
 
-var kPPgermanIdBirthDate = "DateOfBirth";
+var kPPgermanPassName = "GermanPassportName.Name";
 
 
-var kPPgermanIdBirthPlace = "PlaceOfBirth";
+var kPPgermanPassNationality = "GermanPassportNationality.Nationality";
 
 
-var kPPgermanIdNationality = "Nationality";
+var kPPgermanPassBirthPlace = "GermanPassportPlaceOfBirth.PlaceOfBirth";
 
 
-var kPPgermanIdExpiryDate = "DateOfExpiry";
+var kPPgermanPassIssueDate = "GermanPassportDateOfIssue.DateOfIssue";
 
 
-var kPPgermanIdCardNumber = "DocumentNumber";
+var kPPgermanPassIssuingAuthority = "GermanPassportAuthority.Authority";
 
 
-var kPPgermanIdEyeColour = "EyeColour";
-
-
-var kPPgermanIdHeight = "Height";
-
-
-var kPPgermanIdIssueDate = "DateOfIssue";
-
-
-var kPPgermanIdIssuingAuthority = "Authority";
-
-
-var kPPgermanIdAddress = "Address";
-
-
-var kPPgermanIdSex = "Sex";
