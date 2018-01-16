@@ -9,40 +9,40 @@
 //pragma mark - Keys for obtaining data on German ID's
 
 
-var kPPgermanIdLastName = "LastName";
+var kPPgermanIdLastName = "DeIDLastName.LastName";
 
 
-var kPPgermanIdFirstName = "FirstName";
+var kPPgermanIdFirstName = "DeIDFirstName.FirstName";
 
 
-var kPPgermanIdBirthDate = "DateOfBirth";
+var kPPgermanIdBirthDate = "DeIDDateOfBirth.DateOfBirth";
 
 
-var kPPgermanIdBirthPlace = "PlaceOfBirth";
+var kPPgermanIdBirthPlace = "DeIDPlaceOfBirth.PlaceOfBirth";
 
 
-var kPPgermanIdNationality = "Nationality";
+var kPPgermanIdNationality = "DeIDNationality.Nationality";
 
 
-var kPPgermanIdExpiryDate = "DateOfExpiry";
+var kPPgermanIdExpiryDate = "DeIDDateOfExpiry.DateOfExpiry";
 
 
-var kPPgermanIdCardNumber = "DocumentNumber";
+var kPPgermanIdCardNumber = "DeIDDocumentNumber.DocumentNumber";
 
 
-var kPPgermanIdEyeColour = "EyeColour";
+var kPPgermanIdEyeColour = "DeIDEyeColour.EyeColour";
 
 
-var kPPgermanIdHeight = "Height";
+var kPPgermanIdHeight = "DeIDHeight.Height";
 
 
-var kPPgermanIdIssueDate = "DateOfIssue";
+var kPPgermanIdIssueDate = "DeIDDateOfIssue.DateOfIssue";
 
 
-var kPPgermanIdIssuingAuthority = "Authority";
+var kPPgermanIdIssuingAuthority = "DeIDAuthority.Authority";
 
 
-var kPPgermanIdAddress = "Address";
+var kPPgermanIdAddress = "DeIDAddress.Address";
 
 
 var kPPgermanIdSex = "Sex";
