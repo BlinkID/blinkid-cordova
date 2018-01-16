@@ -703,7 +703,9 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withMyKadRecognizerResult:(PPMyKadFrontRecognizerResult *)myKadResult {
-    [dict setObject:[myKadResult getAllStringElements] forKey:FIELDS];
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[myKadResult getAllStringElements]];
+    [stringElements setObject:[myKadResult rawOwnerBirthDate] forKey:@"ownerBirthDate"];
+    [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:MYKAD_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:myKadResult];
 }
@@ -715,7 +717,9 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanOldIDRecognizerResult:(PPGermanOldIDRecognizerResult *)germanOldIDResult {
-    [dict setObject:[germanOldIDResult getAllStringElements] forKey:FIELDS];
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanOldIDResult getAllStringElements]];
+    [stringElements setObject:[germanOldIDResult rawDateOfBirth] forKey:@"DateOfBirth"];
+    [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_OLD_ID_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:germanOldIDResult];
 }
@@ -727,13 +731,17 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanIDBackRecognizerResult:(PPGermanIDBackRecognizerResult *)germanIDBackResult {
-    [dict setObject:[germanIDBackResult getAllStringElements] forKey:FIELDS];
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanIDBackResult getAllStringElements]];
+    [stringElements setObject:[germanIDBackResult rawDateOfIssue] forKey:@"DeIDDateOfIssue.DateOfIssue"];
+    [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_ID_BACK_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:germanIDBackResult];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanPassportRecognizerResult:(PPGermanPassportRecognizerResult *)germanPassportResult {
-    [dict setObject:[germanPassportResult getAllStringElements] forKey:FIELDS];
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanPassportResult getAllStringElements]];
+    [stringElements setObject:[germanPassportResult rawDateOfIssue] forKey:@"GermanPassportDateOfIssue.DateOfIssue"];
+    [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_PASS_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:germanPassportResult];
 }
