@@ -3,7 +3,7 @@
 # enter into ios project folder
 pushd src/ios/
 
-VERSION='2.14.0'
+VERSION='2.15.0'
 
 # check if Microblink framework and bundle already exist
 if [ ! -d 'blinkid-ios' ] ; then
