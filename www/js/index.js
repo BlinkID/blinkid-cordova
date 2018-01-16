@@ -64,7 +64,7 @@ var app = {
          * Use these scanner types
          * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "DocumentFace", "GermanIDFront", "GermanIDBack", "GermanOldID", "GermanPassport"
          */
-        var types = ["USDL", "MRTD", "Barcode", "GermanIDFront", "GermanIDBack", "GermanPassport"];
+        var types = ["USDL", "MRTD", "Barcode", "GermanIDFront", "GermanIDBack", "GermanPassport", "GermanOldID"];
 
         /**
          * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
@@ -216,6 +216,24 @@ var app = {
                                                 "Full Name: " + fields[kPPmyKadFullName] + "; " +
                                                 "Religion: " + fields[kPPmyKadReligion] + "; " +
                                                 "Sex: " + fields[kPPmyKadSex] + "; ";
+
+                        } else if (recognizerResult.resultType == "GermanOldID result") {
+
+                            var fields = recognizerResult.fields;
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPmrtdDataType] + "; " +
+                                                "Family name: " + fields[kPPmrtdPrimaryId] + "; " +
+                                                "First name: " + fields[kPPmrtdSecondaryId] + "; " +
+                                                "Date of birth: " + fields[kPPmrtdBirthDate] + "; " +
+                                                "Sex: " + fields[kPPmrtdSex] + "; " +
+                                                "Nationality: " + fields[kPPmrtdNationality] + "; " +
+                                                "Document Code: " + fields[kPPmrtdDocCode] + "; " +
+                                                "Document Number: " + fields[kPPmrtdDocNumber] + "; " +
+                                                "Issuer: " + fields[kPPmrtdIssuer] + "; " +
+                                                "Opt1: " + fields[kPPmrtdOpt1] + "; " +
+                                                "Opt2: " + fields[kPPmrtdOpt2] + "; " +
+                                                "Place of birth: " + fields[kPPgermanIdBirthPlace] + "; ";
 
                         } else if (recognizerResult.resultType == "GermanFrontID result") {
 
