@@ -314,16 +314,16 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return documentFaceReconizerSettings;
 }
 
-- (PPMyKadRecognizerSettings *)myKadRecognizerSettings {
-    
-    PPMyKadRecognizerSettings *myKadRecognizerSettings = [[PPMyKadRecognizerSettings alloc] init];
+- (PPMyKadFrontRecognizerSettings *)myKadRecognizerSettings {
+
+    PPMyKadFrontRecognizerSettings *myKadRecognizerSettings = [[PPMyKadFrontRecognizerSettings alloc] init];
 
     // Setup returning document image
 
     if ([self shouldReturnDocumentImage]) {
         myKadRecognizerSettings.showFullDocument = YES;
 
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadRecognizerResult class]];
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadFrontRecognizerResult class]];
         [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
     }
 
@@ -332,7 +332,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     if ([self shouldReturnFaceImage]) {
         myKadRecognizerSettings.showFaceImage = YES;
 
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadRecognizerResult class]];
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadFrontRecognizerResult class]];
         [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
     }
     
@@ -633,8 +633,8 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     
     /** Allocate and present the scanning view controller */
     UIViewController<PPScanningViewController> *scanningViewController =
-        [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
-    
+    [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
+
     scanningViewController.autorotate = YES;
     
     /** You can use other presentation methods as well */
@@ -702,7 +702,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     [self setupDictionary:dict withImagesForResult:eudlResult];
 }
 
-- (void)setDictionary:(NSMutableDictionary *)dict withMyKadRecognizerResult:(PPMyKadRecognizerResult *)myKadResult {
+- (void)setDictionary:(NSMutableDictionary *)dict withMyKadRecognizerResult:(PPMyKadFrontRecognizerResult *)myKadResult {
     [dict setObject:[myKadResult getAllStringElements] forKey:FIELDS];
     [dict setObject:MYKAD_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:myKadResult];
@@ -836,9 +836,9 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [resultArray addObject:dict];
             continue;
         }
-        if ([result isKindOfClass:[PPMyKadRecognizerResult class]]) {
-            PPMyKadRecognizerResult *myKadDecoderResult = (PPMyKadRecognizerResult *)result;
-            
+        if ([result isKindOfClass:[PPMyKadFrontRecognizerResult class]]) {
+            PPMyKadFrontRecognizerResult *myKadDecoderResult = (PPMyKadFrontRecognizerResult *)result;
+
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
             [self setDictionary:dict withMyKadRecognizerResult:myKadDecoderResult];
             
@@ -980,14 +980,14 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
             [self setImageMetadata:imageMetadata forName:[PPMrtdRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMrtdRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPDocumentFaceRecognizerResult class]];
-            [self setImageMetadata:imageMetadata forName:[PPMyKadRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPMyKadFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPEudlRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPEudlRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanOldIDRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDBackRecognizerSettings ID_FULL_DOCUMENT] imageType:PPImageTypeDocument resultClass:[PPGermanIDBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanPassportRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanPassportRecognizerResult class]];
 
-            [self setImageMetadata:imageMetadata forName:[PPMyKadRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyKadRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPMyKadFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyKadFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPDocumentFaceRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanOldIDRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanIDFrontRecognizerResult class]];
