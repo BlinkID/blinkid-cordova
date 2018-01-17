@@ -2,13 +2,6 @@
 
 This repository contains example wrapper for BlinkID native SDKs ([iOS](https://github.com/BlinkID/blinkid-ios) and [Android](https://github.com/BlinkID/blinkid-android)). Not all features of native SDKs are available in PhoneGap wrapper. However, the wrapper is open source, so you can easily add features that you need. For 100% of features and maximum control, consider using native SDKs.
 
-## Cordova version
-BlinkID PhoneGap requires Cordova **v7.0.0 or later** and cordova-android plugin **v7.0.0 or later**.
-
-## Ionic version
-
-Latest version has been tested using Ionic **3.19.0** version.
-
 ## Dependencies
 MicroBlink.framework/MicroBlink file in iOS submodule exceeds GitHubs limited file size of 100MB.
 To correctly init the submodule Git LFS is needed. Git LFS can be installed with homebrew:
@@ -116,7 +109,7 @@ cp  -f -r <blinkID_plugin_path>/www/js ./www/
 
 Add Android platform support to the project:
 
-    cordova platform add android@7
+    cordova platform add android@6
     
 ### iOS
 
@@ -141,7 +134,7 @@ cd testcordova
 cordova plugin add ../blinkid-phonegap/BlinkID
 
 # add android support to the project
-cordova platform add android@7
+cordova platform add android@6
 
 # build the project, the binary will appear in the bin/ folder
 cordova build android
