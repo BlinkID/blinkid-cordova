@@ -10,7 +10,7 @@ module.exports = function(ctx) {
         deferral = ctx.requireCordovaModule('q').defer();
 
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
-    var androidManifest = path.join(platformRoot, 'app/src/main/AndroidManifest.xml');
+    var androidManifest = path.join(platformRoot, 'AndroidManifest.xml');
 
     console.log("BlinkID after_prepare hook: ");
     fs.stat(androidManifest, function(err, stats) {
