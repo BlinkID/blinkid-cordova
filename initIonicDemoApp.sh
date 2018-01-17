@@ -27,7 +27,7 @@ sed -i "" "s/MyApp/$APP_NAME/" config.xml
 ionic cordova plugin add ../BlinkID
 
 # add ios and android support to the project
-ionic cordova platform add android@7
+ionic cordova platform add android
 ionic cordova platform add ios
 
 # copy content of the www folder
