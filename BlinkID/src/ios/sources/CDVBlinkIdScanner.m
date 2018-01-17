@@ -35,6 +35,7 @@ const NSString *GERMAN_ID_FRONT_TYPE = @"GermanIDFront";
 const NSString *GERMAN_ID_BACK_TYPE = @"GermanIDBack";
 const NSString *GERMAN_PASS_TYPE = @"GermanPassport";
 const NSString *DOCUMENTFACE_TYPE = @"DocumentFace";
+const NSString *DOCUMENTDETECTOR_TYPE = @"DocumentDetector";
 
 const NSString *RESULT_LIST = @"resultList";
 const NSString *RESULT_TYPE = @"resultType";
@@ -62,6 +63,10 @@ NSString *GERMAN_ID_FRONT_RESULT_TYPE = @"GermanFrontID result";
 NSString *GERMAN_ID_BACK_RESULT_TYPE = @"GermanBackID result";
 NSString *GERMAN_PASS_RESULT_TYPE = @"GermanPassport result";
 NSString *DOCUMENTFACE_RESULT_TYPE = @"DocumentFace result";
+NSString *DOCUMENTDETECTOR_RESULT_TYPE = @"DocumentDetector result";
+
+NSString *DOCUMENTDETECTOR_ID1_NAME = @"IDCard";
+NSString *DOCUMENTDETECTOR_ID2_NAME = @"ID2Card";
 
 const NSString *SCAN = @"scan";
 const NSString *CANCELLED = @"cancelled";
@@ -284,6 +289,25 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return eudlRecognizerSettings;
 }
 
+- (PPDetectorRecognizerSettings *)detectorRecognizerSettings {
+
+    PPDocumentSpecification *decodingInfo1 = [PPDocumentSpecification newFromPreset:PPDocumentPresetId1Card];
+    PPDocumentSpecification *decodingInfo2 = [PPDocumentSpecification newFromPreset:PPDocumentPresetId1Card];
+
+    PPDocumentDetectorSettings *documentDetectorSettings = [[PPDocumentDetectorSettings alloc] initWithNumStableDetectionsThreshold:3];
+
+    [documentDetectorSettings setDocumentSpecifications:@[decodingInfo1, decodingInfo2]];
+
+    PPDetectorRecognizerSettings *detectorRecognizerSettings = [[PPDetectorRecognizerSettings alloc] initWithDetectorSettings:documentDetectorSettings];
+    if ([self shouldReturnDocumentImage]) {
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPDetectorRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    return detectorRecognizerSettings;
+}
+
 - (PPDocumentFaceRecognizerSettings *)documentFaceRecognizerSettings {
     
     PPDocumentFaceRecognizerSettings *documentFaceReconizerSettings = [[PPDocumentFaceRecognizerSettings alloc] init];
@@ -474,6 +498,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return [types containsObject:DEDL_TYPE];
 }
 
+- (BOOL)shouldUseDetectorRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:DOCUMENTDETECTOR_TYPE];
+}
+
 - (BOOL)shouldUseDocumentFaceRecognizerForTypes:(NSArray *)types {
     return [types containsObject:DOCUMENTFACE_TYPE];
 }
@@ -580,6 +608,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
         [settings.scanSettings addRecognizerSettings:[self eudlRecognizerSettingsWithCountry:PPEudlCountryGermany]];
     }
     
+    if ([self shouldUseDetectorRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self detectorRecognizerSettings]];
+    }
+
     if ([self shouldUseDocumentFaceRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self documentFaceRecognizerSettings]];
     }
@@ -708,6 +740,12 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:MYKAD_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:myKadResult];
+}
+
+- (void)setDictionary:(NSMutableDictionary *)dict withDocumentDetectorResult:(PPDetectorRecognizerResult *)detectorRecognizerResult {
+    [dict setObject:[detectorRecognizerResult getAllStringElements] forKey:FIELDS];
+    [dict setObject:DOCUMENTDETECTOR_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:detectorRecognizerResult];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withDocumentFaceResult:(PPDocumentFaceRecognizerResult *)documentFaceResult {
@@ -853,6 +891,16 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [resultArray addObject:dict];
         }
         
+        if ([result isKindOfClass:[PPDetectorRecognizerResult class]]) {
+            PPDetectorRecognizerResult *documentDetectorResult = (PPDetectorRecognizerResult *)result;
+
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withDocumentDetectorResult:documentDetectorResult];
+
+            [resultArray addObject:dict];
+            continue;
+        }
+
         if ([result isKindOfClass:[PPDocumentFaceRecognizerResult class]]) {
             PPDocumentFaceRecognizerResult *documentFaceResult = (PPDocumentFaceRecognizerResult *)result;
             
@@ -994,6 +1042,8 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDBackRecognizerSettings ID_FULL_DOCUMENT] imageType:PPImageTypeDocument resultClass:[PPGermanIDBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanPassportRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanPassportRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:DOCUMENTDETECTOR_ID1_NAME imageType:PPImageTypeDocument resultClass:[PPDetectorRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:DOCUMENTDETECTOR_ID1_NAME imageType:PPImageTypeDocument resultClass:[PPDetectorRecognizerResult class]];
 
             [self setImageMetadata:imageMetadata forName:[PPMyKadFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyKadFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPDocumentFaceRecognizerResult class]];
