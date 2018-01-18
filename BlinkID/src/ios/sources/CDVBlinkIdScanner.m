@@ -941,7 +941,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     if (imageMetadata.image == nil) return;
 
     NSData *imageData = UIImageJPEGRepresentation(imageMetadata.image, COMPRESSED_IMAGE_QUALITY / 100.f);
-    [dict setObject:[imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength] forKey:resultKey];
+    [dict setObject:[imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed] forKey:resultKey];
 }
 
 - (void)setupDictionary:(NSMutableDictionary *)dict withImagesForResult:(PPRecognizerResult *)result {

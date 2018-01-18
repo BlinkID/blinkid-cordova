@@ -648,7 +648,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         boolean success = resultImgBmp.compress(Bitmap.CompressFormat.JPEG, COMPRESSED_IMAGE_QUALITY, byteArrayOutputStream);
         String resultImgBase64 = null;
         if (success) {
-            resultImgBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+            resultImgBase64 = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.NO_WRAP);
         }
         try {
             byteArrayOutputStream.close();
