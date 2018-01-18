@@ -4,6 +4,7 @@
     - `GermanIDFront` - scans the front of German ID cards
     - `GermanIDBack` - scans the back of German ID cards
     - `GermanPassport` - scans the front of German passports
+- added `DocumentDetector` supporting ID1 and ID2
 - updated iOS SDK to [2.15.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.15.0)
 - return image encoded as a single line
 
