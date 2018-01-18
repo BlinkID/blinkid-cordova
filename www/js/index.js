@@ -62,7 +62,7 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "DocumentFace"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "DocumentFace", "DocumentDetector"
          * PDF417 - scans PDF417 barcodes
          * USDL - scans barcodes located on the back of US driver's license
          * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
@@ -76,6 +76,7 @@ var app = {
          * GermanIDBack - scans the back of German ID cards
          * GermanPassport - scans the front of German passports
          * DocumentFace - scans documents which contain owner's face image
+         * DocumentDetector - scans documents that are specified as ID1 or ID2 and returns their image
          *
          * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
          */
@@ -287,15 +288,23 @@ var app = {
                                                 "Date of expiry: " + fields[kPPmrtdExpiry] + "<br>" +
                                                 "Authority: " + fields[kPPgermanPassIssuingAuthority] + "<br>";
 
+                        } else if (recognizerResult.resultType == "DocumentDetector result") {
+
+                            var fields = recognizerResult.fields;
+
+                            resultDiv.innerHTML = "Found a document";
+
                         } else if (recognizerResult.resultType == "DocumentFace result") {
 
                             var fields = recognizerResult.fields;
 
                             resultDiv.innerHTML = "Found document with face";
+
                         } else {
                           var fields = recognizerResult.fields;
                           
                           resultDiv.innerHTML = recognizerResult.resultType;
+
                         }
 
                         // Document image is returned as Base64 encoded JPEG

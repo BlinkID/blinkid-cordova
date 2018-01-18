@@ -16,6 +16,9 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.microblink.activity.ScanCard;
+import com.microblink.detectors.document.DocumentDetectorSettings;
+import com.microblink.detectors.document.DocumentSpecification;
+import com.microblink.detectors.document.DocumentSpecificationPreset;
 import com.microblink.image.Image;
 import com.microblink.image.ImageListener;
 import com.microblink.locale.LanguageUtils;
@@ -40,14 +43,16 @@ import com.microblink.recognizers.blinkid.germany.back.GermanIDBackSideRecogniti
 import com.microblink.recognizers.blinkid.germany.back.GermanIDBackSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.front.GermanIDFrontSideRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.front.GermanIDFrontSideRecognizerSettings;
-import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognitionResult;
+import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
+import com.microblink.recognizers.detector.DetectorRecognitionResult;
+import com.microblink.recognizers.detector.DetectorRecognizerSettings;
 import com.microblink.recognizers.settings.RecognitionSettings;
 import com.microblink.recognizers.settings.RecognizerSettings;
 import com.microblink.results.barcode.BarcodeDetailedData;
@@ -86,6 +91,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String GERMAN_ID_BACK_TYPE = "GermanIDBack";
     private static final String GERMAN_PASS_TYPE = "GermanPassport";
     private static final String DOCUMENTFACE_TYPE = "DocumentFace";
+    private static final String DOCUMENTDETECTOR_TYPE = "DocumentDetector";
 
     // keys for result types
     private static final String PDF417_RESULT_TYPE = "Barcode result";
@@ -101,6 +107,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String GERMAN_ID_BACK_RESULT_TYPE = "GermanBackID result";
     private static final String GERMAN_PASS_RESULT_TYPE = "GermanPassport result";
     private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
+    private static final String DOCUMENTDETECTOR_RESULT_TYPE = "DocumentDetector result";
 
     private static final String SCAN = "scan";
     private static final String CANCELLED = "cancelled";
@@ -302,7 +309,9 @@ public class BlinkIdScanner extends CordovaPlugin {
         } else if (type.equals(GERMAN_PASS_TYPE)) {
             return buildGermanPassSettings();
         } else if (type.equals(DOCUMENTFACE_TYPE)) {
-          return buildDocumentFaceSettings();
+            return buildDocumentFaceSettings();
+        } else if(type.equals(DOCUMENTDETECTOR_TYPE)) {
+            return buildDocumentDetectorSettings();
         }
         throw new IllegalArgumentException("Recognizer type not supported: " + type);
     }
@@ -451,20 +460,6 @@ public class BlinkIdScanner extends CordovaPlugin {
         return barcode;
     }
     
-    private DocumentFaceRecognizerSettings buildDocumentFaceSettings() {
-        // prepare settings for the DocumentFace recognizer
-        DocumentFaceRecognizerSettings docFace = new DocumentFaceRecognizerSettings(DocumentFaceDetectorType.IDENTITY_CARD_TD1);
-      
-        if (sReturnDocumentImage) {
-            docFace.setShowFullDocument(true);
-        }
-        if (sReturnFaceImage) {
-            docFace.setShowFaceImage(true);
-        }
-      
-        return docFace;
-    }
-
     private GermanOldIDRecognizerSettings buildGermanOldIDSettings() {
         // prepare settings for the GermanIDFrontSide recognizer
         GermanOldIDRecognizerSettings settings = new GermanOldIDRecognizerSettings();
@@ -518,6 +513,34 @@ public class BlinkIdScanner extends CordovaPlugin {
         return settings;
     }
 
+    private DocumentFaceRecognizerSettings buildDocumentFaceSettings() {
+        // prepare settings for the DocumentFace recognizer
+        DocumentFaceRecognizerSettings settings = new DocumentFaceRecognizerSettings(DocumentFaceDetectorType.IDENTITY_CARD_TD1);
+
+        if (sReturnDocumentImage) {
+            settings.setShowFullDocument(true);
+        }
+        if (sReturnFaceImage) {
+            settings.setShowFaceImage(true);
+        }
+
+        return settings;
+    }
+
+    private DetectorRecognizerSettings buildDocumentDetectorSettings() {
+        // prepare settings for the DocumentDetectorSettings recognizer
+        DocumentDetectorSettings settings = new DocumentDetectorSettings(new DocumentSpecification[]{
+                DocumentSpecification.createFromPreset(DocumentSpecificationPreset.DOCUMENT_SPECIFICATION_PRESET_ID1_CARD),
+                DocumentSpecification.createFromPreset(DocumentSpecificationPreset.DOCUMENT_SPECIFICATION_PRESET_ID2_CARD)
+        });
+
+        // require at least 3 subsequent close detections (in 3 subsequent video frames)
+        // to treat detection as 'stable'
+        settings.setNumStableDetectionsThreshold(3);
+
+        return new DetectorRecognizerSettings(settings);
+    }
+
     /**
      * Called when the scanner intent completes.
      *
@@ -545,9 +568,9 @@ public class BlinkIdScanner extends CordovaPlugin {
                 // Multiple element may be in array if multiple scan results from single image were allowed in settings.
                 BaseRecognitionResult[] resultArray = results.getRecognitionResults();
 
-                // Each recognition result corresponds to active recognizer. There are 7 types of
-                // recognizers available (PDF417, USDL, Bardecoder, ZXing, MRTD, UKDL and MyKad),
-                // so there are 7 types of results available.
+                // Each recognition result corresponds to active recognizer. There are 11 types of
+                // recognizers available (PDF417, USDL, MRTD, UKDL, MyKad, etc.),
+                // so there are 11 types of results available.
 
                 JSONArray resultsList = new JSONArray();
 
@@ -573,8 +596,10 @@ public class BlinkIdScanner extends CordovaPlugin {
                             resultsList.put(buildGermanPassResult((GermanPassportRecognitionResult) res));
                         } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
                             resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
-                        } else if (res instanceof DocumentFaceRecognitionResult) { // check if scan result is result of Documant Face recognizer
+                        } else if (res instanceof DocumentFaceRecognitionResult) { // check if scan result is result of Document Face recognizer
                             resultsList.put(buildDocumentFaceResult((DocumentFaceRecognitionResult) res));
+                        } else if (res instanceof DetectorRecognitionResult) { // check if scan result is result of Detector recognizer
+                            resultsList.put(buildDetectorRecognitionResult((DetectorRecognitionResult) res));
                         }
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Error parsing " + res.getClass().getName());
@@ -736,6 +761,12 @@ public class BlinkIdScanner extends CordovaPlugin {
         return result;
     }
 
+    private JSONObject buildDetectorRecognitionResult(DetectorRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, DOCUMENTDETECTOR_RESULT_TYPE);
+        putDocumentImageToResultJson(result, DetectorRecognitionResult.class);
+        return result;
+    }
+
     private JSONObject buildGermanOldIDResult(GermanOldIDRecognitionResult res)throws JSONException {
         JSONObject result = buildKeyValueResult(res, GERMAN_OLD_ID_RESULT_TYPE);
         putDocumentImageToResultJson(result, GermanOldIDRecognitionResult.class);
@@ -794,6 +825,9 @@ public class BlinkIdScanner extends CordovaPlugin {
 
 
     public static class ScanImageListener implements ImageListener {
+
+        private static final String FULL_DOCUMENT_DETECTOR_IMAGE_ID1 = "IDCard";
+        private static final String FULL_DOCUMENT_DETECTOR_IMAGE_ID2 = "ID2Card";
 
         /**
          * Called when library has image available.
@@ -854,6 +888,8 @@ public class BlinkIdScanner extends CordovaPlugin {
                 resultType = GermanPassportRecognitionResult.class;
             } else if (imageName.equals(DocumentFaceRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
                 resultType = DocumentFaceRecognitionResult.class;
+            } else if (imageName.equals(FULL_DOCUMENT_DETECTOR_IMAGE_ID1) || imageName.equals(FULL_DOCUMENT_DETECTOR_IMAGE_ID2)) {
+                resultType = DetectorRecognitionResult.class;
             }
             if (resultType != null) {
                 ImageHolder.getInstance().setDocumentImage(resultType, image.clone());

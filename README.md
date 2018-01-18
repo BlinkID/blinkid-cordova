@@ -172,7 +172,7 @@ To use the plugin you call it in your Javascript code like the demo application:
 
 /**
  * Use these scanner types
- * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "DocumentFace"
+ * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "DocumentFace", "DocumentDetector"
  * PDF417 - scans PDF417 barcodes
  * USDL - scans barcodes located on the back of US driver's license
  * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
@@ -186,6 +186,7 @@ To use the plugin you call it in your Javascript code like the demo application:
  * GermanIDBack - scans the back of German ID cards
  * GermanPassport - scans the front of German passports
  * DocumentFace - scans documents which contain owner's face image
+ * DocumentDetector - scans documents that are specified as ID1 or ID2 and returns their image
  *
  * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
  */
@@ -396,6 +397,12 @@ scanButton.addEventListener('click', function() {
                                         "Date of expiry: " + fields[kPPmrtdExpiry] + "<br>" +
                                         "Authority: " + fields[kPPgermanPassIssuingAuthority] + "<br>";
 
+                } else if (recognizerResult.resultType == "DocumentDetector result") {
+
+                    var fields = recognizerResult.fields;
+
+                    resultDiv.innerHTML = "Found a document";
+
                 } else if (recognizerResult.resultType == "DocumentFace result") {
 
                     var fields = recognizerResult.fields;
@@ -451,6 +458,7 @@ scanButton.addEventListener('click', function() {
     + **GermanIDBack** - scans the back of German ID cards
     + **GermanPassport** - scans the front of German passports
     + **DocumentFace** - scans documents which contain owner's face image
+    + **DocumentDetector** - scans documents that are specified as ID1 or ID2 and returns their image
 	
 + On returned result, images can also be returned (under "resultSuccessfulImage" field for successful scan image and under fields "resultDocumentImage" and "resultFaceImage" in each concrete recognizer result) as base64 string of JPEG image. Image types that should be returned are specified as second argument (array). Set empty array to disable returning of images - **IMPORTANT : THIS IMPROVES SCANNING SPEED!**. Available types are:
 	+ `IMAGE_SUCCESSFUL_SCAN` - Full camera frame of successful scan.
