@@ -118,6 +118,9 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String UAE_ID_FRONT_RESULT_TYPE = "UnitedArabEmiratesIDFront result";
     private static final String USDL_RESULT_TYPE = "USDL result";
 
+    // image names
+    private static final String FULL_DOCUMENT_DETECTOR_IMAGE_ID1 = "IDCard";
+    private static final String FULL_DOCUMENT_DETECTOR_IMAGE_ID2 = "ID2Card";
 
     private static final String SCAN = "scan";
     private static final String CANCELLED = "cancelled";
@@ -145,6 +148,12 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static boolean sReturnFaceImage;
 
     private static CallbackContext sCallbackContext;
+
+    private static Map<String, Class<? extends BaseRecognitionResult>>
+            sFullDocumentImageResultTypes = new HashMap<>();
+
+    private static Map<String, Class<? extends BaseRecognitionResult>>
+            sFaceImageResultTypes = new HashMap<>();
 
     /**
      * Constructor.
@@ -238,6 +247,8 @@ public class BlinkIdScanner extends CordovaPlugin {
             intent.putExtra(ScanCard.EXTRAS_LICENSE_KEY, license);
         }
 
+        sFullDocumentImageResultTypes.clear();
+        sFaceImageResultTypes.clear();
         List<RecognizerSettings> recSett = new ArrayList<RecognizerSettings>();
         for (String type : types) {
             try {
@@ -340,6 +351,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         mrtd.setAllowUnparsedResults(false);
         if (sReturnDocumentImage) {
             mrtd.setShowFullDocument(true);
+            sFullDocumentImageResultTypes.put(MRTDRecognizerSettings.FULL_DOCUMENT_IMAGE, MRTDRecognitionResult.class);
         }
         return mrtd;
     }
@@ -355,12 +367,8 @@ public class BlinkIdScanner extends CordovaPlugin {
         ukdl.setExtractExpiryDate(true);
         // Defines if address should be extracted. Default is true.
         ukdl.setExtractAddress(true);
-        if (sReturnDocumentImage) {
-            ukdl.setShowFullDocument(true);
-        }
-        if (sReturnFaceImage) {
-            ukdl.setShowFaceImage(true);
-        }
+
+        eudlConfigureImageReturn(ukdl);
         return ukdl;
     }
 
@@ -375,12 +383,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         dedl.setExtractExpiryDate(true);
         // Defines if address should be extracted. Default is true.
         dedl.setExtractAddress(true);
-        if (sReturnDocumentImage) {
-            dedl.setShowFullDocument(true);
-        }
-        if (sReturnFaceImage) {
-            dedl.setShowFaceImage(true);
-        }
+        eudlConfigureImageReturn(dedl);
         return dedl;
     }
     
@@ -395,13 +398,19 @@ public class BlinkIdScanner extends CordovaPlugin {
         eudl.setExtractExpiryDate(true);
         // Defines if address should be extracted. Default is true.
         eudl.setExtractAddress(true);
+        eudlConfigureImageReturn(eudl);
+        return eudl;
+    }
+
+    private void eudlConfigureImageReturn(EUDLRecognizerSettings settings) {
         if (sReturnDocumentImage) {
-            eudl.setShowFullDocument(true);
+            settings.setShowFullDocument(true);
+            sFullDocumentImageResultTypes.put(EUDLRecognizerSettings.FULL_DOCUMENT_IMAGE, EUDLRecognitionResult.class);
         }
         if (sReturnFaceImage) {
-            eudl.setShowFaceImage(true);
+            settings.setShowFaceImage(true);
+            sFaceImageResultTypes.put(EUDLRecognizerSettings.FACE_IMAGE_NAME, EUDLRecognitionResult.class);
         }
-        return eudl;
     }
 
     private MyKadFrontSideRecognizerSettings buildMyKadSettings() {
@@ -409,9 +418,11 @@ public class BlinkIdScanner extends CordovaPlugin {
         MyKadFrontSideRecognizerSettings myKad = new MyKadFrontSideRecognizerSettings();
         if (sReturnDocumentImage) {
             myKad.setShowFullDocument(true);
+            sFullDocumentImageResultTypes.put(MyKadFrontSideRecognizerSettings.FULL_DOCUMENT_IMAGE, MyKadFrontSideRecognitionResult.class);
         }
         if (sReturnFaceImage) {
             myKad.setShowFaceImage(true);
+            sFaceImageResultTypes.put(MyKadFrontSideRecognizerSettings.FACE_IMAGE_NAME, MyKadFrontSideRecognitionResult.class);
         }
         return myKad;
     }
@@ -481,9 +492,11 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(GermanOldIDRecognizerSettings.FULL_DOCUMENT_IMAGE, GermanOldIDRecognitionResult.class);
         }
         if (sReturnFaceImage) {
             settings.setDisplayFaceImage(true);
+            sFaceImageResultTypes.put(GermanOldIDRecognizerSettings.FACE_IMAGE_NAME, GermanOldIDRecognitionResult.class);
         }
 
         return settings;
@@ -495,9 +508,11 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(GermanIDFrontSideRecognizerSettings.FULL_DOCUMENT_IMAGE, GermanIDFrontSideRecognitionResult.class);
         }
         if (sReturnFaceImage) {
             settings.setDisplayFaceImage(true);
+            sFaceImageResultTypes.put(GermanIDFrontSideRecognizerSettings.FACE_IMAGE_NAME, GermanIDFrontSideRecognitionResult.class);
         }
 
         return settings;
@@ -509,6 +524,7 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(GermanIDBackSideRecognizerSettings.FULL_DOCUMENT_IMAGE, GermanIDBackSideRecognitionResult.class);
         }
 
         return settings;
@@ -520,9 +536,11 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(GermanPassportRecognizerSettings.FULL_DOCUMENT_IMAGE, GermanPassportRecognitionResult.class);
         }
         if (sReturnFaceImage) {
             settings.setDisplayFaceImage(true);
+            sFaceImageResultTypes.put(GermanPassportRecognizerSettings.FACE_IMAGE_NAME, GermanPassportRecognitionResult.class);
         }
 
         return settings;
@@ -534,6 +552,7 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(UnitedArabEmiratesIDBackRecognizerSettings.FULL_DOCUMENT_IMAGE, UnitedArabEmiratesIDBackRecognitionResult.class);
         }
 
         return settings;
@@ -545,10 +564,12 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(UnitedArabEmiratesIDFrontRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME, UnitedArabEmiratesIDFrontRecognitionResult.class);
         }
 
         if (sReturnFaceImage) {
             settings.setDisplayFaceImage(true);
+            sFaceImageResultTypes.put(UnitedArabEmiratesIDFrontRecognizerSettings.PORTRAIT_IMAGE_NAME, UnitedArabEmiratesIDFrontRecognitionResult.class);
         }
 
         return settings;
@@ -560,9 +581,11 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setShowFullDocument(true);
+            sFullDocumentImageResultTypes.put(DocumentFaceRecognizerSettings.FULL_DOCUMENT_IMAGE, DocumentFaceRecognitionResult.class);
         }
         if (sReturnFaceImage) {
             settings.setShowFaceImage(true);
+            sFaceImageResultTypes.put(DocumentFaceRecognizerSettings.FACE_IMAGE_NAME, DocumentFaceRecognitionResult.class);
         }
 
         return settings;
@@ -578,6 +601,11 @@ public class BlinkIdScanner extends CordovaPlugin {
         // require at least 3 subsequent close detections (in 3 subsequent video frames)
         // to treat detection as 'stable'
         settings.setNumStableDetectionsThreshold(3);
+
+        if (sReturnDocumentImage) {
+            sFullDocumentImageResultTypes.put(FULL_DOCUMENT_DETECTOR_IMAGE_ID1, DetectorRecognitionResult.class);
+            sFullDocumentImageResultTypes.put(FULL_DOCUMENT_DETECTOR_IMAGE_ID2, DetectorRecognitionResult.class);
+        }
 
         return new DetectorRecognizerSettings(settings);
     }
@@ -885,9 +913,6 @@ public class BlinkIdScanner extends CordovaPlugin {
 
     public static class ScanImageListener implements ImageListener {
 
-        private static final String FULL_DOCUMENT_DETECTOR_IMAGE_ID1 = "IDCard";
-        private static final String FULL_DOCUMENT_DETECTOR_IMAGE_ID2 = "ID2Card";
-
         /**
          * Called when library has image available.
          */
@@ -909,22 +934,7 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         private boolean storeFaceImage(Image image) {
             String imageName = image.getImageName();
-            Class<? extends BaseRecognitionResult> resultType = null;
-            if (imageName.equals(EUDLRecognizerSettings.FACE_IMAGE_NAME)) {
-                resultType = EUDLRecognitionResult.class;
-            } else if (imageName.equals(MyKadFrontSideRecognizerSettings.FACE_IMAGE_NAME)) {
-                resultType = MyKadFrontSideRecognitionResult.class;
-            } else if (imageName.equals(GermanOldIDRecognizerSettings.FACE_IMAGE_NAME)) {
-                resultType = GermanOldIDRecognitionResult.class;
-            } else if (imageName.equals(GermanIDFrontSideRecognizerSettings.FACE_IMAGE_NAME)) {
-                resultType = GermanIDFrontSideRecognitionResult.class;
-            } else if (imageName.equals(GermanPassportRecognizerSettings.FACE_IMAGE_NAME)) {
-                resultType = GermanPassportRecognitionResult.class;
-            } else if (imageName.equals(DocumentFaceRecognizerSettings.FACE_IMAGE_NAME)) {
-                resultType = DocumentFaceRecognitionResult.class;
-            } else if (imageName.equals(UnitedArabEmiratesIDFrontRecognizerSettings.PORTRAIT_IMAGE_NAME)) {
-                resultType = UnitedArabEmiratesIDFrontRecognitionResult.class;
-            }
+            Class<? extends BaseRecognitionResult> resultType = sFaceImageResultTypes.get(imageName);
             if (resultType != null) {
                 ImageHolder.getInstance().setFaceImage(resultType, image.clone());
                 return true;
@@ -934,28 +944,7 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         private boolean storeDocumentImage(Image image) {
             String imageName = image.getImageName();
-            Class<? extends BaseRecognitionResult> resultType = null;
-            if (imageName.equals(MRTDRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = MRTDRecognitionResult.class;
-            } else if (imageName.equals(EUDLRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = EUDLRecognitionResult.class;
-            } else if (imageName.equals(MyKadFrontSideRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = MyKadFrontSideRecognitionResult.class;
-            } else if (imageName.equals(GermanOldIDRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = GermanOldIDRecognitionResult.class;
-            } else if (imageName.equals(GermanIDFrontSideRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = GermanIDFrontSideRecognitionResult.class;
-            } else if (imageName.equals(GermanPassportRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = GermanPassportRecognitionResult.class;
-            } else if (imageName.equals(UnitedArabEmiratesIDFrontRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME)) {
-                resultType = UnitedArabEmiratesIDFrontRecognitionResult.class;
-            } else if (imageName.equals(UnitedArabEmiratesIDBackRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = UnitedArabEmiratesIDBackRecognitionResult.class;
-            } else if (imageName.equals(DocumentFaceRecognizerSettings.FULL_DOCUMENT_IMAGE)) {
-                resultType = DocumentFaceRecognitionResult.class;
-            } else if (imageName.equals(FULL_DOCUMENT_DETECTOR_IMAGE_ID1) || imageName.equals(FULL_DOCUMENT_DETECTOR_IMAGE_ID2)) {
-                resultType = DetectorRecognitionResult.class;
-            }
+            Class<? extends BaseRecognitionResult> resultType = sFullDocumentImageResultTypes.get(imageName);
             if (resultType != null) {
                 ImageHolder.getInstance().setDocumentImage(resultType, image.clone());
                 return true;
