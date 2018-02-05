@@ -172,30 +172,32 @@ To use the plugin you call it in your Javascript code like the demo application:
 
 /**
  * Use these scanner types
- * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "DocumentFace", "DocumentDetector"
+ * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "DocumentFace", "DocumentDetector"
  * PDF417 - scans PDF417 barcodes
  * USDL - scans barcodes located on the back of US driver's license
  * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
  * MRTD - scans Machine Readable Travel Document, contained in various IDs and passports
- * EUDL - scans the front of European driver's license
- * UKDL - scans the front of United Kingom driver's license
- * DEDL - scans the front of German driver's license
- * MyKad - scans the front of Malaysian ID cards
- * GermanOldID - scans the front of old German ID cards
- * GermanIDFront - scans the front of German ID cards
- * GermanIDBack - scans the back of German ID cards
- * GermanPassport - scans the front of German passports
+ * EUDL - scans the front side of European driver's license
+ * UKDL - scans the front side of United Kingom driver's license
+ * DEDL - scans the front side of German driver's license
+ * MyKad - scans the front side of Malaysian ID card
+ * GermanOldID - scans the front side of old German ID card
+ * GermanIDFront - scans the front side of German ID card
+ * GermanIDBack - scans the back side of German ID card
+ * GermanPassport - scans the front side of German passport
+ * UnitedArabEmiratesIDFront - scans the front side of UnitedArabEmirates ID card
+ * UnitedArabEmiratesIDBack - scans the back side of UnitedArabEmirates ID card
  * DocumentFace - scans documents which contain owner's face image
  * DocumentDetector - scans documents that are specified as ID1 or ID2 and returns their image
  *
  * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
  */
- var types = ["USDL", "MRTD", "Barcode", "MyKad"];
+var types = ["USDL", "MRTD", "Barcode", "MyKad"];
 
 /**
  * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
  * available:
- *  empty array - do not return any images - IMPORTANT : THIS IMPROVES SCANNING SPEED!
+ *  empty - do not return any images - IMPORTANT : THIS IMPROVES SCANNING SPEED!
  *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
  *  "IMAGE_DOCUMENT" : return cropped document image
  *  "IMAGE_FACE" : return image of the face from the ID
@@ -216,14 +218,14 @@ var language = "en"
 var licenseiOs = "RYRTHFTE-BGSW25OV-22FACO5I-XKFH6NNV-EYKLREEQ-SCIJBEEQ-SCIJAMA4-CTCG345C"; // valid until 2018-03-04
 
 // This license is only valid for package name "com.microblink.blinkid"
-var licenseAndroid = "HOTRRR7E-GOK7UXTG-4EZJS4BX-QCZHZEPZ-JGPURT4Y-GD4K5X42-OJL67PQQ-K3FMQDM3";  // valid until 2018-03-04
+var licenseAndroid = "FESCWEBI-3FQIPFNN-UOA3DVXD-CARRDWLE-P7SQBC3D-V3PZU4SX-54PGVNWO-NQ5WS5HX";
 
 scanButton.addEventListener('click', function() {    
     cordova.plugins.blinkIdScanner.scan(
-
+    
         // Register the callback handler
         function callback(scanningResult) {
-
+            
             // handle cancelled scanning
             if (scanningResult.cancelled == true) {
                 resultDiv.innerHTML = "Cancelled!";
@@ -246,11 +248,13 @@ scanButton.addEventListener('click', function() {
                 successfulImage.src = "data:image/jpg;base64, " + resultSuccessfulImage;
                 successfulImageDiv.style.visibility = "visible"
             }
+            
             // Iterate through all results
             for (var i = 0; i < resultList.length; i++) {
 
                 // Get individual resilt
                 var recognizerResult = resultList[i];
+                var fields = recognizerResult.fields;
 
                 if (recognizerResult.resultType == "Barcode result") {
                     // handle Barcode scanning result
@@ -260,16 +264,14 @@ scanButton.addEventListener('click', function() {
                         raw = " (raw: " + hex2a(recognizerResult.raw) + ")";
                     }
                     resultDiv.innerHTML = "Data: " + recognizerResult.data +
-                                       raw +
-                                       " (Type: " + recognizerResult.type + ")";
+                                          raw +
+                                          " (Type: " + recognizerResult.type + ")";
 
                 } else if (recognizerResult.resultType == "USDL result") {
                     // handle USDL parsing result
 
-                    var fields = recognizerResult.fields;
-
                     resultDiv.innerHTML = /** Personal information */
-                                       "USDL version: " + fields[kPPStandardVersionNumber] + "<br>" +
+                                        "USDL version: " + fields[kPPStandardVersionNumber] + "<br>" +
                                         "Family name: " + fields[kPPCustomerFamilyName] + "<br>" +
                                         "First name: " + fields[kPPCustomerFirstName] + "<br>" +
                                         "Date of birth: " + fields[kPPDateOfBirth] + "<br>" +
@@ -291,11 +293,11 @@ scanButton.addEventListener('click', function() {
                                         "Endorsments: " + fields[kPPJurisdictionEndorsementCodes] + "<br>" +
                                         "Customer ID: " + fields[kPPCustomerIdNumber] + "<br>";
 
-                } else if (recognizerResult.resultType == "MRTD result") {
-
-                    var fields = recognizerResult.fields;
+                } else if (recognizerResult.resultType == "MRTD result" || recognizerResult.resultType == "UnitedArabEmiratesIDBack result") {
+                    // UnitedArabEmiratesIDBack result contains only fields from the MRZ (Machine Readable Zone)
 
                     resultDiv.innerHTML = /** Personal information */
+                                        "Type: " + fields[kPPDataType] + "<br>" +
                                         "Family name: " + fields[kPPmrtdPrimaryId] + "<br>" +
                                         "First name: " + fields[kPPmrtdSecondaryId] + "<br>" +
                                         "Date of birth: " + fields[kPPmrtdBirthDate] + "<br>" +
@@ -310,12 +312,9 @@ scanButton.addEventListener('click', function() {
                                         "Opt2: " + fields[kPPmrtdOpt2] + "<br>";
 
                 } else if (recognizerResult.resultType == "EUDL result" || recognizerResult.resultType == "UKDL result" || recognizerResult.resultType == "DEDL result") {
-                    
-                    var fields = recognizerResult.fields;
 
                     resultDiv.innerHTML = /** Personal information */
-                                        recognizerResult.resultType + "<br>" + 
-                                        "ID Type: " + fields[kPPeudlDataType] + "<br>" +
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
                                         "Date of Expiry: " + fields[kPPeudlExpiry] + "<br>" +
                                         "Issue Date: " + fields[kPPeudlIssueDate] + "<br>" +
                                         "Issuing Authority: " + fields[kPPeudlIssuingAuthority] + "<br>" +
@@ -327,10 +326,8 @@ scanButton.addEventListener('click', function() {
 
                 } else if (recognizerResult.resultType == "MyKad result") {
 
-                    var fields = recognizerResult.fields;
-
                     resultDiv.innerHTML = /** Personal information */
-                                        "ID Type: " + fields[kPPmyKadDataType] + "<br>" +
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
                                         "NRIC Number: " + fields[kPPmyKadNricNumber] + "<br>" +
                                         "Address: " + fields[kPPmyKadAddress] + "<br>" +
                                         "Address ZIP Code: " + fields[kPPmyKadAddressZipCode] + "<br>" +
@@ -344,10 +341,8 @@ scanButton.addEventListener('click', function() {
 
                 } else if (recognizerResult.resultType == "GermanOldID result") {
 
-                    var fields = recognizerResult.fields;
-
                     resultDiv.innerHTML = /** Personal information */
-                                        "ID Type: " + fields[kPPmrtdDataType] + "<br>" +
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
                                         "Family name: " + fields[kPPmrtdPrimaryId] + "<br>" +
                                         "First name: " + fields[kPPmrtdSecondaryId] + "<br>" +
                                         "Date of birth: " + fields[kPPmrtdBirthDate] + "<br>" +
@@ -359,9 +354,8 @@ scanButton.addEventListener('click', function() {
 
                 } else if (recognizerResult.resultType == "GermanFrontID result") {
 
-                    var fields = recognizerResult.fields;
-
                     resultDiv.innerHTML = /** Personal information */
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
                                         "Last name: " + fields[kPPgermanIdLastName] + "<br>" +
                                         "First name: " + fields[kPPgermanIdFirstName] + "<br>" +
                                         "Date of birth: " + fields[kPPgermanIdBirthDate] + "<br>" +
@@ -372,9 +366,8 @@ scanButton.addEventListener('click', function() {
 
                 } else if (recognizerResult.resultType == "GermanBackID result") {
 
-                    var fields = recognizerResult.fields;
-
                     resultDiv.innerHTML = /** Personal information */
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
                                         "Colour of eyes: " + fields[kPPgermanIdEyeColour] + "<br>" +
                                         "Height: " + fields[kPPgermanIdHeight] + "<br>" +
                                         "Issue date: " + fields[kPPgermanIdIssueDate] + "<br>" +
@@ -383,9 +376,8 @@ scanButton.addEventListener('click', function() {
 
                 } else if (recognizerResult.resultType == "GermanPassport result") {
 
-                    var fields = recognizerResult.fields;
-
                     resultDiv.innerHTML = /** Personal information */
+                                        "Type: " + fields[kPPDataType] + "<br>" +
                                         "Passport number: " + fields[kPPmrtdDocNumber] + "<br>" +
                                         "Surname: " + fields[kPPgermanPassSurname] + "<br>" +
                                         "Name: " + fields[kPPgermanPassName] + "<br>" +
@@ -397,21 +389,26 @@ scanButton.addEventListener('click', function() {
                                         "Date of expiry: " + fields[kPPmrtdExpiry] + "<br>" +
                                         "Authority: " + fields[kPPgermanPassIssuingAuthority] + "<br>";
 
-                } else if (recognizerResult.resultType == "DocumentDetector result") {
+                } else if (recognizerResult.resultType == "UnitedArabEmiratesIDFront result") {
 
-                    var fields = recognizerResult.fields;
+                    resultDiv.innerHTML = /** Personal information */
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
+                                        "ID number: " + fields[kPPuaeIdFrontIdNumber] + "<br>" +
+                                        "Name: " + fields[kPPuaeIdFrontName] + "<br>" +
+                                        "Nationality: " + fields[kPPuaeIdFrontNationality] + "<br>";
+
+                } else if (recognizerResult.resultType == "DocumentDetector result") {
 
                     resultDiv.innerHTML = "Found a document";
 
                 } else if (recognizerResult.resultType == "DocumentFace result") {
 
-                    var fields = recognizerResult.fields;
-
                     resultDiv.innerHTML = "Found document with face";
+
                 } else {
-                  var fields = recognizerResult.fields;
-                  
-                  resultDiv.innerHTML = recognizerResult.resultType;
+                          
+                    resultDiv.innerHTML = recognizerResult.resultType;
+
                 }
 
                 // Document image is returned as Base64 encoded JPEG
@@ -433,7 +430,7 @@ scanButton.addEventListener('click', function() {
                 }
             }
         },
-
+        
         // Register the error callback
         function errorHandler(err) {
             alert('Error: ' + err);
@@ -457,6 +454,8 @@ scanButton.addEventListener('click', function() {
     + **GermanIDFront** - scans the front of German ID cards
     + **GermanIDBack** - scans the back of German ID cards
     + **GermanPassport** - scans the front of German passports
+    + **UnitedArabEmiratesIDFront** - scans the front side of United Arab Emirates ID card
+    + **UnitedArabEmiratesIDBack** - scans the back side of United Arab Emirates ID card
     + **DocumentFace** - scans documents which contain owner's face image
     + **DocumentDetector** - scans documents that are specified as ID1 or ID2 and returns their image
 	
