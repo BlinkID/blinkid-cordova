@@ -564,12 +564,12 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnDocumentImage) {
             settings.setDisplayFullDocumentImage(true);
-            sFullDocumentImageResultTypes.put(UnitedArabEmiratesIDFrontRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME, UnitedArabEmiratesIDFrontRecognitionResult.class);
+            sFullDocumentImageResultTypes.put(UnitedArabEmiratesIDFrontRecognizerSettings.FULL_DOCUMENT_IMAGE, UnitedArabEmiratesIDFrontRecognitionResult.class);
         }
 
         if (sReturnFaceImage) {
             settings.setDisplayFaceImage(true);
-            sFaceImageResultTypes.put(UnitedArabEmiratesIDFrontRecognizerSettings.PORTRAIT_IMAGE_NAME, UnitedArabEmiratesIDFrontRecognitionResult.class);
+            sFaceImageResultTypes.put(UnitedArabEmiratesIDFrontRecognizerSettings.FACE_IMAGE_NAME, UnitedArabEmiratesIDFrontRecognitionResult.class);
         }
 
         return settings;
