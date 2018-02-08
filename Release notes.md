@@ -1,3 +1,10 @@
+## 1.4.4
+- added the following recognizers:
+    - `UnitedArabEmiratesIDBack` - scans the back of United Arab Emirates ID cards
+    - `UnitedArabEmiratesIDFront` - scans the front of United Arab Emirates ID cards
+- updated iOS SDK to [2.16.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v2.16.0)
+- updated Android SDK to [v3.15.1](https://github.com/BlinkID/blinkid-android/releases/tag/v3.15.1)
+
 ## 1.4.3
 - added the following recognizers:
     - `GermanOldID` - scans the front of old German ID cards

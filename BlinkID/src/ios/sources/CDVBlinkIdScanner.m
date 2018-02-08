@@ -33,6 +33,8 @@ const NSString *MYKAD_TYPE = @"MyKad";
 const NSString *GERMAN_OLD_ID_TYPE = @"GermanOldID";
 const NSString *GERMAN_ID_FRONT_TYPE = @"GermanIDFront";
 const NSString *GERMAN_ID_BACK_TYPE = @"GermanIDBack";
+const NSString *UAE_ID_BACK_TYPE = @"UnitedArabEmiratesIDBack";
+const NSString *UAE_ID_FRONT_TYPE = @"UnitedArabEmiratesIDFront";
 const NSString *GERMAN_PASS_TYPE = @"GermanPassport";
 const NSString *DOCUMENTFACE_TYPE = @"DocumentFace";
 const NSString *DOCUMENTDETECTOR_TYPE = @"DocumentDetector";
@@ -62,6 +64,8 @@ NSString *GERMAN_OLD_ID_RESULT_TYPE = @"GermanOldID result";
 NSString *GERMAN_ID_FRONT_RESULT_TYPE = @"GermanFrontID result";
 NSString *GERMAN_ID_BACK_RESULT_TYPE = @"GermanBackID result";
 NSString *GERMAN_PASS_RESULT_TYPE = @"GermanPassport result";
+NSString *UAE_ID_BACK_RESULT_TYPE = @"UnitedArabEmiratesIDBack result";
+NSString *UAE_ID_FRONT_RESULT_TYPE = @"UnitedArabEmiratesIDFront result";
 NSString *DOCUMENTFACE_RESULT_TYPE = @"DocumentFace result";
 NSString *DOCUMENTDETECTOR_RESULT_TYPE = @"DocumentDetector result";
 
@@ -454,6 +458,45 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return germanPassportRecognizerSettings;
 }
 
+- (PPUnitedArabEmiratesIDBackRecognizerSettings *)uaeBackRecognizerSettings {
+    
+    PPUnitedArabEmiratesIDBackRecognizerSettings *uaeBackRecognizerSettings = [[PPUnitedArabEmiratesIDBackRecognizerSettings alloc] init];
+    
+    // Setup returning document image
+    
+    if ([self shouldReturnDocumentImage]) {
+        uaeBackRecognizerSettings.displayFullDocumentImage = YES;
+        
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+    
+    return uaeBackRecognizerSettings;
+}
+
+- (PPUnitedArabEmiratesIDFrontRecognizerSettings *)uaeFrontRecognizerSettings {
+    
+    PPUnitedArabEmiratesIDFrontRecognizerSettings *uaeFrontRecognizerSettings = [[PPUnitedArabEmiratesIDFrontRecognizerSettings alloc] init];
+    
+    // Setup returning document image
+    
+    if ([self shouldReturnDocumentImage]) {
+        uaeFrontRecognizerSettings.displayFullDocumentImage = YES;
+        
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+    
+    if ([self shouldReturnFaceImage]) {
+        uaeFrontRecognizerSettings.displayFacePhoto = YES;
+        
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
+    }
+    
+    return uaeFrontRecognizerSettings;
+}
+
 
 - (NSMutableDictionary *)getInitializedImagesDictionaryForClass:(Class)class {
 
@@ -524,6 +567,14 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (BOOL)shouldUseGermanPassType:(NSArray *)types {
     return [types containsObject:GERMAN_PASS_TYPE];
+}
+
+- (BOOL)shouldUseUaeIDBackType:(NSArray *)types {
+    return [types containsObject:UAE_ID_BACK_TYPE];
+}
+
+- (BOOL)shouldUseUaeIDFrontType:(NSArray *)types {
+    return [types containsObject:UAE_ID_FRONT_TYPE];
 }
 
 #pragma mark - Main
@@ -634,6 +685,14 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
     if ([self shouldUseGermanPassType:types]) {
         [settings.scanSettings addRecognizerSettings:[self germanPassportRecognizerSettings]];
+    }
+    
+    if ([self shouldUseUaeIDBackType:types]) {
+        [settings.scanSettings addRecognizerSettings:[self uaeBackRecognizerSettings]];
+    }
+    
+    if ([self shouldUseUaeIDFrontType:types]) {
+        [settings.scanSettings addRecognizerSettings:[self uaeFrontRecognizerSettings]];
     }
 
     /** 4. Initialize the Scanning Coordinator object */
@@ -784,6 +843,20 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     [self setupDictionary:dict withImagesForResult:germanPassportResult];
 }
 
+- (void)setDictionary:(NSMutableDictionary *)dict withUaeIDBackRecognizerResult:(PPUnitedArabEmiratesIDBackRecognizerResult *)uaeIDBackResult {
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[uaeIDBackResult getAllStringElements]];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:UAE_ID_BACK_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:uaeIDBackResult];
+}
+
+- (void)setDictionary:(NSMutableDictionary *)dict withUaeIDFrontRecognizerResult:(PPUnitedArabEmiratesIDFrontRecognizerResult *)uaeIDFrontResult {
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[uaeIDFrontResult getAllStringElements]];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:UAE_ID_FRONT_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:uaeIDFrontResult];
+}
+
 - (void)returnResults:(NSArray *)results cancelled:(BOOL)cancelled {
     
     NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
@@ -882,6 +955,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [resultArray addObject:dict];
             continue;
         }
+        
         if ([result isKindOfClass:[PPMyKadFrontRecognizerResult class]]) {
             PPMyKadFrontRecognizerResult *myKadDecoderResult = (PPMyKadFrontRecognizerResult *)result;
 
@@ -889,6 +963,26 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setDictionary:dict withMyKadRecognizerResult:myKadDecoderResult];
             
             [resultArray addObject:dict];
+        }
+        
+        if ([result isKindOfClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]]) {
+            PPUnitedArabEmiratesIDBackRecognizerResult *uaeIDBackResult = (PPUnitedArabEmiratesIDBackRecognizerResult *)result;
+            
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withUaeIDBackRecognizerResult:uaeIDBackResult];
+            
+            [resultArray addObject:dict];
+            continue;
+        }
+        
+        if ([result isKindOfClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]]) {
+            PPUnitedArabEmiratesIDFrontRecognizerResult *uaeIDFrontResult = (PPUnitedArabEmiratesIDFrontRecognizerResult *)result;
+            
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withUaeIDFrontRecognizerResult:uaeIDFrontResult];
+            
+            [resultArray addObject:dict];
+            continue;
         }
         
         if ([result isKindOfClass:[PPDetectorRecognizerResult class]]) {
@@ -910,7 +1004,6 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [resultArray addObject:dict];
             continue;
         }
-
     };
 
     if ([resultArray count] > 0) {
@@ -1042,6 +1135,8 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDBackRecognizerSettings ID_FULL_DOCUMENT] imageType:PPImageTypeDocument resultClass:[PPGermanIDBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanPassportRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanPassportRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPUnitedArabEmiratesIDBackRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPUnitedArabEmiratesIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:DOCUMENTDETECTOR_ID1_NAME imageType:PPImageTypeDocument resultClass:[PPDetectorRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:DOCUMENTDETECTOR_ID1_NAME imageType:PPImageTypeDocument resultClass:[PPDetectorRecognizerResult class]];
 
@@ -1050,6 +1145,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanOldIDRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanPassportRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanPassportRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPUnitedArabEmiratesIDFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
         }
     }
 }
