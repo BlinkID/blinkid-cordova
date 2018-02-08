@@ -150,10 +150,10 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static CallbackContext sCallbackContext;
 
     private static Map<String, Class<? extends BaseRecognitionResult>>
-            sFullDocumentImageResultTypes = new HashMap<>();
+            sFullDocumentImageResultTypes = new HashMap<String, Class<? extends BaseRecognitionResult>>();
 
     private static Map<String, Class<? extends BaseRecognitionResult>>
-            sFaceImageResultTypes = new HashMap<>();
+            sFaceImageResultTypes = new HashMap<String, Class<? extends BaseRecognitionResult>>();
 
     /**
      * Constructor.
