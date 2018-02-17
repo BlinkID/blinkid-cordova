@@ -19,13 +19,13 @@ git checkout "v${VERSION}" >/dev/null 2>&1 || exit 1
 git lfs fetch
 git lfs checkout
 
-mv Microblink.framework ../Microblink.framework
-mv Microblink.bundle ../Microblink.bundle
+mv MicroBlink.framework ../MicroBlink.framework
+mv MicroBlink.bundle ../MicroBlink.bundle
 
 echo "Deleting unnecessary files"
 rm -rfv * >/dev/null 2>&1
 
-mv ../Microblink.framework Microblink.framework
-mv ../Microblink.bundle Microblink.bundle
+mv ../MicroBlink.framework MicroBlink.framework
+mv ../MicroBlink.bundle MicroBlink.bundle
 
 popd
