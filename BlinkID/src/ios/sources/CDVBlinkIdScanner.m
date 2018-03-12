@@ -38,6 +38,8 @@ const NSString *UAE_ID_FRONT_TYPE = @"UnitedArabEmiratesIDFront";
 const NSString *GERMAN_PASS_TYPE = @"GermanPassport";
 const NSString *DOCUMENTFACE_TYPE = @"DocumentFace";
 const NSString *DOCUMENTDETECTOR_TYPE = @"DocumentDetector";
+const NSString *SINGAPORE_ID_FRONT_TYPE = @"SingaporeIDFront";
+const NSString *SINGAPORE_ID_BACK_TYPE = @"SingaporeIDBack";
 
 const NSString *RESULT_LIST = @"resultList";
 const NSString *RESULT_TYPE = @"resultType";
@@ -68,6 +70,8 @@ NSString *UAE_ID_BACK_RESULT_TYPE = @"UnitedArabEmiratesIDBack result";
 NSString *UAE_ID_FRONT_RESULT_TYPE = @"UnitedArabEmiratesIDFront result";
 NSString *DOCUMENTFACE_RESULT_TYPE = @"DocumentFace result";
 NSString *DOCUMENTDETECTOR_RESULT_TYPE = @"DocumentDetector result";
+NSString *SINGAPORE_ID_FRONT_RESULT_TYPE = @"SingaporeFrontID result";
+NSString *SINGAPORE_ID_BACK_RESULT_TYPE = @"SingaporeBackID result";
 
 NSString *DOCUMENTDETECTOR_ID1_NAME = @"IDCard";
 NSString *DOCUMENTDETECTOR_ID2_NAME = @"ID2Card";
@@ -80,6 +84,15 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
 NSString *IMAGE_SUCCESSFUL_STR = @"IMAGE_SUCCESSFUL_SCAN";
 NSString *IMAGE_DOCUMENT_STR = @"IMAGE_DOCUMENT";
 NSString *IMAGE_FACE_STR = @"IMAGE_FACE";
+
+// Card specific keys
+NSString * MRTD_DATE_OF_BIRTH = @"DateOfBirth";
+NSString * MRTD_DATE_OF_EXPIRY = @"DateOfExpiry";
+NSString * MYKAD_OWNER_BIRTH_DATE = @"ownerBirthDate";
+NSString * GERMAN_ID_DATE_OF_ISSUE = @"DeIDDateOfIssue.DateOfIssue";
+NSString * GERMAN_PASS_DATE_OF_ISSUE = @"GermanPassportDateOfIssue.DateOfIssue";
+NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDateOfBirth.DateOfBirth";
+NSString * SINGAPORE_DATE_OF_ISSUE = @"SingaporeIDBloodGroupDOI.DateOfIssue";
 
 @interface CDVPlugin () <PPScanningDelegate>
 
@@ -497,6 +510,47 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return uaeFrontRecognizerSettings;
 }
 
+- (PPSingaporeIDFrontRecognizerSettings *)singaporeDFrontRecognizerSettings {
+
+    PPSingaporeIDFrontRecognizerSettings *singaporeDFrontRecognizerSettings = [[PPSingaporeIDFrontRecognizerSettings alloc] init];
+
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
+        singaporeDFrontRecognizerSettings.displayFullDocumentImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPSingaporeIDFrontRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    // Setup returning face image
+
+    if ([self shouldReturnFaceImage]) {
+        singaporeDFrontRecognizerSettings.displayPortraitImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPSingaporeIDFrontRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
+    }
+
+    return singaporeDFrontRecognizerSettings;
+}
+
+- (PPSingaporeIDBackRecognizerSettings *)singaporeIDBackRecognizerSettings {
+
+    PPSingaporeIDBackRecognizerSettings *singaporeIDBackRecognizerSettings = [[PPSingaporeIDBackRecognizerSettings alloc] init];
+
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
+        singaporeIDBackRecognizerSettings.displayFullDocumentImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPSingaporeIDBackRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    return singaporeIDBackRecognizerSettings;
+}
+
 
 - (NSMutableDictionary *)getInitializedImagesDictionaryForClass:(Class)class {
 
@@ -575,6 +629,14 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (BOOL)shouldUseUaeIDFrontType:(NSArray *)types {
     return [types containsObject:UAE_ID_FRONT_TYPE];
+}
+
+- (BOOL)shouldUseSingaporeIDFrontType:(NSArray *)types {
+    return [types containsObject:SINGAPORE_ID_FRONT_TYPE];
+}
+
+- (BOOL)shouldUseSingaporeIDBackType:(NSArray *)types {
+    return [types containsObject:SINGAPORE_ID_BACK_TYPE];
 }
 
 #pragma mark - Main
@@ -695,6 +757,13 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
         [settings.scanSettings addRecognizerSettings:[self uaeFrontRecognizerSettings]];
     }
 
+    if ([self shouldUseSingaporeIDFrontType:types]) {
+        [settings.scanSettings addRecognizerSettings:[self singaporeDFrontRecognizerSettings]];
+    }
+
+    if ([self shouldUseSingaporeIDBackType:types]) {
+        [settings.scanSettings addRecognizerSettings:[self singaporeIDBackRecognizerSettings]];
+    }
     /** 4. Initialize the Scanning Coordinator object */
     
     PPCameraCoordinator *coordinator = [[PPCameraCoordinator alloc] initWithSettings:settings];
@@ -759,8 +828,8 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (void)setDictionary:(NSMutableDictionary *)dict withMrtdRecognizerResult:(PPMrtdRecognizerResult *)mrtdResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[mrtdResult getAllStringElements]];
-    [stringElements setObject:[mrtdResult rawDateOfBirth] forKey:@"DateOfBirth"];
-    [stringElements setObject:[mrtdResult rawDateOfExpiry] forKey:@"DateOfExpiry"];
+    [stringElements setObject:[mrtdResult rawDateOfBirth] forKey:MRTD_DATE_OF_BIRTH];
+    [stringElements setObject:[mrtdResult rawDateOfExpiry] forKey:MRTD_DATE_OF_EXPIRY];
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:[mrtdResult mrzText] forKey:RAW_DATA];
     [dict setObject:MRTD_RESULT_TYPE forKey:RESULT_TYPE];
@@ -795,7 +864,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (void)setDictionary:(NSMutableDictionary *)dict withMyKadRecognizerResult:(PPMyKadFrontRecognizerResult *)myKadResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[myKadResult getAllStringElements]];
-    [stringElements setObject:[myKadResult rawOwnerBirthDate] forKey:@"ownerBirthDate"];
+    [stringElements setObject:[myKadResult rawOwnerBirthDate] forKey:MYKAD_OWNER_BIRTH_DATE];
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:MYKAD_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:myKadResult];
@@ -815,7 +884,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanOldIDRecognizerResult:(PPGermanOldIDRecognizerResult *)germanOldIDResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanOldIDResult getAllStringElements]];
-    [stringElements setObject:[germanOldIDResult rawDateOfBirth] forKey:@"DateOfBirth"];
+    [stringElements setObject:[germanOldIDResult rawDateOfBirth] forKey:MRTD_DATE_OF_BIRTH];
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_OLD_ID_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:germanOldIDResult];
@@ -829,7 +898,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanIDBackRecognizerResult:(PPGermanIDBackRecognizerResult *)germanIDBackResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanIDBackResult getAllStringElements]];
-    [stringElements setObject:[germanIDBackResult rawDateOfIssue] forKey:@"DeIDDateOfIssue.DateOfIssue"];
+    [stringElements setObject:[germanIDBackResult rawDateOfIssue] forKey:GERMAN_ID_DATE_OF_ISSUE];
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_ID_BACK_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:germanIDBackResult];
@@ -837,7 +906,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanPassportRecognizerResult:(PPGermanPassportRecognizerResult *)germanPassportResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanPassportResult getAllStringElements]];
-    [stringElements setObject:[germanPassportResult rawDateOfIssue] forKey:@"GermanPassportDateOfIssue.DateOfIssue"];
+    [stringElements setObject:[germanPassportResult rawDateOfIssue] forKey:GERMAN_PASS_DATE_OF_ISSUE];
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_PASS_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:germanPassportResult];
@@ -855,6 +924,29 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:UAE_ID_FRONT_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:uaeIDFrontResult];
+}
+
+- (void)setDictionary:(NSMutableDictionary *)dict withSingaporeIDFrontRecognizerResult:(PPSingaporeIDFrontRecognizerResult *)singaporeIDFrontResult {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"dd-MM-yyyy"];
+    [formatter setTimeZone:[NSTimeZone localTimeZone]];
+
+    NSDate *dateOfBirth = [singaporeIDFrontResult dateOfBirth];
+    NSString *stringDateOfBirth = [formatter stringFromDate:dateOfBirth];
+
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[singaporeIDFrontResult getAllStringElements]];
+    [stringElements setObject:stringDateOfBirth forKey:SINGAPORE_DATE_OF_BIRTH];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:SINGAPORE_ID_FRONT_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:singaporeIDFrontResult];
+}
+
+- (void)setDictionary:(NSMutableDictionary *)dict withSingaporeIDBackRecognizerResult:(PPSingaporeIDBackRecognizerResult *)singaporeIDBackResult {
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[singaporeIDBackResult getAllStringElements]];
+    [stringElements setObject:[singaporeIDBackResult rawDateOfIssue] forKey:SINGAPORE_DATE_OF_ISSUE];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:SINGAPORE_ID_BACK_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:singaporeIDBackResult];
 }
 
 - (void)returnResults:(NSArray *)results cancelled:(BOOL)cancelled {
@@ -984,7 +1076,27 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [resultArray addObject:dict];
             continue;
         }
-        
+
+        if ([result isKindOfClass:[PPSingaporeIDFrontRecognizerResult class]]) {
+            PPSingaporeIDFrontRecognizerResult *singaporeIDFrontDecoderResult = (PPSingaporeIDFrontRecognizerResult *)result;
+
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withSingaporeIDFrontRecognizerResult:singaporeIDFrontDecoderResult];
+
+            [resultArray addObject:dict];
+            continue;
+        }
+
+        if ([result isKindOfClass:[PPSingaporeIDBackRecognizerResult class]]) {
+            PPSingaporeIDBackRecognizerResult *singaporeIDBackDecoderResult = (PPSingaporeIDBackRecognizerResult *)result;
+
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withSingaporeIDBackRecognizerResult:singaporeIDBackDecoderResult];
+
+            [resultArray addObject:dict];
+            continue;
+        }
+
         if ([result isKindOfClass:[PPDetectorRecognizerResult class]]) {
             PPDetectorRecognizerResult *documentDetectorResult = (PPDetectorRecognizerResult *)result;
 
@@ -1137,6 +1249,8 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPGermanPassportRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanPassportRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPUnitedArabEmiratesIDBackRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPUnitedArabEmiratesIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPSingaporeIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPSingaporeIDFrontRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPSingaporeIDBackRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPSingaporeIDBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:DOCUMENTDETECTOR_ID1_NAME imageType:PPImageTypeDocument resultClass:[PPDetectorRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:DOCUMENTDETECTOR_ID1_NAME imageType:PPImageTypeDocument resultClass:[PPDetectorRecognizerResult class]];
 
@@ -1146,6 +1260,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanPassportRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanPassportRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPUnitedArabEmiratesIDFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPSingaporeIDFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPSingaporeIDFrontRecognizerResult class]];
         }
     }
 }

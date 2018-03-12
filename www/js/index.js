@@ -77,6 +77,8 @@ var app = {
          * GermanPassport - scans the front side of German passport
          * UnitedArabEmiratesIDFront - scans the front side of UnitedArabEmirates ID card
          * UnitedArabEmiratesIDBack - scans the back side of UnitedArabEmirates ID card
+         * SingaporeIDFront - scans the front side of Singapore ID card
+         * SingaporeIDBack - scans the back side of Singapore ID card
          * DocumentFace - scans documents which contain owner's face image
          * DocumentDetector - scans documents that are specified as ID1 or ID2 and returns their image
          *
@@ -286,6 +288,26 @@ var app = {
                                                 "ID number: " + fields[kPPuaeIdFrontIdNumber] + "<br>" +
                                                 "Name: " + fields[kPPuaeIdFrontName] + "<br>" +
                                                 "Nationality: " + fields[kPPuaeIdFrontNationality] + "<br>";
+
+                        } else if (recognizerResult.resultType == "SingaporeFrontID result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Card number: " + fields[kPPsingaporeCardNumberFront] + "<br>" +
+                                                "Date of birth: " + fields[kPPsingaporeDateOfBirth] + "<br>" +
+                                                "Country of birth: " + fields[kPPsingaporeCountryOfBirth] + "<br>" +
+                                                "Race: " + fields[kPPsingaporeRace] + "<br>" +
+                                                "Name: " + fields[kPPsingaporeName] + "<br>" +
+                                                "Sex: " + fields[kPPsingaporeSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "SingaporeBackID result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Card number: " + fields[kPPsingaporeCardNumberBack] + "<br>" +
+                                                "Date of issue: " + fields[kPPsingaporeDateOfIssue] + "<br>" +
+                                                "Blood group: " + fields[kPPsingaporeBloodGroup] + "<br>" +
+                                                "Address: " + fields[kPPsingaporeAddress] + "<br>";
 
                         } else if (recognizerResult.resultType == "DocumentDetector result") {
 
