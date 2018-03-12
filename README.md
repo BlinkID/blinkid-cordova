@@ -169,10 +169,9 @@ To run the script, you'll need BASH environment on Windows (Linux and MacOS use 
 To use the plugin you call it in your Javascript code like the demo application:
 
 ```javascript
-
-/**
+ /**
  * Use these scanner types
- * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "DocumentFace", "DocumentDetector"
+ * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "SingaporeIDFront", "SingaporeIDBack", "DocumentFace", "DocumentDetector"
  * PDF417 - scans PDF417 barcodes
  * USDL - scans barcodes located on the back of US driver's license
  * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
@@ -187,12 +186,14 @@ To use the plugin you call it in your Javascript code like the demo application:
  * GermanPassport - scans the front side of German passport
  * UnitedArabEmiratesIDFront - scans the front side of UnitedArabEmirates ID card
  * UnitedArabEmiratesIDBack - scans the back side of UnitedArabEmirates ID card
+ * SingaporeIDFront - scans the front side of Singapore ID card
+ * SingaporeIDBack - scans the back side of Singapore ID card
  * DocumentFace - scans documents which contain owner's face image
  * DocumentDetector - scans documents that are specified as ID1 or ID2 and returns their image
  *
  * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
  */
-var types = ["USDL", "MRTD", "Barcode", "MyKad"];
+var types = ["SingaporeIDFront", "SingaporeIDBack"];
 
 /**
  * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
@@ -215,7 +216,7 @@ var language = "en"
 // Note that each platform requires its own license key
 
 // This license key allows setting overlay views for this application ID: com.microblink.blinkid
-var licenseiOs = "RYRTHFTE-BGSW25OV-22FACO5I-XKFH6NNV-EYKLREEQ-SCIJBEEQ-SCIJAMA4-CTCG345C"; // valid until 2018-03-04
+var licenseiOs = "VD62UVB5-H24WWCCB-CCR443VD-IOD4AEF6-6W6P2KED-PIZ7VRQA-EVEKPC34-O27IFYXG"; // valid until 2018-05-09
 
 // This license is only valid for package name "com.microblink.blinkid"
 var licenseAndroid = "FESCWEBI-3FQIPFNN-UOA3DVXD-CARRDWLE-P7SQBC3D-V3PZU4SX-54PGVNWO-NQ5WS5HX";
@@ -264,8 +265,8 @@ scanButton.addEventListener('click', function() {
                         raw = " (raw: " + hex2a(recognizerResult.raw) + ")";
                     }
                     resultDiv.innerHTML = "Data: " + recognizerResult.data +
-                                          raw +
-                                          " (Type: " + recognizerResult.type + ")";
+                                        raw +
+                                        " (Type: " + recognizerResult.type + ")";
 
                 } else if (recognizerResult.resultType == "USDL result") {
                     // handle USDL parsing result
@@ -397,6 +398,26 @@ scanButton.addEventListener('click', function() {
                                         "Name: " + fields[kPPuaeIdFrontName] + "<br>" +
                                         "Nationality: " + fields[kPPuaeIdFrontNationality] + "<br>";
 
+                } else if (recognizerResult.resultType == "SingaporeFrontID result") {
+
+                    resultDiv.innerHTML = /** Personal information */
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
+                                        "Card number: " + fields[kPPsingaporeCardNumberFront] + "<br>" +
+                                        "Date of birth: " + fields[kPPsingaporeDateOfBirth] + "<br>" +
+                                        "Country of birth: " + fields[kPPsingaporeCountryOfBirth] + "<br>" +
+                                        "Race: " + fields[kPPsingaporeRace] + "<br>" +
+                                        "Name: " + fields[kPPsingaporeName] + "<br>" +
+                                        "Sex: " + fields[kPPsingaporeSex] + "<br>";
+
+                } else if (recognizerResult.resultType == "SingaporeBackID result") {
+
+                    resultDiv.innerHTML = /** Personal information */
+                                        "ID Type: " + fields[kPPDataType] + "<br>" +
+                                        "Card number: " + fields[kPPsingaporeCardNumberBack] + "<br>" +
+                                        "Date of issue: " + fields[kPPsingaporeDateOfIssue] + "<br>" +
+                                        "Blood group: " + fields[kPPsingaporeBloodGroup] + "<br>" +
+                                        "Address: " + fields[kPPsingaporeAddress] + "<br>";
+            
                 } else if (recognizerResult.resultType == "DocumentDetector result") {
 
                     resultDiv.innerHTML = "Found a document";
@@ -406,7 +427,7 @@ scanButton.addEventListener('click', function() {
                     resultDiv.innerHTML = "Found document with face";
 
                 } else {
-                          
+                    
                     resultDiv.innerHTML = recognizerResult.resultType;
 
                 }
@@ -438,7 +459,7 @@ scanButton.addEventListener('click', function() {
 
         types, imageTypes, licenseiOs, licenseAndroid, language
     );
-});
+});;
 ```
 
 + Available scanners are:
@@ -456,6 +477,8 @@ scanButton.addEventListener('click', function() {
     + **GermanPassport** - scans the front of German passports
     + **UnitedArabEmiratesIDFront** - scans the front side of United Arab Emirates ID card
     + **UnitedArabEmiratesIDBack** - scans the back side of United Arab Emirates ID card
+    + **SingaporeIDFront** - scans the front side of Singapore ID card
+    + **SingaporeIDBack** - scans the back side of Singapore ID card
     + **DocumentFace** - scans documents which contain owner's face image
     + **DocumentDetector** - scans documents that are specified as ID1 or ID2 and returns their image
 	
