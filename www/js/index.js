@@ -62,7 +62,7 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "DocumentFace", "DocumentDetector"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "SingaporeIDFront", "SingaporeIDBack", "DocumentFace", "DocumentDetector"
          * PDF417 - scans PDF417 barcodes
          * USDL - scans barcodes located on the back of US driver's license
          * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
