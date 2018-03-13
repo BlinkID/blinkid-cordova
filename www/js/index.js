@@ -84,7 +84,7 @@ var app = {
          *
          * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
          */
-        var types = ["USDL", "MRTD", "Barcode", "MyKad"];
+        var types = ["USDL", "MRTD", "Barcode"];
 
         /**
          * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
