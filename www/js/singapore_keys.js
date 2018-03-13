@@ -14,7 +14,7 @@ var kPPsingaporeCountryOfBirth = "SingaporeIDCountryOfBirth.CountryOfBirth";
 
 var kPPsingaporeCardNumberFront = "SingaporeIDCardNumberFront.CardNumber";
 
-var kPPsingaporeDateOfBirth = "SingaporeIDDateOfBirth.DateOfBirth";
+var kPPsingaporeDateOfBirth = "SingaporeIDDOBSex.DateOfBirth";
 
 var kPPsingaporeName = "SingaporeIDName.Name";
 

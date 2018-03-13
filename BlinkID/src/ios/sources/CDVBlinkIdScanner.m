@@ -91,7 +91,7 @@ NSString * MRTD_DATE_OF_EXPIRY = @"DateOfExpiry";
 NSString * MYKAD_OWNER_BIRTH_DATE = @"ownerBirthDate";
 NSString * GERMAN_ID_DATE_OF_ISSUE = @"DeIDDateOfIssue.DateOfIssue";
 NSString * GERMAN_PASS_DATE_OF_ISSUE = @"GermanPassportDateOfIssue.DateOfIssue";
-NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDateOfBirth.DateOfBirth";
+NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDOBSex.DateOfBirth";
 NSString * SINGAPORE_DATE_OF_ISSUE = @"SingaporeIDBloodGroupDOI.DateOfIssue";
 
 @interface CDVPlugin () <PPScanningDelegate>
