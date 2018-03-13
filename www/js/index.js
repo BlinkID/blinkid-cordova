@@ -62,7 +62,7 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "DocumentFace", "DocumentDetector"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "SingaporeIDFront", "SingaporeIDBack", "DocumentFace", "DocumentDetector"
          * PDF417 - scans PDF417 barcodes
          * USDL - scans barcodes located on the back of US driver's license
          * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
@@ -77,12 +77,14 @@ var app = {
          * GermanPassport - scans the front side of German passport
          * UnitedArabEmiratesIDFront - scans the front side of UnitedArabEmirates ID card
          * UnitedArabEmiratesIDBack - scans the back side of UnitedArabEmirates ID card
+         * SingaporeIDFront - scans the front side of Singapore ID card
+         * SingaporeIDBack - scans the back side of Singapore ID card
          * DocumentFace - scans documents which contain owner's face image
          * DocumentDetector - scans documents that are specified as ID1 or ID2 and returns their image
          *
          * Variable << types >> declared below has to contain all the scanners needed by your application. Applying additional scanners will slow down the scanning process
          */
-        var types = ["USDL", "MRTD", "Barcode", "MyKad"];
+        var types = ["USDL", "MRTD", "Barcode"];
 
         /**
          * Image type defines type of the image that will be returned in scan result (image is returned as Base64 encoded JPEG)
@@ -286,6 +288,26 @@ var app = {
                                                 "ID number: " + fields[kPPuaeIdFrontIdNumber] + "<br>" +
                                                 "Name: " + fields[kPPuaeIdFrontName] + "<br>" +
                                                 "Nationality: " + fields[kPPuaeIdFrontNationality] + "<br>";
+
+                        } else if (recognizerResult.resultType == "SingaporeFrontID result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Card number: " + fields[kPPsingaporeCardNumberFront] + "<br>" +
+                                                "Date of birth: " + fields[kPPsingaporeDateOfBirth] + "<br>" +
+                                                "Country of birth: " + fields[kPPsingaporeCountryOfBirth] + "<br>" +
+                                                "Race: " + fields[kPPsingaporeRace] + "<br>" +
+                                                "Name: " + fields[kPPsingaporeName] + "<br>" +
+                                                "Sex: " + fields[kPPsingaporeSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "SingaporeBackID result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Card number: " + fields[kPPsingaporeCardNumberBack] + "<br>" +
+                                                "Date of issue: " + fields[kPPsingaporeDateOfIssue] + "<br>" +
+                                                "Blood group: " + fields[kPPsingaporeBloodGroup] + "<br>" +
+                                                "Address: " + fields[kPPsingaporeAddress] + "<br>";
 
                         } else if (recognizerResult.resultType == "DocumentDetector result") {
 
