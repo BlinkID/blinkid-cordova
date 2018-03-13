@@ -51,6 +51,10 @@ import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRec
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
+import com.microblink.recognizers.blinkid.singapore.back.SingaporeIDBackRecognitionResult;
+import com.microblink.recognizers.blinkid.singapore.back.SingaporeIDBackRecognizerSettings;
+import com.microblink.recognizers.blinkid.singapore.front.SingaporeIDFrontRecognitionResult;
+import com.microblink.recognizers.blinkid.singapore.front.SingaporeIDFrontRecognizerSettings;
 import com.microblink.recognizers.blinkid.unitedArabEmirates.back.UnitedArabEmiratesIDBackRecognitionResult;
 import com.microblink.recognizers.blinkid.unitedArabEmirates.back.UnitedArabEmiratesIDBackRecognizerSettings;
 import com.microblink.recognizers.blinkid.unitedArabEmirates.front.UnitedArabEmiratesIDFrontRecognitionResult;
@@ -81,25 +85,6 @@ public class BlinkIdScanner extends CordovaPlugin {
 
     private static final int REQUEST_CODE = 1337;
 
-    // keys for recognizer types
-    private static final String BARCODE_TYPE = "Barcode";
-    private static final String DEDL_TYPE = "DEDL";
-    private static final String DOCUMENTDETECTOR_TYPE = "DocumentDetector";
-    private static final String DOCUMENTFACE_TYPE = "DocumentFace";
-    private static final String EUDL_TYPE = "EUDL";
-    private static final String GERMAN_ID_BACK_TYPE = "GermanIDBack";
-    private static final String GERMAN_ID_FRONT_TYPE = "GermanIDFront";
-    private static final String GERMAN_OLD_ID_TYPE = "GermanOldID";
-    private static final String GERMAN_PASS_TYPE = "GermanPassport";
-    private static final String MRTD_TYPE = "MRTD";
-    private static final String MYKAD_TYPE = "MyKad";
-    private static final String PDF417_TYPE = "PDF417";
-    private static final String UKDL_TYPE = "UKDL";
-    private static final String UAE_ID_BACK_TYPE = "UnitedArabEmiratesIDBack";
-    private static final String UAE_ID_FRONT_TYPE = "UnitedArabEmiratesIDFront";
-    private static final String USDL_TYPE = "USDL";
-
-
     // keys for result types
     private static final String BARCODE_RESULT_TYPE = "Barcode result";
     private static final String DEDL_RESULT_TYPE = "DEDL result";
@@ -110,6 +95,8 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String GERMAN_ID_FRONT_RESULT_TYPE = "GermanFrontID result";
     private static final String GERMAN_OLD_ID_RESULT_TYPE = "GermanOldID result";
     private static final String GERMAN_PASS_RESULT_TYPE = "GermanPassport result";
+    private static final String SINGAPORE_ID_FRONT_RESULT = "SingaporeFrontID result";
+    private static final String SINGAPORE_ID_BACK_RESULT = "SingaporeBackID result";
     private static final String MRTD_RESULT_TYPE = "MRTD result";
     private static final String MYKAD_RESULT_TYPE = "MyKad result";
     private static final String PDF417_RESULT_TYPE = "Barcode result";
@@ -305,41 +292,78 @@ public class BlinkIdScanner extends CordovaPlugin {
     }
 
 
-    private RecognizerSettings buildRecognizerSettings(String type) {
-        if (type.equals(PDF417_TYPE)) {
-            return buildPDF417Settings();
-        } else if (type.equals(USDL_TYPE)) {
-            return buildUsdlSettings();
-        } else if (type.equals(MRTD_TYPE)) {
-            return buildMrtdSettings();
-        } else if (type.equals(UKDL_TYPE)) {
-            return buildUkdlSettings();
-        } else if (type.equals(DEDL_TYPE)) {
-            return buildDedlSettings();
-        } else if (type.equals(EUDL_TYPE)) {
-            return buildEudlSettings();
-        } else if (type.equals(MYKAD_TYPE)) {
-            return buildMyKadSettings();
-        } else if(type.equals(BARCODE_TYPE)) {
-            return buildBarcodeSettings();
-        } else if (type.equals(GERMAN_OLD_ID_TYPE)) {
-            return buildGermanOldIDSettings();
-        } else if (type.equals(GERMAN_ID_FRONT_TYPE)) {
-            return buildGermanIDFrontSettings();
-        } else if (type.equals(GERMAN_ID_BACK_TYPE)) {
-            return buildGermanIDBackSettings();
-        } else if (type.equals(GERMAN_PASS_TYPE)) {
-            return buildGermanPassSettings();
-        } else if (type.equals(UAE_ID_BACK_TYPE)) {
-            return buildUaeIDBackSettings();
-        } else if (type.equals(UAE_ID_FRONT_TYPE)) {
-            return buildUaeIDFrontSettings();
-        } else if (type.equals(DOCUMENTFACE_TYPE)) {
-            return buildDocumentFaceSettings();
-        } else if(type.equals(DOCUMENTDETECTOR_TYPE)) {
-            return buildDocumentDetectorSettings();
+    private RecognizerSettings buildRecognizerSettings(String recognizerId) {
+        RecognizerType recognizerType = RecognizerType.fromId(recognizerId);
+
+        switch (recognizerType) {
+            case PDF417:
+                return buildPDF417Settings();
+            case USDL:
+                return buildUsdlSettings();
+            case MRTD:
+                return buildMrtdSettings();
+            case UKDL:
+                return buildUkdlSettings();
+            case DEDL:
+                return buildDedlSettings();
+            case EUDL:
+                return buildEudlSettings();
+            case MYKAD:
+                return buildMyKadSettings();
+            case BARCODE:
+                return buildBarcodeSettings();
+            case GERMAN_OLD_ID:
+                return buildGermanOldIDSettings();
+            case GERMAN_ID_FRONT:
+                return buildGermanIDFrontSettings();
+            case GERMAN_ID_BACK:
+                return buildGermanIDBackSettings();
+            case GERMAN_PASSPORT:
+                return buildGermanPassSettings();
+            case SINGAPORE_ID_FRONT:
+                return buildSingaporeIdFrontSettings();
+            case SINGAPORE_ID_BACK:
+                return buildSingaporeIdBackSettings();
+            case UAE_ID_BACK:
+                return buildUaeIDBackSettings();
+            case UAE_ID_FRONT:
+                return buildUaeIDFrontSettings();
+            case DOCUMENTFACE:
+                return buildDocumentFaceSettings();
+            case DOCUMENTDETECTOR:
+                return buildDocumentDetectorSettings();
         }
-        throw new IllegalArgumentException("Recognizer type not supported: " + type);
+        throw new IllegalArgumentException("Recognizer type not supported: " + recognizerId);
+    }
+
+    private RecognizerSettings buildSingaporeIdFrontSettings() {
+        SingaporeIDFrontRecognizerSettings settings = new SingaporeIDFrontRecognizerSettings();
+
+        if (sReturnDocumentImage) {
+            settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(SingaporeIDFrontRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME,
+                    SingaporeIDFrontRecognitionResult.class);
+        }
+
+        if (sReturnFaceImage) {
+            settings.setDisplayPortraitImage(true);
+            sFaceImageResultTypes.put(SingaporeIDFrontRecognizerSettings.PORTRAIT_IMAGE_NAME,
+                    SingaporeIDFrontRecognitionResult.class);
+        }
+
+
+        return settings;
+    }
+    private RecognizerSettings buildSingaporeIdBackSettings() {
+        SingaporeIDBackRecognizerSettings settings = new SingaporeIDBackRecognizerSettings();
+
+        if (sReturnDocumentImage) {
+            settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(SingaporeIDBackRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME,
+                    SingaporeIDBackRecognitionResult.class);
+        }
+
+        return settings;
     }
 
     private MRTDRecognizerSettings buildMrtdSettings() {
@@ -667,6 +691,10 @@ public class BlinkIdScanner extends CordovaPlugin {
                             resultsList.put(buildUaeIDFrontResult((UnitedArabEmiratesIDFrontRecognitionResult) res));
                         } else if (res instanceof UnitedArabEmiratesIDBackRecognitionResult) {
                             resultsList.put(buildUaeIDBackResult((UnitedArabEmiratesIDBackRecognitionResult) res));
+                        } else if (res instanceof SingaporeIDFrontRecognitionResult) {
+                            resultsList.put(buildSingaporeIDFrontResult((SingaporeIDFrontRecognitionResult) res));
+                        } else if (res instanceof SingaporeIDBackRecognitionResult) {
+                            resultsList.put(buildSingaporeIDBackResult((SingaporeIDBackRecognitionResult) res));
                         } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
                             resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
                         } else if (res instanceof DocumentFaceRecognitionResult) { // check if scan result is result of Document Face recognizer
@@ -865,6 +893,20 @@ public class BlinkIdScanner extends CordovaPlugin {
         JSONObject result = buildKeyValueResult(res, GERMAN_PASS_RESULT_TYPE);
         putDocumentImageToResultJson(result, GermanPassportRecognitionResult.class);
         putFaceImageToResultJson(result, GermanPassportRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildSingaporeIDFrontResult(SingaporeIDFrontRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, SINGAPORE_ID_FRONT_RESULT);
+        putDocumentImageToResultJson(result, SingaporeIDFrontRecognitionResult.class);
+        putFaceImageToResultJson(result, SingaporeIDFrontRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildSingaporeIDBackResult(SingaporeIDBackRecognitionResult res)throws JSONException {
+        JSONObject result = buildKeyValueResult(res, SINGAPORE_ID_BACK_RESULT);
+        putDocumentImageToResultJson(result, SingaporeIDBackRecognitionResult.class);
+        putFaceImageToResultJson(result, SingaporeIDBackRecognitionResult.class);
         return result;
     }
 
