@@ -54,12 +54,12 @@
         </config-file>
 
 
-        <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
-        <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
-        <source-file src="src/android/java/com/phonegap/plugins/blinkid/RecognizerType.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="src/com/phonegap/plugins/blinkid" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="src/com/phonegap/plugins/blinkid" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/RecognizerType.java" target-dir="src/com/phonegap/plugins/blinkid" />
 
-        <source-file src="src/android/res/raw/beep.mp3" target-dir="app/src/main/res/raw" />
-        <source-file src="src/android/res/layout/splash_screen.xml" target-dir="app/src/main/res/layout" />
+        <source-file src="src/android/res/raw/beep.mp3" target-dir="res/raw" />
+        <source-file src="src/android/res/layout/splash_screen.xml" target-dir="res/layout" />
 
         <framework src="src/android/libBlinkID.gradle" custom="true" type="gradleReference" />
         
