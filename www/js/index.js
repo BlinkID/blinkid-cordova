@@ -72,6 +72,7 @@ var app = {
          * DEDL - scans the front side of German driver's license
          * MyKadFront - scans the front side of Malaysian ID card
          * MyKadBack - scans the back side of Malaysian ID card
+         * MyTentera - scans the front side of Malaysian Tentera card
          * GermanOldID - scans the front side of old German ID card
          * GermanIDFront - scans the front side of German ID card
          * GermanIDBack - scans the back side of German ID card
@@ -240,6 +241,22 @@ var app = {
                                                 "Extended NRIC Number: " + fields[kPPmyKadBackExtendedNricNumber] + "<br>" +
                                                 "Birth Date: " + fields[kPPmyKadBackBirthDate] + "<br>" +
                                                 "Sex: " + fields[kPPmyKadBackSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "MyTentera result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Army Number: " + fields[kPPmyTenteraArmyNumber] + "<br>" +
+                                                "NRIC Number: " + fields[kPPmyTenteraNricNumber] + "<br>" +
+                                                "Address: " + fields[kPPmyTenteraAddress] + "<br>" +
+                                                "Address ZIP Code: " + fields[kPPmyTenteraAddressZipCode] + "<br>" +
+                                                "Address Street: " + fields[kPPmyTenteraAddressStreet] + "<br>" +
+                                                "Address City: " + fields[kPPmyTenteraAddressCity] + "<br>" +
+                                                "Address State: " + fields[kPPmyTenteraAddressState] + "<br>" +
+                                                "Birth Date: " + fields[kPPmyTenteraBirthDate] + "<br>" +
+                                                "Full Name: " + fields[kPPmyTenteraFullName] + "<br>" +
+                                                "Religion: " + fields[kPPmyTenteraReligion] + "<br>" +
+                                                "Sex: " + fields[kPPmyTenteraSex] + "<br>";
 
                         } else if (recognizerResult.resultType == "GermanOldID result") {
 
