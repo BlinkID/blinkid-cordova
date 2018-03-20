@@ -70,7 +70,8 @@ var app = {
          * EUDL - scans the front side of European driver's license
          * UKDL - scans the front side of United Kingom driver's license
          * DEDL - scans the front side of German driver's license
-         * MyKad - scans the front side of Malaysian ID card
+         * MyKadFront - scans the front side of Malaysian ID card
+         * MyKadBack - scans the back side of Malaysian ID card
          * GermanOldID - scans the front side of old German ID card
          * GermanIDFront - scans the front side of German ID card
          * GermanIDBack - scans the back side of German ID card
@@ -216,7 +217,7 @@ var app = {
                                                 "First name: " + fields[kPPeudlFirstName] + "<br>" +
                                                 "Last name: " + fields[kPPeudlLastName] + "<br>";
 
-                        } else if (recognizerResult.resultType == "MyKad result") {
+                        } else if (recognizerResult.resultType == "MyKadFront result") {
 
                             resultDiv.innerHTML = /** Personal information */
                                                 "ID Type: " + fields[kPPDataType] + "<br>" +
@@ -230,6 +231,15 @@ var app = {
                                                 "Full Name: " + fields[kPPmyKadFullName] + "<br>" +
                                                 "Religion: " + fields[kPPmyKadReligion] + "<br>" +
                                                 "Sex: " + fields[kPPmyKadSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "MyKadBack result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "NRIC Number: " + fields[kPPmyKadNricNumber] + "<br>" +
+                                                "Extended NRIC Number: " + fields[kPPmyKadBackExtendedNricNumber] + "<br>" +
+                                                "Birth Date: " + fields[kPPmyKadBackBirthDate] + "<br>" +
+                                                "Sex: " + fields[kPPmyKadBackSex] + "<br>";
 
                         } else if (recognizerResult.resultType == "GermanOldID result") {
 
