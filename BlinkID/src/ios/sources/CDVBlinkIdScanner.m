@@ -32,6 +32,7 @@ const NSString *EUDL_TYPE = @"EUDL";
 const NSString *MYKAD_FRONT_TYPE = @"MyKadFront";
 const NSString *MYKAD_BACK_TYPE = @"MyKadBack";
 const NSString *MYTENTERA_TYPE = @"MyTentera";
+const NSString *IKAD_TYPE = @"IKad";
 const NSString *GERMAN_OLD_ID_TYPE = @"GermanOldID";
 const NSString *GERMAN_ID_FRONT_TYPE = @"GermanIDFront";
 const NSString *GERMAN_ID_BACK_TYPE = @"GermanIDBack";
@@ -65,6 +66,7 @@ NSString *EUDL_RESULT_TYPE = @"EUDL result";
 NSString *MYKAD_FRONT_RESULT_TYPE = @"MyKadFront result";
 NSString *MYKAD_BACK_RESULT_TYPE = @"MyKadBack result";
 NSString *MYTENTERA_RESULT_TYPE = @"MyTentera result";
+NSString *IKAD_RESULT_TYPE = @"IKad result";
 NSString *BARCODE_RESULT_TYPE = @"Barcode result";
 NSString *GERMAN_OLD_ID_RESULT_TYPE = @"GermanOldID result";
 NSString *GERMAN_ID_FRONT_RESULT_TYPE = @"GermanFrontID result";
@@ -95,6 +97,8 @@ NSString * MRTD_DATE_OF_EXPIRY = @"DateOfExpiry";
 NSString * MYKAD_FRONT_OWNER_BIRTH_DATE = @"ownerBirthDate";
 NSString * MYKAD_BACK_OWNER_BIRTH_DATE = @"MyKadExtendedNRIC.DateOfBirth";
 NSString * MYTENTERA_OWNER_BIRTH_DATE = @"MyTenteraNricNumber.OwnerBirthDate";
+NSString * IKAD_DATE_OF_BIRTH = @"iKadDateOfBirth.DateOfBirth";
+NSString * IKAD_EXPIRY_DATE = @"iKadExpiryDate.ExpiryDate";
 NSString * GERMAN_ID_DATE_OF_ISSUE = @"DeIDDateOfIssue.DateOfIssue";
 NSString * GERMAN_PASS_DATE_OF_ISSUE = @"GermanPassportDateOfIssue.DateOfIssue";
 NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDOBSex.DateOfBirth";
@@ -427,6 +431,31 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return myTenteraRecognizerSettings;
 }
 
+- (PPiKadRecognizerSettings *)iKadRecognizerSettings {
+
+    PPiKadRecognizerSettings *iKadRecognizerSettings = [[PPiKadRecognizerSettings alloc] init];
+
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
+        iKadRecognizerSettings.displayFullDocumentImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPiKadRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    // Setup returning face image
+
+    if ([self shouldReturnFaceImage]) {
+        iKadRecognizerSettings.displayFaceImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPiKadRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
+    }
+
+    return iKadRecognizerSettings;
+}
+
 - (PPGermanOldIDRecognizerSettings *)germanOldIDRecognizerSettings {
 
     PPGermanOldIDRecognizerSettings *germanOldIDRecognizerSettings = [[PPGermanOldIDRecognizerSettings alloc] init];
@@ -662,6 +691,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return [types containsObject:MYTENTERA_TYPE];
 }
 
+- (BOOL)shouldUseIKadRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:IKAD_TYPE];
+}
+
 - (BOOL)shouldUseGermanOldIDType:(NSArray *)types {
     return [types containsObject:GERMAN_OLD_ID_TYPE];
 }
@@ -794,6 +827,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
     if ([self shouldUseMyTenteraRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self myTenteraRecognizerSettings]];
+    }
+
+    if ([self shouldUseIKadRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self iKadRecognizerSettings]];
     }
 
     if ([self shouldUseGermanOldIDType:types]) {
@@ -947,6 +984,15 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:MYTENTERA_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:myTenteraResult];
+}
+
+- (void)setDictionary:(NSMutableDictionary *)dict withIKadRecognizerResult:(PPiKadRecognizerResult *)iKadResult {
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[iKadResult getAllStringElements]];
+    [stringElements setObject:[iKadResult rawDateOfBirth] forKey:IKAD_DATE_OF_BIRTH];
+    [stringElements setObject:[iKadResult rawExpiryDate] forKey:IKAD_EXPIRY_DATE];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:IKAD_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:iKadResult];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withDocumentDetectorResult:(PPDetectorRecognizerResult *)detectorRecognizerResult {
@@ -1157,6 +1203,16 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             continue;
         }
 
+        if ([result isKindOfClass:[PPiKadRecognizerResult class]]) {
+            PPiKadRecognizerResult *iKadDecoderResult = (PPiKadRecognizerResult *)result;
+
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withIKadRecognizerResult:iKadDecoderResult];
+
+            [resultArray addObject:dict];
+            continue;
+        }
+
         if ([result isKindOfClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]]) {
             PPUnitedArabEmiratesIDBackRecognizerResult *uaeIDBackResult = (PPUnitedArabEmiratesIDBackRecognizerResult *)result;
             
@@ -1344,6 +1400,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPMyKadFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPMyKadBackRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPMyTenteraRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyTenteraRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPiKadRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPiKadRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPEudlRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPEudlRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanOldIDRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanIDFrontRecognizerResult class]];
@@ -1357,6 +1414,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:DOCUMENTDETECTOR_ID1_NAME imageType:PPImageTypeDocument resultClass:[PPDetectorRecognizerResult class]];
 
             [self setImageMetadata:imageMetadata forName:[PPMyKadFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyKadFrontRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPiKadRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPiKadRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPMyTenteraRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyTenteraRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPDocumentFaceRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanOldIDRecognizerResult class]];
