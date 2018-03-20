@@ -29,7 +29,8 @@ const NSString *MRTD_TYPE = @"MRTD";
 const NSString *UKDL_TYPE = @"UKDL";
 const NSString *DEDL_TYPE = @"DEDL";
 const NSString *EUDL_TYPE = @"EUDL";
-const NSString *MYKAD_TYPE = @"MyKad";
+const NSString *MYKAD_FRONT_TYPE = @"MyKadFront";
+const NSString *MYKAD_BACK_TYPE = @"MyKadBack";
 const NSString *GERMAN_OLD_ID_TYPE = @"GermanOldID";
 const NSString *GERMAN_ID_FRONT_TYPE = @"GermanIDFront";
 const NSString *GERMAN_ID_BACK_TYPE = @"GermanIDBack";
@@ -60,7 +61,8 @@ NSString *MRTD_RESULT_TYPE = @"MRTD result";
 NSString *UKDL_RESULT_TYPE = @"UKDL result";
 NSString *DEDL_RESULT_TYPE = @"DEDL result";
 NSString *EUDL_RESULT_TYPE = @"EUDL result";
-NSString *MYKAD_RESULT_TYPE = @"MyKad result";
+NSString *MYKAD_FRONT_RESULT_TYPE = @"MyKadFront result";
+NSString *MYKAD_BACK_RESULT_TYPE = @"MyKadBack result";
 NSString *BARCODE_RESULT_TYPE = @"Barcode result";
 NSString *GERMAN_OLD_ID_RESULT_TYPE = @"GermanOldID result";
 NSString *GERMAN_ID_FRONT_RESULT_TYPE = @"GermanFrontID result";
@@ -88,7 +90,8 @@ NSString *IMAGE_FACE_STR = @"IMAGE_FACE";
 // Card specific keys
 NSString * MRTD_DATE_OF_BIRTH = @"DateOfBirth";
 NSString * MRTD_DATE_OF_EXPIRY = @"DateOfExpiry";
-NSString * MYKAD_OWNER_BIRTH_DATE = @"ownerBirthDate";
+NSString * MYKAD_FRONT_OWNER_BIRTH_DATE = @"ownerBirthDate";
+NSString * MYKAD_BACK_OWNER_BIRTH_DATE = @"MyKadExtendedNRIC.DateOfBirth";
 NSString * GERMAN_ID_DATE_OF_ISSUE = @"DeIDDateOfIssue.DateOfIssue";
 NSString * GERMAN_PASS_DATE_OF_ISSUE = @"GermanPassportDateOfIssue.DateOfIssue";
 NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDOBSex.DateOfBirth";
@@ -355,14 +358,14 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return documentFaceReconizerSettings;
 }
 
-- (PPMyKadFrontRecognizerSettings *)myKadRecognizerSettings {
+- (PPMyKadFrontRecognizerSettings *)myKadFrontRecognizerSettings {
 
-    PPMyKadFrontRecognizerSettings *myKadRecognizerSettings = [[PPMyKadFrontRecognizerSettings alloc] init];
+    PPMyKadFrontRecognizerSettings *myKadFrontRecognizerSettings = [[PPMyKadFrontRecognizerSettings alloc] init];
 
     // Setup returning document image
 
     if ([self shouldReturnDocumentImage]) {
-        myKadRecognizerSettings.showFullDocument = YES;
+        myKadFrontRecognizerSettings.showFullDocument = YES;
 
         NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadFrontRecognizerResult class]];
         [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
@@ -371,13 +374,31 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     // Setup returning face image
 
     if ([self shouldReturnFaceImage]) {
-        myKadRecognizerSettings.showFaceImage = YES;
+        myKadFrontRecognizerSettings.showFaceImage = YES;
 
         NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadFrontRecognizerResult class]];
         [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
     }
     
-    return myKadRecognizerSettings;
+    return myKadFrontRecognizerSettings;
+}
+
+- (PPMyKadBackRecognizerSettings *)myKadBackRecognizerSettings {
+
+    PPMyKadBackRecognizerSettings *myKadBackRecognizerSettings = [[PPMyKadBackRecognizerSettings alloc] init];
+
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
+        myKadBackRecognizerSettings.displayFullDocumentImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadBackRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    return myKadBackRecognizerSettings;
+}
+
 }
 
 - (PPGermanOldIDRecognizerSettings *)germanOldIDRecognizerSettings {
@@ -603,8 +624,14 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return [types containsObject:DOCUMENTFACE_TYPE];
 }
 
-- (BOOL)shouldUseMyKadRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:MYKAD_TYPE];
+- (BOOL)shouldUseMyKadFrontRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:MYKAD_FRONT_TYPE];
+}
+
+- (BOOL)shouldUseMyKadBackRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:MYKAD_BACK_TYPE];
+}
+
 }
 
 - (BOOL)shouldUseGermanOldIDType:(NSArray *)types {
@@ -729,8 +756,14 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
         [settings.scanSettings addRecognizerSettings:[self documentFaceRecognizerSettings]];
     }
     
-    if ([self shouldUseMyKadRecognizerForTypes:types]) {
-        [settings.scanSettings addRecognizerSettings:[self myKadRecognizerSettings]];
+    if ([self shouldUseMyKadFrontRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self myKadFrontRecognizerSettings]];
+    }
+
+    if ([self shouldUseMyKadBackRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self myKadBackRecognizerSettings]];
+    }
+
     }
 
     if ([self shouldUseGermanOldIDType:types]) {
@@ -862,9 +895,22 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     [self setupDictionary:dict withImagesForResult:eudlResult];
 }
 
-- (void)setDictionary:(NSMutableDictionary *)dict withMyKadRecognizerResult:(PPMyKadFrontRecognizerResult *)myKadResult {
-    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[myKadResult getAllStringElements]];
-    [stringElements setObject:[myKadResult rawOwnerBirthDate] forKey:MYKAD_OWNER_BIRTH_DATE];
+- (void)setDictionary:(NSMutableDictionary *)dict withMyKadFrontRecognizerResult:(PPMyKadFrontRecognizerResult *)myKadFrontResult {
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[myKadFrontResult getAllStringElements]];
+    [stringElements setObject:[myKadFrontResult rawOwnerBirthDate] forKey:MYKAD_FRONT_OWNER_BIRTH_DATE];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:MYKAD_FRONT_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:myKadFrontResult];
+}
+
+- (void)setDictionary:(NSMutableDictionary *)dict withMyKadBackRecognizerResult:(PPMyKadBackRecognizerResult *)myKadBackResult {
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[myKadBackResult getAllStringElements]];
+    [stringElements setObject:[myKadBackResult rawOwnerBirthDate] forKey:MYKAD_BACK_OWNER_BIRTH_DATE];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:MYKAD_BACK_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:myKadBackResult];
+}
+
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:MYKAD_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:myKadResult];
@@ -1049,14 +1095,25 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
         }
         
         if ([result isKindOfClass:[PPMyKadFrontRecognizerResult class]]) {
-            PPMyKadFrontRecognizerResult *myKadDecoderResult = (PPMyKadFrontRecognizerResult *)result;
+            PPMyKadFrontRecognizerResult *myKadFrontDecoderResult = (PPMyKadFrontRecognizerResult *)result;
 
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-            [self setDictionary:dict withMyKadRecognizerResult:myKadDecoderResult];
+            [self setDictionary:dict withMyKadFrontRecognizerResult:myKadFrontDecoderResult];
             
             [resultArray addObject:dict];
+            continue;
         }
-        
+
+        if ([result isKindOfClass:[PPMyKadBackRecognizerResult class]]) {
+            PPMyKadBackRecognizerResult *myKadBackDecoderResult = (PPMyKadBackRecognizerResult *)result;
+
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withMyKadBackRecognizerResult:myKadBackDecoderResult];
+
+            [resultArray addObject:dict];
+            continue;
+        }
+
         if ([result isKindOfClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]]) {
             PPUnitedArabEmiratesIDBackRecognizerResult *uaeIDBackResult = (PPUnitedArabEmiratesIDBackRecognizerResult *)result;
             
@@ -1242,6 +1299,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPMrtdRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMrtdRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPDocumentFaceRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPMyKadFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadFrontRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPMyKadBackRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPEudlRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPEudlRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanOldIDRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanIDFrontRecognizerResult class]];
