@@ -72,6 +72,7 @@ var app = {
          * DEDL - scans the front side of German driver's license
          * MyKadFront - scans the front side of Malaysian ID card
          * MyKadBack - scans the back side of Malaysian ID card
+         * IKad - scans the front side of IKad card
          * MyTentera - scans the front side of Malaysian Tentera card
          * GermanOldID - scans the front side of old German ID card
          * GermanIDFront - scans the front side of German ID card
@@ -257,6 +258,20 @@ var app = {
                                                 "Full Name: " + fields[kPPmyTenteraFullName] + "<br>" +
                                                 "Religion: " + fields[kPPmyTenteraReligion] + "<br>" +
                                                 "Sex: " + fields[kPPmyTenteraSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "IKad result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Address: " + fields[kPPiKadAddress] + "<br>" +
+                                                "Birth Date: " + fields[kPPiKadDateOfBirth] + "<br>" +
+                                                "Employer: " + fields[kPPiKadEmployer] + "<br>" +
+                                                "Expiry Date: " + fields[kPPiKadExpiryDate] + "<br>" +
+                                                "Name: " + fields[kPPiKadName] + "<br>" +
+                                                "Nationality: " + fields[kPPiKadNationality] + "<br>" +
+                                                "Passport Number: " + fields[kPPiKadPassportNumber] + "<br>" +
+                                                "Sector: " + fields[kPPiKadSector] + "<br>" +
+                                                "Sex: " + fields[kPPmyKadSex] + "<br>";
 
                         } else if (recognizerResult.resultType == "GermanOldID result") {
 
