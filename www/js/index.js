@@ -238,7 +238,7 @@ var app = {
 
                             resultDiv.innerHTML = /** Personal information */
                                                 "ID Type: " + fields[kPPDataType] + "<br>" +
-                                                "NRIC Number: " + fields[kPPmyKadNricNumber] + "<br>" +
+                                                "NRIC Number: " + fields[kPPmyKadBackNricNumber] + "<br>" +
                                                 "Extended NRIC Number: " + fields[kPPmyKadBackExtendedNricNumber] + "<br>" +
                                                 "Birth Date: " + fields[kPPmyKadBackBirthDate] + "<br>" +
                                                 "Sex: " + fields[kPPmyKadBackSex] + "<br>";
