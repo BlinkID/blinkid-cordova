@@ -47,6 +47,8 @@ import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecogniti
 import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognizerSettings;
+import com.microblink.recognizers.blinkid.malaysia.mykad.back.MyKadBackSideRecognitionResult;
+import com.microblink.recognizers.blinkid.malaysia.mykad.back.MyKadBackSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
@@ -98,7 +100,8 @@ public class BlinkIdScanner extends CordovaPlugin {
     private static final String SINGAPORE_ID_FRONT_RESULT = "SingaporeFrontID result";
     private static final String SINGAPORE_ID_BACK_RESULT = "SingaporeBackID result";
     private static final String MRTD_RESULT_TYPE = "MRTD result";
-    private static final String MYKAD_RESULT_TYPE = "MyKad result";
+    private static final String MYKAD_FRONT_RESULT_TYPE = "MyKadFront result";
+    private static final String MYKAD_BACK_RESULT_TYPE = "MyKadBack result";
     private static final String PDF417_RESULT_TYPE = "Barcode result";
     private static final String UKDL_RESULT_TYPE = "UKDL result";
     private static final String UAE_ID_BACK_RESULT_TYPE = "UnitedArabEmiratesIDBack result";
@@ -308,8 +311,10 @@ public class BlinkIdScanner extends CordovaPlugin {
                 return buildDedlSettings();
             case EUDL:
                 return buildEudlSettings();
-            case MYKAD:
-                return buildMyKadSettings();
+            case MYKAD_FRONT:
+                return buildMyKadFrontSettings();
+            case MYKAD_BACK:
+                return buildMyKadBackSettings();
             case BARCODE:
                 return buildBarcodeSettings();
             case GERMAN_OLD_ID:
@@ -437,8 +442,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         }
     }
 
-    private MyKadFrontSideRecognizerSettings buildMyKadSettings() {
-        // prepare settings for Malaysian MyKad ID document recognizer
+    private MyKadFrontSideRecognizerSettings buildMyKadFrontSettings() {
         MyKadFrontSideRecognizerSettings myKad = new MyKadFrontSideRecognizerSettings();
         if (sReturnDocumentImage) {
             myKad.setShowFullDocument(true);
@@ -449,6 +453,15 @@ public class BlinkIdScanner extends CordovaPlugin {
             sFaceImageResultTypes.put(MyKadFrontSideRecognizerSettings.FACE_IMAGE_NAME, MyKadFrontSideRecognitionResult.class);
         }
         return myKad;
+    }
+
+    private MyKadBackSideRecognizerSettings buildMyKadBackSettings() {
+        MyKadBackSideRecognizerSettings settings = new MyKadBackSideRecognizerSettings();
+        if (sReturnDocumentImage) {
+            settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(MyKadBackSideRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME, MyKadBackSideRecognitionResult.class);
+        }
+        return settings;
     }
 
     private USDLRecognizerSettings buildUsdlSettings() {
@@ -676,7 +689,9 @@ public class BlinkIdScanner extends CordovaPlugin {
                         } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
                             resultsList.put(buildEUDLResult((EUDLRecognitionResult) res));
                         } else if (res instanceof MyKadFrontSideRecognitionResult) { // check if scan result is result of MyKad recognizer
-                            resultsList.put(buildMyKadResult((MyKadFrontSideRecognitionResult) res));
+                            resultsList.put(buildMyKadFrontResult((MyKadFrontSideRecognitionResult) res));
+                        } else if (res instanceof MyKadBackSideRecognitionResult) {
+                            resultsList.put(buildMyKadBackResult((MyKadBackSideRecognitionResult) res));
                         } else if (res instanceof BarcodeScanResult) {  // check if scan result is result of Barcode recognizer
                             resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
                         } else if (res instanceof GermanOldIDRecognitionResult) { // check if scan result is result of German Old ID recognizer
@@ -822,13 +837,19 @@ public class BlinkIdScanner extends CordovaPlugin {
         return buildKeyValueResult(res, USDL_RESULT_TYPE);
     }
 
-    private JSONObject buildMyKadResult(MyKadFrontSideRecognitionResult res) throws JSONException {
-       JSONObject result = buildKeyValueResult(res, MYKAD_RESULT_TYPE);
+    private JSONObject buildMyKadFrontResult(MyKadFrontSideRecognitionResult res) throws JSONException {
+       JSONObject result = buildKeyValueResult(res, MYKAD_FRONT_RESULT_TYPE);
        putDocumentImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
        putFaceImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
        return result;
     }
-    
+
+    private JSONObject buildMyKadBackResult(MyKadBackSideRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, MYKAD_BACK_RESULT_TYPE);
+        putDocumentImageToResultJson(result, MyKadBackSideRecognitionResult.class);
+        return result;
+    }
+
     private JSONObject buildEUDLResult(EUDLRecognitionResult res) throws JSONException{
       String resultType;
       

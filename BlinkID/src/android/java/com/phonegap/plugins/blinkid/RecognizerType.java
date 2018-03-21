@@ -9,9 +9,13 @@ enum RecognizerType {
     EUDL("EUDL"),
     USDL("USDL"),
     MRTD("MRTD"),
-    MYKAD("MyKad"),
     PDF417("PDF417"),
     UKDL("UKDL"),
+
+    MYKAD_FRONT("MyKadFront"),
+    MYKAD_BACK("MyKadBack"),
+    IKAD("IKad"),
+    MY_TENTERA("MyTentera"),
     
     GERMAN_ID_BACK("GermanIDBack"),
     GERMAN_ID_FRONT("GermanIDFront"),
