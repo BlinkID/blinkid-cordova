@@ -47,10 +47,14 @@ import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecogniti
 import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognizerSettings;
+import com.microblink.recognizers.blinkid.malaysia.ikad.IKadRecognitionResult;
+import com.microblink.recognizers.blinkid.malaysia.ikad.IKadRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.back.MyKadBackSideRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.mykad.back.MyKadBackSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognizerSettings;
+import com.microblink.recognizers.blinkid.malaysia.tentera.MyTenteraRecognitionResult;
+import com.microblink.recognizers.blinkid.malaysia.tentera.MyTenteraRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
 import com.microblink.recognizers.blinkid.singapore.back.SingaporeIDBackRecognitionResult;
@@ -294,6 +298,10 @@ public class BlinkIdScanner extends CordovaPlugin {
                 return buildMyKadFrontSettings();
             case MYKAD_BACK:
                 return buildMyKadBackSettings();
+            case IKAD:
+                return buildIkadSettings();
+            case MY_TENTERA:
+                return buildMyTenteraSettings();
             case BARCODE:
                 return buildBarcodeSettings();
             case GERMAN_OLD_ID:
@@ -440,6 +448,38 @@ public class BlinkIdScanner extends CordovaPlugin {
             settings.setDisplayFullDocumentImage(true);
             sFullDocumentImageResultTypes.put(MyKadBackSideRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME, MyKadBackSideRecognitionResult.class);
         }
+        return settings;
+    }
+
+    private IKadRecognizerSettings buildIkadSettings() {
+        IKadRecognizerSettings settings = new IKadRecognizerSettings();
+
+        if(sReturnDocumentImage) {
+            settings.setShowFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(IKadRecognizerSettings.FULL_DOCUMENT_IMAGE, IKadRecognitionResult.class);
+        }
+
+        if(sReturnFaceImage) {
+            settings.setShowFaceImage(true);
+            sFaceImageResultTypes.put(IKadRecognizerSettings.FACE_IMAGE_NAME, IKadRecognitionResult.class);
+        }
+
+        return settings;
+    }
+
+    private MyTenteraRecognizerSettings buildMyTenteraSettings() {
+        MyTenteraRecognizerSettings settings = new MyTenteraRecognizerSettings();
+
+        if(sReturnDocumentImage) {
+            settings.setShowFullDocument(true);
+            sFullDocumentImageResultTypes.put(MyTenteraRecognizerSettings.FULL_DOCUMENT_IMAGE, MyTenteraRecognitionResult.class);
+        }
+
+        if(sReturnFaceImage) {
+            settings.setShowFaceImage(true);
+            sFaceImageResultTypes.put(MyTenteraRecognizerSettings.FACE_IMAGE_NAME, MyTenteraRecognitionResult.class);
+        }
+
         return settings;
     }
 
@@ -672,6 +712,10 @@ public class BlinkIdScanner extends CordovaPlugin {
                             jsonResult = buildMyKadFrontResult((MyKadFrontSideRecognitionResult) res);
                         } else if (res instanceof MyKadBackSideRecognitionResult) {
                             jsonResult = buildMyKadBackResult((MyKadBackSideRecognitionResult) res);
+                        } else if (res instanceof IKadRecognitionResult) {
+                            jsonResult = buildIkadResult((IKadRecognitionResult) res);
+                        } else if (res instanceof MyTenteraRecognitionResult) {
+                            jsonResult = buildMyTenteraResult((MyTenteraRecognitionResult) res);
                         } else if (res instanceof BarcodeScanResult) {
                             jsonResult = buildBarcodeResult((BarcodeScanResult) res);
                         } else if (res instanceof GermanOldIDRecognitionResult) {
@@ -831,6 +875,20 @@ public class BlinkIdScanner extends CordovaPlugin {
     private JSONObject buildMyKadBackResult(MyKadBackSideRecognitionResult res) throws JSONException {
         JSONObject result = buildKeyValueResult(res, RecognizerType.MYKAD_BACK.resultId);
         putDocumentImageToResultJson(result, MyKadBackSideRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildIkadResult(IKadRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, RecognizerType.IKAD.resultId);
+        putDocumentImageToResultJson(result, IKadRecognitionResult.class);
+        putFaceImageToResultJson(result, IKadRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildMyTenteraResult(MyTenteraRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, RecognizerType.MY_TENTERA.resultId);
+        putDocumentImageToResultJson(result, MyTenteraRecognitionResult.class);
+        putFaceImageToResultJson(result, MyTenteraRecognitionResult.class);
         return result;
     }
 
