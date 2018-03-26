@@ -1,3 +1,16 @@
+## 1.5.1
+- renamed `MyKad` recognizer to `MyKadFront`
+- updated iOS SDK to v2.16.1
+- added the following recognizers:
+    - `iKad` - scans the front of iKad cards
+    - `MyTentera` - scans the front of MyTentera cards
+    - `MyKadBack` - scans the back of MyKad cards
+
+## 1.5.0
+- added the following recognizers:
+    - `SingaporeIDFrontRecognizer` - scans the front of Singapore ID cards
+    - `SingaporeIDBackRecognizer` - scans the back of Singapore ID cards
+
 ## 1.4.4
 - added the following recognizers:
     - `UnitedArabEmiratesIDBack` - scans the back of United Arab Emirates ID cards
