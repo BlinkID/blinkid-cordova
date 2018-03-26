@@ -880,6 +880,18 @@ public class BlinkIdScanner extends CordovaPlugin {
 
     private JSONObject buildIkadResult(IKadRecognitionResult res) throws JSONException {
         JSONObject result = buildKeyValueResult(res, RecognizerType.IKAD.resultId);
+
+        //copy temp dob to standard dob field
+        try {
+            JSONObject fields = result.getJSONObject("fields");
+            Object tempDate = fields.get("iKadDateOfBirthTemp.DateOfBirth");
+            if(tempDate != null) {
+                fields.put("iKadDateOfBirth.DateOfBirth", tempDate);
+            }
+        } catch (JSONException e) {
+            //ignore
+        }
+
         putDocumentImageToResultJson(result, IKadRecognitionResult.class);
         putFaceImageToResultJson(result, IKadRecognitionResult.class);
         return result;
