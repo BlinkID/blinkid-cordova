@@ -31,7 +31,9 @@ var kPPiKadNationality = "iKadNationality.Nationality";
 
 var kPPiKadPassportNumber = "iKadPassportNumber.PassportNumber";
 
-
+/*
+    Some iKad cards contain sector field, if they don't it won't be returned in the result dictionary.
+*/
 var kPPiKadSector = "iKadSector.Sector";
 
 
