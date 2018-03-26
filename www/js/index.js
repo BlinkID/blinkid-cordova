@@ -271,7 +271,7 @@ var app = {
                                                 "Nationality: " + fields[kPPiKadNationality] + "<br>" +
                                                 "Passport Number: " + fields[kPPiKadPassportNumber] + "<br>" +
                                                 "Sector: " + fields[kPPiKadSector] + "<br>" +
-                                                "Sex: " + fields[kPPmyKadSex] + "<br>";
+                                                "Sex: " + fields[kPPiKadSex] + "<br>";
 
                         } else if (recognizerResult.resultType == "GermanOldID result") {
 
