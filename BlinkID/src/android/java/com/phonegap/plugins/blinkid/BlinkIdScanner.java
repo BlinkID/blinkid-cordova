@@ -47,8 +47,14 @@ import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecogniti
 import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognizerSettings;
+import com.microblink.recognizers.blinkid.malaysia.ikad.IKadRecognitionResult;
+import com.microblink.recognizers.blinkid.malaysia.ikad.IKadRecognizerSettings;
+import com.microblink.recognizers.blinkid.malaysia.mykad.back.MyKadBackSideRecognitionResult;
+import com.microblink.recognizers.blinkid.malaysia.mykad.back.MyKadBackSideRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.mykad.front.MyKadFrontSideRecognizerSettings;
+import com.microblink.recognizers.blinkid.malaysia.tentera.MyTenteraRecognitionResult;
+import com.microblink.recognizers.blinkid.malaysia.tentera.MyTenteraRecognizerSettings;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognitionResult;
 import com.microblink.recognizers.blinkid.mrtd.MRTDRecognizerSettings;
 import com.microblink.recognizers.blinkid.singapore.back.SingaporeIDBackRecognitionResult;
@@ -84,26 +90,6 @@ import java.util.Set;
 public class BlinkIdScanner extends CordovaPlugin {
 
     private static final int REQUEST_CODE = 1337;
-
-    // keys for result types
-    private static final String BARCODE_RESULT_TYPE = "Barcode result";
-    private static final String DEDL_RESULT_TYPE = "DEDL result";
-    private static final String DOCUMENTDETECTOR_RESULT_TYPE = "DocumentDetector result";
-    private static final String DOCUMENTFACE_RESULT_TYPE = "DocumentFace result";
-    private static final String EUDL_RESULT_TYPE = "EUDL result";
-    private static final String GERMAN_ID_BACK_RESULT_TYPE = "GermanBackID result";
-    private static final String GERMAN_ID_FRONT_RESULT_TYPE = "GermanFrontID result";
-    private static final String GERMAN_OLD_ID_RESULT_TYPE = "GermanOldID result";
-    private static final String GERMAN_PASS_RESULT_TYPE = "GermanPassport result";
-    private static final String SINGAPORE_ID_FRONT_RESULT = "SingaporeFrontID result";
-    private static final String SINGAPORE_ID_BACK_RESULT = "SingaporeBackID result";
-    private static final String MRTD_RESULT_TYPE = "MRTD result";
-    private static final String MYKAD_RESULT_TYPE = "MyKad result";
-    private static final String PDF417_RESULT_TYPE = "Barcode result";
-    private static final String UKDL_RESULT_TYPE = "UKDL result";
-    private static final String UAE_ID_BACK_RESULT_TYPE = "UnitedArabEmiratesIDBack result";
-    private static final String UAE_ID_FRONT_RESULT_TYPE = "UnitedArabEmiratesIDFront result";
-    private static final String USDL_RESULT_TYPE = "USDL result";
 
     // image names
     private static final String FULL_DOCUMENT_DETECTOR_IMAGE_ID1 = "IDCard";
@@ -202,7 +188,7 @@ public class BlinkIdScanner extends CordovaPlugin {
 
             String language = null;
             if (!args.isNull(4)) {
-              language = args.optString(4);
+                language = args.optString(4);
             }
 
             scan(types, licenseKey, language);
@@ -308,8 +294,14 @@ public class BlinkIdScanner extends CordovaPlugin {
                 return buildDedlSettings();
             case EUDL:
                 return buildEudlSettings();
-            case MYKAD:
-                return buildMyKadSettings();
+            case MYKAD_FRONT:
+                return buildMyKadFrontSettings();
+            case MYKAD_BACK:
+                return buildMyKadBackSettings();
+            case IKAD:
+                return buildIkadSettings();
+            case MY_TENTERA:
+                return buildMyTenteraSettings();
             case BARCODE:
                 return buildBarcodeSettings();
             case GERMAN_OLD_ID:
@@ -410,7 +402,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         eudlConfigureImageReturn(dedl);
         return dedl;
     }
-    
+
     private EUDLRecognizerSettings buildEudlSettings() {
         // To specify we want to perform EUDL (EU Driver's License) recognition,
         // prepare settings for EUDL recognizer. Pass country as parameter to EUDLRecognizerSettings
@@ -437,8 +429,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         }
     }
 
-    private MyKadFrontSideRecognizerSettings buildMyKadSettings() {
-        // prepare settings for Malaysian MyKad ID document recognizer
+    private MyKadFrontSideRecognizerSettings buildMyKadFrontSettings() {
         MyKadFrontSideRecognizerSettings myKad = new MyKadFrontSideRecognizerSettings();
         if (sReturnDocumentImage) {
             myKad.setShowFullDocument(true);
@@ -449,6 +440,47 @@ public class BlinkIdScanner extends CordovaPlugin {
             sFaceImageResultTypes.put(MyKadFrontSideRecognizerSettings.FACE_IMAGE_NAME, MyKadFrontSideRecognitionResult.class);
         }
         return myKad;
+    }
+
+    private MyKadBackSideRecognizerSettings buildMyKadBackSettings() {
+        MyKadBackSideRecognizerSettings settings = new MyKadBackSideRecognizerSettings();
+        if (sReturnDocumentImage) {
+            settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(MyKadBackSideRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME, MyKadBackSideRecognitionResult.class);
+        }
+        return settings;
+    }
+
+    private IKadRecognizerSettings buildIkadSettings() {
+        IKadRecognizerSettings settings = new IKadRecognizerSettings();
+
+        if(sReturnDocumentImage) {
+            settings.setShowFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(IKadRecognizerSettings.FULL_DOCUMENT_IMAGE, IKadRecognitionResult.class);
+        }
+
+        if(sReturnFaceImage) {
+            settings.setShowFaceImage(true);
+            sFaceImageResultTypes.put(IKadRecognizerSettings.FACE_IMAGE_NAME, IKadRecognitionResult.class);
+        }
+
+        return settings;
+    }
+
+    private MyTenteraRecognizerSettings buildMyTenteraSettings() {
+        MyTenteraRecognizerSettings settings = new MyTenteraRecognizerSettings();
+
+        if(sReturnDocumentImage) {
+            settings.setShowFullDocument(true);
+            sFullDocumentImageResultTypes.put(MyTenteraRecognizerSettings.FULL_DOCUMENT_IMAGE, MyTenteraRecognitionResult.class);
+        }
+
+        if(sReturnFaceImage) {
+            settings.setShowFaceImage(true);
+            sFaceImageResultTypes.put(MyTenteraRecognizerSettings.FACE_IMAGE_NAME, MyTenteraRecognitionResult.class);
+        }
+
+        return settings;
     }
 
     private USDLRecognizerSettings buildUsdlSettings() {
@@ -462,7 +494,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         // surrounding it (e.g. text concatenated with barcode). This option can significantly
         // increase recognition time. Default is true.
         usdl.setNullQuietZoneAllowed(true);
-        
+
         return usdl;
     }
 
@@ -509,7 +541,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         barcode.setSlowThoroughScan(true);
         return barcode;
     }
-    
+
     private GermanOldIDRecognizerSettings buildGermanOldIDSettings() {
         // prepare settings for the GermanIDFrontSide recognizer
         GermanOldIDRecognizerSettings settings = new GermanOldIDRecognizerSettings();
@@ -669,38 +701,49 @@ public class BlinkIdScanner extends CordovaPlugin {
 
                 for (BaseRecognitionResult res : resultArray) {
                     try {
-                        if (res instanceof Pdf417ScanResult) { // check if scan result is result of Pdf417 recognizer
-                            resultsList.put(buildPdf417Result((Pdf417ScanResult) res));
-                        } else if (res instanceof USDLScanResult) { // check if scan result is result of US Driver's Licence recognizer
-                            resultsList.put(buildUSDLResult((USDLScanResult) res));
-                        } else if (res instanceof EUDLRecognitionResult) { // check if scan result is result of EUDL recognizer
-                            resultsList.put(buildEUDLResult((EUDLRecognitionResult) res));
-                        } else if (res instanceof MyKadFrontSideRecognitionResult) { // check if scan result is result of MyKad recognizer
-                            resultsList.put(buildMyKadResult((MyKadFrontSideRecognitionResult) res));
-                        } else if (res instanceof BarcodeScanResult) {  // check if scan result is result of Barcode recognizer
-                            resultsList.put(buildBarcodeResult((BarcodeScanResult) res));
-                        } else if (res instanceof GermanOldIDRecognitionResult) { // check if scan result is result of German Old ID recognizer
-                            resultsList.put(buildGermanOldIDResult((GermanOldIDRecognitionResult) res));
-                        } else if (res instanceof GermanIDFrontSideRecognitionResult) { // check if scan result is result of German ID Front recognizer
-                            resultsList.put(buildGermanIDFrontResult((GermanIDFrontSideRecognitionResult) res));
-                        } else if (res instanceof GermanIDBackSideRecognitionResult) { // check if scan result is result of German ID Back recognizer
-                            resultsList.put(buildGermanIDBackResult((GermanIDBackSideRecognitionResult) res));
-                        } else if (res instanceof GermanPassportRecognitionResult) { // check if scan result is result of German Passport recognizer
-                            resultsList.put(buildGermanPassResult((GermanPassportRecognitionResult) res));
+                        JSONObject jsonResult = null;
+                        if (res instanceof Pdf417ScanResult) {
+                            jsonResult = buildPdf417Result((Pdf417ScanResult) res);
+                        } else if (res instanceof USDLScanResult) {
+                            jsonResult = buildUSDLResult((USDLScanResult) res);
+                        } else if (res instanceof EUDLRecognitionResult) {
+                            jsonResult = buildEUDLResult((EUDLRecognitionResult) res);
+                        } else if (res instanceof MyKadFrontSideRecognitionResult) {
+                            jsonResult = buildMyKadFrontResult((MyKadFrontSideRecognitionResult) res);
+                        } else if (res instanceof MyKadBackSideRecognitionResult) {
+                            jsonResult = buildMyKadBackResult((MyKadBackSideRecognitionResult) res);
+                        } else if (res instanceof IKadRecognitionResult) {
+                            jsonResult = buildIkadResult((IKadRecognitionResult) res);
+                        } else if (res instanceof MyTenteraRecognitionResult) {
+                            jsonResult = buildMyTenteraResult((MyTenteraRecognitionResult) res);
+                        } else if (res instanceof BarcodeScanResult) {
+                            jsonResult = buildBarcodeResult((BarcodeScanResult) res);
+                        } else if (res instanceof GermanOldIDRecognitionResult) {
+                            jsonResult = buildGermanOldIDResult((GermanOldIDRecognitionResult) res);
+                        } else if (res instanceof GermanIDFrontSideRecognitionResult) {
+                            jsonResult = buildGermanIDFrontResult((GermanIDFrontSideRecognitionResult) res);
+                        } else if (res instanceof GermanIDBackSideRecognitionResult) {
+                            jsonResult = buildGermanIDBackResult((GermanIDBackSideRecognitionResult) res);
+                        } else if (res instanceof GermanPassportRecognitionResult) {
+                            jsonResult = buildGermanPassResult((GermanPassportRecognitionResult) res);
                         } else if (res instanceof UnitedArabEmiratesIDFrontRecognitionResult) {
-                            resultsList.put(buildUaeIDFrontResult((UnitedArabEmiratesIDFrontRecognitionResult) res));
+                            jsonResult = buildUaeIDFrontResult((UnitedArabEmiratesIDFrontRecognitionResult) res);
                         } else if (res instanceof UnitedArabEmiratesIDBackRecognitionResult) {
-                            resultsList.put(buildUaeIDBackResult((UnitedArabEmiratesIDBackRecognitionResult) res));
+                            jsonResult = buildUaeIDBackResult((UnitedArabEmiratesIDBackRecognitionResult) res);
                         } else if (res instanceof SingaporeIDFrontRecognitionResult) {
-                            resultsList.put(buildSingaporeIDFrontResult((SingaporeIDFrontRecognitionResult) res));
+                            jsonResult = buildSingaporeIDFrontResult((SingaporeIDFrontRecognitionResult) res);
                         } else if (res instanceof SingaporeIDBackRecognitionResult) {
-                            resultsList.put(buildSingaporeIDBackResult((SingaporeIDBackRecognitionResult) res));
-                        } else if (res instanceof MRTDRecognitionResult) { // check if scan result is result of MRTD recognizer
-                            resultsList.put(buildMRTDResult((MRTDRecognitionResult) res));
-                        } else if (res instanceof DocumentFaceRecognitionResult) { // check if scan result is result of Document Face recognizer
-                            resultsList.put(buildDocumentFaceResult((DocumentFaceRecognitionResult) res));
-                        } else if (res instanceof DetectorRecognitionResult) { // check if scan result is result of Detector recognizer
-                            resultsList.put(buildDetectorRecognitionResult((DetectorRecognitionResult) res));
+                            jsonResult = buildSingaporeIDBackResult((SingaporeIDBackRecognitionResult) res);
+                        } else if (res instanceof MRTDRecognitionResult) {
+                            jsonResult = buildMRTDResult((MRTDRecognitionResult) res);
+                        } else if (res instanceof DocumentFaceRecognitionResult) {
+                            jsonResult = buildDocumentFaceResult((DocumentFaceRecognitionResult) res);
+                        } else if (res instanceof DetectorRecognitionResult) {
+                            jsonResult = buildDetectorRecognitionResult((DetectorRecognitionResult) res);
+                        }
+
+                        if(jsonResult != null) {
+                            resultsList.put(jsonResult);
                         }
                     } catch (Exception e) {
                         Log.e(LOG_TAG, "Error parsing " + res.getClass().getName());
@@ -798,7 +841,7 @@ public class BlinkIdScanner extends CordovaPlugin {
         byte[] rawDataBuffer = rawData.getAllData();
 
         JSONObject result = new JSONObject();
-        result.put(RESULT_TYPE, PDF417_RESULT_TYPE);
+        result.put(RESULT_TYPE, RecognizerType.PDF417.resultId);
         result.put(TYPE, "PDF417");
         result.put(DATA, barcodeData);
         result.put(RAW_DATA, byteArrayToHex(rawDataBuffer));
@@ -812,113 +855,145 @@ public class BlinkIdScanner extends CordovaPlugin {
         String barcodeData = res.getStringData();
 
         JSONObject result = new JSONObject();
-        result.put(RESULT_TYPE, BARCODE_RESULT_TYPE);
+        result.put(RESULT_TYPE, RecognizerType.BARCODE.resultId);
         result.put(TYPE, type.name());
         result.put(DATA, barcodeData);
         return result;
     }
 
     private JSONObject buildUSDLResult(USDLScanResult res) throws JSONException {
-        return buildKeyValueResult(res, USDL_RESULT_TYPE);
+        return buildKeyValueResult(res, RecognizerType.USDL.resultId);
     }
 
-    private JSONObject buildMyKadResult(MyKadFrontSideRecognitionResult res) throws JSONException {
-       JSONObject result = buildKeyValueResult(res, MYKAD_RESULT_TYPE);
-       putDocumentImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
-       putFaceImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
-       return result;
+    private JSONObject buildMyKadFrontResult(MyKadFrontSideRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, RecognizerType.MYKAD_FRONT.resultId);
+        putDocumentImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
+        putFaceImageToResultJson(result, MyKadFrontSideRecognitionResult.class);
+        return result;
     }
-    
+
+    private JSONObject buildMyKadBackResult(MyKadBackSideRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, RecognizerType.MYKAD_BACK.resultId);
+        putDocumentImageToResultJson(result, MyKadBackSideRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildIkadResult(IKadRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, RecognizerType.IKAD.resultId);
+
+        //copy temp dob to standard dob field
+        try {
+            JSONObject fields = result.getJSONObject("fields");
+            Object tempDate = fields.get("iKadDateOfBirthTemp.DateOfBirth");
+            if(tempDate != null) {
+                fields.put("iKadDateOfBirth.DateOfBirth", tempDate);
+            }
+        } catch (JSONException e) {
+            //ignore
+        }
+
+        putDocumentImageToResultJson(result, IKadRecognitionResult.class);
+        putFaceImageToResultJson(result, IKadRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildMyTenteraResult(MyTenteraRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, RecognizerType.MY_TENTERA.resultId);
+        putDocumentImageToResultJson(result, MyTenteraRecognitionResult.class);
+        putFaceImageToResultJson(result, MyTenteraRecognitionResult.class);
+        return result;
+    }
+
     private JSONObject buildEUDLResult(EUDLRecognitionResult res) throws JSONException{
-      String resultType;
-      
-      // Select the result type by country.
-      switch(res.getCountry()) {
-        case EUDL_COUNTRY_UK:
-            resultType = UKDL_RESULT_TYPE;
-            break;
-        case EUDL_COUNTRY_GERMANY:
-            resultType = DEDL_RESULT_TYPE;
-            break;
-        default:
-            resultType = EUDL_RESULT_TYPE;
-      }
-      JSONObject result = buildKeyValueResult(res, resultType);
-      putDocumentImageToResultJson(result, EUDLRecognitionResult.class);
-      putFaceImageToResultJson(result, EUDLRecognitionResult.class);
-      return result;
+        String resultType;
+
+        // Select the result type by country.
+        switch(res.getCountry()) {
+            case EUDL_COUNTRY_UK:
+                resultType = RecognizerType.UKDL.resultId;
+                break;
+            case EUDL_COUNTRY_GERMANY:
+                resultType = RecognizerType.DEDL.resultId;
+                break;
+            default:
+                resultType = RecognizerType.EUDL.resultId;
+        }
+        JSONObject result = buildKeyValueResult(res, resultType);
+        putDocumentImageToResultJson(result, EUDLRecognitionResult.class);
+        putFaceImageToResultJson(result, EUDLRecognitionResult.class);
+        return result;
     }
 
     private JSONObject buildMRTDResult(MRTDRecognitionResult res) throws JSONException{
-        JSONObject result = buildKeyValueResult(res, MRTD_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.MRTD.resultId);
         putDocumentImageToResultJson(result, MRTDRecognitionResult.class);
         return result;
     }
-    
+
     private JSONObject buildDocumentFaceResult(DocumentFaceRecognitionResult res) throws JSONException {
-        JSONObject result = buildKeyValueResult(res, DOCUMENTFACE_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.DOCUMENTFACE.resultId);
         putDocumentImageToResultJson(result, DocumentFaceRecognitionResult.class);
         putFaceImageToResultJson(result, DocumentFaceRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildDetectorRecognitionResult(DetectorRecognitionResult res) throws JSONException {
-        JSONObject result = buildKeyValueResult(res, DOCUMENTDETECTOR_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.DOCUMENTDETECTOR.resultId);
         putDocumentImageToResultJson(result, DetectorRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildGermanOldIDResult(GermanOldIDRecognitionResult res)throws JSONException {
-        JSONObject result = buildKeyValueResult(res, GERMAN_OLD_ID_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.GERMAN_OLD_ID.resultId);
         putDocumentImageToResultJson(result, GermanOldIDRecognitionResult.class);
         putFaceImageToResultJson(result, GermanOldIDRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildGermanIDFrontResult(GermanIDFrontSideRecognitionResult res)throws JSONException {
-        JSONObject result = buildKeyValueResult(res, GERMAN_ID_FRONT_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.GERMAN_ID_FRONT.resultId);
         putDocumentImageToResultJson(result, GermanIDFrontSideRecognitionResult.class);
         putFaceImageToResultJson(result, GermanIDFrontSideRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildGermanIDBackResult(GermanIDBackSideRecognitionResult res) throws JSONException{
-        JSONObject result = buildKeyValueResult(res, GERMAN_ID_BACK_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.GERMAN_ID_BACK.resultId);
         putDocumentImageToResultJson(result, GermanIDBackSideRecognitionResult.class);
         putFaceImageToResultJson(result, GermanIDBackSideRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildGermanPassResult(GermanPassportRecognitionResult res) throws JSONException{
-        JSONObject result = buildKeyValueResult(res, GERMAN_PASS_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.GERMAN_PASSPORT.resultId);
         putDocumentImageToResultJson(result, GermanPassportRecognitionResult.class);
         putFaceImageToResultJson(result, GermanPassportRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildSingaporeIDFrontResult(SingaporeIDFrontRecognitionResult res) throws JSONException {
-        JSONObject result = buildKeyValueResult(res, SINGAPORE_ID_FRONT_RESULT);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.SINGAPORE_ID_FRONT.resultId);
         putDocumentImageToResultJson(result, SingaporeIDFrontRecognitionResult.class);
         putFaceImageToResultJson(result, SingaporeIDFrontRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildSingaporeIDBackResult(SingaporeIDBackRecognitionResult res)throws JSONException {
-        JSONObject result = buildKeyValueResult(res, SINGAPORE_ID_BACK_RESULT);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.SINGAPORE_ID_BACK.resultId);
         putDocumentImageToResultJson(result, SingaporeIDBackRecognitionResult.class);
         putFaceImageToResultJson(result, SingaporeIDBackRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildUaeIDFrontResult(UnitedArabEmiratesIDFrontRecognitionResult res) throws JSONException{
-        JSONObject result = buildKeyValueResult(res, UAE_ID_FRONT_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.UAE_ID_FRONT.resultId);
         putDocumentImageToResultJson(result, UnitedArabEmiratesIDFrontRecognitionResult.class);
         putFaceImageToResultJson(result, UnitedArabEmiratesIDFrontRecognitionResult.class);
         return result;
     }
 
     private JSONObject buildUaeIDBackResult(UnitedArabEmiratesIDBackRecognitionResult res) throws JSONException{
-        JSONObject result = buildKeyValueResult(res, UAE_ID_BACK_RESULT_TYPE);
+        JSONObject result = buildKeyValueResult(res, RecognizerType.UAE_ID_BACK.resultId);
         putDocumentImageToResultJson(result, UnitedArabEmiratesIDBackRecognitionResult.class);
         putFaceImageToResultJson(result, UnitedArabEmiratesIDBackRecognitionResult.class);
         return result;

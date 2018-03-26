@@ -39,3 +39,15 @@ var kPPmyKadReligion = "ownerReligion";
 
 
 var kPPmyKadSex = "ownerSex";
+
+
+var kPPmyKadBackNricNumber = "MyKadExtendedNRIC.NRIC";
+
+
+var kPPmyKadBackExtendedNricNumber = "MyKadExtendedNRIC.ExtendedNRIC";
+
+
+var kPPmyKadBackBirthDate = "MyKadExtendedNRIC.DateOfBirth";
+
+
+var kPPmyKadBackSex = "MyKadExtendedNRIC.Sex";

@@ -62,7 +62,7 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKad", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "SingaporeIDFront", "SingaporeIDBack", "DocumentFace", "DocumentDetector"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKadFront", "MyKadBack", "IKad", "MyTentera", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "SingaporeIDFront", "SingaporeIDBack", "DocumentFace", "DocumentDetector"
          * PDF417 - scans PDF417 barcodes
          * USDL - scans barcodes located on the back of US driver's license
          * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
@@ -70,7 +70,10 @@ var app = {
          * EUDL - scans the front side of European driver's license
          * UKDL - scans the front side of United Kingom driver's license
          * DEDL - scans the front side of German driver's license
-         * MyKad - scans the front side of Malaysian ID card
+         * MyKadFront - scans the front side of Malaysian ID card
+         * MyKadBack - scans the back side of Malaysian ID card
+         * IKad - scans the front side of IKad card
+         * MyTentera - scans the front side of Malaysian Tentera card
          * GermanOldID - scans the front side of old German ID card
          * GermanIDFront - scans the front side of German ID card
          * GermanIDBack - scans the back side of German ID card
@@ -216,7 +219,7 @@ var app = {
                                                 "First name: " + fields[kPPeudlFirstName] + "<br>" +
                                                 "Last name: " + fields[kPPeudlLastName] + "<br>";
 
-                        } else if (recognizerResult.resultType == "MyKad result") {
+                        } else if (recognizerResult.resultType == "MyKadFront result") {
 
                             resultDiv.innerHTML = /** Personal information */
                                                 "ID Type: " + fields[kPPDataType] + "<br>" +
@@ -230,6 +233,45 @@ var app = {
                                                 "Full Name: " + fields[kPPmyKadFullName] + "<br>" +
                                                 "Religion: " + fields[kPPmyKadReligion] + "<br>" +
                                                 "Sex: " + fields[kPPmyKadSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "MyKadBack result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "NRIC Number: " + fields[kPPmyKadBackNricNumber] + "<br>" +
+                                                "Extended NRIC Number: " + fields[kPPmyKadBackExtendedNricNumber] + "<br>" +
+                                                "Birth Date: " + fields[kPPmyKadBackBirthDate] + "<br>" +
+                                                "Sex: " + fields[kPPmyKadBackSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "MyTentera result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Army Number: " + fields[kPPmyTenteraArmyNumber] + "<br>" +
+                                                "NRIC Number: " + fields[kPPmyTenteraNricNumber] + "<br>" +
+                                                "Address: " + fields[kPPmyTenteraAddress] + "<br>" +
+                                                "Address ZIP Code: " + fields[kPPmyTenteraAddressZipCode] + "<br>" +
+                                                "Address Street: " + fields[kPPmyTenteraAddressStreet] + "<br>" +
+                                                "Address City: " + fields[kPPmyTenteraAddressCity] + "<br>" +
+                                                "Address State: " + fields[kPPmyTenteraAddressState] + "<br>" +
+                                                "Birth Date: " + fields[kPPmyTenteraBirthDate] + "<br>" +
+                                                "Full Name: " + fields[kPPmyTenteraFullName] + "<br>" +
+                                                "Religion: " + fields[kPPmyTenteraReligion] + "<br>" +
+                                                "Sex: " + fields[kPPmyTenteraSex] + "<br>";
+
+                        } else if (recognizerResult.resultType == "IKad result") {
+
+                            resultDiv.innerHTML = /** Personal information */
+                                                "ID Type: " + fields[kPPDataType] + "<br>" +
+                                                "Address: " + fields[kPPiKadAddress] + "<br>" +
+                                                "Birth Date: " + fields[kPPiKadDateOfBirth] + "<br>" +
+                                                "Employer: " + fields[kPPiKadEmployer] + "<br>" +
+                                                "Expiry Date: " + fields[kPPiKadExpiryDate] + "<br>" +
+                                                "Name: " + fields[kPPiKadName] + "<br>" +
+                                                "Nationality: " + fields[kPPiKadNationality] + "<br>" +
+                                                "Passport Number: " + fields[kPPiKadPassportNumber] + "<br>" +
+                                                "Sector: " + fields[kPPiKadSector] + "<br>" +
+                                                "Sex: " + fields[kPPiKadSex] + "<br>";
 
                         } else if (recognizerResult.resultType == "GermanOldID result") {
 

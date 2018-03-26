@@ -2,34 +2,40 @@ package com.phonegap.plugins.blinkid;
 
 enum RecognizerType {
 
-    DOCUMENTFACE("DocumentFace"),
-    BARCODE("Barcode"),
-    DEDL("DEDL"),
-    DOCUMENTDETECTOR("DocumentDetector"),
-    EUDL("EUDL"),
-    USDL("USDL"),
-    MRTD("MRTD"),
-    MYKAD("MyKad"),
-    PDF417("PDF417"),
-    UKDL("UKDL"),
-    
-    GERMAN_ID_BACK("GermanIDBack"),
-    GERMAN_ID_FRONT("GermanIDFront"),
-    GERMAN_OLD_ID("GermanOldID"),
-    GERMAN_PASSPORT("GermanPassport"),
-    
-    SINGAPORE_ID_FRONT("SingaporeIDFront"),
-    SINGAPORE_ID_BACK("SingaporeIDBack"),
-    
-    UAE_ID_BACK("UnitedArabEmiratesIDBack"),
-    UAE_ID_FRONT("UnitedArabEmiratesIDFront"),
+    DOCUMENTFACE("DocumentFace", "DocumentFace result"),
+    BARCODE("Barcode", "Barcode result"),
+    DEDL("DEDL", "DEDL result"),
+    DOCUMENTDETECTOR("DocumentDetector", "DocumentDetector result"),
+    EUDL("EUDL", "EUDL result"),
+    USDL("USDL", "USDL result"),
+    MRTD("MRTD", "MRTD result"),
+    PDF417("PDF417", "Barcode result"),
+    UKDL("UKDL", "UKDL result"),
 
-    UNKNOWN("");
+    MYKAD_FRONT("MyKadFront", "MyKadFront result"),
+    MYKAD_BACK("MyKadBack", "MyKadBack result"),
+    IKAD("IKad", "IKad result"),
+    MY_TENTERA("MyTentera", "MyTentera result"),
+
+    GERMAN_ID_BACK("GermanIDBack", "GermanBackID result"),
+    GERMAN_ID_FRONT("GermanIDFront", "GermanFrontID result"),
+    GERMAN_OLD_ID("GermanOldID", "GermanOldID result"),
+    GERMAN_PASSPORT("GermanPassport", "GermanPassport result"),
+
+    SINGAPORE_ID_FRONT("SingaporeIDFront", "SingaporeFrontID result"),
+    SINGAPORE_ID_BACK("SingaporeIDBack", "SingaporeBackID result"),
+
+    UAE_ID_BACK("UnitedArabEmiratesIDBack", "UnitedArabEmiratesIDBack result"),
+    UAE_ID_FRONT("UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDFront result"),
+
+    UNKNOWN("", "");
 
     public final String id;
+    public final String resultId;
 
-    RecognizerType(String id) {
+    RecognizerType(String id, String resultId) {
         this.id = id;
+        this.resultId = resultId;
     }
 
     static RecognizerType fromId(String id) {
