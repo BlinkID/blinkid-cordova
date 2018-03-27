@@ -81,20 +81,21 @@
         <framework src="AudioToolbox.framework" />
         <framework src="OpenGLES.framework" />
         <framework src="Accelerate.framework" />
-        <framework src="src/ios/blinkid-ios/MicroBlink.framework" custom="true" embed="true"/>
+        <framework src="src/ios/MicroBlink.framework" custom="true" embed="true"/>
         
         <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
         <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
             <string>$CAMERA_USAGE_DESCRIPTION</string>
         </config-file>
         
-        <resource-file src="src/ios/blinkid-ios/MicroBlink.bundle" />
+        <resource-file src="src/ios/MicroBlink.bundle" />
         <config-file target="config.xml" parent="/*">
             <feature name="blinkIdScanner">
                 <param name="ios-package" value="CDVBlinkIdScanner" />
             </feature>
         </config-file>
         
+        <hook type="before_platform_add" src="scripts/initIOSFramework.sh"/>
         <hook type="after_platform_add" src="scripts/addEmbedded.js" />
     </platform>
     

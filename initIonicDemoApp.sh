@@ -3,13 +3,6 @@
 APP_NAME="BlinkIdDemo"
 APP_ID="com.microblink.blinkid"
 
-# enter BlinkID framework folder
-cd BlinkID
-# init blinkid-ios using cococapods
-./initIOSFramework.sh
-# go back to root folder
-cd ..
-
 # remove any existing code
 rm -rf $APP_NAME
 
