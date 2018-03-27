@@ -13,7 +13,7 @@ wget -O "${FILENAME}" "${LINK}" -nv --show-progress || ( echo "ERROR: couldn't d
 
 echo "Unzipping ${FILENAME}"
 unzip -v > /dev/null 2>&1 || ( echo "ERROR: couldn't unzip Microblink framework, install unzip" && exit 1 )
-unzip "${FILENAME}" && echo "Unzipped ${FILENAME}"
+unzip -o "${FILENAME}" > /dev/null 2>&1 && echo "Unzipped ${FILENAME}"
 
 if [ -d 'Microblink.bundle' ] ; then
     rm -rf Microblink.bundle && echo "Removing Microblink.bundle"
