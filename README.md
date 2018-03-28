@@ -9,15 +9,17 @@ BlinkID PhoneGap requires Cordova **v7.0.0 or later** and cordova-android plugin
 
 Latest version has been tested using Ionic **3.19.0** version.
 
-## Dependencies
-MicroBlink.framework/MicroBlink file in iOS submodule exceeds GitHubs limited file size of 100MB.
-To correctly init the submodule Git LFS is needed. Git LFS can be installed with homebrew:
+## Adding blinkid-phonegap to your application
+
+You can add blinkid-phonegap by cloning the repository and following instructions below or by running
 
 ```shell
-brew install git-lfs
+cordova plugin add blinkid-cordova
 ```
 
-After installation, don't forget to restart the terminal!
+> The shown instructions are for **Cordova**, the instructions for **Ionic** and **PhoneGap** are practically the same, except for some slight command line argument differences.
+
+In the repository you will find scripts to create sample applications.
 
 ## Clone or Download repository
 Downloading a repository just downloads the files from the most recent commit of the default branch but without all the dependencies which are in submodules. We recommend that you clone directory. With a clone option you will get a copy of the history and it’s functional git repository.
@@ -102,7 +104,7 @@ Add the **BlinkID** plugin to your project:
 
 ```shell
 cd <path_to_your_project>
-cordova plugin add <blinkID_plugin_path>
+cordova plugin add <blinkID_plugin_path> # or blinkid-cordova if you don't have blinkid-phonegap locally
 ```
 
 **Ionic specific:**
@@ -119,6 +121,8 @@ Add Android platform support to the project:
     cordova platform add android@7
     
 ### iOS
+
+> If you want to add iOS as a platform for your application, you will need to install **unzip** and **wget**.
 
 Add iOS plaform support to the project:
 
@@ -138,7 +142,7 @@ cordova create testcordova
 cd testcordova
 
 # add the blinkID plugin
-cordova plugin add ../blinkid-phonegap/BlinkID
+cordova plugin add ../blinkid-phonegap/BlinkID # or just 'blinkid-cordova' if you don't have blinkid-phonegap locally
 
 # add android support to the project
 cordova platform add android@7
