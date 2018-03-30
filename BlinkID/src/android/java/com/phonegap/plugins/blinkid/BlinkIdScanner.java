@@ -47,6 +47,8 @@ import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecogniti
 import com.microblink.recognizers.blinkid.germany.old.front.GermanOldIDRecognizerSettings;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognitionResult;
 import com.microblink.recognizers.blinkid.germany.passport.GermanPassportRecognizerSettings;
+import com.microblink.recognizers.blinkid.indonesia.front.IndonesianIDFrontRecognitionResult;
+import com.microblink.recognizers.blinkid.indonesia.front.IndonesianIDFrontRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.ikad.IKadRecognitionResult;
 import com.microblink.recognizers.blinkid.malaysia.ikad.IKadRecognizerSettings;
 import com.microblink.recognizers.blinkid.malaysia.mykad.back.MyKadBackSideRecognitionResult;
@@ -191,6 +193,7 @@ public class BlinkIdScanner extends CordovaPlugin {
                 language = args.optString(4);
             }
 
+            types.add(RecognizerType.INDONESIA_ID.id);
             scan(types, licenseKey, language);
         } else {
             return false;
@@ -320,6 +323,8 @@ public class BlinkIdScanner extends CordovaPlugin {
                 return buildUaeIDBackSettings();
             case UAE_ID_FRONT:
                 return buildUaeIDFrontSettings();
+            case INDONESIA_ID:
+                return buildIndonesiaIdSettings();
             case DOCUMENTFACE:
                 return buildDocumentFaceSettings();
             case DOCUMENTDETECTOR:
@@ -631,6 +636,21 @@ public class BlinkIdScanner extends CordovaPlugin {
         return settings;
     }
 
+    private IndonesianIDFrontRecognizerSettings buildIndonesiaIdSettings() {
+        IndonesianIDFrontRecognizerSettings settings = new IndonesianIDFrontRecognizerSettings();
+        if (sReturnDocumentImage) {
+            settings.setDisplayFullDocumentImage(true);
+            sFullDocumentImageResultTypes.put(IndonesianIDFrontRecognizerSettings.FULL_DOCUMENT_IMAGE_NAME, IndonesianIDFrontRecognitionResult.class);
+        }
+
+        if (sReturnFaceImage) {
+            settings.setDisplayFaceImage(true);
+            sFullDocumentImageResultTypes.put(IndonesianIDFrontRecognizerSettings.PORTRAIT_IMAGE_NAME, IndonesianIDFrontRecognitionResult.class);
+        }
+
+        return settings;
+    }
+
     private DocumentFaceRecognizerSettings buildDocumentFaceSettings() {
         // prepare settings for the DocumentFace recognizer
         DocumentFaceRecognizerSettings settings = new DocumentFaceRecognizerSettings(DocumentFaceDetectorType.IDENTITY_CARD_TD1);
@@ -734,6 +754,8 @@ public class BlinkIdScanner extends CordovaPlugin {
                             jsonResult = buildSingaporeIDFrontResult((SingaporeIDFrontRecognitionResult) res);
                         } else if (res instanceof SingaporeIDBackRecognitionResult) {
                             jsonResult = buildSingaporeIDBackResult((SingaporeIDBackRecognitionResult) res);
+                        } else if (res instanceof IndonesianIDFrontRecognitionResult) {
+                            jsonResult = buildIndonesiaIdResult((IndonesianIDFrontRecognitionResult) res);
                         } else if (res instanceof MRTDRecognitionResult) {
                             jsonResult = buildMRTDResult((MRTDRecognitionResult) res);
                         } else if (res instanceof DocumentFaceRecognitionResult) {
@@ -982,6 +1004,13 @@ public class BlinkIdScanner extends CordovaPlugin {
         JSONObject result = buildKeyValueResult(res, RecognizerType.SINGAPORE_ID_BACK.resultId);
         putDocumentImageToResultJson(result, SingaporeIDBackRecognitionResult.class);
         putFaceImageToResultJson(result, SingaporeIDBackRecognitionResult.class);
+        return result;
+    }
+
+    private JSONObject buildIndonesiaIdResult(IndonesianIDFrontRecognitionResult res) throws JSONException {
+        JSONObject result = buildKeyValueResult(res, RecognizerType.INDONESIA_ID.resultId);
+        putDocumentImageToResultJson(result, IndonesianIDFrontRecognitionResult.class);
+        putFaceImageToResultJson(result, IndonesianIDFrontRecognitionResult.class);
         return result;
     }
 
