@@ -33,6 +33,7 @@ const NSString *MYKAD_FRONT_TYPE = @"MyKadFront";
 const NSString *MYKAD_BACK_TYPE = @"MyKadBack";
 const NSString *MYTENTERA_TYPE = @"MyTentera";
 const NSString *IKAD_TYPE = @"IKad";
+const NSString *INDONESIA_TYPE = @"IndonesiaID";
 const NSString *GERMAN_OLD_ID_TYPE = @"GermanOldID";
 const NSString *GERMAN_ID_FRONT_TYPE = @"GermanIDFront";
 const NSString *GERMAN_ID_BACK_TYPE = @"GermanIDBack";
@@ -67,6 +68,7 @@ NSString *MYKAD_FRONT_RESULT_TYPE = @"MyKadFront result";
 NSString *MYKAD_BACK_RESULT_TYPE = @"MyKadBack result";
 NSString *MYTENTERA_RESULT_TYPE = @"MyTentera result";
 NSString *IKAD_RESULT_TYPE = @"IKad result";
+NSString *INDONESIA_RESULT_TYPE = @"IndonesiaID result";
 NSString *BARCODE_RESULT_TYPE = @"Barcode result";
 NSString *GERMAN_OLD_ID_RESULT_TYPE = @"GermanOldID result";
 NSString *GERMAN_ID_FRONT_RESULT_TYPE = @"GermanFrontID result";
@@ -99,6 +101,8 @@ NSString * MYKAD_BACK_OWNER_BIRTH_DATE = @"MyKadExtendedNRIC.DateOfBirth";
 NSString * MYTENTERA_OWNER_BIRTH_DATE = @"MyTenteraNricNumber.OwnerBirthDate";
 NSString * IKAD_DATE_OF_BIRTH = @"iKadDateOfBirth.DateOfBirth";
 NSString * IKAD_EXPIRY_DATE = @"iKadExpiryDate.ExpiryDate";
+NSString * INDONESIA_DATE_OF_BIRTH = @"IdnIDPlaceOfBirthAndDateOfBirth.DateOfBirth";
+NSString * INDONESIA_DATE_OF_EXPIRY = @"IdnIDValidUntil.ValidUntil";
 NSString * GERMAN_ID_DATE_OF_ISSUE = @"DeIDDateOfIssue.DateOfIssue";
 NSString * GERMAN_PASS_DATE_OF_ISSUE = @"GermanPassportDateOfIssue.DateOfIssue";
 NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDOBSex.DateOfBirth";
@@ -456,6 +460,31 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return iKadRecognizerSettings;
 }
 
+- (PPIndonesianIDFrontRecognizerSettings *)indonesiaRecognizerSettings {
+
+    PPIndonesianIDFrontRecognizerSettings *indonesiaRecognizerSettings = [[PPIndonesianIDFrontRecognizerSettings alloc] init];
+
+    // Setup returning document image
+
+    if ([self shouldReturnDocumentImage]) {
+        indonesiaRecognizerSettings.displayFullDocumentImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPIndonesianIDFrontRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
+    }
+
+    // Setup returning face image
+
+    if ([self shouldReturnFaceImage]) {
+        indonesiaRecognizerSettings.displayFaceImage = YES;
+
+        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPIndonesianIDFrontRecognizerResult class]];
+        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
+    }
+
+    return indonesiaRecognizerSettings;
+}
+
 - (PPGermanOldIDRecognizerSettings *)germanOldIDRecognizerSettings {
 
     PPGermanOldIDRecognizerSettings *germanOldIDRecognizerSettings = [[PPGermanOldIDRecognizerSettings alloc] init];
@@ -695,6 +724,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     return [types containsObject:IKAD_TYPE];
 }
 
+- (BOOL)shouldUseIndonesiaRecognizerForTypes:(NSArray *)types {
+    return [types containsObject:INDONESIA_TYPE];
+}
+
 - (BOOL)shouldUseGermanOldIDType:(NSArray *)types {
     return [types containsObject:GERMAN_OLD_ID_TYPE];
 }
@@ -831,6 +864,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
     if ([self shouldUseIKadRecognizerForTypes:types]) {
         [settings.scanSettings addRecognizerSettings:[self iKadRecognizerSettings]];
+    }
+
+    if ([self shouldUseIndonesiaRecognizerForTypes:types]) {
+        [settings.scanSettings addRecognizerSettings:[self indonesiaRecognizerSettings]];
     }
 
     if ([self shouldUseGermanOldIDType:types]) {
@@ -993,6 +1030,15 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:IKAD_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:iKadResult];
+}
+
+- (void)setDictionary:(NSMutableDictionary *)dict withIndonesiaRecognizerResult:(PPIndonesianIDFrontRecognizerResult *)indonesiaResult {
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[indonesiaResult getAllStringElements]];
+    [stringElements setObject:[indonesiaResult rawDateOfBirth] forKey:INDONESIA_DATE_OF_BIRTH];
+    [stringElements setObject:[indonesiaResult rawDocumentDateOfExpiry] forKey:INDONESIA_DATE_OF_EXPIRY];
+    [dict setObject:stringElements forKey:FIELDS];
+    [dict setObject:INDONESIA_RESULT_TYPE forKey:RESULT_TYPE];
+    [self setupDictionary:dict withImagesForResult:indonesiaResult];
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withDocumentDetectorResult:(PPDetectorRecognizerResult *)detectorRecognizerResult {
@@ -1213,6 +1259,16 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             continue;
         }
 
+        if ([result isKindOfClass:[PPIndonesianIDFrontRecognizerResult class]]) {
+            PPIndonesianIDFrontRecognizerResult *indonesiaDecoderResult = (PPIndonesianIDFrontRecognizerResult *)result;
+
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [self setDictionary:dict withIndonesiaRecognizerResult:indonesiaDecoderResult];
+
+            [resultArray addObject:dict];
+            continue;
+        }
+
         if ([result isKindOfClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]]) {
             PPUnitedArabEmiratesIDBackRecognizerResult *uaeIDBackResult = (PPUnitedArabEmiratesIDBackRecognizerResult *)result;
             
@@ -1401,6 +1457,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
             [self setImageMetadata:imageMetadata forName:[PPMyKadBackRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyKadBackRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPMyTenteraRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPMyTenteraRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPiKadRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPiKadRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPIndonesianIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPIndonesianIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPEudlRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPEudlRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanOldIDRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanIDFrontRecognizerSettings FULL_DOCUMENT_IMAGE] imageType:PPImageTypeDocument resultClass:[PPGermanIDFrontRecognizerResult class]];
@@ -1415,6 +1472,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
             [self setImageMetadata:imageMetadata forName:[PPMyKadFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyKadFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPiKadRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPiKadRecognizerResult class]];
+            [self setImageMetadata:imageMetadata forName:[PPIndonesianIDFrontRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPIndonesianIDFrontRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPMyTenteraRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPMyTenteraRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPDocumentFaceRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPDocumentFaceRecognizerResult class]];
             [self setImageMetadata:imageMetadata forName:[PPGermanOldIDRecognizerSettings ID_FACE] imageType:PPImageTypeFace resultClass:[PPGermanOldIDRecognizerResult class]];
