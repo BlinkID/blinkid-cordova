@@ -1,3 +1,7 @@
+## 1.5.3
+- updated Android SDK to v3.16.0
+- fixed returning of face image for Indonesian ID on Android
+
 ## 1.5.2
 - updated iOS SDK to v2.17.0
 - added `IndonesiaID` recognizer

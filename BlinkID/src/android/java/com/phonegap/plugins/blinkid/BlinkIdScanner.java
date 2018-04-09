@@ -645,7 +645,7 @@ public class BlinkIdScanner extends CordovaPlugin {
 
         if (sReturnFaceImage) {
             settings.setDisplayFaceImage(true);
-            sFullDocumentImageResultTypes.put(IndonesianIDFrontRecognizerSettings.PORTRAIT_IMAGE_NAME, IndonesianIDFrontRecognitionResult.class);
+            sFaceImageResultTypes.put(IndonesianIDFrontRecognizerSettings.PORTRAIT_IMAGE_NAME, IndonesianIDFrontRecognitionResult.class);
         }
 
         return settings;
