@@ -1,3 +1,7 @@
+## 1.5.2
+- updated iOS SDK to v2.17.0
+- added `IndonesiaID` recognizer
+
 ## 1.5.1
 - renamed `MyKad` recognizer to `MyKadFront`
 - updated iOS SDK to v2.16.1

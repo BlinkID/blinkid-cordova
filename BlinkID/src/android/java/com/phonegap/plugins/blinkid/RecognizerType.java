@@ -28,6 +28,8 @@ enum RecognizerType {
     UAE_ID_BACK("UnitedArabEmiratesIDBack", "UnitedArabEmiratesIDBack result"),
     UAE_ID_FRONT("UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDFront result"),
 
+    INDONESIA_ID("IndonesiaID", "IndonesiaID result"),
+
     UNKNOWN("", "");
 
     public final String id;
