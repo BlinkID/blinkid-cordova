@@ -62,7 +62,7 @@ var app = {
 
         /**
          * Use these scanner types
-         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKadFront", "MyKadBack", "IKad", "MyTentera", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "SingaporeIDFront", "SingaporeIDBack", "DocumentFace", "DocumentDetector"
+         * Available: "PDF417", "USDL", "Barcode", "MRTD", "EUDL", "UKDL", "DEDL", "MyKadFront", "MyKadBack", "IKad", "MyTentera", "GermanOldID", "GermanIDFront", "GermanIDBack", "GermanPassport", "UnitedArabEmiratesIDFront", "UnitedArabEmiratesIDBack", "SingaporeIDFront", "SingaporeIDBack", "IndonesiaID", "DocumentFace", "DocumentDetector"
          * PDF417 - scans PDF417 barcodes
          * USDL - scans barcodes located on the back of US driver's license
          * Barcode - scans various types of codes (i.e. QR, UPCA, UPCE...). Types of scanned codes can be modified in plugin classes (Explained later in this readme). By default, scanned codes are set to: Code 39, Code 128, EAN 13, EAN 8, QR, UPCA, UPCE
@@ -82,6 +82,7 @@ var app = {
          * UnitedArabEmiratesIDBack - scans the back side of UnitedArabEmirates ID card
          * SingaporeIDFront - scans the front side of Singapore ID card
          * SingaporeIDBack - scans the back side of Singapore ID card
+         * IndonesiaID - scans the front side of Indonesia ID card
          * DocumentFace - scans documents which contain owner's face image
          * DocumentDetector - scans documents that are specified as ID1 or ID2 and returns their image
          *
@@ -350,6 +351,27 @@ var app = {
                                                 "Date of issue: " + fields[kPPsingaporeDateOfIssue] + "<br>" +
                                                 "Blood group: " + fields[kPPsingaporeBloodGroup] + "<br>" +
                                                 "Address: " + fields[kPPsingaporeAddress] + "<br>";
+
+                        } else if (recognizerResult.resultType == "IndonesiaID result") {
+                            resultDiv.innerHTML =
+                                                "Document number: " + fields[kPPindonesiaDocumentNumber] + "<br>" +
+                                                "Name: " + fields[kPPindonesiaName] + "<br>" +
+                                                "Occupation: " + fields[kPPindonesiaOccupation] + "<br>" +
+                                                "Martial status: " + fields[kPPindonesiaMartialStatus] + "<br>" +
+                                                "Date of birth: " + fields[kPPindonesiaDateOfBirth] + "<br>" +
+                                                "Blood type: " + fields[kPPindonesiaBloodType] + "<br>" +
+                                                "Religion: " + fields[kPPindonesiaReligion] + "<br>" +
+                                                "Sex: " + fields[kPPindonesiaSex] + "<br>" +
+                                                "Citizenship: " + fields[kPPindonesiaCitizenship] + "<br>" +
+                                                "Valid until: " + fields[kPPindonesiaValidUntil] + "<br>" +
+                                                "Place of birth: " + fields[kPPindonesiaPlaceOfBirth] + "<br>" +
+                                                "Province: " + fields[kPPindonesiaProvince] + "<br>" +
+                                                "District: " + fields[kPPindonesiaDistrict] + "<br>" +
+                                                "City: " + fields[kPPindonesiaCity] + "<br>" +
+                                                "KelDesa: " + fields[kPPindonesiaKelDesa] + "<br>" +
+                                                "Address: " + fields[kPPindonesiaAddress] + "<br>" +
+                                                "RT: " + fields[kPPindonesiaRT] + "<br>" +
+                                                "RW: " + fields[kPPindonesiaRW] + "<br>";
 
                         } else if (recognizerResult.resultType == "DocumentDetector result") {
 
