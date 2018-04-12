@@ -193,7 +193,6 @@ public class BlinkIdScanner extends CordovaPlugin {
                 language = args.optString(4);
             }
 
-            types.add(RecognizerType.INDONESIA_ID.id);
             scan(types, licenseKey, language);
         } else {
             return false;
