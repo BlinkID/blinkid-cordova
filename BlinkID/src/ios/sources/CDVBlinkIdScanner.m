@@ -103,6 +103,8 @@ NSString * IKAD_DATE_OF_BIRTH = @"iKadDateOfBirth.DateOfBirth";
 NSString * IKAD_EXPIRY_DATE = @"iKadExpiryDate.ExpiryDate";
 NSString * INDONESIA_DATE_OF_BIRTH = @"IdnIDPlaceOfBirthAndDateOfBirth.DateOfBirth";
 NSString * INDONESIA_DATE_OF_EXPIRY = @"IdnIDValidUntil.ValidUntil";
+NSString * GERMAN_ID_DATE_OF_EXPIRY = @"DeIDDateOfExpiry.DateOfExpiry";
+NSString * GERMAN_ID_DATE_OF_BIRTH = @"DeIDDateOfBirth.DateOfBirth";
 NSString * GERMAN_ID_DATE_OF_ISSUE = @"DeIDDateOfIssue.DateOfIssue";
 NSString * GERMAN_PASS_DATE_OF_ISSUE = @"GermanPassportDateOfIssue.DateOfIssue";
 NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDOBSex.DateOfBirth";
@@ -1062,7 +1064,10 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 }
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanIDFrontRecognizerResult:(PPGermanIDFrontRecognizerResult *)germanIDFrontResult {
-    [dict setObject:[germanIDFrontResult getAllStringElements] forKey:FIELDS];
+    NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanIDFrontResult getAllStringElements]];
+    [stringElements setObject:[germanIDFrontResult rawDateOfExpiry] forKey:GERMAN_ID_DATE_OF_EXPIRY];
+    [stringElements setObject:[germanIDFrontResult rawDateOfBirth] forKey:GERMAN_ID_DATE_OF_BIRTH];
+    [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_ID_FRONT_RESULT_TYPE forKey:RESULT_TYPE];
     [self setupDictionary:dict withImagesForResult:germanIDFrontResult];
 }
