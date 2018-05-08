@@ -1,3 +1,9 @@
+## 1.5.5
+- [ios] Updated SDK to v2.17.3
+- [ios] Added Date of expiry and date of birth to GermanIDFront
+- [ios] Added date of expiry and date of birth to GermanPassport
+- Added date of expiry to GermanOldID
+
 ## 1.5.4
 - fixed bug on Android which caused that Indonesian ID is always scanned
 
