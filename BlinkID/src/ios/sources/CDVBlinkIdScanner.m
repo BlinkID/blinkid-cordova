@@ -1082,6 +1082,8 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanPassportRecognizerResult:(PPGermanPassportRecognizerResult *)germanPassportResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanPassportResult getAllStringElements]];
+    [stringElements setObject:[germanPassportResult rawDateOfExpiry] forKey:MRTD_DATE_OF_EXPIRY];
+    [stringElements setObject:[germanPassportResult rawDateOfBirth] forKey:MRTD_DATE_OF_BIRTH];
     [stringElements setObject:[germanPassportResult rawDateOfIssue] forKey:GERMAN_PASS_DATE_OF_ISSUE];
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_PASS_RESULT_TYPE forKey:RESULT_TYPE];
