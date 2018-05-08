@@ -1057,6 +1057,7 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
 - (void)setDictionary:(NSMutableDictionary *)dict withGermanOldIDRecognizerResult:(PPGermanOldIDRecognizerResult *)germanOldIDResult {
     NSMutableDictionary *stringElements = [NSMutableDictionary dictionaryWithDictionary:[germanOldIDResult getAllStringElements]];
+    [stringElements setObject:[germanOldIDResult rawDateOfExpiry] forKey:MRTD_DATE_OF_EXPIRY];
     [stringElements setObject:[germanOldIDResult rawDateOfBirth] forKey:MRTD_DATE_OF_BIRTH];
     [dict setObject:stringElements forKey:FIELDS];
     [dict setObject:GERMAN_OLD_ID_RESULT_TYPE forKey:RESULT_TYPE];

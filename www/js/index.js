@@ -280,6 +280,7 @@ var app = {
                                                 "ID Type: " + fields[kPPDataType] + "<br>" +
                                                 "Family name: " + fields[kPPmrtdPrimaryId] + "<br>" +
                                                 "First name: " + fields[kPPmrtdSecondaryId] + "<br>" +
+                                                "Date of Expiry: " + fields[kPPmrtdExpiry] + "<br>" +
                                                 "Date of birth: " + fields[kPPmrtdBirthDate] + "<br>" +
                                                 "Nationality: " + fields[kPPmrtdNationality] + "<br>" +
                                                 "Document Code: " + fields[kPPmrtdDocCode] + "<br>" +
