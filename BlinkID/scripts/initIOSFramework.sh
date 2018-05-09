@@ -15,18 +15,18 @@ echo "Unzipping ${FILENAME}"
 unzip -v > /dev/null 2>&1 || { echo "ERROR: couldn't unzip Microblink framework, install unzip" && exit 1; }
 unzip -o "${FILENAME}" > /dev/null 2>&1 && echo "Unzipped ${FILENAME}"
 
-if [ -d 'Microblink.bundle' ] ; then
-    rm -rf Microblink.bundle && echo "Removing Microblink.bundle"
+if [ -d 'MicroBlink.bundle' ] ; then
+    rm -rf MicroBlink.bundle && echo "Removing MicroBlink.bundle"
 fi
 
-if [ -d 'Microblink.framework' ] ; then
-    rm -rf Microblink.framework && echo "Removing Microblink.framework"
+if [ -d 'MicroBlink.framework' ] ; then
+    rm -rf MicroBlink.framework && echo "Removing MicroBlink.framework"
 fi 
 
 cd blinkid-ios || exit 1
 
-mv -f Microblink.framework ../Microblink.framework
-mv -f Microblink.bundle ../Microblink.bundle
+mv -f MicroBlink.framework ../MicroBlink.framework
+mv -f MicroBlink.bundle ../MicroBlink.bundle
 
 cd ..
 
