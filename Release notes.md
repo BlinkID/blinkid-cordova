@@ -1,3 +1,6 @@
+## 1.5.6
+- Fixed issue in `initIOSFramework` script for case sensitive systems
+
 ## 1.5.5
 - [ios] Updated SDK to v2.17.3
 - [ios] Added Date of expiry and date of birth to GermanIDFront
