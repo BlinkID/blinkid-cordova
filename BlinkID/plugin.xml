@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="com.microblink.BlinkIdScanner" 
+        id="blinkid-cordova" 
         version="1.5.6">
 
     <name>BlinkIdScanner</name>
@@ -95,7 +95,7 @@
             </feature>
         </config-file>
         
-        <hook type="before_platform_add" src="scripts/initIOSFramework.sh"/>
+        <hook type="before_plugin_install" src="scripts/initIOSFramework.sh"/>
         <hook type="after_platform_add" src="scripts/addEmbedded.js" />
     </platform>
     
