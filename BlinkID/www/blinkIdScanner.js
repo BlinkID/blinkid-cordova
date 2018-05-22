@@ -9,57 +9,161 @@
 
     var exec = require("cordova/exec");
 
-    /**
-     * Constructor.
-     *
-     * @returns {BlinkIdScanner}
-     */
-    function BlinkIdScanner() {
+/**
+ * Constructor.
+ *
+ * @returns {BlinkIdScanner}
+ */
+function BlinkIdScanner() {
 
-    };
+};
 
 /**
- * types: Types of supported scanners (pass as array of desired scanner types):
- *  "PDF417"
- *  "USDL"
- *  "Barcode"
- *  "MRTD"
- *  "EUDL"
- *  "UKDL"
- *  "DEDL"
- *  "MyKad"
- *  "DocumentFace"
- *
- * imageTypes - array of image types that should be returned if image is captured (depends on used scanner)
- * available types:
- *  empty array - do not return any images - IMPORTANT : THIS IMPROVES SCANNING SPEED!
- *  "IMAGE_SUCCESSFUL_SCAN" : return full camera frame of successful scan
- *  "IMAGE_DOCUMENT" : return cropped document image
- *  "IMAGE_FACE" : return image of the face from the ID
- *
- * licenseiOS - iOS license key to enable all features (not required)
- * licenseAndroid - Android license key to enable all features (not required)
+ * successCallback: callback that will be invoked on successful scan
+ * errorCallback: callback that will be invoked on error
+ * overlaySettings: settings for desired camera overlay
+ * recognizerCollection: {RecognizerCollection} containing recognizers to use for scanning
+ * licenses: object containing base64 licenses for iOS and Android in format
+ *  {
+ *      ios: 'base64iOSLicense',
+ *      android: 'base64AndroidLicense'
+ *  }
  */
+BlinkIdScanner.prototype.scanWithCamera = function (successCallback, errorCallback, overlaySettings, recognizerCollection, licenses) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        };
+    }
 
-    BlinkIdScanner.prototype.scan = function (successCallback, errorCallback, types, imageTypes, licenseiOs, licenseAndroid, language) {
-        if (errorCallback == null) {
-            errorCallback = function () {
-            };
+    if (typeof errorCallback != "function") {
+        console.log("BlinkIdScanner.scan failure: failure parameter not a function");
+        throw new Error("BlinkIdScanner.scan failure: failure parameter not a function");
+        return;
+    }
+
+    if (typeof successCallback != "function") {
+        console.log("BlinkIdScanner.scan failure: success callback parameter must be a function");
+        throw new Error("BlinkIdScanner.scan failure: success callback parameter must be a function");
+        return;
+    }
+
+    exec(
+        function internalCallback(scanningResult) { 
+            var cancelled = scanningResult.cancelled;
+
+            if (cancelled) {
+                successCallback(true);
+            } else {
+                var results = scanningResult.resultList;
+                if (results.length != recognizerCollection.recognizerArray.length) {
+                    console.log("INTERNAL ERROR: native plugin returned wrong number of results!");
+                    throw new Error("INTERNAL ERROR: native plugin returned wrong number of results!");
+                    errorCallback(new Error("INTERNAL ERROR: native plugin returned wrong number of results!"));
+                } else {
+                    for (var i = 0; i < results.length; ++i) {
+                        // native plugin must ensure types match
+                        recognizerCollection.recognizerArray[i].result = recognizerCollection.recognizerArray[i].createResultFromNative(results[i]);
+                    }
+                    successCallback(false);
+                }
+            }    
+        },
+        errorCallback, 'BlinkIdScanner', 'scanWithCamera', [licenses, overlaySetings, recognizerCollection]);
+};
+
+module.exports.BlinkIdScanner = BlinkIdScanner;
+
+// COMMON CLASSES
+
+function Recognizer(recognizerType) {
+    this.recognizerType = recognizerType;
+    this.result = null;
+}
+
+function RecognizerResult(resultState) {
+    // 'empty', 'uncertain' or 'valid'
+    this.resultState = resultState;
+}
+
+function RecognizerCollection(recognizerArray) {
+    this.recognizerArray = recognizerArray;
+    this.allowMultipleResults = false;
+    this.milisecondsBeforeTimeout = 10000;
+    this.result = null;
+
+    if (!(this.recognizerArray.constructor === Array)) {
+        throw new Error("recognizerArray must be array of Recognizer objects!");
+    }
+    // ensure every element in array is Recognizer
+    for (var i = 0; i < this.recognizerArray.length; ++i) {
+        if (!(this.recognizerArray[i] instanceof Recognizer )) {
+            throw new Error( "Each element in recognizerArray must be instance of Recognizer" );
         }
+    }
+}
 
-        if (typeof errorCallback != "function") {
-            console.log("BlinkIdScanner.scan failure: failure parameter not a function");
-            return;
-        }
+module.exports.RecognizerCollection = RecognizerCollection;
 
-        if (typeof successCallback != "function") {
-            console.log("BlinkIdScanner.scan failure: success callback parameter must be a function");
-            return;
-        }
+function Date(nativeDate) {
+    this.day = nativeDate.day;
+    this.month = nativeDate.month;
+    this.year = nativeDate.year;
+}
 
-        exec(successCallback, errorCallback, 'BlinkIdScanner', 'scan', [types, imageTypes, licenseiOs, licenseAndroid, language]);
-    };
+module.exports.Date = Date;
 
-    var blinkIdScanner = new BlinkIdScanner();
-    module.exports = blinkIdScanner;
+// COMMON CLASSES
 
+// OVERLAY SETTINGS
+
+function OverlaySettings(overlaySettingsType) {
+    this.overlaySettingsType = overlaySettingsType;
+}
+
+function DocumentOverlaySettings() {
+    OverlaySettings.call(this, 'DocumentOverlaySettings');
+}
+DocumentOverlaySettings.prototype = DocumentOverlaySettings.prototype;
+
+module.exports.DocumentOverlaySettings = DocumentOverlaySettings;
+
+// OVERLAY SETTINGS
+
+// RECOGNIZERS
+
+function CroatianIDFrontSideRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    this.firstName = nativeResult.firstName;
+    this.lastName = nativeResult.lastName;
+    this.identityCardNumber = nativeResult.identityCardNumber;
+    this.sex = nativeResult.sex;
+    this.citizenship = nativeResult.citizenship;
+    this.documentDateOfExpiry = new Date(nativeResult.documentDateOfExpiry);
+    this.documentDateOfExpiryPermanent = nativeResult.documentDateOfExpiryPermanent;
+    this.documentBilingual = nativeResult.documentBilingual;
+    this.faceImage = nativeResult.faceImage;
+    this.signatureImage = nativeResult.signatureImage;
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+}
+
+CroatianIDFrontSideRecognizerResult.prototype = RecognizerResult.prototype;
+
+module.exports.CroatianIDFrontSideRecognizerResult = CroatianIDFrontSideRecognizerResult;
+
+function CroatianIDFrontSideRecognizer() {
+    Recognizer.call(this, 'CroatianIDFrontSideRecognizer');
+    this.extractSex = true;
+    this.extractCitizenship = true;
+    this.extractDateOfExpiry = true;
+    this.detectGlare = true;
+    this.returnFaceImage = false;
+    this.returnSignatureImage = false;
+    this.returnFullDocumentImage = false;
+    this.createResultFromNative = function (nativeResult) { return new CroatianIDFrontSideRecognizerResult(nativeResult); }
+}
+
+CroatianIDFrontSideRecognizer.prototype = Recognizer.prototype;
+
+module.exports.CroatianIDFrontSideRecognizer = CroatianIDFrontSideRecognizer;
+
+// RECOGNIZERS

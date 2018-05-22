@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.microblink.BlinkIdScanner" 
-        version="1.5.7">
+        version="4.0.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -54,10 +54,25 @@
         </config-file>
 
 
+        <!-- Common files -->
         <source-file src="src/android/java/com/phonegap/plugins/blinkid/BlinkIdScanner.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
         <source-file src="src/android/java/com/phonegap/plugins/blinkid/FakeR.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
         <source-file src="src/android/java/com/phonegap/plugins/blinkid/RecognizerType.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid" />
 
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/overlays/OverlaySettingsSerializers.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid/overlays" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/overlays/OverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid/overlays" />
+
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/recognizers/SerializationUtils.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid/recognizers" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/recognizers/RecognizerSerializers.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid/recognizers" />
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/recognizers/RecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid/recognizers" />
+
+        <!-- Overlay settings serializations -->
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/overlays/serialization/DocumentOverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid/overlays/serialization" />
+
+        <!-- Recognizer serializations -->
+        <source-file src="src/android/java/com/phonegap/plugins/blinkid/recognizers/serialization/CroatianIDFrontSideRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/blinkid/recognizers/serialization" />
+
+        <!-- resources -->
         <source-file src="src/android/res/raw/beep.mp3" target-dir="app/src/main/res/raw" />
         <source-file src="src/android/res/layout/splash_screen.xml" target-dir="app/src/main/res/layout" />
 
