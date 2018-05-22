@@ -52,7 +52,7 @@ public final class CroatianIDFrontSideRecognizerSerialization implements Recogni
 
     @Override
     public String getJsonName() {
-        return "CroatianIDFrontSideRecognizerSerialization";
+        return "CroatianIDFrontSideRecognizer";
     }
 
     @Override

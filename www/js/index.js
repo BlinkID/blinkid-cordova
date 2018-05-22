@@ -60,13 +60,13 @@ var app = {
         documentImageDiv.style.visibility = "hidden"
         faceImageDiv.style.visibility = "hidden"
 
-        var croIdFrontRecognizer = new cordova.plugins.CroatianIDFrontSideRecognizer();
+        var croIdFrontRecognizer = new cordova.plugins.BlinkID.CroatianIDFrontSideRecognizer();
         croIdFrontRecognizer.returnFaceImage = true;
         croIdFrontRecognizer.returnFullDocumentImage = true;
 
-        var documentOverlaySettings = new cordova.plugins.DocumentOverlaySettings();
+        var documentOverlaySettings = new cordova.plugins.BlinkID.DocumentOverlaySettings();
 
-        var recognizerCollection = new cordova.plugins.RecognizerCollection([croIdFrontRecognizer]);
+        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([croIdFrontRecognizer]);
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
@@ -75,8 +75,7 @@ var app = {
         };
 
         scanButton.addEventListener('click', function() {
-            var scanner = new cordova.plugins.BlinkIdScanner();
-            scanner.scanWithCamera(
+            cordova.plugins.BlinkID.scanWithCamera(
             
                 // Register the callback handler
                 function callback(cancelled) {
@@ -93,7 +92,7 @@ var app = {
                     documentImageDiv.style.visibility = "hidden"
                     faceImageDiv.style.visibility = "hidden"
 
-                    if (croIdFrontRecognizer.result.state == 'valid') {
+                    if (croIdFrontRecognizer.result.resultState == 'valid') {
                          // Document image is returned as Base64 encoded JPEG
                          var resultDocumentImage = croIdFrontRecognizer.result.fullDocumentImage;
                          if (resultDocumentImage) {

@@ -16,7 +16,7 @@
     </engines>   
 
     <js-module src="www/blinkIdScanner.js" name="BlinkIdScanner">
-        <clobbers target="cordova.plugins.blinkIdScanner" />
+        <clobbers target="cordova.plugins.BlinkID" />
     </js-module>
 
     <!-- android -->

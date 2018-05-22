@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import com.microblink.MicroblinkSDK;
+import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.uisettings.BaseScanUISettings;
 import com.phonegap.plugins.blinkid.overlays.OverlaySettingsSerializers;
@@ -95,6 +96,7 @@ public class BlinkIdScanner extends CordovaPlugin {
     private void setLicense( JSONObject jsonLicense ) throws JSONException {
         String androidLicense = jsonLicense.getString("android");
         MicroblinkSDK.setLicenseKey(androidLicense, this.cordova.getContext());
+        MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
     }
 
     /**

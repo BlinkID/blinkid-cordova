@@ -7,14 +7,14 @@
  */
 
 
-    var exec = require("cordova/exec");
+var exec = require("cordova/exec");
 
 /**
  * Constructor.
  *
- * @returns {BlinkIdScanner}
+ * @returns {BlinkID}
  */
-function BlinkIdScanner() {
+function BlinkID() {
 
 };
 
@@ -29,7 +29,7 @@ function BlinkIdScanner() {
  *      android: 'base64AndroidLicense'
  *  }
  */
-BlinkIdScanner.prototype.scanWithCamera = function (successCallback, errorCallback, overlaySettings, recognizerCollection, licenses) {
+BlinkID.prototype.scanWithCamera = function (successCallback, errorCallback, overlaySettings, recognizerCollection, licenses) {
     if (errorCallback == null) {
         errorCallback = function () {
         };
@@ -68,10 +68,8 @@ BlinkIdScanner.prototype.scanWithCamera = function (successCallback, errorCallba
                 }
             }    
         },
-        errorCallback, 'BlinkIdScanner', 'scanWithCamera', [licenses, overlaySetings, recognizerCollection]);
+        errorCallback, 'BlinkIdScanner', 'scanWithCamera', [overlaySettings, recognizerCollection, licenses]);
 };
-
-module.exports.BlinkIdScanner = BlinkIdScanner;
 
 // COMMON CLASSES
 
@@ -102,7 +100,7 @@ function RecognizerCollection(recognizerArray) {
     }
 }
 
-module.exports.RecognizerCollection = RecognizerCollection;
+BlinkID.prototype.RecognizerCollection = RecognizerCollection;
 
 function Date(nativeDate) {
     this.day = nativeDate.day;
@@ -110,7 +108,7 @@ function Date(nativeDate) {
     this.year = nativeDate.year;
 }
 
-module.exports.Date = Date;
+BlinkID.prototype.Date = Date;
 
 // COMMON CLASSES
 
@@ -125,7 +123,7 @@ function DocumentOverlaySettings() {
 }
 DocumentOverlaySettings.prototype = DocumentOverlaySettings.prototype;
 
-module.exports.DocumentOverlaySettings = DocumentOverlaySettings;
+BlinkID.prototype.DocumentOverlaySettings = DocumentOverlaySettings;
 
 // OVERLAY SETTINGS
 
@@ -148,7 +146,7 @@ function CroatianIDFrontSideRecognizerResult(nativeResult) {
 
 CroatianIDFrontSideRecognizerResult.prototype = RecognizerResult.prototype;
 
-module.exports.CroatianIDFrontSideRecognizerResult = CroatianIDFrontSideRecognizerResult;
+BlinkID.prototype.CroatianIDFrontSideRecognizerResult = CroatianIDFrontSideRecognizerResult;
 
 function CroatianIDFrontSideRecognizer() {
     Recognizer.call(this, 'CroatianIDFrontSideRecognizer');
@@ -164,6 +162,9 @@ function CroatianIDFrontSideRecognizer() {
 
 CroatianIDFrontSideRecognizer.prototype = Recognizer.prototype;
 
-module.exports.CroatianIDFrontSideRecognizer = CroatianIDFrontSideRecognizer;
+BlinkID.prototype.CroatianIDFrontSideRecognizer = CroatianIDFrontSideRecognizer;
 
 // RECOGNIZERS
+
+// export BlinkIdScanner
+module.exports = new BlinkID();

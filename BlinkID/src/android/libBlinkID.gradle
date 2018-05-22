@@ -5,9 +5,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:27.1.0'
-    compile('com.microblink:blinkid:3.16.0@aar') {
-        transitive = false
+    compile('com.microblink:blinkid:4.0.0@aar') {
+        transitive = true
     }
 }
 
