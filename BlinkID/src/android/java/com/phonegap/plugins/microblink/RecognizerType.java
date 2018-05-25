@@ -1,4 +1,4 @@
-package com.phonegap.plugins.blinkid;
+package com.phonegap.plugins.microblink;
 
 enum RecognizerType {
 

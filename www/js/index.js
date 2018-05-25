@@ -97,18 +97,18 @@ var app = {
                          var resultDocumentImage = croIdFrontRecognizer.result.fullDocumentImage;
                          if (resultDocumentImage) {
                              documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
-                             documentImageDiv.style.visibility = "visible"
+                             documentImageDiv.style.visibility = "visible";
                          } else {
-                             documentImageDiv.style.visibility = "hidden"
+                             documentImageDiv.style.visibility = "hidden";
                          }
                         
                         // Face image is returned as Base64 encoded JPEG
                         var resultFaceImage = croIdFrontRecognizer.result.faceImage;
                         if (resultFaceImage) {
                             faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
-                            faceImageDiv.style.visibility = "visible"
+                            faceImageDiv.style.visibility = "visible";
                         } else {
-                            faceImageDiv.style.visibility = "hidden"
+                            faceImageDiv.style.visibility = "hidden";
                         }
 
                         // fill data

@@ -1,4 +1,4 @@
-package com.phonegap.plugins.blinkid;
+package com.phonegap.plugins.microblink;
 
 import android.app.Activity;
 import android.content.Context;

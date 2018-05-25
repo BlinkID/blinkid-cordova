@@ -1,8 +1,8 @@
-package com.phonegap.plugins.blinkid.recognizers;
+package com.phonegap.plugins.microblink.recognizers;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.RecognizerBundle;
-import com.phonegap.plugins.blinkid.recognizers.serialization.*;
+import com.phonegap.plugins.microblink.recognizers.serialization.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;

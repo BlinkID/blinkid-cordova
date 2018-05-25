@@ -1,4 +1,4 @@
-package com.phonegap.plugins.blinkid.recognizers;
+package com.phonegap.plugins.microblink.recognizers;
 
 import com.microblink.entities.recognizers.Recognizer;
 

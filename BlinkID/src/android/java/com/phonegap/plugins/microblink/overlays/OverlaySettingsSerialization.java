@@ -1,4 +1,4 @@
-package com.phonegap.plugins.blinkid.overlays;
+package com.phonegap.plugins.microblink.overlays;
 
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.uisettings.BaseScanUISettings;

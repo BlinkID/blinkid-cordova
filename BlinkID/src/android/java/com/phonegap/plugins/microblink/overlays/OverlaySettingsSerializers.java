@@ -1,9 +1,9 @@
-package com.phonegap.plugins.blinkid.overlays;
+package com.phonegap.plugins.microblink.overlays;
 
 
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.uisettings.BaseScanUISettings;
-import com.phonegap.plugins.blinkid.overlays.serialization.*;
+import com.phonegap.plugins.microblink.overlays.serialization.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;

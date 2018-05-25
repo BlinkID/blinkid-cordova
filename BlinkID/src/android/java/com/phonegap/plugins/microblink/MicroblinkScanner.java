@@ -6,7 +6,7 @@
  * Copyright (c) 2011, IBM Corporation
  * Copyright (c) 2013, Maciej Nux Jaros
  */
-package com.phonegap.plugins.blinkid;
+package com.phonegap.plugins.microblink;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,8 +15,8 @@ import com.microblink.MicroblinkSDK;
 import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.uisettings.BaseScanUISettings;
-import com.phonegap.plugins.blinkid.overlays.OverlaySettingsSerializers;
-import com.phonegap.plugins.blinkid.recognizers.RecognizerSerializers;
+import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerializers;
+import com.phonegap.plugins.microblink.recognizers.RecognizerSerializers;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -24,7 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class BlinkIdScanner extends CordovaPlugin {
+public class MicroblinkScanner extends CordovaPlugin {
 
     private static final int REQUEST_CODE = 1337;
 
@@ -33,15 +33,13 @@ public class BlinkIdScanner extends CordovaPlugin {
 
     private static final String RESULT_LIST = "resultList";
 
-    private static final String LOG_TAG = "BlinkIdScanner";
-
     private CallbackContext mCallbackContext;
     private RecognizerBundle mRecognizerBundle;
 
     /**
      * Constructor.
      */
-    public BlinkIdScanner() {
+    public MicroblinkScanner() {
     }
 
     /**

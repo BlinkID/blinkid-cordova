@@ -1,4 +1,4 @@
-package com.phonegap.plugins.blinkid.recognizers;
+package com.phonegap.plugins.microblink.recognizers;
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
