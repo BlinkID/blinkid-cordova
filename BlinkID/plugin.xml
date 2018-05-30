@@ -15,7 +15,7 @@
         <engine name="cordova-android" version=">=7.0.0" />
     </engines>   
 
-    <js-module src="www/blinkIdScanner.js" name="BlinkIdScanner">
+    <js-module src="www/blinkIdScanner.js" name="BlinkIDScanner">
         <clobbers target="cordova.plugins.BlinkID" />
     </js-module>
 
@@ -23,7 +23,7 @@
     <platform name="android">
 
         <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="BlinkIdScanner">
+            <feature name="BlinkIDScanner">
                 <param name="android-package" value="com.phonegap.plugins.microblink.MicroblinkScanner" />
             </feature>
         </config-file>
@@ -54,7 +54,7 @@
         </config-file>
 
 
-        <!-- Common files -->
+        <!-- ANDROID SOURCE FILES BEGIN -->
         <source-file src="src/android/java/com/phonegap/plugins/microblink/MicroblinkScanner.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/FakeR.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/RecognizerType.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink" />
@@ -66,11 +66,10 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/RecognizerSerializers.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/RecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers" />
 
-        <!-- Overlay settings serializations -->
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/DocumentOverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/overlays/serialization" />
 
-        <!-- Recognizer serializations -->
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CroatianIDFrontSideRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <!-- ANDROID SOURCE FILES END -->
 
         <!-- resources -->
         <source-file src="src/android/res/raw/beep.mp3" target-dir="app/src/main/res/raw" />
@@ -82,8 +81,10 @@
     </platform>
 
     <platform name="ios">
+        <!-- IOS SOURCE FILES BEGIN -->
         <source-file src="src/ios/sources/CDVBlinkIdScanner.m" />
         <header-file src="src/ios/sources/CDVBlinkIdScanner.h" />
+        <!-- IOS SOURCE FILES END -->
         
         <framework src="libc++.dylib" />
         <framework src="libz.dylib" />
