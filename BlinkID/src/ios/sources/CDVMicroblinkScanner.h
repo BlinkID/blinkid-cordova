@@ -15,12 +15,12 @@
  * pdf417 plugin class.
  * Responds to JS calls
  */
-@interface CDVBlinkIdScanner : CDVPlugin
+@interface CDVMicroblinkScanner : CDVPlugin
 
 /**
  * Starts the scanning process
  */
-- (void)scan:(CDVInvokedUrlCommand *)command;
+- (void)scanWithCamera:(CDVInvokedUrlCommand *)command;
 
 /**
  * Returns successful recognition

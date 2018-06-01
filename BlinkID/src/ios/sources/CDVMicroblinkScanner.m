@@ -17,752 +17,77 @@
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
 
-#import "CDVBlinkIdScanner.h"
+#import "CDVMicroblinkScanner.h"
+
+#import "MBOverlayViewControllerDelegate.h"
 
 #import <MicroBlink/MicroBlink.h>
 
-// keys for recognizer types
-const NSString *PDF417_TYPE = @"PDF417";
-const NSString *BARCODE_TYPE = @"Barcode";
-const NSString *USDL_TYPE = @"USDL";
-const NSString *MRTD_TYPE = @"MRTD";
-const NSString *UKDL_TYPE = @"UKDL";
-const NSString *DEDL_TYPE = @"DEDL";
-const NSString *EUDL_TYPE = @"EUDL";
-const NSString *MYKAD_FRONT_TYPE = @"MyKadFront";
-const NSString *MYKAD_BACK_TYPE = @"MyKadBack";
-const NSString *MYTENTERA_TYPE = @"MyTentera";
-const NSString *IKAD_TYPE = @"IKad";
-const NSString *INDONESIA_TYPE = @"IndonesiaID";
-const NSString *GERMAN_OLD_ID_TYPE = @"GermanOldID";
-const NSString *GERMAN_ID_FRONT_TYPE = @"GermanIDFront";
-const NSString *GERMAN_ID_BACK_TYPE = @"GermanIDBack";
-const NSString *UAE_ID_BACK_TYPE = @"UnitedArabEmiratesIDBack";
-const NSString *UAE_ID_FRONT_TYPE = @"UnitedArabEmiratesIDFront";
-const NSString *GERMAN_PASS_TYPE = @"GermanPassport";
-const NSString *DOCUMENTFACE_TYPE = @"DocumentFace";
-const NSString *DOCUMENTDETECTOR_TYPE = @"DocumentDetector";
-const NSString *SINGAPORE_ID_FRONT_TYPE = @"SingaporeIDFront";
-const NSString *SINGAPORE_ID_BACK_TYPE = @"SingaporeIDBack";
-
 const NSString *RESULT_LIST = @"resultList";
-const NSString *RESULT_TYPE = @"resultType";
-const NSString *TYPE = @"type";
-const NSString *DATA = @"data";
-const NSString *FIELDS = @"fields";
-const NSString *RAW_DATA = @"raw";
 
-NSString *RESULT_FACE_IMAGE = @"resultFaceImage";
-NSString *RESULT_DOCUMENT_IMAGE = @"resultDocumentImage";
-NSString *RESULT_SUCCESSFUL_IMAGE = @"resultSuccessfulImage";
-
-NSString *PDF417_RESULT_TYPE = @"Barcode result";
-NSString *USDL_RESULT_TYPE = @"USDL result";
-NSString *BARDECODER_RESULT_TYPE = @"Barcode result";
-NSString *ZXING_RESULT_TYPE = @"Barcode result";
-NSString *MRTD_RESULT_TYPE = @"MRTD result";
-NSString *UKDL_RESULT_TYPE = @"UKDL result";
-NSString *DEDL_RESULT_TYPE = @"DEDL result";
-NSString *EUDL_RESULT_TYPE = @"EUDL result";
-NSString *MYKAD_FRONT_RESULT_TYPE = @"MyKadFront result";
-NSString *MYKAD_BACK_RESULT_TYPE = @"MyKadBack result";
-NSString *MYTENTERA_RESULT_TYPE = @"MyTentera result";
-NSString *IKAD_RESULT_TYPE = @"IKad result";
-NSString *INDONESIA_RESULT_TYPE = @"IndonesiaID result";
-NSString *BARCODE_RESULT_TYPE = @"Barcode result";
-NSString *GERMAN_OLD_ID_RESULT_TYPE = @"GermanOldID result";
-NSString *GERMAN_ID_FRONT_RESULT_TYPE = @"GermanFrontID result";
-NSString *GERMAN_ID_BACK_RESULT_TYPE = @"GermanBackID result";
-NSString *GERMAN_PASS_RESULT_TYPE = @"GermanPassport result";
-NSString *UAE_ID_BACK_RESULT_TYPE = @"UnitedArabEmiratesIDBack result";
-NSString *UAE_ID_FRONT_RESULT_TYPE = @"UnitedArabEmiratesIDFront result";
-NSString *DOCUMENTFACE_RESULT_TYPE = @"DocumentFace result";
-NSString *DOCUMENTDETECTOR_RESULT_TYPE = @"DocumentDetector result";
-NSString *SINGAPORE_ID_FRONT_RESULT_TYPE = @"SingaporeFrontID result";
-NSString *SINGAPORE_ID_BACK_RESULT_TYPE = @"SingaporeBackID result";
-
-NSString *DOCUMENTDETECTOR_ID1_NAME = @"IDCard";
-NSString *DOCUMENTDETECTOR_ID2_NAME = @"ID2Card";
-
-const NSString *SCAN = @"scan";
 const NSString *CANCELLED = @"cancelled";
 
 const int COMPRESSED_IMAGE_QUALITY = 90;
 
-NSString *IMAGE_SUCCESSFUL_STR = @"IMAGE_SUCCESSFUL_SCAN";
-NSString *IMAGE_DOCUMENT_STR = @"IMAGE_DOCUMENT";
-NSString *IMAGE_FACE_STR = @"IMAGE_FACE";
 
-// Card specific keys
-NSString * MRTD_DATE_OF_BIRTH = @"DateOfBirth";
-NSString * MRTD_DATE_OF_EXPIRY = @"DateOfExpiry";
-NSString * MYKAD_FRONT_OWNER_BIRTH_DATE = @"ownerBirthDate";
-NSString * MYKAD_BACK_OWNER_BIRTH_DATE = @"MyKadExtendedNRIC.DateOfBirth";
-NSString * MYTENTERA_OWNER_BIRTH_DATE = @"MyTenteraNricNumber.OwnerBirthDate";
-NSString * IKAD_DATE_OF_BIRTH = @"iKadDateOfBirth.DateOfBirth";
-NSString * IKAD_EXPIRY_DATE = @"iKadExpiryDate.ExpiryDate";
-NSString * INDONESIA_DATE_OF_BIRTH = @"IdnIDPlaceOfBirthAndDateOfBirth.DateOfBirth";
-NSString * INDONESIA_DATE_OF_EXPIRY = @"IdnIDValidUntil.ValidUntil";
-NSString * GERMAN_ID_DATE_OF_EXPIRY = @"DeIDDateOfExpiry.DateOfExpiry";
-NSString * GERMAN_ID_DATE_OF_BIRTH = @"DeIDDateOfBirth.DateOfBirth";
-NSString * GERMAN_ID_DATE_OF_ISSUE = @"DeIDDateOfIssue.DateOfIssue";
-NSString * GERMAN_PASS_DATE_OF_ISSUE = @"GermanPassportDateOfIssue.DateOfIssue";
-NSString * SINGAPORE_DATE_OF_BIRTH = @"SingaporeIDDOBSex.DateOfBirth";
-NSString * SINGAPORE_DATE_OF_ISSUE = @"SingaporeIDBloodGroupDOI.DateOfIssue";
-
-@interface CDVPlugin () <PPScanningDelegate>
+@interface CDVPlugin () <MBOverlayViewControllerDelegate>
 
 @property (nonatomic, retain) CDVInvokedUrlCommand *lastCommand;
 
 @end
 
-typedef NS_ENUM(NSUInteger, PPImageType) {
-    PPImageTypeFace,
-    PPImageTypeDocument,
-    PPImageTypeSuccessful,
-};
+@interface CDVMicroblinkScanner ()
 
-@interface CDVBlinkIdScanner ()
-
-@property (nonatomic) NSMutableDictionary<NSString *, NSMutableDictionary *> *imageMetadatas;
-
-@property (nonatomic) BOOL shouldReturnFaceImage;
-@property (nonatomic) BOOL shouldReturnDocumentImage;
-@property (nonatomic) BOOL shouldReturnSuccessfulImage;
-
-@property (nonatomic) PPImageMetadata *successfulImageMetadata;
+@property (nonatomic, strong) MBRecognizerCollection *recognizerCollection;
+@property (nonatomic) id<MBRecognizerRunnerViewController> scanningViewController;
 
 @end
 
-@implementation CDVBlinkIdScanner
+@implementation CDVMicroblinkScanner
 
 @synthesize lastCommand;
 
-#pragma mark - Settings Initializers
-
-- (PPPdf417RecognizerSettings *)pdf417RecognizerSettings {
-    
-    PPPdf417RecognizerSettings *pdf417RecognizerSettings = [[PPPdf417RecognizerSettings alloc] init];
-    
-    /********* All recognizer settings are set to their default values. Change accordingly. *********/
-    
-    /**
-     * Set this to YES to scan even barcode not compliant with standards
-     * For example, malformed PDF417 barcodes which were incorrectly encoded
-     * Use only if necessary because it slows down the recognition process
-     */
-    pdf417RecognizerSettings.scanUncertain = NO;
-    
-    /**
-     * Set this to YES to scan barcodes which don't have quiet zone (white area) around it
-     * Use only if necessary because it slows down the recognition process
-     */
-    pdf417RecognizerSettings.allowNullQuietZone = YES;
-    
-    /**
-     * Set this to YES to allow scanning barcodes with inverted intensities
-     * (i.e. white barcodes on black background)
-     */
-    pdf417RecognizerSettings.scanInverse = NO;
-    
-    return pdf417RecognizerSettings;
-}
-
-- (PPUsdlRecognizerSettings *)usdlRecognizerSettings {
-    
-    PPUsdlRecognizerSettings *usdlRecognizerSettings = [[PPUsdlRecognizerSettings alloc] init];
-    
-    /********* All recognizer settings are set to their default values. Change accordingly. *********/
-    
-    /**
-     * Set this to YES to scan even barcode not compliant with standards
-     * For example, malformed PDF417 barcodes which were incorrectly encoded
-     * Use only if necessary because it slows down the recognition process
-     */
-    usdlRecognizerSettings.scanUncertain = NO;
-    
-    /**
-     * Set this to YES to scan barcodes which don't have quiet zone (white area) around it
-     * Disable if you need a slight speed boost
-     */
-    usdlRecognizerSettings.allowNullQuietZone = YES;
-    
-    return usdlRecognizerSettings;
-}
-
-- (PPBarcodeRecognizerSettings *)barcodeRecognizerSettings {
-    
-    PPBarcodeRecognizerSettings *barcodeRecognizerSettings = [[PPBarcodeRecognizerSettings alloc] init];
-    
-    /********* All recognizer settings are set to their default values. To use Barcode Recognizer you must set atleast 1 standard which will
-     * be used to true. *********/
-    
-    /**
-     * Set this to YES to scan Aztec 2D barcodes
-     */
-    barcodeRecognizerSettings.scanAztec = NO;
-    
-    /**
-     * Set this to YES to scan Code 128 1D barcodes
-     */
-    barcodeRecognizerSettings.scanCode128 = YES;
-    
-    /**
-     * Set this to YES to scan Code 39 1D barcodes
-     */
-    barcodeRecognizerSettings.scanCode39 = YES;
-    
-    /**
-     * Set this to YES to scan DataMatrix 2D barcodes
-     */
-    barcodeRecognizerSettings.scanDataMatrix = NO;
-    
-    /**
-     * Set this to YES to scan EAN 13 barcodes
-     */
-    barcodeRecognizerSettings.scanEAN13 = YES;
-    
-    /**
-     * Set this to YES to scan EAN8 barcodes
-     */
-    barcodeRecognizerSettings.scanEAN8 = YES;
-    
-    /**
-     * Set this to YES to scan ITF barcodes
-     */
-    barcodeRecognizerSettings.scanITF = NO;
-    
-    /**
-     * Set this to YES to scan QR barcodes
-     */
-    barcodeRecognizerSettings.scanQR = YES;
-    
-    /**
-     * Set this to YES to scan UPCA barcodes
-     */
-    barcodeRecognizerSettings.scanUPCA = YES;
-    
-    /**
-     * Set this to YES to scan UPCE barcodes
-     */
-    barcodeRecognizerSettings.scanUPCE = YES;
-    
-    /**
-     * Set this to YES to allow scanning barcodes with inverted intensities
-     * (i.e. white barcodes on black background)
-     * @Warning: this option doubles frame processing time
-     */
-    barcodeRecognizerSettings.scanInverse = NO;
-
-    /**
-     * Use this method to enable slower, but more thorough scan procedure when scanning barcodes.
-     * By default, this option is turned on.
-     */
-    barcodeRecognizerSettings.useSlowerThoroughScan = YES;
-    
-    return barcodeRecognizerSettings;
-}
-
-- (PPMrtdRecognizerSettings *)mrtdRecognizerSettings {
-    
-    PPMrtdRecognizerSettings *mrtdRecognizerSettings = [[PPMrtdRecognizerSettings alloc] init];
-    
-    /********* All recognizer settings are set to their default values. Change accordingly. *********/
-    
-    // Setting this will give you the chance to parse MRZ result, if Mrtd recognizer wasn't
-    // successful in parsing (this can happen since MRZ isn't always formatted accoring to ICAO Document 9303 standard.
-    // @see http://www.icao.int/Security/mrtd/pages/Document9303.aspx
-    mrtdRecognizerSettings.allowUnparsedResults = NO;
-    
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        mrtdRecognizerSettings.dewarpFullDocument = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMrtdRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    return mrtdRecognizerSettings;
-}
-
-- (PPEudlRecognizerSettings *)eudlRecognizerSettingsWithCountry:(PPEudlCountry)country {
-    
-    PPEudlRecognizerSettings *eudlRecognizerSettings = [[PPEudlRecognizerSettings alloc] initWithEudlCountry:country];
-    
-    /********* All recognizer settings are set to their default values. Change accordingly. *********/
-    
-    /**
-     * If YES, document issue date will be extracted
-     * Set this to NO if youre not interested in this data to speed up the scanning process!
-     */
-    eudlRecognizerSettings.extractIssueDate = YES;
-    
-    /**
-     * If YES, document expiry date will be extracted
-     * Set this to NO if youre not interested in this data to speed up the scanning process!
-     */
-    eudlRecognizerSettings.extractExpiryDate = YES;
-    
-    /**
-     * If YES, owner's address will be extracted
-     * Set this to NO if youre not interested in this data to speed up the scanning process!
-     */
-    eudlRecognizerSettings.extractAddress = YES;
-    
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        eudlRecognizerSettings.showFullDocument = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPEudlRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-    
-    return eudlRecognizerSettings;
-}
-
-- (PPDetectorRecognizerSettings *)detectorRecognizerSettings {
-
-    PPDocumentSpecification *decodingInfo1 = [PPDocumentSpecification newFromPreset:PPDocumentPresetId1Card];
-    PPDocumentSpecification *decodingInfo2 = [PPDocumentSpecification newFromPreset:PPDocumentPresetId1Card];
-
-    PPDocumentDetectorSettings *documentDetectorSettings = [[PPDocumentDetectorSettings alloc] initWithNumStableDetectionsThreshold:3];
-
-    [documentDetectorSettings setDocumentSpecifications:@[decodingInfo1, decodingInfo2]];
-
-    PPDetectorRecognizerSettings *detectorRecognizerSettings = [[PPDetectorRecognizerSettings alloc] initWithDetectorSettings:documentDetectorSettings];
-    if ([self shouldReturnDocumentImage]) {
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPDetectorRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    return detectorRecognizerSettings;
-}
-
-- (PPDocumentFaceRecognizerSettings *)documentFaceRecognizerSettings {
-    
-    PPDocumentFaceRecognizerSettings *documentFaceReconizerSettings = [[PPDocumentFaceRecognizerSettings alloc] init];
-    
-    // This property is useful if you're at the same time obtaining Dewarped image metadata, since it allows you to obtain dewarped and
-    // cropped
-    // images of MRTD documents. Dewarped images are returned to scanningViewController:didOutputMetadata: callback,
-    // as PPImageMetadata objects with name @"MRTD"
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        documentFaceReconizerSettings.returnFullDocument = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPDocumentFaceRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        documentFaceReconizerSettings.returnFaceImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPDocumentFaceRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-    
-    return documentFaceReconizerSettings;
-}
-
-- (PPMyKadFrontRecognizerSettings *)myKadFrontRecognizerSettings {
-
-    PPMyKadFrontRecognizerSettings *myKadFrontRecognizerSettings = [[PPMyKadFrontRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        myKadFrontRecognizerSettings.showFullDocument = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        myKadFrontRecognizerSettings.showFaceImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-    
-    return myKadFrontRecognizerSettings;
-}
-
-- (PPMyKadBackRecognizerSettings *)myKadBackRecognizerSettings {
-
-    PPMyKadBackRecognizerSettings *myKadBackRecognizerSettings = [[PPMyKadBackRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        myKadBackRecognizerSettings.displayFullDocumentImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyKadBackRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    return myKadBackRecognizerSettings;
-}
-
-- (PPMyTenteraRecognizerSettings *)myTenteraRecognizerSettings {
-
-    PPMyTenteraRecognizerSettings *myTenteraRecognizerSettings = [[PPMyTenteraRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        myTenteraRecognizerSettings.displayFullDocumentImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyTenteraRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        myTenteraRecognizerSettings.displayFaceImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPMyTenteraRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-
-    return myTenteraRecognizerSettings;
-}
-
-- (PPiKadRecognizerSettings *)iKadRecognizerSettings {
-
-    PPiKadRecognizerSettings *iKadRecognizerSettings = [[PPiKadRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        iKadRecognizerSettings.displayFullDocumentImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPiKadRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        iKadRecognizerSettings.displayFaceImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPiKadRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-
-    return iKadRecognizerSettings;
-}
-
-- (PPIndonesianIDFrontRecognizerSettings *)indonesiaRecognizerSettings {
-
-    PPIndonesianIDFrontRecognizerSettings *indonesiaRecognizerSettings = [[PPIndonesianIDFrontRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        indonesiaRecognizerSettings.displayFullDocumentImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPIndonesianIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        indonesiaRecognizerSettings.displayFaceImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPIndonesianIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-
-    return indonesiaRecognizerSettings;
-}
-
-- (PPGermanOldIDRecognizerSettings *)germanOldIDRecognizerSettings {
-
-    PPGermanOldIDRecognizerSettings *germanOldIDRecognizerSettings = [[PPGermanOldIDRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        germanOldIDRecognizerSettings.returnFullDocumentPhoto = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPGermanOldIDRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        germanOldIDRecognizerSettings.extractFacePhoto = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPGermanOldIDRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-
-    return germanOldIDRecognizerSettings;
-}
-
-- (PPGermanIDFrontRecognizerSettings *)germanIDFrontRecognizerSettings {
-
-    PPGermanIDFrontRecognizerSettings *germanIDFrontRecognizerSettings = [[PPGermanIDFrontRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        germanIDFrontRecognizerSettings.displayFullDocumentImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPGermanIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        germanIDFrontRecognizerSettings.displayFaceImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPGermanIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-
-    return germanIDFrontRecognizerSettings;
-}
-
-- (PPGermanIDBackRecognizerSettings *)germanIDBackRecognizerSettings {
-
-    PPGermanIDBackRecognizerSettings *germanIDBackRecognizerSettings = [[PPGermanIDBackRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        germanIDBackRecognizerSettings.returnFullDocumentPhoto = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPGermanIDBackRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    return germanIDBackRecognizerSettings;
-}
-
-- (PPGermanPassportRecognizerSettings *)germanPassportRecognizerSettings {
-
-    PPGermanPassportRecognizerSettings *germanPassportRecognizerSettings = [[PPGermanPassportRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        germanPassportRecognizerSettings.returnFullDocumentPhoto = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPGermanPassportRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        germanPassportRecognizerSettings.returnFacePhoto = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPGermanIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-
-    return germanPassportRecognizerSettings;
-}
-
-- (PPUnitedArabEmiratesIDBackRecognizerSettings *)uaeBackRecognizerSettings {
-    
-    PPUnitedArabEmiratesIDBackRecognizerSettings *uaeBackRecognizerSettings = [[PPUnitedArabEmiratesIDBackRecognizerSettings alloc] init];
-    
-    // Setup returning document image
-    
-    if ([self shouldReturnDocumentImage]) {
-        uaeBackRecognizerSettings.displayFullDocumentImage = YES;
-        
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPUnitedArabEmiratesIDBackRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-    
-    return uaeBackRecognizerSettings;
-}
-
-- (PPUnitedArabEmiratesIDFrontRecognizerSettings *)uaeFrontRecognizerSettings {
-    
-    PPUnitedArabEmiratesIDFrontRecognizerSettings *uaeFrontRecognizerSettings = [[PPUnitedArabEmiratesIDFrontRecognizerSettings alloc] init];
-    
-    // Setup returning document image
-    
-    if ([self shouldReturnDocumentImage]) {
-        uaeFrontRecognizerSettings.displayFullDocumentImage = YES;
-        
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-    
-    if ([self shouldReturnFaceImage]) {
-        uaeFrontRecognizerSettings.displayFacePhoto = YES;
-        
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPUnitedArabEmiratesIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-    
-    return uaeFrontRecognizerSettings;
-}
-
-- (PPSingaporeIDFrontRecognizerSettings *)singaporeDFrontRecognizerSettings {
-
-    PPSingaporeIDFrontRecognizerSettings *singaporeDFrontRecognizerSettings = [[PPSingaporeIDFrontRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        singaporeDFrontRecognizerSettings.displayFullDocumentImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPSingaporeIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    // Setup returning face image
-
-    if ([self shouldReturnFaceImage]) {
-        singaporeDFrontRecognizerSettings.displayPortraitImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPSingaporeIDFrontRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeFace)];
-    }
-
-    return singaporeDFrontRecognizerSettings;
-}
-
-- (PPSingaporeIDBackRecognizerSettings *)singaporeIDBackRecognizerSettings {
-
-    PPSingaporeIDBackRecognizerSettings *singaporeIDBackRecognizerSettings = [[PPSingaporeIDBackRecognizerSettings alloc] init];
-
-    // Setup returning document image
-
-    if ([self shouldReturnDocumentImage]) {
-        singaporeIDBackRecognizerSettings.displayFullDocumentImage = YES;
-
-        NSMutableDictionary *dict = [self getInitializedImagesDictionaryForClass:[PPSingaporeIDBackRecognizerResult class]];
-        [dict setObject:[NSNull null] forKey:@(PPImageTypeDocument)];
-    }
-
-    return singaporeIDBackRecognizerSettings;
-}
-
-
-- (NSMutableDictionary *)getInitializedImagesDictionaryForClass:(Class)class {
-
-    NSMutableDictionary *dict = [self.imageMetadatas objectForKey:NSStringFromClass(class)];
-    if (dict != nil) {
-        return dict;
-    }
-
-    NSMutableDictionary *newDict = [[NSMutableDictionary alloc] init];
-    [self.imageMetadatas setObject:newDict forKey:NSStringFromClass(class)];
-    return newDict;
-}
-
-
-#pragma mark - Used Recognizers
-
-- (BOOL)shouldUsePdf417RecognizerForTypes:(NSArray *)types {
-    return [types containsObject:PDF417_TYPE];
-}
-
-- (BOOL)shouldUseBarcodeRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:BARCODE_TYPE];
-}
-
-- (BOOL)shouldUseUsdlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:USDL_TYPE];
-}
-
-- (BOOL)shouldUseMrtdRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:MRTD_TYPE];
-}
-
-- (BOOL)shouldUseEudlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:EUDL_TYPE];
-}
-
-- (BOOL)shouldUseUkdlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:UKDL_TYPE];
-}
-
-- (BOOL)shouldUseDedlRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:DEDL_TYPE];
-}
-
-- (BOOL)shouldUseDetectorRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:DOCUMENTDETECTOR_TYPE];
-}
-
-- (BOOL)shouldUseDocumentFaceRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:DOCUMENTFACE_TYPE];
-}
-
-- (BOOL)shouldUseMyKadFrontRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:MYKAD_FRONT_TYPE];
-}
-
-- (BOOL)shouldUseMyKadBackRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:MYKAD_BACK_TYPE];
-}
-
-- (BOOL)shouldUseMyTenteraRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:MYTENTERA_TYPE];
-}
-
-- (BOOL)shouldUseIKadRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:IKAD_TYPE];
-}
-
-- (BOOL)shouldUseIndonesiaRecognizerForTypes:(NSArray *)types {
-    return [types containsObject:INDONESIA_TYPE];
-}
-
-- (BOOL)shouldUseGermanOldIDType:(NSArray *)types {
-    return [types containsObject:GERMAN_OLD_ID_TYPE];
-}
-
-- (BOOL)shouldUseGermanIDFrontType:(NSArray *)types {
-    return [types containsObject:GERMAN_ID_FRONT_TYPE];
-}
-
-- (BOOL)shouldUseGermanIDBackType:(NSArray *)types {
-    return [types containsObject:GERMAN_ID_BACK_TYPE];
-}
-
-- (BOOL)shouldUseGermanPassType:(NSArray *)types {
-    return [types containsObject:GERMAN_PASS_TYPE];
-}
-
-- (BOOL)shouldUseUaeIDBackType:(NSArray *)types {
-    return [types containsObject:UAE_ID_BACK_TYPE];
-}
-
-- (BOOL)shouldUseUaeIDFrontType:(NSArray *)types {
-    return [types containsObject:UAE_ID_FRONT_TYPE];
-}
-
-- (BOOL)shouldUseSingaporeIDFrontType:(NSArray *)types {
-    return [types containsObject:SINGAPORE_ID_FRONT_TYPE];
-}
-
-- (BOOL)shouldUseSingaporeIDBackType:(NSArray *)types {
-    return [types containsObject:SINGAPORE_ID_BACK_TYPE];
-}
-
 #pragma mark - Main
+- (void)scanWithCamera:(CDVInvokedUrlCommand *)command {
+
+    [self setLastCommand:command];
+
+    NSDictionary *jsonOverlaySettings = [self.lastCommand argumentAtIndex:0];
+    NSDictionary *jsonRecognizerCollection = [self.lastCommand argumentAtIndex:1];
+    NSDictionary *jsonLicenses = [self.lastCommand argumentAtIndex:2];
+
+    [self setLicense:jsonLicenses];
+
+    /** Instantiate the scanning coordinator */
+    NSError *error;
+    PPCameraCoordinator *coordinator = [self coordinatorWithError:&error];
+
+    /** If scanning isn't supported, present an error */
+    if (coordinator == nil) {
+        NSString *messageString = [error localizedDescription];
+        [[[UIAlertView alloc] initWithTitle:@"Warning"
+                                    message:messageString
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil, nil] show];
+
+        return;
+    }
+
+    /** Allocate and present the scanning view controller */
+    UIViewController<PPScanningViewController> *scanningViewController =
+    [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
+
+    scanningViewController.autorotate = YES;
+
+    /** You can use other presentation methods as well */
+    [[self viewController] presentViewController:scanningViewController animated:YES completion:nil];
+}
+
+- (void)setLicense:(NSDictionary*) jsonLicense {
+    NSString* iosLicense = [jsonLicense objectForKey:@"ios"];
+    [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense];
+}
 
 - (PPCameraCoordinator *)coordinatorWithError:(NSError **)error {
     
@@ -908,36 +233,6 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
     PPCameraCoordinator *coordinator = [[PPCameraCoordinator alloc] initWithSettings:settings];
     
     return coordinator;
-}
-
-- (void)scan:(CDVInvokedUrlCommand *)command {
-    
-    [self setLastCommand:command];
-    
-    /** Instantiate the scanning coordinator */
-    NSError *error;
-    PPCameraCoordinator *coordinator = [self coordinatorWithError:&error];
-    
-    /** If scanning isn't supported, present an error */
-    if (coordinator == nil) {
-        NSString *messageString = [error localizedDescription];
-        [[[UIAlertView alloc] initWithTitle:@"Warning"
-                                    message:messageString
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil, nil] show];
-        
-        return;
-    }
-    
-    /** Allocate and present the scanning view controller */
-    UIViewController<PPScanningViewController> *scanningViewController =
-    [PPViewControllerFactory cameraViewControllerWithDelegate:self coordinator:coordinator error:nil];
-
-    scanningViewController.autorotate = YES;
-    
-    /** You can use other presentation methods as well */
-    [[self viewController] presentViewController:scanningViewController animated:YES completion:nil];
 }
 
 #pragma mark - Result Processing
@@ -1358,30 +653,6 @@ typedef NS_ENUM(NSUInteger, PPImageType) {
 
     // As scanning view controller is presented full screen and modally, dismiss it
     [[self viewController] dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)setupDictionary:(NSMutableDictionary *)dict withImageMetadata:(PPImageMetadata *)imageMetadata resultKey:(NSString *)resultKey {
-
-    if (imageMetadata == nil) return;
-    if (imageMetadata.image == nil) return;
-
-    NSData *imageData = UIImageJPEGRepresentation(imageMetadata.image, COMPRESSED_IMAGE_QUALITY / 100.f);
-    [dict setObject:[imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed] forKey:resultKey];
-}
-
-- (void)setupDictionary:(NSMutableDictionary *)dict withImagesForResult:(PPRecognizerResult *)result {
-    NSDictionary *metadatas = [self.imageMetadatas objectForKey:NSStringFromClass([result class])];
-
-    [metadatas enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        switch ([key intValue]) {
-            case PPImageTypeFace:
-                [self setupDictionary:dict withImageMetadata:obj resultKey:RESULT_FACE_IMAGE];
-                break;
-            case PPImageTypeDocument:
-                [self setupDictionary:dict withImageMetadata:obj resultKey:RESULT_DOCUMENT_IMAGE];
-                break;
-        }
-    }];
 }
 
 - (void)returnError:(NSString *)message {

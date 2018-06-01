@@ -141,8 +141,8 @@
 
     <platform name="ios">
         <!-- IOS SOURCE FILES BEGIN -->
-        <source-file src="src/ios/sources/CDVBlinkIdScanner.m" />
-        <header-file src="src/ios/sources/CDVBlinkIdScanner.h" />
+        <source-file src="src/ios/sources/CDVMicroblinkScanner.m" />
+        <header-file src="src/ios/sources/CDVMicroblinkScanner.h" />
         <!-- IOS SOURCE FILES END -->
         
         <framework src="libc++.dylib" />
@@ -166,7 +166,7 @@
         <resource-file src="src/ios/MicroBlink.bundle" />
         <config-file target="config.xml" parent="/*">
             <feature name="BlinkIDScanner">
-                <param name="ios-package" value="CDVBlinkIdScanner" />
+                <param name="ios-package" value="CDVMicroblinkScanner" />
             </feature>
         </config-file>
         
