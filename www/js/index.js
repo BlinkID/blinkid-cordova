@@ -60,13 +60,22 @@ var app = {
         documentImageDiv.style.visibility = "hidden"
         faceImageDiv.style.visibility = "hidden"
 
-        var croIdFrontRecognizer = new cordova.plugins.BlinkID.CroatianIDFrontSideRecognizer();
-        croIdFrontRecognizer.returnFaceImage = true;
-        croIdFrontRecognizer.returnFullDocumentImage = true;
+        // to scan EU driver's licences, use EUDLRecognizer
+        var eudlRecognizer = new cordova.plugins.BlinkID.EUDLRecognizer();
+        eudlRecognizer.returnFaceImage = true;
+        eudlRecognizer.returnFullDocumentImage = true;
+
+        // to scan any machine readable travel document (passports, visa's and IDs with 
+        // machine readable zone), use MRTDRecognizer
+        var mrtdRecognizer = new cordova.plugins.BlinkID.MRTDRecognizer();
+        mrtdRecognizer.returnFullDocumentImage = true;
+
+        // there are lots of Recognizer objects in BlinkID - check blinkIdScanner.js for full reference
 
         var documentOverlaySettings = new cordova.plugins.BlinkID.DocumentOverlaySettings();
 
-        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([croIdFrontRecognizer]);
+        // create RecognizerCollection from any number of recognizers that should perform recognition
+        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([eudlRecognizer, mrtdRecognizer]);
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
@@ -92,18 +101,18 @@ var app = {
                     documentImageDiv.style.visibility = "hidden"
                     faceImageDiv.style.visibility = "hidden"
 
-                    if (croIdFrontRecognizer.result.resultState == 'valid') {
-                         // Document image is returned as Base64 encoded JPEG
-                         var resultDocumentImage = croIdFrontRecognizer.result.fullDocumentImage;
-                         if (resultDocumentImage) {
-                             documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
-                             documentImageDiv.style.visibility = "visible";
-                         } else {
-                             documentImageDiv.style.visibility = "hidden";
-                         }
+                    if (eudlRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
+                        // Document image is returned as Base64 encoded JPEG
+                        var resultDocumentImage = eudlRecognizer.result.fullDocumentImage;
+                        if (resultDocumentImage) {
+                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
+                            documentImageDiv.style.visibility = "visible";
+                        } else {
+                            documentImageDiv.style.visibility = "hidden";
+                        }
                         
                         // Face image is returned as Base64 encoded JPEG
-                        var resultFaceImage = croIdFrontRecognizer.result.faceImage;
+                        var resultFaceImage = eudlRecognizer.result.faceImage;
                         if (resultFaceImage) {
                             faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
                             faceImageDiv.style.visibility = "visible";
@@ -113,13 +122,34 @@ var app = {
 
                         // fill data
                         resultDiv.innerHTML = /** Personal information */
-                                "First name: " + croIdFrontRecognizer.result.firstName + "<br>" +
-                                "Last name: " + croIdFrontRecognizer.result.lastName + "<br>" +
-                                "ID card number: " + croIdFrontRecognizer.result.identityCardNumber + "<br>" +
-                                "Sex: " + croIdFrontRecognizer.result.sex + "<br>" +
-                                "Citizenship: " + croIdFrontRecognizer.result.citizenship + "<br>" +
-                                "Date of expiry: " + croIdFrontRecognizer.result.documentDateOfExpiry.day + "." + croIdFrontRecognizer.result.documentDateOfExpiry.month + "." + croIdFrontRecognizer.result.documentDateOfExpiry.year + ".<br>" +
-                                "Document bilingual: " + croIdFrontRecognizer.result.documentBilingual;
+                            "First name: " + eudlRecognizer.result.firstName + "<br>" +
+                            "Last name: " + eudlRecognizer.result.lastName + "<br>" +
+                            "Address: " + eudlRecognizer.result.address + "<br>" +
+                            "Personal number: " + eudlRecognizer.result.personalNumber + "<br>" +
+                            "Driver number: " + eudlRecognizer.result.driverNumber + "<br>";
+                    } else if (mrtdRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
+                        // Document image is returned as Base64 encoded JPEG
+                        var resultDocumentImage = mrtdRecognizer.result.fullDocumentImage;
+                        if (resultDocumentImage) {
+                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
+                            documentImageDiv.style.visibility = "visible";
+                        } else {
+                            documentImageDiv.style.visibility = "hidden";
+                        }
+
+                        // MRTDRecognizer does not support face image extraction
+                        faceImageDiv.style.visibility = "hidden";
+
+                        // fill data
+                        resultDiv.innerHTML = /** Personal information */
+                            "First name: " + mrtdRecognizer.result.MRZResult.secondaryId + "<br>" +
+                            "Last name: " + mrtdRecognizer.result.MRZResult.primaryId + "<br>" +
+                            "Nationality: " + mrtdRecognizer.result.MRZResult.nationality + "<br>" +
+                            "Gender: " + mrtdRecognizer.result.MRZResult.gender + "<br>" +
+                            "Date of birth: " +
+                                mrtdRecognizer.result.MRZResult.dateOfBirth.day + "." +
+                                mrtdRecognizer.result.MRZResult.dateOfBirth.month + "." +
+                                mrtdRecognizer.result.MRZResult.dateOfBirth.year + ". <br>";
                     } else {
                         resultDiv.innerHTML = "Result is empty!";
                     }

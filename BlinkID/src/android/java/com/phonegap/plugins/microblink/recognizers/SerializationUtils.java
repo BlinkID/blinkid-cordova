@@ -10,6 +10,7 @@ import com.microblink.results.date.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,7 +19,7 @@ public abstract class SerializationUtils {
     private static final int COMPRESSED_IMAGE_QUALITY = 90;
 
     public static <T extends Recognizer.Result> void addCommonResultData(JSONObject jsonObject, T result) throws JSONException {
-        jsonObject.put("resultState", result.getResultState().name().toLowerCase());
+        jsonObject.put("resultState", serializeEnum(result.getResultState()));
     }
 
     public static JSONObject serializeDate( @Nullable  Date date ) throws JSONException {
@@ -31,6 +32,18 @@ public abstract class SerializationUtils {
         } else {
             return null;
         }
+    }
+
+    public static int serializeEnum(Enum e) {
+        return e.ordinal() + 1;
+    }
+
+    public static JSONArray serializeStringArray(String[] strings) {
+        JSONArray jsonStrings = new JSONArray();
+        for (String str : strings) {
+            jsonStrings.put(str);
+        }
+        return jsonStrings;
     }
 
     public static String encodeImageBase64(Image image) {

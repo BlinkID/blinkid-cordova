@@ -2,7 +2,7 @@ package com.phonegap.plugins.microblink.overlays;
 
 
 import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.uisettings.BaseScanUISettings;
+import com.microblink.uisettings.UISettings;
 import com.phonegap.plugins.microblink.overlays.serialization.*;
 
 import org.json.JSONException;
@@ -20,10 +20,12 @@ public enum OverlaySettingsSerializers {
     }
 
     OverlaySettingsSerializers() {
+        registerMapping(new BarcodeOverlaySettingsSerialization());
         registerMapping(new DocumentOverlaySettingsSerialization());
+        registerMapping(new DocumentVerificationOverlaySettingsSerialization());
     }
 
-    public BaseScanUISettings getOverlaySettings(JSONObject jsonOverlaySettings, RecognizerBundle recognizerBundle) {
+    public UISettings getOverlaySettings(JSONObject jsonOverlaySettings, RecognizerBundle recognizerBundle) {
         try {
             return mByJSONName.get(jsonOverlaySettings.getString("overlaySettingsType")).createUISettings(jsonOverlaySettings, recognizerBundle);
         } catch (JSONException e) {

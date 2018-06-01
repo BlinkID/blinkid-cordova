@@ -14,7 +14,7 @@ import android.content.Intent;
 import com.microblink.MicroblinkSDK;
 import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.uisettings.BaseScanUISettings;
+import com.microblink.uisettings.UISettings;
 import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerializers;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerializers;
 
@@ -75,7 +75,7 @@ public class MicroblinkScanner extends CordovaPlugin {
 
                 setLicense(jsonLicenses);
                 mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-                BaseScanUISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(jsonOverlaySettings, mRecognizerBundle);
+                UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(jsonOverlaySettings, mRecognizerBundle);
 
                 // unable to use ActivityRunner because we need to use cordova's activity launcher
                 Intent intent = new Intent(this.cordova.getContext(), overlaySettings.getTargetActivity());
