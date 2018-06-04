@@ -12,5 +12,6 @@
 @required
 
 - (void)overlayViewControllerDidFinishScanning:(MBOverlayViewController *)overlayViewController state:(MBRecognizerResultState)state;
+- (void)overlayDidTapClose:(MBOverlayViewController *)overlayViewController;
 
 @end

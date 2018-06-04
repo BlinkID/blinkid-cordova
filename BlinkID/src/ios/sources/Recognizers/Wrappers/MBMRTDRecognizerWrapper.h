@@ -8,6 +8,6 @@
 #import "MBRecognizerWrapper.h"
 #import <MicroBlink/MicroBlink.h>
 
-@interface MBCroatiaIDFrontRecognizerWrapper : NSObject<MBRecognizerCreator>
+@interface MBMRTDRecognizerCreator : NSObject<MBRecognizerCreator>
 
 @end

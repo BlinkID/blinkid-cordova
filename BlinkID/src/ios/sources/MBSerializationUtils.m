@@ -26,4 +26,14 @@
     return [MBSerializationUtils serializeDay:value.day month:value.month year:value.year];
 }
 
++(NSData *) encodeMBImage:(MBImage * _Nullable) image {
+    const int COMPRESSED_IMAGE_QUALITY = 90;
+
+    if (image != nil) {
+        return UIImageJPEGRepresentation(image.image, COMPRESSED_IMAGE_QUALITY / 100.f);
+    } else {
+        return nil;
+    }
+}
+
 @end

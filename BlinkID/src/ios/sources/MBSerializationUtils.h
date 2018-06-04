@@ -12,5 +12,6 @@
 
 +(NSDictionary *) serializeNSDate:(NSDate*) value;
 +(NSDictionary *) serializeMBDateResult:(MBDateResult *) value;
++(NSData *) encodeMBImage:(MBImage * _Nullable) image;
 
 @end
