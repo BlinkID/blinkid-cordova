@@ -26,11 +26,12 @@
     return [MBSerializationUtils serializeDay:value.day month:value.month year:value.year];
 }
 
-+(NSData *) encodeMBImage:(MBImage * _Nullable) image {
++(NSString *) encodeMBImage:(MBImage * _Nullable) image {
     const int COMPRESSED_IMAGE_QUALITY = 90;
 
     if (image != nil) {
-        return UIImageJPEGRepresentation(image.image, COMPRESSED_IMAGE_QUALITY / 100.f);
+        NSData *imageData = UIImageJPEGRepresentation(image.image, COMPRESSED_IMAGE_QUALITY / 100.f);
+        return [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
     } else {
         return nil;
     }
