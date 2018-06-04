@@ -143,6 +143,37 @@
         <!-- IOS SOURCE FILES BEGIN -->
         <source-file src="src/ios/sources/CDVMicroblinkScanner.m" />
         <header-file src="src/ios/sources/CDVMicroblinkScanner.h" />
+
+        <source-file src="src/ios/sources/MBBlinkIDSerializationUtils.m" />
+        <header-file src="src/ios/sources/MBBlinkIDSerializationUtils.h" />
+
+        <source-file src="src/ios/sources/MBSerializationUtils.m" />
+        <header-file src="src/ios/sources/MBSerializationUtils.h" />
+
+        <source-file src="src/ios/sources/Overlays/MBOverlaySettingsSerializers.m" />
+        <header-file src="src/ios/sources/Overlays/MBOverlaySettingsSerializers.h" />
+
+        <header-file src="src/ios/sources/Overlays/MBOverlayVCCreator.h" />
+        <header-file src="src/ios/sources/Overlays/MBOverlayViewControllerDelegate.h" />
+
+        <source-file src="src/ios/sources/Overlays/Serialization/MBBarcodeOverlaySettingsSerialization.m" />
+        <header-file src="src/ios/sources/Overlays/Serialization/MBBarcodeOverlaySettingsSerialization.h" />
+
+        <source-file src="src/ios/sources/Overlays/Serialization/MBDocumentOverlaySettingsSerialization.m" />
+        <header-file src="src/ios/sources/Overlays/Serialization/MBDocumentOverlaySettingsSerialization.h" />
+
+        <source-file src="src/ios/sources/Overlays/Serialization/MBDocumentVerificationOverlaySettingsSerialization.m" />
+        <header-file src="src/ios/sources/Overlays/Serialization/MBDocumentVerificationOverlaySettingsSerialization.h" />
+
+        <source-file src="src/ios/sources/Recognizers/MBRecognizerSerializers.m" />
+        <header-file src="src/ios/sources/Recognizers/MBRecognizerSerializers.h" />
+
+        <source-file src="src/ios/sources/Recognizers/MBRecognizerWrapper.m" />
+        <header-file src="src/ios/sources/Recognizers/MBRecognizerWrapper.h" />
+
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBMRTDRecognizerWrapper.m" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBMRTDRecognizerWrapper.h" />
+        
         <!-- IOS SOURCE FILES END -->
         
         <framework src="libc++.dylib" />

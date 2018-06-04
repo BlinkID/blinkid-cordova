@@ -49,7 +49,9 @@
 
     NSMutableArray<MBRecognizer*> *recognizers = [[NSMutableArray alloc] initWithCapacity:numRecognizers];
     for (NSUInteger i = 0; i < numRecognizers; ++i) {
-        [recognizers addObject:[[self.recognizerSerializers objectForKey:[jsonRecognizerCollection objectForKey:@"recognizerType"]] createRecognizer:recognizerArray[i]]];
+        NSDictionary* recognizerJson = [recognizerArray objectAtIndex:i];
+        NSString* recognizerType = [recognizerJson objectForKey:@"recognizerType"];
+        [recognizers addObject:[[self.recognizerSerializers objectForKey:recognizerType] createRecognizer:recognizerArray[i]]];
     }
 
     MBRecognizerCollection* recognizerCollection = [[MBRecognizerCollection alloc] initWithRecognizers:recognizers];
