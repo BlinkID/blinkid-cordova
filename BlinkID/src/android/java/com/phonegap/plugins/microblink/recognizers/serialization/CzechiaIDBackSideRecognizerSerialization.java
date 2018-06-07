@@ -43,8 +43,6 @@ public final class CzechiaIDBackSideRecognizerSerialization implements Recognize
             jsonResult.put("opt2", result.getOpt2());
             jsonResult.put("personalNumber", result.getPersonalNumber());
             jsonResult.put("primaryId", result.getPrimaryId());
-            jsonResult.put("rawDateOfBirth", result.getRawDateOfBirth());
-            jsonResult.put("rawDateOfExpiry", result.getRawDateOfExpiry());
             jsonResult.put("secondaryId", result.getSecondaryId());
             jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {

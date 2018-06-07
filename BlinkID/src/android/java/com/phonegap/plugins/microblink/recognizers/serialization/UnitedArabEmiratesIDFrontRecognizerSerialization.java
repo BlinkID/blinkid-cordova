@@ -13,8 +13,6 @@ public final class UnitedArabEmiratesIDFrontRecognizerSerialization implements R
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.unitedArabEmirates.UnitedArabEmiratesIDFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.unitedArabEmirates.UnitedArabEmiratesIDFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setEncodeFaceImage(jsonRecognizer.optBoolean("encodeFaceImage", false));
-        recognizer.setEncodeFullDocumentImage(jsonRecognizer.optBoolean("encodeFullDocumentImage", false));
         recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
@@ -28,8 +26,6 @@ public final class UnitedArabEmiratesIDFrontRecognizerSerialization implements R
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("encodedFaceImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFaceImage()));
-            jsonResult.put("encodedFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFullDocumentImage()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("idNumber", result.getIdNumber());

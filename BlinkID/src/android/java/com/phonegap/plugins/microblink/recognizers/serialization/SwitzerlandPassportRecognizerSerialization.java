@@ -61,8 +61,6 @@ public final class SwitzerlandPassportRecognizerSerialization implements Recogni
             jsonResult.put("passportNumber", result.getPassportNumber());
             jsonResult.put("placeOfOrigin", result.getPlaceOfOrigin());
             jsonResult.put("primaryId", result.getPrimaryId());
-            jsonResult.put("rawDateOfBirth", result.getRawDateOfBirth());
-            jsonResult.put("rawDateOfExpiry", result.getRawDateOfExpiry());
             jsonResult.put("secondaryId", result.getSecondaryId());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("surname", result.getSurname());

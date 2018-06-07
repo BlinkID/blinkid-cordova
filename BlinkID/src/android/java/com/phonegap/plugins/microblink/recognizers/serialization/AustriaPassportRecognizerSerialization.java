@@ -13,9 +13,6 @@ public final class AustriaPassportRecognizerSerialization implements RecognizerS
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.austria.AustriaPassportRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.austria.AustriaPassportRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setEncodeFaceImage(jsonRecognizer.optBoolean("encodeFaceImage", false));
-        recognizer.setEncodeFullDocumentImage(jsonRecognizer.optBoolean("encodeFullDocumentImage", false));
-        recognizer.setEncodeSignatureImage(jsonRecognizer.optBoolean("encodeSignatureImage", false));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
         recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
@@ -43,9 +40,6 @@ public final class AustriaPassportRecognizerSerialization implements RecognizerS
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth().getDate()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry().getDate()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue().getDate()));
-            jsonResult.put("encodedFaceImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFaceImage()));
-            jsonResult.put("encodedFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFullDocumentImage()));
-            jsonResult.put("encodedSignatureImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedSignatureImage()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("givenName", result.getGivenName());

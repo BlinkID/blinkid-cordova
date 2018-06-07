@@ -13,8 +13,6 @@ public final class JordanCombinedRecognizerSerialization implements RecognizerSe
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.jordan.JordanCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.jordan.JordanCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setEncodeFaceImage(jsonRecognizer.optBoolean("encodeFaceImage", false));
-        recognizer.setEncodeFullDocumentImage(jsonRecognizer.optBoolean("encodeFullDocumentImage", false));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
@@ -37,9 +35,6 @@ public final class JordanCombinedRecognizerSerialization implements RecognizerSe
             jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
             jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("encodedBackFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedBackFullDocumentImage()));
-            jsonResult.put("encodedFaceImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFaceImage()));
-            jsonResult.put("encodedFrontFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFrontFullDocumentImage()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));

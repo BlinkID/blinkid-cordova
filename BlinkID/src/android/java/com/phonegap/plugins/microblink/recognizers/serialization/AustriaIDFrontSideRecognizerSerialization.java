@@ -13,9 +13,6 @@ public final class AustriaIDFrontSideRecognizerSerialization implements Recogniz
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.austria.AustriaIDFrontSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.austria.AustriaIDFrontSideRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setEncodeFaceImage(jsonRecognizer.optBoolean("encodeFaceImage", false));
-        recognizer.setEncodeFullDocumentImage(jsonRecognizer.optBoolean("encodeFullDocumentImage", false));
-        recognizer.setEncodeSignatureImage(jsonRecognizer.optBoolean("encodeSignatureImage", false));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractGivenName(jsonRecognizer.optBoolean("extractGivenName", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
@@ -34,9 +31,6 @@ public final class AustriaIDFrontSideRecognizerSerialization implements Recogniz
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth().getDate()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("encodedFaceImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFaceImage()));
-            jsonResult.put("encodedFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFullDocumentImage()));
-            jsonResult.put("encodedSignatureImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedSignatureImage()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("givenName", result.getGivenName());

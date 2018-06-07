@@ -13,7 +13,6 @@ public final class AustriaIDBackSideRecognizerSerialization implements Recognize
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.austria.AustriaIDBackSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.austria.AustriaIDBackSideRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setEncodeFullDocumentImage(jsonRecognizer.optBoolean("encodeFullDocumentImage", false));
         recognizer.setExtractDateOfIssuance(jsonRecognizer.optBoolean("extractDateOfIssuance", true));
         recognizer.setExtractHeight(jsonRecognizer.optBoolean("extractHeight", true));
         recognizer.setExtractIssuingAuthority(jsonRecognizer.optBoolean("extractIssuingAuthority", true));
@@ -31,7 +30,6 @@ public final class AustriaIDBackSideRecognizerSerialization implements Recognize
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("MRZResult", com.phonegap.plugins.microblink.recognizers.BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
             jsonResult.put("dateOfIssuance", SerializationUtils.serializeDate(result.getDateOfIssuance().getDate()));
-            jsonResult.put("encodedFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFullDocumentImage()));
             jsonResult.put("eyeColour", result.getEyeColour());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());

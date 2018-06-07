@@ -12,9 +12,6 @@ public final class MRTDCombinedRecognizerSerialization implements RecognizerSeri
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.mrtd.MRTDCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.mrtd.MRTDCombinedRecognizer();
-        recognizer.setEncodeFaceImage(jsonRecognizer.optBoolean("encodeFaceImage", false));
-        recognizer.setEncodeFullDocumentImage(jsonRecognizer.optBoolean("encodeFullDocumentImage", false));
-        recognizer.setEncodeMRZImage(jsonRecognizer.optBoolean("encodeMRZImage", false));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnMRZImage(jsonRecognizer.optBoolean("returnMRZImage", false));
@@ -41,10 +38,6 @@ public final class MRTDCombinedRecognizerSerialization implements RecognizerSeri
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
-            jsonResult.put("encodedBackFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedBackFullDocumentImage()));
-            jsonResult.put("encodedFaceImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFaceImage()));
-            jsonResult.put("encodedFrontFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFrontFullDocumentImage()));
-            jsonResult.put("encodedMachineReadableZoneImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedMachineReadableZoneImage()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
@@ -55,8 +48,6 @@ public final class MRTDCombinedRecognizerSerialization implements RecognizerSeri
             jsonResult.put("opt1", result.getOpt1());
             jsonResult.put("opt2", result.getOpt2());
             jsonResult.put("primaryId", result.getPrimaryId());
-            jsonResult.put("rawDateOfBirth", result.getRawDateOfBirth());
-            jsonResult.put("rawDateOfExpiry", result.getRawDateOfExpiry());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("secondaryId", result.getSecondaryId());
             jsonResult.put("sex", result.getSex());

@@ -44,8 +44,6 @@ public final class GermanyOldIDRecognizerSerialization implements RecognizerSeri
             jsonResult.put("opt2", result.getOpt2());
             jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
             jsonResult.put("primaryId", result.getPrimaryId());
-            jsonResult.put("rawDateOfBirth", result.getRawDateOfBirth());
-            jsonResult.put("rawDateOfExpiry", result.getRawDateOfExpiry());
             jsonResult.put("secondaryId", result.getSecondaryId());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));

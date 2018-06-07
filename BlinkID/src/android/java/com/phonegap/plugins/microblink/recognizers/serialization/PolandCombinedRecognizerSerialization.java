@@ -13,8 +13,6 @@ public final class PolandCombinedRecognizerSerialization implements RecognizerSe
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.poland.PolandCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.poland.PolandCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setEncodeFaceImage(jsonRecognizer.optBoolean("encodeFaceImage", false));
-        recognizer.setEncodeFullDocumentImage(jsonRecognizer.optBoolean("encodeFullDocumentImage", false));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractFamilyName(jsonRecognizer.optBoolean("extractFamilyName", true));
         recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
@@ -40,9 +38,6 @@ public final class PolandCombinedRecognizerSerialization implements RecognizerSe
             jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
             jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("encodedBackFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedBackFullDocumentImage()));
-            jsonResult.put("encodedFaceImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFaceImage()));
-            jsonResult.put("encodedFrontFullDocumentImage", SerializationUtils.encodeByteArrayToBase64(result.getEncodedFrontFullDocumentImage()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("familyName", result.getFamilyName());
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));

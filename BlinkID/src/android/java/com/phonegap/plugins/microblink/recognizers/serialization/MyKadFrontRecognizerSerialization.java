@@ -38,7 +38,6 @@ public final class MyKadFrontRecognizerSerialization implements RecognizerSerial
             jsonResult.put("ownerFullName", result.getOwnerFullName());
             jsonResult.put("ownerReligion", result.getOwnerReligion());
             jsonResult.put("ownerSex", result.getOwnerSex());
-            jsonResult.put("rawBirthDate", result.getRawBirthDate());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

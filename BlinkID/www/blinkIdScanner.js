@@ -575,26 +575,6 @@ function AustriaCombinedRecognizerResult(nativeResult) {
     this.documentDateOfExpiry = nativeResult.documentDateOfExpiry;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      * the eye colour of the card holder. 
      */
     this.eyeColour = nativeResult.eyeColour;
@@ -688,21 +668,6 @@ function AustriaCombinedRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
-    
-    /** 
      * true if date of birth of Austrian ID owner is being extracted 
      */
     this.extractDateOfBirth = true;
@@ -792,11 +757,6 @@ function AustriaIDBackSideRecognizerResult(nativeResult) {
     this.dateOfIssuance = new Date(nativeResult.dateOfIssuance);
     
     /** 
-     *  encoded full document image in JPEG format 
-     */
-    this.encodedFullDocumentImage = nativeResult.encodedFullDocumentImage;
-    
-    /** 
      * the eye colour of the card holder. 
      */
     this.eyeColour = nativeResult.eyeColour;
@@ -842,11 +802,6 @@ function AustriaIDBackSideRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
     
     /** 
      * Defines if date of issuance should be extracted 
@@ -903,21 +858,6 @@ function AustriaIDFrontSideRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image in JPEG format 
-     */
-    this.encodedFullDocumentImage = nativeResult.encodedFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -963,21 +903,6 @@ function AustriaIDFrontSideRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * Defines if date of birth of Austrian ID owner should be extracted 
@@ -1047,21 +972,6 @@ function AustriaPassportRecognizerResult(nativeResult) {
      * the date of issue of Austrian passport 
      */
     this.dateOfIssue = new Date(nativeResult.dateOfIssue);
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image in JPEG format 
-     */
-    this.encodedFullDocumentImage = nativeResult.encodedFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
     
     /** 
      *  face image from the document 
@@ -1134,21 +1044,6 @@ function AustriaPassportRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * Defines if date of birth of Austrian passport owner should be extracted 
@@ -1580,26 +1475,6 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.documentDateOfIssue = nativeResult.documentDateOfIssue;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -1671,21 +1546,6 @@ function CroatiaCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -1825,16 +1685,6 @@ function CroatiaIDBackSideRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -2061,26 +1911,6 @@ function CzechiaCombinedRecognizerResult(nativeResult) {
     this.documentDateOfIssue = nativeResult.documentDateOfIssue;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -2157,21 +1987,6 @@ function CzechiaCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -2306,16 +2121,6 @@ function CzechiaIDBackSideRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -2467,16 +2272,6 @@ function DocumentFaceRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image in JPEG format 
-     */
-    this.encodedFullDocumentImage = nativeResult.encodedFullDocumentImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -2497,16 +2292,6 @@ BlinkID.prototype.DocumentFaceRecognizerResult = DocumentFaceRecognizerResult;
  */
 function DocumentFaceRecognizer() {
     Recognizer.call(this, 'DocumentFaceRecognizer');
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -2546,16 +2331,6 @@ function EUDLRecognizerResult(nativeResult) {
      * the driver number. 
      */
     this.driverNumber = nativeResult.driverNumber;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image in JPEG format 
-     */
-    this.encodedFullDocumentImage = nativeResult.encodedFullDocumentImage;
     
     /** 
      *  face image from the document 
@@ -2608,16 +2383,6 @@ BlinkID.prototype.EUDLRecognizerResult = EUDLRecognizerResult;
  */
 function EUDLRecognizer() {
     Recognizer.call(this, 'EUDLRecognizer');
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
     
     /** 
      * Defines if address should be extracted from EU driver's license 
@@ -2781,26 +2546,6 @@ function GermanyCombinedRecognizerResult(nativeResult) {
     this.documentDateOfIssue = nativeResult.documentDateOfIssue;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      * the issuing authority of German ID. 
      */
     this.eyeColor = nativeResult.eyeColor;
@@ -2887,21 +2632,6 @@ function GermanyCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -3066,16 +2796,6 @@ function GermanyIDBackSideRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -3317,16 +3037,6 @@ function GermanyOldIDRecognizerResult(nativeResult) {
     this.primaryId = nativeResult.primaryId;
     
     /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
-    
-    /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
      */
     this.secondaryId = nativeResult.secondaryId;
@@ -3497,16 +3207,6 @@ function GermanyPassportRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -4122,21 +3822,6 @@ function JordanCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -4198,16 +3883,6 @@ function JordanCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
     
     /** 
      * true if date of birth of Jordan owner is being extracted 
@@ -4337,16 +4012,6 @@ function JordanIDBackRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -4553,26 +4218,6 @@ function MRTDCombinedRecognizerResult(nativeResult) {
     this.documentType = nativeResult.documentType;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     * encoded machine readable zone image from the back side in JPEG format if image encoding 
-     */
-    this.encodedMachineReadableZoneImage = nativeResult.encodedMachineReadableZoneImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -4623,16 +4268,6 @@ function MRTDCombinedRecognizerResult(nativeResult) {
     this.primaryId = nativeResult.primaryId;
     
     /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
-    
-    /** 
      *  {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
@@ -4660,21 +4295,6 @@ BlinkID.prototype.MRTDCombinedRecognizerResult = MRTDCombinedRecognizerResult;
  */
 function MRTDCombinedRecognizer() {
     Recognizer.call(this, 'MRTDCombinedRecognizer');
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * whether encoding of face image from ID and writing it into the recognition result is enabled. 
-     */
-    this.encodeMRZImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -5069,11 +4689,6 @@ function MyKadFrontRecognizerResult(nativeResult) {
      * owner sex (M for male, F for female) 
      */
     this.ownerSex = nativeResult.ownerSex;
-    
-    /** 
-     * owner's date of birth as raw string in format {YYMMDD}. 
-     */
-    this.rawBirthDate = nativeResult.rawBirthDate;
     
 }
 
@@ -5478,21 +5093,6 @@ function PolandCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -5569,16 +5169,6 @@ function PolandCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
     
     /** 
      * true if date of birth is being extracted from ID 
@@ -5723,16 +5313,6 @@ function PolandIDBackSideRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -6039,16 +5619,6 @@ function RomaniaIDFrontRecognizerResult(nativeResult) {
     this.primaryId = nativeResult.primaryId;
     
     /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
-    
-    /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
      */
     this.secondaryId = nativeResult.secondaryId;
@@ -6186,26 +5756,6 @@ function SerbiaCombinedRecognizerResult(nativeResult) {
     this.documentDateOfIssue = nativeResult.documentDateOfIssue;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -6282,21 +5832,6 @@ function SerbiaCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -6416,16 +5951,6 @@ function SerbiaIDBackRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -6638,21 +6163,6 @@ function SingaporeCombinedRecognizerResult(nativeResult) {
     this.documentDateOfIssue = nativeResult.documentDateOfIssue;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -6704,16 +6214,6 @@ function SingaporeCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -6969,26 +6469,6 @@ function SlovakiaCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -7070,21 +6550,6 @@ function SlovakiaCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * true if date of birth is being extracted from ID 
@@ -7264,16 +6729,6 @@ function SlovakiaIDBackRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -7540,26 +6995,6 @@ function SloveniaCombinedRecognizerResult(nativeResult) {
     this.documentDateOfIssue = nativeResult.documentDateOfIssue;
     
     /** 
-     *  encoded full document image from the back side in JPEG format 
-     */
-    this.encodedBackFullDocumentImage = nativeResult.encodedBackFullDocumentImage;
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image from the front side in JPEG format 
-     */
-    this.encodedFrontFullDocumentImage = nativeResult.encodedFrontFullDocumentImage;
-    
-    /** 
-     *  encoded signature in JPEG from the document 
-     */
-    this.encodedSignatureImage = nativeResult.encodedSignatureImage;
-    
-    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
@@ -7631,21 +7066,6 @@ function SloveniaCombinedRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
-     * Defines whether encoding of signature image and writing it into the recognition result is enabled. 
-     */
-    this.encodeSignatureImage = false;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -7780,16 +7200,6 @@ function SloveniaIDBackRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -8074,16 +7484,6 @@ function SwitzerlandIDBackRecognizerResult(nativeResult) {
      * Defines the primary indentifier. If there is more than one component, they are separated with space. 
      */
     this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
     
     /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
@@ -8385,16 +7785,6 @@ function SwitzerlandPassportRecognizerResult(nativeResult) {
     this.primaryId = nativeResult.primaryId;
     
     /** 
-     * Defines holder's date of birth as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfBirth = nativeResult.rawDateOfBirth;
-    
-    /** 
-     * Defines date of expiry as raw string from MRZ zone in format <code>YYMMDD</code>. 
-     */
-    this.rawDateOfExpiry = nativeResult.rawDateOfExpiry;
-    
-    /** 
      * Defines the secondary identifier. If there is more than one component, they are separated with space. 
      */
     this.secondaryId = nativeResult.secondaryId;
@@ -8507,11 +7897,6 @@ function UnitedArabEmiratesIDBackRecognizerResult(nativeResult) {
     this.MRZResult = nativeResult.MRZResult;
     
     /** 
-     *  encoded full document image in JPEG format 
-     */
-    this.encodedFullDocumentImage = nativeResult.encodedFullDocumentImage;
-    
-    /** 
      *  image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
@@ -8534,11 +7919,6 @@ function UnitedArabEmiratesIDBackRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
-    
-    /** 
      * Defines whether full document image will be available in result. 
      */
     this.returnFullDocumentImage = false;
@@ -8556,16 +7936,6 @@ BlinkID.prototype.UnitedArabEmiratesIDBackRecognizer = UnitedArabEmiratesIDBackR
  */
 function UnitedArabEmiratesIDFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     *  encoded face image in JPEG from the document 
-     */
-    this.encodedFaceImage = nativeResult.encodedFaceImage;
-    
-    /** 
-     *  encoded full document image in JPEG format 
-     */
-    this.encodedFullDocumentImage = nativeResult.encodedFullDocumentImage;
     
     /** 
      *  face image from the document 
@@ -8608,16 +7978,6 @@ function UnitedArabEmiratesIDFrontRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
-    
-    /** 
-     * Defines whether encoding of face image from document and writing it into the recognition result is enabled. 
-     */
-    this.encodeFaceImage = false;
-    
-    /** 
-     * Defines whether encoding of full document images and writing them into the recognition result is enabled. 
-     */
-    this.encodeFullDocumentImage = false;
     
     /** 
      * Defines if name of United Arab Emirates ID owner should be extracted 
