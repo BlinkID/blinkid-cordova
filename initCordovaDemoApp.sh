@@ -29,11 +29,11 @@ cp  -f -r ../www .
 cordova prepare
 
 if true; then
-    pushd BlinkIdDemo/platforms/ios/BlinkIdDemo/Plugins/com.microblink.BlinkIDScanner
+    pushd platforms/ios/$APP_NAME/Plugins/com.microblink.BlinkIDScanner
     rm -rf MicroBlink.framework
     cp -r /Users/dodo/Desktop/MicroBlink.framework ./
     popd
-    pushd BlinkIdDemo/platforms/ios/BlinkIdDemo/Resources
+    pushd platforms/ios/$APP_NAME/Resources
     rm -rf MicroBlink.bundle
     cp -r /Users/dodo/Desktop/MicroBlink.bundle ./
     popd
