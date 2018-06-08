@@ -1,4 +1,4 @@
-package com.phonegap.plugins.microblink.recognizers;
+package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.blinkid.mrtd.MRZResult;
 

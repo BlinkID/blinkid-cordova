@@ -28,7 +28,7 @@ public final class AustriaIDBackSideRecognizerSerialization implements Recognize
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZResult", com.phonegap.plugins.microblink.recognizers.BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
+            jsonResult.put("MRZResult", BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
             jsonResult.put("dateOfIssuance", SerializationUtils.serializeDate(result.getDateOfIssuance().getDate()));
             jsonResult.put("eyeColour", result.getEyeColour());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));

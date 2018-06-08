@@ -1,4 +1,4 @@
-package com.phonegap.plugins.microblink.recognizers;
+package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;

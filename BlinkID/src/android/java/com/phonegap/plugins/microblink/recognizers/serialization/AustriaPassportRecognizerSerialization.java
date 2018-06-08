@@ -36,7 +36,7 @@ public final class AustriaPassportRecognizerSerialization implements RecognizerS
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZResult", com.phonegap.plugins.microblink.recognizers.BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
+            jsonResult.put("MRZResult", BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth().getDate()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry().getDate()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue().getDate()));

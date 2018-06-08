@@ -27,7 +27,7 @@ public final class MRTDRecognizerSerialization implements RecognizerSerializatio
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZResult", com.phonegap.plugins.microblink.recognizers.BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
+            jsonResult.put("MRZResult", BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("mrzImage", SerializationUtils.encodeImageBase64(result.getMrzImage()));
         } catch (JSONException e) {
