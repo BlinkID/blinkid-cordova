@@ -28,6 +28,17 @@ cp  -f -r ../www .
 # build app
 cordova prepare
 
+if true; then
+    pushd BlinkIdDemo/platforms/ios/BlinkIdDemo/Plugins/com.microblink.BlinkIDScanner
+    rm -rf MicroBlink.framework
+    cp -r /Users/dodo/Desktop/MicroBlink.framework ./
+    popd
+    pushd BlinkIdDemo/platforms/ios/BlinkIdDemo/Resources
+    rm -rf MicroBlink.bundle
+    cp -r /Users/dodo/Desktop/MicroBlink.bundle ./
+    popd
+fi
+
 # how to run
 echo "To run iOS demo application open Xcode project $APP_NAME.xcodeproj"
 echo "To run Android demo application, position to $APP_NAME folder and type: cordova run android"
