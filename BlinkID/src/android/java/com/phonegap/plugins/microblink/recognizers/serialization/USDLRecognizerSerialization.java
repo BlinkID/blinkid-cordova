@@ -4,7 +4,6 @@ import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.blinkbarcode.usdl.USDLKeys;
 import com.microblink.entities.recognizers.blinkbarcode.usdl.USDLRecognizer;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
-import com.phonegap.plugins.microblink.recognizers.SerializationUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
