@@ -1,12 +1,12 @@
 package com.phonegap.plugins.microblink.recognizers.serialization;
 
-import com.microblink.entities.recognizers.blinkid.mrtd.MRZResult;
+import com.microblink.entities.recognizers.blinkid.mrtd.MrzResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public abstract class BlinkIDSerializationUtils {
-    public static JSONObject serializeMRZResult(MRZResult mrzResult) throws JSONException {
+    public static JSONObject serializeMrzResult(MrzResult mrzResult) throws JSONException {
         JSONObject jsonMrz = new JSONObject();
         jsonMrz.put("documentType", mrzResult.getDocumentType().ordinal() + 1);
         jsonMrz.put("primaryId", mrzResult.getPrimaryId());
@@ -23,9 +23,9 @@ public abstract class BlinkIDSerializationUtils {
         jsonMrz.put("alienNumber", mrzResult.getAlienNumber());
         jsonMrz.put("applicationReceiptNumber", mrzResult.getApplicationReceiptNumber());
         jsonMrz.put("immigrantCaseNumber", mrzResult.getImmigrantCaseNumber());
-        jsonMrz.put("mrzText", mrzResult.getMRZText());
-        jsonMrz.put("mrzParsed", mrzResult.isMRZParsed());
-        jsonMrz.put("mrzVerified", mrzResult.isMRZVerified());
+        jsonMrz.put("mrzText", mrzResult.getMrzText());
+        jsonMrz.put("mrzParsed", mrzResult.isMrzParsed());
+        jsonMrz.put("mrzVerified", mrzResult.isMrzVerified());
         return jsonMrz;
 
     }

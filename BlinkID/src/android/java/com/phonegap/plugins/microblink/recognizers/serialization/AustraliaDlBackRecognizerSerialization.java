@@ -6,22 +6,22 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class AustraliaDLBackSideRecognizerSerialization implements RecognizerSerialization {
+public final class AustraliaDlBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.australia.AustraliaDLBackSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.australia.AustraliaDLBackSideRecognizer();
+        com.microblink.entities.recognizers.blinkid.australia.AustraliaDlBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.australia.AustraliaDlBackRecognizer();
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
         recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
-        recognizer.setFullDocumentImageDPI(jsonRecognizer.optInt("fullDocumentImageDPI", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
     }
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.australia.AustraliaDLBackSideRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.australia.AustraliaDLBackSideRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.australia.AustraliaDlBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.australia.AustraliaDlBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -39,11 +39,11 @@ public final class AustraliaDLBackSideRecognizerSerialization implements Recogni
 
     @Override
     public String getJsonName() {
-        return "AustraliaDLBackSideRecognizer";
+        return "AustraliaDlBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.australia.AustraliaDLBackSideRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.australia.AustraliaDlBackRecognizer.class;
     }
 }

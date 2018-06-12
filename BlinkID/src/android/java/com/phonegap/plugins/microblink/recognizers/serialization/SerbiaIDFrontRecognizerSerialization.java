@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SerbiaIDFrontRecognizerSerialization implements RecognizerSerialization {
+public final class SerbiaIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.serbia.SerbiaIDFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.serbia.SerbiaIDFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.serbia.SerbiaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.serbia.SerbiaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractIssuingDate(jsonRecognizer.optBoolean("extractIssuingDate", true));
         recognizer.setExtractValidUntil(jsonRecognizer.optBoolean("extractValidUntil", true));
@@ -22,7 +22,7 @@ public final class SerbiaIDFrontRecognizerSerialization implements RecognizerSer
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.serbia.SerbiaIDFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.serbia.SerbiaIDFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.serbia.SerbiaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.serbia.SerbiaIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -41,11 +41,11 @@ public final class SerbiaIDFrontRecognizerSerialization implements RecognizerSer
 
     @Override
     public String getJsonName() {
-        return "SerbiaIDFrontRecognizer";
+        return "SerbiaIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.serbia.SerbiaIDFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.serbia.SerbiaIdFrontRecognizer.class;
     }
 }

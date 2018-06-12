@@ -1,19 +1,19 @@
 package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.entities.recognizers.blinkbarcode.usdl.USDLKeys;
-import com.microblink.entities.recognizers.blinkbarcode.usdl.USDLRecognizer;
+import com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlKeys;
+import com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class USDLRecognizerSerialization implements RecognizerSerialization {
+public final class UsdlRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkbarcode.usdl.USDLRecognizer recognizer = new com.microblink.entities.recognizers.blinkbarcode.usdl.USDLRecognizer();
+        com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer recognizer = new com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer();
         recognizer.setNullQuietZoneAllowed(jsonRecognizer.optBoolean("nullQuietZoneAllowed", true));
         recognizer.setUncertainDecoding(jsonRecognizer.optBoolean("uncertainDecoding", true));
         return recognizer;
@@ -21,7 +21,7 @@ public final class USDLRecognizerSerialization implements RecognizerSerializatio
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        USDLRecognizer.Result result = ((USDLRecognizer)recognizer).getResult();
+        UsdlRecognizer.Result result = ((UsdlRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -37,21 +37,21 @@ public final class USDLRecognizerSerialization implements RecognizerSerializatio
         return jsonResult;
     }
 
-    private JSONArray serializeFields(USDLRecognizer.Result result) {
+    private JSONArray serializeFields(UsdlRecognizer.Result result) {
         JSONArray fieldsArr = new JSONArray();
-        for (int i = 0; i < USDLKeys.values().length; ++i) {
-            fieldsArr.put(result.getField(USDLKeys.values()[i]));
+        for (int i = 0; i < UsdlKeys.values().length; ++i) {
+            fieldsArr.put(result.getField(UsdlKeys.values()[i]));
         }
         return fieldsArr;
     }
 
     @Override
     public String getJsonName() {
-        return "USDLRecognizer";
+        return "UsdlRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkbarcode.usdl.USDLRecognizer.class;
+        return com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer.class;
     }
 }

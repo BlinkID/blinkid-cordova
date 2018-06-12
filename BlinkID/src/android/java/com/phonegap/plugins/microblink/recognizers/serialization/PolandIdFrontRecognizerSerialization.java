@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class PolandIDFrontSideRecognizerSerialization implements RecognizerSerialization {
+public final class PolandIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.poland.PolandIDFrontSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.poland.PolandIDFrontSideRecognizer();
+        com.microblink.entities.recognizers.blinkid.poland.PolandIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.poland.PolandIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractFamilyName(jsonRecognizer.optBoolean("extractFamilyName", true));
@@ -25,7 +25,7 @@ public final class PolandIDFrontSideRecognizerSerialization implements Recognize
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.poland.PolandIDFrontSideRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.poland.PolandIDFrontSideRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.poland.PolandIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.poland.PolandIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -46,11 +46,11 @@ public final class PolandIDFrontSideRecognizerSerialization implements Recognize
 
     @Override
     public String getJsonName() {
-        return "PolandIDFrontSideRecognizer";
+        return "PolandIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.poland.PolandIDFrontSideRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.poland.PolandIdFrontRecognizer.class;
     }
 }

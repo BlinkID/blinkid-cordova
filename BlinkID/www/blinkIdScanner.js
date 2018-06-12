@@ -345,9 +345,9 @@ BlinkID.prototype.DocumentVerificationOverlaySettings = DocumentVerificationOver
 // RECOGNIZERS
 
 /**
- * Result object for AustraliaDLBackSideRecognizer.
+ * Result object for AustraliaDlBackRecognizer.
  */
-function AustraliaDLBackSideRecognizerResult(nativeResult) {
+function AustraliaDlBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -377,16 +377,16 @@ function AustraliaDLBackSideRecognizerResult(nativeResult) {
     
 }
 
-AustraliaDLBackSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+AustraliaDlBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.AustraliaDLBackSideRecognizerResult = AustraliaDLBackSideRecognizerResult;
+BlinkID.prototype.AustraliaDlBackRecognizerResult = AustraliaDlBackRecognizerResult;
 
 /**
  *  Recognizer which can scan back side of austrian driver's license.
 
  */
-function AustraliaDLBackSideRecognizer() {
-    Recognizer.call(this, 'AustraliaDLBackSideRecognizer');
+function AustraliaDlBackRecognizer() {
+    Recognizer.call(this, 'AustraliaDlBackRecognizer');
     
     /** 
      * true if address of Australian DL owner is being extracted 
@@ -406,25 +406,25 @@ function AustraliaDLBackSideRecognizer() {
     /** 
      * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.fullDocumentImageDPI = 250;
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether full document image will be available in result. 
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new AustraliaDLBackSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new AustraliaDlBackRecognizerResult(nativeResult); }
 
 }
 
-AustraliaDLBackSideRecognizer.prototype = new Recognizer('AustraliaDLBackSideRecognizer');
+AustraliaDlBackRecognizer.prototype = new Recognizer('AustraliaDlBackRecognizer');
 
-BlinkID.prototype.AustraliaDLBackSideRecognizer = AustraliaDLBackSideRecognizer;
+BlinkID.prototype.AustraliaDlBackRecognizer = AustraliaDlBackRecognizer;
 
 /**
- * Result object for AustraliaDLFrontSideRecognizer.
+ * Result object for AustraliaDlFrontRecognizer.
  */
-function AustraliaDLFrontSideRecognizerResult(nativeResult) {
+function AustraliaDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -474,16 +474,16 @@ function AustraliaDLFrontSideRecognizerResult(nativeResult) {
     
 }
 
-AustraliaDLFrontSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+AustraliaDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.AustraliaDLFrontSideRecognizerResult = AustraliaDLFrontSideRecognizerResult;
+BlinkID.prototype.AustraliaDlFrontRecognizerResult = AustraliaDlFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan front side of austrian driver's license.
 
  */
-function AustraliaDLFrontSideRecognizer() {
-    Recognizer.call(this, 'AustraliaDLFrontSideRecognizer');
+function AustraliaDlFrontRecognizer() {
+    Recognizer.call(this, 'AustraliaDlFrontRecognizer');
     
     /** 
      * true if address of Australian DL owner is being extracted 
@@ -508,7 +508,7 @@ function AustraliaDLFrontSideRecognizer() {
     /** 
      * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.fullDocumentImageDPI = 250;
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -525,13 +525,13 @@ function AustraliaDLFrontSideRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new AustraliaDLFrontSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new AustraliaDlFrontRecognizerResult(nativeResult); }
 
 }
 
-AustraliaDLFrontSideRecognizer.prototype = new Recognizer('AustraliaDLFrontSideRecognizer');
+AustraliaDlFrontRecognizer.prototype = new Recognizer('AustraliaDlFrontRecognizer');
 
-BlinkID.prototype.AustraliaDLFrontSideRecognizer = AustraliaDLFrontSideRecognizer;
+BlinkID.prototype.AustraliaDlFrontRecognizer = AustraliaDlFrontRecognizer;
 
 /**
  * Result object for AustriaCombinedRecognizer.
@@ -741,15 +741,10 @@ AustriaCombinedRecognizer.prototype = new Recognizer('AustriaCombinedRecognizer'
 BlinkID.prototype.AustriaCombinedRecognizer = AustriaCombinedRecognizer;
 
 /**
- * Result object for AustriaIDBackSideRecognizer.
+ * Result object for AustriaIdBackRecognizer.
  */
-function AustriaIDBackSideRecognizerResult(nativeResult) {
+function AustriaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * The data extracted from the machine readable zone. 
-     */
-    this.MRZResult = nativeResult.MRZResult;
     
     /** 
      * the date of issuance of the ID. 
@@ -772,6 +767,11 @@ function AustriaIDBackSideRecognizerResult(nativeResult) {
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
+     * The data extracted from the machine readable zone. 
+     */
+    this.mrzResult = nativeResult.mrzResult;
+    
+    /** 
      * the place of birth of the card holder. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
@@ -788,15 +788,15 @@ function AustriaIDBackSideRecognizerResult(nativeResult) {
     
 }
 
-AustriaIDBackSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+AustriaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.AustriaIDBackSideRecognizerResult = AustriaIDBackSideRecognizerResult;
+BlinkID.prototype.AustriaIdBackRecognizerResult = AustriaIdBackRecognizerResult;
 
 /**
- * Recognizer which can scan back side of austrian national ID cards.
+ * Recognizer which can scan back side of Austrian national ID cards.
  */
-function AustriaIDBackSideRecognizer() {
-    Recognizer.call(this, 'AustriaIDBackSideRecognizer');
+function AustriaIdBackRecognizer() {
+    Recognizer.call(this, 'AustriaIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -833,18 +833,23 @@ function AustriaIDBackSideRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new AustriaIDBackSideRecognizerResult(nativeResult); }
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    this.createResultFromNative = function (nativeResult) { return new AustriaIdBackRecognizerResult(nativeResult); }
 
 }
 
-AustriaIDBackSideRecognizer.prototype = new Recognizer('AustriaIDBackSideRecognizer');
+AustriaIdBackRecognizer.prototype = new Recognizer('AustriaIdBackRecognizer');
 
-BlinkID.prototype.AustriaIDBackSideRecognizer = AustriaIDBackSideRecognizer;
+BlinkID.prototype.AustriaIdBackRecognizer = AustriaIdBackRecognizer;
 
 /**
- * Result object for AustriaIDFrontSideRecognizer.
+ * Result object for AustriaIdFrontRecognizer.
  */
-function AustriaIDFrontSideRecognizerResult(nativeResult) {
+function AustriaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -889,15 +894,15 @@ function AustriaIDFrontSideRecognizerResult(nativeResult) {
     
 }
 
-AustriaIDFrontSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+AustriaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.AustriaIDFrontSideRecognizerResult = AustriaIDFrontSideRecognizerResult;
+BlinkID.prototype.AustriaIdFrontRecognizerResult = AustriaIdFrontRecognizerResult;
 
 /**
- * Recognizer which can scan front side of austrian national ID cards.
+ * Recognizer which can scan front side of Austrian national ID cards.
  */
-function AustriaIDFrontSideRecognizer() {
-    Recognizer.call(this, 'AustriaIDFrontSideRecognizer');
+function AustriaIdFrontRecognizer() {
+    Recognizer.call(this, 'AustriaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -939,24 +944,34 @@ function AustriaIDFrontSideRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new AustriaIDFrontSideRecognizerResult(nativeResult); }
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for signature image that should be returned. 
+     */
+    this.signatureImageDpi = 250;
+    
+    this.createResultFromNative = function (nativeResult) { return new AustriaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-AustriaIDFrontSideRecognizer.prototype = new Recognizer('AustriaIDFrontSideRecognizer');
+AustriaIdFrontRecognizer.prototype = new Recognizer('AustriaIdFrontRecognizer');
 
-BlinkID.prototype.AustriaIDFrontSideRecognizer = AustriaIDFrontSideRecognizer;
+BlinkID.prototype.AustriaIdFrontRecognizer = AustriaIdFrontRecognizer;
 
 /**
  * Result object for AustriaPassportRecognizer.
  */
 function AustriaPassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * The data extracted from the machine readable zone. 
-     */
-    this.MRZResult = nativeResult.MRZResult;
     
     /** 
      * the date of birth of Austrian passport owner 
@@ -992,6 +1007,11 @@ function AustriaPassportRecognizerResult(nativeResult) {
      * issuing authority of the Austrian passport. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
+    
+    /** 
+     * The data extracted from the machine readable zone. 
+     */
+    this.mrzResult = nativeResult.mrzResult;
     
     /** 
      * nationality of the Austrian passport owner. 
@@ -1035,7 +1055,7 @@ AustriaPassportRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.AustriaPassportRecognizerResult = AustriaPassportRecognizerResult;
 
 /**
- * Recognizer which can scan austrian passport.
+ * Recognizer which can scan Austrian passport.
  */
 function AustriaPassportRecognizer() {
     Recognizer.call(this, 'AustriaPassportRecognizer');
@@ -1115,6 +1135,21 @@ function AustriaPassportRecognizer() {
      */
     this.returnSignatureImage = false;
     
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for signature image that should be returned. 
+     */
+    this.signatureImageDpi = 250;
+    
     this.createResultFromNative = function (nativeResult) { return new AustriaPassportRecognizerResult(nativeResult); }
 
 }
@@ -1132,7 +1167,7 @@ function BarcodeRecognizerResult(nativeResult) {
     /** 
      * The format of the scanned barcode. 
      */
-    this.barcodeFormat = nativeResult.barcodeFormat;
+    this.barcodeType = nativeResult.barcodeType;
     
     /** 
      * The raw bytes contained inside barcode. 
@@ -1167,11 +1202,6 @@ function BarcodeRecognizer() {
     this.autoScaleDetection = true;
     
     /** 
-     * Enables scanning of barcodes with inverse intensity values (e.g. white barcode on black background) 
-     */
-    this.inverseScanning = false;
-    
-    /** 
      * Allow scanning PDF417 barcodes which don't have quiet zone 
      */
     this.nullQuietZoneAllowed = false;
@@ -1199,27 +1229,32 @@ function BarcodeRecognizer() {
     /** 
      * Should DataMatrix 2D barcode be scanned. 
      */
-    this.scanDataMatrixCode = false;
+    this.scanDataMatrix = false;
     
     /** 
      * Should EAN13 barcode be scanned. 
      */
-    this.scanEAN13Code = false;
+    this.scanEan13 = false;
     
     /** 
      * Should EAN8 barcode be scanned. 
      */
-    this.scanEAN8Code = false;
+    this.scanEan8 = false;
+    
+    /** 
+     * Enables scanning of barcodes with inverse intensity values (e.g. white barcode on black background) 
+     */
+    this.scanInverse = false;
     
     /** 
      * Should ITF barcode be scanned. 
      */
-    this.scanITFCode = false;
+    this.scanItf = false;
     
     /** 
      * Should PDF417 2D barcode be scanned. 
      */
-    this.scanPDF417 = false;
+    this.scanPdf417 = false;
     
     /** 
      * Should QR code be scanned. 
@@ -1227,24 +1262,24 @@ function BarcodeRecognizer() {
     this.scanQRCode = false;
     
     /** 
+     * Enable decoding of non-standard PDF417 barcodes, but without 
+     */
+    this.scanUncertain = true;
+    
+    /** 
      * Should UPCA barcode be scanned. 
      */
-    this.scanUPCACode = false;
+    this.scanUpca = false;
     
     /** 
      * Should UPCE barcode be scanned. 
      */
-    this.scanUPCECode = false;
+    this.scanUpce = false;
     
     /** 
      * Enable slower, but more thorough scanning, thus giving higher possibility of successful scan. 
      */
     this.slowerThoroughScan = true;
-    
-    /** 
-     * Enable decoding of non-standard PDF417 barcodes, but without 
-     */
-    this.uncertainDecoding = true;
     
     this.createResultFromNative = function (nativeResult) { return new BarcodeRecognizerResult(nativeResult); }
 
@@ -1255,10 +1290,20 @@ BarcodeRecognizer.prototype = new Recognizer('BarcodeRecognizer');
 BlinkID.prototype.BarcodeRecognizer = BarcodeRecognizer;
 
 /**
- * Result object for ColombiaIDBackSideRecognizer.
+ * Result object for ColombiaIdBackRecognizer.
  */
-function ColombiaIDBackSideRecognizerResult(nativeResult) {
+function ColombiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * owner blood type 
+     */
+    this.bloodGroup = nativeResult.bloodGroup;
+    
+    /** 
+     * owner date of birth 
+     */
+    this.dateOfBirth = nativeResult.dateOfBirth;
     
     /** 
      * the Colombian ID document number number. 
@@ -1266,47 +1311,37 @@ function ColombiaIDBackSideRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * owner blood type 
-     */
-    this.ownerBloodGroup = nativeResult.ownerBloodGroup;
-    
-    /** 
-     * owner date of birth 
-     */
-    this.ownerDateOfBirth = nativeResult.ownerDateOfBirth;
-    
-    /** 
      * owner fingerprint 
      */
-    this.ownerFingerprint = nativeResult.ownerFingerprint;
+    this.fingerprint = nativeResult.fingerprint;
     
     /** 
      * owner first name 
      */
-    this.ownerFirsName = nativeResult.ownerFirsName;
+    this.firstName = nativeResult.firstName;
     
     /** 
      * owner first name 
      */
-    this.ownerLastName = nativeResult.ownerLastName;
+    this.lastName = nativeResult.lastName;
     
     /** 
      * owner sex 
      */
-    this.ownerSex = nativeResult.ownerSex;
+    this.sex = nativeResult.sex;
     
 }
 
-ColombiaIDBackSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+ColombiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.ColombiaIDBackSideRecognizerResult = ColombiaIDBackSideRecognizerResult;
+BlinkID.prototype.ColombiaIdBackRecognizerResult = ColombiaIdBackRecognizerResult;
 
 /**
  *  Recognizer for reading Colombia ID Back document.
 
  */
-function ColombiaIDBackSideRecognizer() {
-    Recognizer.call(this, 'ColombiaIDBackSideRecognizer');
+function ColombiaIdBackRecognizer() {
+    Recognizer.call(this, 'ColombiaIdBackRecognizer');
     
     /** 
      * true if null quiet zone is allowed 
@@ -1318,18 +1353,18 @@ function ColombiaIDBackSideRecognizer() {
      */
     this.scanUncertain = true;
     
-    this.createResultFromNative = function (nativeResult) { return new ColombiaIDBackSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new ColombiaIdBackRecognizerResult(nativeResult); }
 
 }
 
-ColombiaIDBackSideRecognizer.prototype = new Recognizer('ColombiaIDBackSideRecognizer');
+ColombiaIdBackRecognizer.prototype = new Recognizer('ColombiaIdBackRecognizer');
 
-BlinkID.prototype.ColombiaIDBackSideRecognizer = ColombiaIDBackSideRecognizer;
+BlinkID.prototype.ColombiaIdBackRecognizer = ColombiaIdBackRecognizer;
 
 /**
- * Result object for ColombiaIDFrontSideRecognizer.
+ * Result object for ColombiaIdFrontRecognizer.
  */
-function ColombiaIDFrontSideRecognizerResult(nativeResult) {
+function ColombiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -1343,19 +1378,19 @@ function ColombiaIDFrontSideRecognizerResult(nativeResult) {
     this.faceImage = nativeResult.faceImage;
     
     /** 
+     * owner first name 
+     */
+    this.firstName = nativeResult.firstName;
+    
+    /** 
      *  image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * owner first name 
+     * owner last name 
      */
-    this.ownerFirsName = nativeResult.ownerFirsName;
-    
-    /** 
-     * owner first name 
-     */
-    this.ownerLastName = nativeResult.ownerLastName;
+    this.lastName = nativeResult.lastName;
     
     /** 
      *  signature image from the document 
@@ -1364,16 +1399,15 @@ function ColombiaIDFrontSideRecognizerResult(nativeResult) {
     
 }
 
-ColombiaIDFrontSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+ColombiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.ColombiaIDFrontSideRecognizerResult = ColombiaIDFrontSideRecognizerResult;
+BlinkID.prototype.ColombiaIdFrontRecognizerResult = ColombiaIdFrontRecognizerResult;
 
 /**
- *  Recognizer for reading Colombia ID Front document.
-
+ * Recognizer which can scan front side of Colombian national ID cards.
  */
-function ColombiaIDFrontSideRecognizer() {
-    Recognizer.call(this, 'ColombiaIDFrontSideRecognizer');
+function ColombiaIdFrontRecognizer() {
+    Recognizer.call(this, 'ColombiaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -1381,12 +1415,12 @@ function ColombiaIDFrontSideRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * true if first name of Colombia ID Front owner is being extracted 
+     * Defines if first name of ID owner should be extracted 
      */
     this.extractFirstName = true;
     
     /** 
-     * true if last name of Colombia ID Front owner is being extracted 
+     * Defines if last name of ID owner should be extracted 
      */
     this.extractLastName = true;
     
@@ -1405,13 +1439,28 @@ function ColombiaIDFrontSideRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new ColombiaIDFrontSideRecognizerResult(nativeResult); }
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for signature image that should be returned. 
+     */
+    this.signatureImageDpi = 250;
+    
+    this.createResultFromNative = function (nativeResult) { return new ColombiaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-ColombiaIDFrontSideRecognizer.prototype = new Recognizer('ColombiaIDFrontSideRecognizer');
+ColombiaIdFrontRecognizer.prototype = new Recognizer('ColombiaIdFrontRecognizer');
 
-BlinkID.prototype.ColombiaIDFrontSideRecognizer = ColombiaIDFrontSideRecognizer;
+BlinkID.prototype.ColombiaIdFrontRecognizer = ColombiaIdFrontRecognizer;
 
 /**
  * Result object for CroatiaCombinedRecognizer.
@@ -1440,6 +1489,16 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth;
     
     /** 
+     * the document date of expiry of the Croatian ID. 
+     */
+    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    
+    /** 
+     * true if document expiry is permanent 
+     */
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
+    
+    /** 
      * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
@@ -1458,16 +1517,6 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
      * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
-    
-    /** 
-     * the document date of expiry of the Croatian ID. 
-     */
-    this.documentDateOfExpiry = nativeResult.documentDateOfExpiry;
-    
-    /** 
-     * true if document expiry is permanent 
-     */
-    this.documentDateOfExpiryPermanent = nativeResult.documentDateOfExpiryPermanent;
     
     /** 
      * the document date of issue of the Croatian ID. 
@@ -1576,25 +1625,10 @@ CroatiaCombinedRecognizer.prototype = new Recognizer('CroatiaCombinedRecognizer'
 BlinkID.prototype.CroatiaCombinedRecognizer = CroatiaCombinedRecognizer;
 
 /**
- * Result object for CroatiaIDBackSideRecognizer.
+ * Result object for CroatiaIdBackRecognizer.
  */
-function CroatiaIDBackSideRecognizerResult(nativeResult) {
+function CroatiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * the address of the Croatian ID owner. 
@@ -1667,6 +1701,21 @@ function CroatiaIDBackSideRecognizerResult(nativeResult) {
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -1698,16 +1747,16 @@ function CroatiaIDBackSideRecognizerResult(nativeResult) {
     
 }
 
-CroatiaIDBackSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+CroatiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.CroatiaIDBackSideRecognizerResult = CroatiaIDBackSideRecognizerResult;
+BlinkID.prototype.CroatiaIdBackRecognizerResult = CroatiaIdBackRecognizerResult;
 
 /**
  *  Recognizer for back side of Croatian ID.
 
  */
-function CroatiaIDBackSideRecognizer() {
-    Recognizer.call(this, 'CroatiaIDBackSideRecognizer');
+function CroatiaIdBackRecognizer() {
+    Recognizer.call(this, 'CroatiaIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -1729,18 +1778,18 @@ function CroatiaIDBackSideRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new CroatiaIDBackSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new CroatiaIdBackRecognizerResult(nativeResult); }
 
 }
 
-CroatiaIDBackSideRecognizer.prototype = new Recognizer('CroatiaIDBackSideRecognizer');
+CroatiaIdBackRecognizer.prototype = new Recognizer('CroatiaIdBackRecognizer');
 
-BlinkID.prototype.CroatiaIDBackSideRecognizer = CroatiaIDBackSideRecognizer;
+BlinkID.prototype.CroatiaIdBackRecognizer = CroatiaIdBackRecognizer;
 
 /**
- * Result object for CroatiaIDFrontSideRecognizer.
+ * Result object for CroatiaIdFrontRecognizer.
  */
-function CroatiaIDFrontSideRecognizerResult(nativeResult) {
+function CroatiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -1754,19 +1803,19 @@ function CroatiaIDFrontSideRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth;
     
     /** 
-     * true if scanned document is bilingual 
-     */
-    this.documentBilingual = nativeResult.documentBilingual;
-    
-    /** 
      * the document date of expiry of the Croatian ID 
      */
-    this.documentDateOfExpiry = nativeResult.documentDateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry;
     
     /** 
      * true if date of expiry of the Croatian ID is permanent else false 
      */
-    this.documentDateOfExpiryPermanent = nativeResult.documentDateOfExpiryPermanent;
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
+    
+    /** 
+     * true if scanned document is bilingual 
+     */
+    this.documentBilingual = nativeResult.documentBilingual;
     
     /** 
      *  face image from the document 
@@ -1805,16 +1854,16 @@ function CroatiaIDFrontSideRecognizerResult(nativeResult) {
     
 }
 
-CroatiaIDFrontSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+CroatiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.CroatiaIDFrontSideRecognizerResult = CroatiaIDFrontSideRecognizerResult;
+BlinkID.prototype.CroatiaIdFrontRecognizerResult = CroatiaIdFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan front side of croatian national ID cards.
 
  */
-function CroatiaIDFrontSideRecognizer() {
-    Recognizer.call(this, 'CroatiaIDFrontSideRecognizer');
+function CroatiaIdFrontRecognizer() {
+    Recognizer.call(this, 'CroatiaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -1856,13 +1905,13 @@ function CroatiaIDFrontSideRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new CroatiaIDFrontSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new CroatiaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-CroatiaIDFrontSideRecognizer.prototype = new Recognizer('CroatiaIDFrontSideRecognizer');
+CroatiaIdFrontRecognizer.prototype = new Recognizer('CroatiaIdFrontRecognizer');
 
-BlinkID.prototype.CroatiaIDFrontSideRecognizer = CroatiaIDFrontSideRecognizer;
+BlinkID.prototype.CroatiaIdFrontRecognizer = CroatiaIdFrontRecognizer;
 
 /**
  * Result object for CzechiaCombinedRecognizer.
@@ -2017,25 +2066,10 @@ CzechiaCombinedRecognizer.prototype = new Recognizer('CzechiaCombinedRecognizer'
 BlinkID.prototype.CzechiaCombinedRecognizer = CzechiaCombinedRecognizer;
 
 /**
- * Result object for CzechiaIDBackSideRecognizer.
+ * Result object for CzechiaIdBackRecognizer.
  */
-function CzechiaIDBackSideRecognizerResult(nativeResult) {
+function CzechiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * the address of the card holder. 
@@ -2098,6 +2132,21 @@ function CzechiaIDBackSideRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -2134,16 +2183,16 @@ function CzechiaIDBackSideRecognizerResult(nativeResult) {
     
 }
 
-CzechiaIDBackSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+CzechiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.CzechiaIDBackSideRecognizerResult = CzechiaIDBackSideRecognizerResult;
+BlinkID.prototype.CzechiaIdBackRecognizerResult = CzechiaIdBackRecognizerResult;
 
 /**
  *  Recognizer for back side of Czech ID.
 
  */
-function CzechiaIDBackSideRecognizer() {
-    Recognizer.call(this, 'CzechiaIDBackSideRecognizer');
+function CzechiaIdBackRecognizer() {
+    Recognizer.call(this, 'CzechiaIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -2155,18 +2204,18 @@ function CzechiaIDBackSideRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new CzechiaIDBackSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new CzechiaIdBackRecognizerResult(nativeResult); }
 
 }
 
-CzechiaIDBackSideRecognizer.prototype = new Recognizer('CzechiaIDBackSideRecognizer');
+CzechiaIdBackRecognizer.prototype = new Recognizer('CzechiaIdBackRecognizer');
 
-BlinkID.prototype.CzechiaIDBackSideRecognizer = CzechiaIDBackSideRecognizer;
+BlinkID.prototype.CzechiaIdBackRecognizer = CzechiaIdBackRecognizer;
 
 /**
- * Result object for CzechiaIDFrontSideRecognizer.
+ * Result object for CzechiaIdFrontRecognizer.
  */
-function CzechiaIDFrontSideRecognizerResult(nativeResult) {
+function CzechiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -2226,16 +2275,16 @@ function CzechiaIDFrontSideRecognizerResult(nativeResult) {
     
 }
 
-CzechiaIDFrontSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+CzechiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.CzechiaIDFrontSideRecognizerResult = CzechiaIDFrontSideRecognizerResult;
+BlinkID.prototype.CzechiaIdFrontRecognizerResult = CzechiaIdFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan front side of czech national ID cards.
 
  */
-function CzechiaIDFrontSideRecognizer() {
-    Recognizer.call(this, 'CzechiaIDFrontSideRecognizer');
+function CzechiaIdFrontRecognizer() {
+    Recognizer.call(this, 'CzechiaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -2257,13 +2306,13 @@ function CzechiaIDFrontSideRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new CzechiaIDFrontSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new CzechiaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-CzechiaIDFrontSideRecognizer.prototype = new Recognizer('CzechiaIDFrontSideRecognizer');
+CzechiaIdFrontRecognizer.prototype = new Recognizer('CzechiaIdFrontRecognizer');
 
-BlinkID.prototype.CzechiaIDFrontSideRecognizer = CzechiaIDFrontSideRecognizer;
+BlinkID.prototype.CzechiaIdFrontRecognizer = CzechiaIdFrontRecognizer;
 
 /**
  * Result object for DocumentFaceRecognizer.
@@ -2304,6 +2353,16 @@ function DocumentFaceRecognizer() {
     this.returnFullDocumentImage = false;
     
     /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
      * currently used detector type. 
      */
     this.detectorType = DocumentFaceDetectorType.TD1;
@@ -2317,9 +2376,76 @@ DocumentFaceRecognizer.prototype = new Recognizer('DocumentFaceRecognizer');
 BlinkID.prototype.DocumentFaceRecognizer = DocumentFaceRecognizer;
 
 /**
- * Result object for EUDLRecognizer.
+ * Result object for EgyptIdFrontRecognizer.
  */
-function EUDLRecognizerResult(nativeResult) {
+function EgyptIdFrontRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * the Egypt ID document number. 
+     */
+    this.documentNumber = nativeResult.documentNumber;
+    
+    /** 
+     *  face image from the document 
+     */
+    this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     *  image of the full document 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * the Egypt ID card owner national number. 
+     */
+    this.nationalNumber = nativeResult.nationalNumber;
+    
+}
+
+EgyptIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.EgyptIdFrontRecognizerResult = EgyptIdFrontRecognizerResult;
+
+/**
+ *  Recognizer for reading Egypt ID Front document.
+
+ */
+function EgyptIdFrontRecognizer() {
+    Recognizer.call(this, 'EgyptIdFrontRecognizer');
+    
+    /** 
+     * Defines whether glare detector is enabled. 
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * true if national number of Egypt ID Front owner is being extracted 
+     */
+    this.extractNationalNumber = true;
+    
+    /** 
+     * Defines whether face image will be available in result. 
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Defines whether full document image will be available in result. 
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new EgyptIdFrontRecognizerResult(nativeResult); }
+
+}
+
+EgyptIdFrontRecognizer.prototype = new Recognizer('EgyptIdFrontRecognizer');
+
+BlinkID.prototype.EgyptIdFrontRecognizer = EgyptIdFrontRecognizer;
+
+/**
+ * Result object for EudlRecognizer.
+ */
+function EudlRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -2331,6 +2457,11 @@ function EUDLRecognizerResult(nativeResult) {
      * the driver number. 
      */
     this.driverNumber = nativeResult.driverNumber;
+    
+    /** 
+     * the expiry date of the Driver's Licence 
+     */
+    this.expiryDate = new Date(nativeResult.expiryDate);
     
     /** 
      *  face image from the document 
@@ -2346,6 +2477,11 @@ function EUDLRecognizerResult(nativeResult) {
      *  image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * the issue date of the Driver's Licence 
+     */
+    this.issueDate = new Date(nativeResult.issueDate);
     
     /** 
      * document issuing authority. 
@@ -2374,15 +2510,15 @@ function EUDLRecognizerResult(nativeResult) {
     
 }
 
-EUDLRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+EudlRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.EUDLRecognizerResult = EUDLRecognizerResult;
+BlinkID.prototype.EudlRecognizerResult = EudlRecognizerResult;
 
 /**
  * Recognizer for scanning driver's licence of several european countries
  */
-function EUDLRecognizer() {
-    Recognizer.call(this, 'EUDLRecognizer');
+function EudlRecognizer() {
+    Recognizer.call(this, 'EudlRecognizer');
     
     /** 
      * Defines if address should be extracted from EU driver's license 
@@ -2420,84 +2556,27 @@ function EUDLRecognizer() {
     this.returnFullDocumentImage = false;
     
     /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
      * currently used country. 
      */
-    this.country = EUDLCountry.Automatic;
+    this.country = EudlCountry.Automatic;
     
-    this.createResultFromNative = function (nativeResult) { return new EUDLRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new EudlRecognizerResult(nativeResult); }
 
 }
 
-EUDLRecognizer.prototype = new Recognizer('EUDLRecognizer');
+EudlRecognizer.prototype = new Recognizer('EudlRecognizer');
 
-BlinkID.prototype.EUDLRecognizer = EUDLRecognizer;
-
-/**
- * Result object for EgyptIDFrontRecognizer.
- */
-function EgyptIDFrontRecognizerResult(nativeResult) {
-    RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * the Egypt ID document number. 
-     */
-    this.documentNumber = nativeResult.documentNumber;
-    
-    /** 
-     *  face image from the document 
-     */
-    this.faceImage = nativeResult.faceImage;
-    
-    /** 
-     *  image of the full document 
-     */
-    this.fullDocumentImage = nativeResult.fullDocumentImage;
-    
-    /** 
-     * the Egypt ID card owner national number. 
-     */
-    this.nationalNumber = nativeResult.nationalNumber;
-    
-}
-
-EgyptIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
-
-BlinkID.prototype.EgyptIDFrontRecognizerResult = EgyptIDFrontRecognizerResult;
-
-/**
- *  Recognizer for reading Egypt ID Front document.
-
- */
-function EgyptIDFrontRecognizer() {
-    Recognizer.call(this, 'EgyptIDFrontRecognizer');
-    
-    /** 
-     * Defines whether glare detector is enabled. 
-     */
-    this.detectGlare = true;
-    
-    /** 
-     * true if national number of Egypt ID Front owner is being extracted 
-     */
-    this.extractNationalNumber = true;
-    
-    /** 
-     * Defines whether face image will be available in result. 
-     */
-    this.returnFaceImage = false;
-    
-    /** 
-     * Defines whether full document image will be available in result. 
-     */
-    this.returnFullDocumentImage = false;
-    
-    this.createResultFromNative = function (nativeResult) { return new EgyptIDFrontRecognizerResult(nativeResult); }
-
-}
-
-EgyptIDFrontRecognizer.prototype = new Recognizer('EgyptIDFrontRecognizer');
-
-BlinkID.prototype.EgyptIDFrontRecognizer = EgyptIDFrontRecognizer;
+BlinkID.prototype.EudlRecognizer = EudlRecognizer;
 
 /**
  * Result object for GermanyCombinedRecognizer.
@@ -2662,25 +2741,10 @@ GermanyCombinedRecognizer.prototype = new Recognizer('GermanyCombinedRecognizer'
 BlinkID.prototype.GermanyCombinedRecognizer = GermanyCombinedRecognizer;
 
 /**
- * Result object for GermanyIDBackSideRecognizer.
+ * Result object for GermanyIdBackRecognizer.
  */
-function GermanyIDBackSideRecognizerResult(nativeResult) {
+function GermanyIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * the full address of the card holder. 
@@ -2778,6 +2842,21 @@ function GermanyIDBackSideRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -2809,16 +2888,16 @@ function GermanyIDBackSideRecognizerResult(nativeResult) {
     
 }
 
-GermanyIDBackSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+GermanyIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.GermanyIDBackSideRecognizerResult = GermanyIDBackSideRecognizerResult;
+BlinkID.prototype.GermanyIdBackRecognizerResult = GermanyIdBackRecognizerResult;
 
 /**
  *  Recognizer which can scan the back side of German national ID cards.
 
  */
-function GermanyIDBackSideRecognizer() {
-    Recognizer.call(this, 'GermanyIDBackSideRecognizer');
+function GermanyIdBackRecognizer() {
+    Recognizer.call(this, 'GermanyIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -2830,18 +2909,18 @@ function GermanyIDBackSideRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new GermanyIDBackSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new GermanyIdBackRecognizerResult(nativeResult); }
 
 }
 
-GermanyIDBackSideRecognizer.prototype = new Recognizer('GermanyIDBackSideRecognizer');
+GermanyIdBackRecognizer.prototype = new Recognizer('GermanyIdBackRecognizer');
 
-BlinkID.prototype.GermanyIDBackSideRecognizer = GermanyIDBackSideRecognizer;
+BlinkID.prototype.GermanyIdBackRecognizer = GermanyIdBackRecognizer;
 
 /**
- * Result object for GermanyIDFrontSideRecognizer.
+ * Result object for GermanyIdFrontRecognizer.
  */
-function GermanyIDFrontSideRecognizerResult(nativeResult) {
+function GermanyIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -2896,16 +2975,16 @@ function GermanyIDFrontSideRecognizerResult(nativeResult) {
     
 }
 
-GermanyIDFrontSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+GermanyIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.GermanyIDFrontSideRecognizerResult = GermanyIDFrontSideRecognizerResult;
+BlinkID.prototype.GermanyIdFrontRecognizerResult = GermanyIdFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan the front side of German national ID cards.
 
  */
-function GermanyIDFrontSideRecognizer() {
-    Recognizer.call(this, 'GermanyIDFrontSideRecognizer');
+function GermanyIdFrontRecognizer() {
+    Recognizer.call(this, 'GermanyIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -2927,34 +3006,19 @@ function GermanyIDFrontSideRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new GermanyIDFrontSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new GermanyIdFrontRecognizerResult(nativeResult); }
 
 }
 
-GermanyIDFrontSideRecognizer.prototype = new Recognizer('GermanyIDFrontSideRecognizer');
+GermanyIdFrontRecognizer.prototype = new Recognizer('GermanyIdFrontRecognizer');
 
-BlinkID.prototype.GermanyIDFrontSideRecognizer = GermanyIDFrontSideRecognizer;
+BlinkID.prototype.GermanyIdFrontRecognizer = GermanyIdFrontRecognizer;
 
 /**
- * Result object for GermanyOldIDRecognizer.
+ * Result object for GermanyOldIdRecognizer.
  */
-function GermanyOldIDRecognizerResult(nativeResult) {
+function GermanyOldIdRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -3012,6 +3076,21 @@ function GermanyOldIDRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -3053,16 +3132,16 @@ function GermanyOldIDRecognizerResult(nativeResult) {
     
 }
 
-GermanyOldIDRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+GermanyOldIdRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.GermanyOldIDRecognizerResult = GermanyOldIDRecognizerResult;
+BlinkID.prototype.GermanyOldIdRecognizerResult = GermanyOldIdRecognizerResult;
 
 /**
  *  Recognizer which can scan old German ID cards.
 
  */
-function GermanyOldIDRecognizer() {
-    Recognizer.call(this, 'GermanyOldIDRecognizer');
+function GermanyOldIdRecognizer() {
+    Recognizer.call(this, 'GermanyOldIdRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -3084,34 +3163,19 @@ function GermanyOldIDRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new GermanyOldIDRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new GermanyOldIdRecognizerResult(nativeResult); }
 
 }
 
-GermanyOldIDRecognizer.prototype = new Recognizer('GermanyOldIDRecognizer');
+GermanyOldIdRecognizer.prototype = new Recognizer('GermanyOldIdRecognizer');
 
-BlinkID.prototype.GermanyOldIDRecognizer = GermanyOldIDRecognizer;
+BlinkID.prototype.GermanyOldIdRecognizer = GermanyOldIdRecognizer;
 
 /**
  * Result object for GermanyPassportRecognizer.
  */
 function GermanyPassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -3177,6 +3241,21 @@ function GermanyPassportRecognizerResult(nativeResult) {
      * Defines three-letter or two-letter code which indicate the issuing State. Three-letter codes are based 
      */
     this.issuer = nativeResult.issuer;
+    
+    /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
     
     /** 
      * the name of the German passport owner. 
@@ -3300,9 +3379,9 @@ GermanyPassportRecognizer.prototype = new Recognizer('GermanyPassportRecognizer'
 BlinkID.prototype.GermanyPassportRecognizer = GermanyPassportRecognizer;
 
 /**
- * Result object for HongKongIDFrontRecognizer.
+ * Result object for HongKongIdFrontRecognizer.
  */
-function HongKongIDFrontRecognizerResult(nativeResult) {
+function HongKongIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -3347,16 +3426,16 @@ function HongKongIDFrontRecognizerResult(nativeResult) {
     
 }
 
-HongKongIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+HongKongIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.HongKongIDFrontRecognizerResult = HongKongIDFrontRecognizerResult;
+BlinkID.prototype.HongKongIdFrontRecognizerResult = HongKongIdFrontRecognizerResult;
 
 /**
  *  Recognizer for reading Hong Kong ID front document.
 
  */
-function HongKongIDFrontRecognizer() {
-    Recognizer.call(this, 'HongKongIDFrontRecognizer');
+function HongKongIdFrontRecognizer() {
+    Recognizer.call(this, 'HongKongIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -3398,13 +3477,13 @@ function HongKongIDFrontRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new HongKongIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new HongKongIdFrontRecognizerResult(nativeResult); }
 
 }
 
-HongKongIDFrontRecognizer.prototype = new Recognizer('HongKongIDFrontRecognizer');
+HongKongIdFrontRecognizer.prototype = new Recognizer('HongKongIdFrontRecognizer');
 
-BlinkID.prototype.HongKongIDFrontRecognizer = HongKongIDFrontRecognizer;
+BlinkID.prototype.HongKongIdFrontRecognizer = HongKongIdFrontRecognizer;
 
 /**
  * Result object for IKadRecognizer.
@@ -3523,7 +3602,7 @@ function IKadRecognizer() {
     /** 
      * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.fullDocumentImageDPI = 250;
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -3544,9 +3623,9 @@ IKadRecognizer.prototype = new Recognizer('IKadRecognizer');
 BlinkID.prototype.IKadRecognizer = IKadRecognizer;
 
 /**
- * Result object for IndonesiaIDFrontRecognizer.
+ * Result object for IndonesiaIdFrontRecognizer.
  */
-function IndonesiaIDFrontRecognizerResult(nativeResult) {
+function IndonesiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -3666,16 +3745,16 @@ function IndonesiaIDFrontRecognizerResult(nativeResult) {
     
 }
 
-IndonesiaIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+IndonesiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.IndonesiaIDFrontRecognizerResult = IndonesiaIDFrontRecognizerResult;
+BlinkID.prototype.IndonesiaIdFrontRecognizerResult = IndonesiaIdFrontRecognizerResult;
 
 /**
  *  Recognizer for reading front side of indonesian ID document.
 
  */
-function IndonesiaIDFrontRecognizer() {
-    Recognizer.call(this, 'IndonesiaIDFrontRecognizer');
+function IndonesiaIdFrontRecognizer() {
+    Recognizer.call(this, 'IndonesiaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -3772,13 +3851,13 @@ function IndonesiaIDFrontRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new IndonesiaIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new IndonesiaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-IndonesiaIDFrontRecognizer.prototype = new Recognizer('IndonesiaIDFrontRecognizer');
+IndonesiaIdFrontRecognizer.prototype = new Recognizer('IndonesiaIdFrontRecognizer');
 
-BlinkID.prototype.IndonesiaIDFrontRecognizer = IndonesiaIDFrontRecognizer;
+BlinkID.prototype.IndonesiaIdFrontRecognizer = IndonesiaIdFrontRecognizer;
 
 /**
  * Result object for JordanCombinedRecognizer.
@@ -3923,25 +4002,10 @@ JordanCombinedRecognizer.prototype = new Recognizer('JordanCombinedRecognizer');
 BlinkID.prototype.JordanCombinedRecognizer = JordanCombinedRecognizer;
 
 /**
- * Result object for JordanIDBackRecognizer.
+ * Result object for JordanIdBackRecognizer.
  */
-function JordanIDBackRecognizerResult(nativeResult) {
+function JordanIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -3994,6 +4058,21 @@ function JordanIDBackRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -4025,16 +4104,16 @@ function JordanIDBackRecognizerResult(nativeResult) {
     
 }
 
-JordanIDBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+JordanIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.JordanIDBackRecognizerResult = JordanIDBackRecognizerResult;
+BlinkID.prototype.JordanIdBackRecognizerResult = JordanIdBackRecognizerResult;
 
 /**
  *  Recognizer for the back side of Jordan ID.
 
  */
-function JordanIDBackRecognizer() {
-    Recognizer.call(this, 'JordanIDBackRecognizer');
+function JordanIdBackRecognizer() {
+    Recognizer.call(this, 'JordanIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -4046,18 +4125,18 @@ function JordanIDBackRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new JordanIDBackRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new JordanIdBackRecognizerResult(nativeResult); }
 
 }
 
-JordanIDBackRecognizer.prototype = new Recognizer('JordanIDBackRecognizer');
+JordanIdBackRecognizer.prototype = new Recognizer('JordanIdBackRecognizer');
 
-BlinkID.prototype.JordanIDBackRecognizer = JordanIDBackRecognizer;
+BlinkID.prototype.JordanIdBackRecognizer = JordanIdBackRecognizer;
 
 /**
- * Result object for JordanIDFrontRecognizer.
+ * Result object for JordanIdFrontRecognizer.
  */
-function JordanIDFrontRecognizerResult(nativeResult) {
+function JordanIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -4092,16 +4171,16 @@ function JordanIDFrontRecognizerResult(nativeResult) {
     
 }
 
-JordanIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+JordanIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.JordanIDFrontRecognizerResult = JordanIDFrontRecognizerResult;
+BlinkID.prototype.JordanIdFrontRecognizerResult = JordanIdFrontRecognizerResult;
 
 /**
  *  Recognizer for reading front side of Jordan ID.
 
  */
-function JordanIDFrontRecognizer() {
-    Recognizer.call(this, 'JordanIDFrontRecognizer');
+function JordanIdFrontRecognizer() {
+    Recognizer.call(this, 'JordanIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -4126,7 +4205,7 @@ function JordanIDFrontRecognizer() {
     /** 
      * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.fullDocumentImageDPI = 250;
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -4138,34 +4217,161 @@ function JordanIDFrontRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new JordanIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new JordanIdFrontRecognizerResult(nativeResult); }
 
 }
 
-JordanIDFrontRecognizer.prototype = new Recognizer('JordanIDFrontRecognizer');
+JordanIdFrontRecognizer.prototype = new Recognizer('JordanIdFrontRecognizer');
 
-BlinkID.prototype.JordanIDFrontRecognizer = JordanIDFrontRecognizer;
+BlinkID.prototype.JordanIdFrontRecognizer = JordanIdFrontRecognizer;
 
 /**
- * Result object for MRTDCombinedRecognizer.
+ * Result object for MalaysiaDlFrontRecognizer.
  */
-function MRTDCombinedRecognizerResult(nativeResult) {
+function MalaysiaDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     * extracted city from the owner address. 
      */
-    this.MRZParsed = nativeResult.MRZParsed;
+    this.city = nativeResult.city;
     
     /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     * Malaysian DL class. 
      */
-    this.MRZText = nativeResult.MRZText;
+    this.dLClass = nativeResult.dLClass;
     
     /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     *  face image from the document 
      */
-    this.MRZVerified = nativeResult.MRZVerified;
+    this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     * full owner address. 
+     */
+    this.fullAddress = nativeResult.fullAddress;
+    
+    /** 
+     *  image of the full document 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * the Malaysian DL identity number. 
+     */
+    this.identityNumber = nativeResult.identityNumber;
+    
+    /** 
+     * name of Malaysian DL owner. 
+     */
+    this.name = nativeResult.name;
+    
+    /** 
+     * nationality of Malaysian DL owner. 
+     */
+    this.nationality = nativeResult.nationality;
+    
+    /** 
+     * extracted state from the owner address. 
+     */
+    this.state = nativeResult.state;
+    
+    /** 
+     * extracted street from the owner address. 
+     */
+    this.street = nativeResult.street;
+    
+    /** 
+     * Malaysian DL valid from. 
+     */
+    this.validFrom = nativeResult.validFrom;
+    
+    /** 
+     * Malaysian DL valid until. 
+     */
+    this.validUntil = nativeResult.validUntil;
+    
+    /** 
+     * extracted ZIP code from the owner address. 
+     */
+    this.zipCode = nativeResult.zipCode;
+    
+}
+
+MalaysiaDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.MalaysiaDlFrontRecognizerResult = MalaysiaDlFrontRecognizerResult;
+
+/**
+ *  Recognizer for reading Malaysian driving license document.
+
+ */
+function MalaysiaDlFrontRecognizer() {
+    Recognizer.call(this, 'MalaysiaDlFrontRecognizer');
+    
+    /** 
+     * Defines whether glare detector is enabled. 
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * true if DL class is being extracted 
+     */
+    this.extractDLClass = true;
+    
+    /** 
+     * true if full address of Malaysian DL owner is being extracted 
+     */
+    this.extractFullAddress = true;
+    
+    /** 
+     * true if name of Malaysian DL owner is being extracted 
+     */
+    this.extractName = true;
+    
+    /** 
+     * true if nationality of Malaysian DL owner is being extracted 
+     */
+    this.extractNationality = true;
+    
+    /** 
+     * true if valid from is being extracted 
+     */
+    this.extractValidFrom = true;
+    
+    /** 
+     * true if valid until is being extracted 
+     */
+    this.extractValidUntil = true;
+    
+    /** 
+     * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Defines whether face image will be available in result. 
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Defines whether full document image will be available in result. 
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new MalaysiaDlFrontRecognizerResult(nativeResult); }
+
+}
+
+MalaysiaDlFrontRecognizer.prototype = new Recognizer('MalaysiaDlFrontRecognizer');
+
+BlinkID.prototype.MalaysiaDlFrontRecognizer = MalaysiaDlFrontRecognizer;
+
+/**
+ * Result object for MrtdCombinedRecognizer.
+ */
+function MrtdCombinedRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -4248,6 +4454,21 @@ function MRTDCombinedRecognizerResult(nativeResult) {
     this.mrzImage = nativeResult.mrzImage;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -4284,17 +4505,17 @@ function MRTDCombinedRecognizerResult(nativeResult) {
     
 }
 
-MRTDCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+MrtdCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.MRTDCombinedRecognizerResult = MRTDCombinedRecognizerResult;
+BlinkID.prototype.MrtdCombinedRecognizerResult = MrtdCombinedRecognizerResult;
 
 /**
  *  Recognizer for combined reading of face from front side of documents and MRZ from back side of
  Machine Readable Travel Document.
 
  */
-function MRTDCombinedRecognizer() {
-    Recognizer.call(this, 'MRTDCombinedRecognizer');
+function MrtdCombinedRecognizer() {
+    Recognizer.call(this, 'MrtdCombinedRecognizer');
     
     /** 
      * Defines whether face image will be available in result. 
@@ -4316,24 +4537,19 @@ function MRTDCombinedRecognizer() {
      */
     this.signResult = false;
     
-    this.createResultFromNative = function (nativeResult) { return new MRTDCombinedRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new MrtdCombinedRecognizerResult(nativeResult); }
 
 }
 
-MRTDCombinedRecognizer.prototype = new Recognizer('MRTDCombinedRecognizer');
+MrtdCombinedRecognizer.prototype = new Recognizer('MrtdCombinedRecognizer');
 
-BlinkID.prototype.MRTDCombinedRecognizer = MRTDCombinedRecognizer;
+BlinkID.prototype.MrtdCombinedRecognizer = MrtdCombinedRecognizer;
 
 /**
- * Result object for MRTDRecognizer.
+ * Result object for MrtdRecognizer.
  */
-function MRTDRecognizerResult(nativeResult) {
+function MrtdRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * The Data extracted from the machine readable zone. 
-     */
-    this.MRZResult = nativeResult.MRZResult;
     
     /** 
      *  image of the full document 
@@ -4345,17 +4561,22 @@ function MRTDRecognizerResult(nativeResult) {
      */
     this.mrzImage = nativeResult.mrzImage;
     
+    /** 
+     * The Data extracted from the machine readable zone. 
+     */
+    this.mrzResult = nativeResult.mrzResult;
+    
 }
 
-MRTDRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+MrtdRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.MRTDRecognizerResult = MRTDRecognizerResult;
+BlinkID.prototype.MrtdRecognizerResult = MrtdRecognizerResult;
 
 /**
- * Recognizer that can recognizer Machine Readable Zone (MRZ) of the Machine Readable Travel Document (MRTD)
+ * Recognizer that can recognize Machine Readable Zone (MRZ) of the Machine Readable Travel Document (MRTD)
  */
-function MRTDRecognizer() {
-    Recognizer.call(this, 'MRTDRecognizer');
+function MrtdRecognizer() {
+    Recognizer.call(this, 'MrtdRecognizer');
     
     /** 
      * Whether returning of unparsed results is allowed 
@@ -4387,155 +4608,13 @@ function MRTDRecognizer() {
      */
     this.saveImageDPI = 250;
     
-    this.createResultFromNative = function (nativeResult) { return new MRTDRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new MrtdRecognizerResult(nativeResult); }
 
 }
 
-MRTDRecognizer.prototype = new Recognizer('MRTDRecognizer');
+MrtdRecognizer.prototype = new Recognizer('MrtdRecognizer');
 
-BlinkID.prototype.MRTDRecognizer = MRTDRecognizer;
-
-/**
- * Result object for MalaysiaDLFrontRecognizer.
- */
-function MalaysiaDLFrontRecognizerResult(nativeResult) {
-    RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * extracted city from the owner address. 
-     */
-    this.city = nativeResult.city;
-    
-    /** 
-     * Malaysian DL class. 
-     */
-    this.dLClass = nativeResult.dLClass;
-    
-    /** 
-     *  face image from the document 
-     */
-    this.faceImage = nativeResult.faceImage;
-    
-    /** 
-     * full owner address. 
-     */
-    this.fullAddress = nativeResult.fullAddress;
-    
-    /** 
-     *  image of the full document 
-     */
-    this.fullDocumentImage = nativeResult.fullDocumentImage;
-    
-    /** 
-     * the Malaysian DL identity number. 
-     */
-    this.identityNumber = nativeResult.identityNumber;
-    
-    /** 
-     * name of Malaysian DL owner. 
-     */
-    this.name = nativeResult.name;
-    
-    /** 
-     * nationality of Malaysian DL owner. 
-     */
-    this.nationality = nativeResult.nationality;
-    
-    /** 
-     * extracted state from the owner address. 
-     */
-    this.state = nativeResult.state;
-    
-    /** 
-     * extracted street from the owner address. 
-     */
-    this.street = nativeResult.street;
-    
-    /** 
-     * Malaysian DL valid from. 
-     */
-    this.validFrom = nativeResult.validFrom;
-    
-    /** 
-     * Malaysian DL valid until. 
-     */
-    this.validUntil = nativeResult.validUntil;
-    
-    /** 
-     * extracted ZIP code from the owner address. 
-     */
-    this.zipCode = nativeResult.zipCode;
-    
-}
-
-MalaysiaDLFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
-
-BlinkID.prototype.MalaysiaDLFrontRecognizerResult = MalaysiaDLFrontRecognizerResult;
-
-/**
- *  Recognizer for reading Malaysian driving license document.
-
- */
-function MalaysiaDLFrontRecognizer() {
-    Recognizer.call(this, 'MalaysiaDLFrontRecognizer');
-    
-    /** 
-     * Defines whether glare detector is enabled. 
-     */
-    this.detectGlare = true;
-    
-    /** 
-     * true if DL class is being extracted 
-     */
-    this.extractDLClass = true;
-    
-    /** 
-     * true if full address of Malaysian DL owner is being extracted 
-     */
-    this.extractFullAddress = true;
-    
-    /** 
-     * true if name of Malaysian DL owner is being extracted 
-     */
-    this.extractName = true;
-    
-    /** 
-     * true if nationality of Malaysian DL owner is being extracted 
-     */
-    this.extractNationality = true;
-    
-    /** 
-     * true if valid from is being extracted 
-     */
-    this.extractValidFrom = true;
-    
-    /** 
-     * true if valid until is being extracted 
-     */
-    this.extractValidUntil = true;
-    
-    /** 
-     * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
-     */
-    this.fullDocumentImageDPI = 250;
-    
-    /** 
-     * Defines whether face image will be available in result. 
-     */
-    this.returnFaceImage = false;
-    
-    /** 
-     * Defines whether full document image will be available in result. 
-     */
-    this.returnFullDocumentImage = false;
-    
-    this.createResultFromNative = function (nativeResult) { return new MalaysiaDLFrontRecognizerResult(nativeResult); }
-
-}
-
-MalaysiaDLFrontRecognizer.prototype = new Recognizer('MalaysiaDLFrontRecognizer');
-
-BlinkID.prototype.MalaysiaDLFrontRecognizer = MalaysiaDLFrontRecognizer;
+BlinkID.prototype.MrtdRecognizer = MrtdRecognizer;
 
 /**
  * Result object for MyKadBackRecognizer.
@@ -4599,7 +4678,7 @@ function MyKadBackRecognizer() {
     /** 
      * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.fullDocumentImageDPI = 250;
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether full document image will be available in result. 
@@ -4711,7 +4790,7 @@ function MyKadFrontRecognizer() {
     /** 
      * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.fullDocumentImageDPI = 250;
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -4833,7 +4912,7 @@ function MyTenteraRecognizer() {
     /** 
      * Defines the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.fullDocumentImageDPI = 250;
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -4854,9 +4933,9 @@ MyTenteraRecognizer.prototype = new Recognizer('MyTenteraRecognizer');
 BlinkID.prototype.MyTenteraRecognizer = MyTenteraRecognizer;
 
 /**
- * Result object for NewZealandDLFrontRecognizer.
+ * Result object for NewZealandDlFrontRecognizer.
  */
-function NewZealandDLFrontRecognizerResult(nativeResult) {
+function NewZealandDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -4921,16 +5000,16 @@ function NewZealandDLFrontRecognizerResult(nativeResult) {
     
 }
 
-NewZealandDLFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+NewZealandDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.NewZealandDLFrontRecognizerResult = NewZealandDLFrontRecognizerResult;
+BlinkID.prototype.NewZealandDlFrontRecognizerResult = NewZealandDlFrontRecognizerResult;
 
 /**
  *  Recognizer for reading front side of New Zealand driver's licence.
 
  */
-function NewZealandDLFrontRecognizer() {
-    Recognizer.call(this, 'NewZealandDLFrontRecognizer');
+function NewZealandDlFrontRecognizer() {
+    Recognizer.call(this, 'NewZealandDlFrontRecognizer');
     
     /** 
      * true if address of New Zealand DL owner is being extracted 
@@ -4982,13 +5061,13 @@ function NewZealandDLFrontRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new NewZealandDLFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new NewZealandDlFrontRecognizerResult(nativeResult); }
 
 }
 
-NewZealandDLFrontRecognizer.prototype = new Recognizer('NewZealandDLFrontRecognizer');
+NewZealandDlFrontRecognizer.prototype = new Recognizer('NewZealandDlFrontRecognizer');
 
-BlinkID.prototype.NewZealandDLFrontRecognizer = NewZealandDLFrontRecognizer;
+BlinkID.prototype.NewZealandDlFrontRecognizer = NewZealandDlFrontRecognizer;
 
 /**
  * Result object for Pdf417Recognizer.
@@ -4999,7 +5078,7 @@ function Pdf417RecognizerResult(nativeResult) {
     /** 
      * The format of the scanned barcode. 
      */
-    this.barcodeFormat = nativeResult.barcodeFormat;
+    this.barcodeType = nativeResult.barcodeType;
     
     /** 
      * The raw bytes contained inside barcode. 
@@ -5224,25 +5303,10 @@ PolandCombinedRecognizer.prototype = new Recognizer('PolandCombinedRecognizer');
 BlinkID.prototype.PolandCombinedRecognizer = PolandCombinedRecognizer;
 
 /**
- * Result object for PolandIDBackSideRecognizer.
+ * Result object for PolandIdBackRecognizer.
  */
-function PolandIDBackSideRecognizerResult(nativeResult) {
+function PolandIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -5295,6 +5359,21 @@ function PolandIDBackSideRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -5326,16 +5405,16 @@ function PolandIDBackSideRecognizerResult(nativeResult) {
     
 }
 
-PolandIDBackSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+PolandIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.PolandIDBackSideRecognizerResult = PolandIDBackSideRecognizerResult;
+BlinkID.prototype.PolandIdBackRecognizerResult = PolandIdBackRecognizerResult;
 
 /**
  *  Recognizer for the back side of Polish ID.
 
  */
-function PolandIDBackSideRecognizer() {
-    Recognizer.call(this, 'PolandIDBackSideRecognizer');
+function PolandIdBackRecognizer() {
+    Recognizer.call(this, 'PolandIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -5347,18 +5426,18 @@ function PolandIDBackSideRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new PolandIDBackSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new PolandIdBackRecognizerResult(nativeResult); }
 
 }
 
-PolandIDBackSideRecognizer.prototype = new Recognizer('PolandIDBackSideRecognizer');
+PolandIdBackRecognizer.prototype = new Recognizer('PolandIdBackRecognizer');
 
-BlinkID.prototype.PolandIDBackSideRecognizer = PolandIDBackSideRecognizer;
+BlinkID.prototype.PolandIdBackRecognizer = PolandIdBackRecognizer;
 
 /**
- * Result object for PolandIDFrontSideRecognizer.
+ * Result object for PolandIdFrontRecognizer.
  */
-function PolandIDFrontSideRecognizerResult(nativeResult) {
+function PolandIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -5403,16 +5482,16 @@ function PolandIDFrontSideRecognizerResult(nativeResult) {
     
 }
 
-PolandIDFrontSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+PolandIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.PolandIDFrontSideRecognizerResult = PolandIDFrontSideRecognizerResult;
+BlinkID.prototype.PolandIdFrontRecognizerResult = PolandIdFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan front side of Polish national ID cards.
 
  */
-function PolandIDFrontSideRecognizer() {
-    Recognizer.call(this, 'PolandIDFrontSideRecognizer');
+function PolandIdFrontRecognizer() {
+    Recognizer.call(this, 'PolandIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -5459,34 +5538,19 @@ function PolandIDFrontSideRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new PolandIDFrontSideRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new PolandIdFrontRecognizerResult(nativeResult); }
 
 }
 
-PolandIDFrontSideRecognizer.prototype = new Recognizer('PolandIDFrontSideRecognizer');
+PolandIdFrontRecognizer.prototype = new Recognizer('PolandIdFrontRecognizer');
 
-BlinkID.prototype.PolandIDFrontSideRecognizer = PolandIDFrontSideRecognizer;
+BlinkID.prototype.PolandIdFrontRecognizer = PolandIdFrontRecognizer;
 
 /**
- * Result object for RomaniaIDFrontRecognizer.
+ * Result object for RomaniaIdFrontRecognizer.
  */
-function RomaniaIDFrontRecognizerResult(nativeResult) {
+function RomaniaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * address of the Romanian ID owner. 
@@ -5579,6 +5643,21 @@ function RomaniaIDFrontRecognizerResult(nativeResult) {
     this.lastName = nativeResult.lastName;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -5640,16 +5719,16 @@ function RomaniaIDFrontRecognizerResult(nativeResult) {
     
 }
 
-RomaniaIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+RomaniaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.RomaniaIDFrontRecognizerResult = RomaniaIDFrontRecognizerResult;
+BlinkID.prototype.RomaniaIdFrontRecognizerResult = RomaniaIdFrontRecognizerResult;
 
 /**
  *  Recognizer for front side of Romanian ID.
 
  */
-function RomaniaIDFrontRecognizer() {
-    Recognizer.call(this, 'RomaniaIDFrontRecognizer');
+function RomaniaIdFrontRecognizer() {
+    Recognizer.call(this, 'RomaniaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -5706,13 +5785,13 @@ function RomaniaIDFrontRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new RomaniaIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new RomaniaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-RomaniaIDFrontRecognizer.prototype = new Recognizer('RomaniaIDFrontRecognizer');
+RomaniaIdFrontRecognizer.prototype = new Recognizer('RomaniaIdFrontRecognizer');
 
-BlinkID.prototype.RomaniaIDFrontRecognizer = RomaniaIDFrontRecognizer;
+BlinkID.prototype.RomaniaIdFrontRecognizer = RomaniaIdFrontRecognizer;
 
 /**
  * Result object for SerbiaCombinedRecognizer.
@@ -5862,25 +5941,10 @@ SerbiaCombinedRecognizer.prototype = new Recognizer('SerbiaCombinedRecognizer');
 BlinkID.prototype.SerbiaCombinedRecognizer = SerbiaCombinedRecognizer;
 
 /**
- * Result object for SerbiaIDBackRecognizer.
+ * Result object for SerbiaIdBackRecognizer.
  */
-function SerbiaIDBackRecognizerResult(nativeResult) {
+function SerbiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -5933,6 +5997,21 @@ function SerbiaIDBackRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -5964,16 +6043,16 @@ function SerbiaIDBackRecognizerResult(nativeResult) {
     
 }
 
-SerbiaIDBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SerbiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SerbiaIDBackRecognizerResult = SerbiaIDBackRecognizerResult;
+BlinkID.prototype.SerbiaIdBackRecognizerResult = SerbiaIdBackRecognizerResult;
 
 /**
  *  Recognizer for back side of Serbian ID.
 
  */
-function SerbiaIDBackRecognizer() {
-    Recognizer.call(this, 'SerbiaIDBackRecognizer');
+function SerbiaIdBackRecognizer() {
+    Recognizer.call(this, 'SerbiaIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -5985,18 +6064,18 @@ function SerbiaIDBackRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SerbiaIDBackRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SerbiaIdBackRecognizerResult(nativeResult); }
 
 }
 
-SerbiaIDBackRecognizer.prototype = new Recognizer('SerbiaIDBackRecognizer');
+SerbiaIdBackRecognizer.prototype = new Recognizer('SerbiaIdBackRecognizer');
 
-BlinkID.prototype.SerbiaIDBackRecognizer = SerbiaIDBackRecognizer;
+BlinkID.prototype.SerbiaIdBackRecognizer = SerbiaIdBackRecognizer;
 
 /**
- * Result object for SerbiaIDFrontRecognizer.
+ * Result object for SerbiaIdFrontRecognizer.
  */
-function SerbiaIDFrontRecognizerResult(nativeResult) {
+function SerbiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -6031,16 +6110,16 @@ function SerbiaIDFrontRecognizerResult(nativeResult) {
     
 }
 
-SerbiaIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SerbiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SerbiaIDFrontRecognizerResult = SerbiaIDFrontRecognizerResult;
+BlinkID.prototype.SerbiaIdFrontRecognizerResult = SerbiaIdFrontRecognizerResult;
 
 /**
  *  Recognizer for front side of Serbian ID.
 
  */
-function SerbiaIDFrontRecognizer() {
-    Recognizer.call(this, 'SerbiaIDFrontRecognizer');
+function SerbiaIdFrontRecognizer() {
+    Recognizer.call(this, 'SerbiaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -6072,13 +6151,13 @@ function SerbiaIDFrontRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SerbiaIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SerbiaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-SerbiaIDFrontRecognizer.prototype = new Recognizer('SerbiaIDFrontRecognizer');
+SerbiaIdFrontRecognizer.prototype = new Recognizer('SerbiaIdFrontRecognizer');
 
-BlinkID.prototype.SerbiaIDFrontRecognizer = SerbiaIDFrontRecognizer;
+BlinkID.prototype.SerbiaIdFrontRecognizer = SerbiaIdFrontRecognizer;
 
 /**
  * Result object for SimNumberRecognizer.
@@ -6239,9 +6318,9 @@ SingaporeCombinedRecognizer.prototype = new Recognizer('SingaporeCombinedRecogni
 BlinkID.prototype.SingaporeCombinedRecognizer = SingaporeCombinedRecognizer;
 
 /**
- * Result object for SingaporeIDBackRecognizer.
+ * Result object for SingaporeIdBackRecognizer.
  */
-function SingaporeIDBackRecognizerResult(nativeResult) {
+function SingaporeIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -6271,16 +6350,16 @@ function SingaporeIDBackRecognizerResult(nativeResult) {
     
 }
 
-SingaporeIDBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SingaporeIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SingaporeIDBackRecognizerResult = SingaporeIDBackRecognizerResult;
+BlinkID.prototype.SingaporeIdBackRecognizerResult = SingaporeIdBackRecognizerResult;
 
 /**
  *  Recognizer for back side of Singapore ID.
 
  */
-function SingaporeIDBackRecognizer() {
-    Recognizer.call(this, 'SingaporeIDBackRecognizer');
+function SingaporeIdBackRecognizer() {
+    Recognizer.call(this, 'SingaporeIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -6302,18 +6381,18 @@ function SingaporeIDBackRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SingaporeIDBackRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SingaporeIdBackRecognizerResult(nativeResult); }
 
 }
 
-SingaporeIDBackRecognizer.prototype = new Recognizer('SingaporeIDBackRecognizer');
+SingaporeIdBackRecognizer.prototype = new Recognizer('SingaporeIdBackRecognizer');
 
-BlinkID.prototype.SingaporeIDBackRecognizer = SingaporeIDBackRecognizer;
+BlinkID.prototype.SingaporeIdBackRecognizer = SingaporeIdBackRecognizer;
 
 /**
- * Result object for SingaporeIDFrontRecognizer.
+ * Result object for SingaporeIdFrontRecognizer.
  */
-function SingaporeIDFrontRecognizerResult(nativeResult) {
+function SingaporeIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -6358,16 +6437,16 @@ function SingaporeIDFrontRecognizerResult(nativeResult) {
     
 }
 
-SingaporeIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SingaporeIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SingaporeIDFrontRecognizerResult = SingaporeIDFrontRecognizerResult;
+BlinkID.prototype.SingaporeIdFrontRecognizerResult = SingaporeIdFrontRecognizerResult;
 
 /**
  *  Recognizer for front side of Singapore ID.
 
  */
-function SingaporeIDFrontRecognizer() {
-    Recognizer.call(this, 'SingaporeIDFrontRecognizer');
+function SingaporeIdFrontRecognizer() {
+    Recognizer.call(this, 'SingaporeIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -6404,13 +6483,13 @@ function SingaporeIDFrontRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SingaporeIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SingaporeIdFrontRecognizerResult(nativeResult); }
 
 }
 
-SingaporeIDFrontRecognizer.prototype = new Recognizer('SingaporeIDFrontRecognizer');
+SingaporeIdFrontRecognizer.prototype = new Recognizer('SingaporeIdFrontRecognizer');
 
-BlinkID.prototype.SingaporeIDFrontRecognizer = SingaporeIDFrontRecognizer;
+BlinkID.prototype.SingaporeIdFrontRecognizer = SingaporeIdFrontRecognizer;
 
 /**
  * Result object for SlovakiaCombinedRecognizer.
@@ -6630,25 +6709,10 @@ SlovakiaCombinedRecognizer.prototype = new Recognizer('SlovakiaCombinedRecognize
 BlinkID.prototype.SlovakiaCombinedRecognizer = SlovakiaCombinedRecognizer;
 
 /**
- * Result object for SlovakiaIDBackRecognizer.
+ * Result object for SlovakiaIdBackRecognizer.
  */
-function SlovakiaIDBackRecognizerResult(nativeResult) {
+function SlovakiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * the address of the card holder. 
@@ -6706,6 +6770,21 @@ function SlovakiaIDBackRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -6752,16 +6831,16 @@ function SlovakiaIDBackRecognizerResult(nativeResult) {
     
 }
 
-SlovakiaIDBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SlovakiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SlovakiaIDBackRecognizerResult = SlovakiaIDBackRecognizerResult;
+BlinkID.prototype.SlovakiaIdBackRecognizerResult = SlovakiaIdBackRecognizerResult;
 
 /**
  *  Recognizer for back side of Slovak ID.
 
  */
-function SlovakiaIDBackRecognizer() {
-    Recognizer.call(this, 'SlovakiaIDBackRecognizer');
+function SlovakiaIdBackRecognizer() {
+    Recognizer.call(this, 'SlovakiaIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -6788,18 +6867,18 @@ function SlovakiaIDBackRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SlovakiaIDBackRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SlovakiaIdBackRecognizerResult(nativeResult); }
 
 }
 
-SlovakiaIDBackRecognizer.prototype = new Recognizer('SlovakiaIDBackRecognizer');
+SlovakiaIdBackRecognizer.prototype = new Recognizer('SlovakiaIdBackRecognizer');
 
-BlinkID.prototype.SlovakiaIDBackRecognizer = SlovakiaIDBackRecognizer;
+BlinkID.prototype.SlovakiaIdBackRecognizer = SlovakiaIdBackRecognizer;
 
 /**
- * Result object for SlovakiaIDFrontRecognizer.
+ * Result object for SlovakiaIdFrontRecognizer.
  */
-function SlovakiaIDFrontRecognizerResult(nativeResult) {
+function SlovakiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -6869,16 +6948,16 @@ function SlovakiaIDFrontRecognizerResult(nativeResult) {
     
 }
 
-SlovakiaIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SlovakiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SlovakiaIDFrontRecognizerResult = SlovakiaIDFrontRecognizerResult;
+BlinkID.prototype.SlovakiaIdFrontRecognizerResult = SlovakiaIdFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan front side of slovak national ID cards.
 
  */
-function SlovakiaIDFrontRecognizer() {
-    Recognizer.call(this, 'SlovakiaIDFrontRecognizer');
+function SlovakiaIdFrontRecognizer() {
+    Recognizer.call(this, 'SlovakiaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -6935,13 +7014,13 @@ function SlovakiaIDFrontRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SlovakiaIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SlovakiaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-SlovakiaIDFrontRecognizer.prototype = new Recognizer('SlovakiaIDFrontRecognizer');
+SlovakiaIdFrontRecognizer.prototype = new Recognizer('SlovakiaIdFrontRecognizer');
 
-BlinkID.prototype.SlovakiaIDFrontRecognizer = SlovakiaIDFrontRecognizer;
+BlinkID.prototype.SlovakiaIdFrontRecognizer = SlovakiaIdFrontRecognizer;
 
 /**
  * Result object for SloveniaCombinedRecognizer.
@@ -7096,25 +7175,10 @@ SloveniaCombinedRecognizer.prototype = new Recognizer('SloveniaCombinedRecognize
 BlinkID.prototype.SloveniaCombinedRecognizer = SloveniaCombinedRecognizer;
 
 /**
- * Result object for SloveniaIDBackRecognizer.
+ * Result object for SloveniaIdBackRecognizer.
  */
-function SloveniaIDBackRecognizerResult(nativeResult) {
+function SloveniaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * the address of the card holder. 
@@ -7182,6 +7246,21 @@ function SloveniaIDBackRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -7213,16 +7292,16 @@ function SloveniaIDBackRecognizerResult(nativeResult) {
     
 }
 
-SloveniaIDBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SloveniaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SloveniaIDBackRecognizerResult = SloveniaIDBackRecognizerResult;
+BlinkID.prototype.SloveniaIdBackRecognizerResult = SloveniaIdBackRecognizerResult;
 
 /**
  *  Recognizer for the back side of Slovenian ID.
 
  */
-function SloveniaIDBackRecognizer() {
-    Recognizer.call(this, 'SloveniaIDBackRecognizer');
+function SloveniaIdBackRecognizer() {
+    Recognizer.call(this, 'SloveniaIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -7244,18 +7323,18 @@ function SloveniaIDBackRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SloveniaIDBackRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SloveniaIdBackRecognizerResult(nativeResult); }
 
 }
 
-SloveniaIDBackRecognizer.prototype = new Recognizer('SloveniaIDBackRecognizer');
+SloveniaIdBackRecognizer.prototype = new Recognizer('SloveniaIdBackRecognizer');
 
-BlinkID.prototype.SloveniaIDBackRecognizer = SloveniaIDBackRecognizer;
+BlinkID.prototype.SloveniaIdBackRecognizer = SloveniaIdBackRecognizer;
 
 /**
- * Result object for SloveniaIDFrontRecognizer.
+ * Result object for SloveniaIdFrontRecognizer.
  */
-function SloveniaIDFrontRecognizerResult(nativeResult) {
+function SloveniaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -7305,16 +7384,16 @@ function SloveniaIDFrontRecognizerResult(nativeResult) {
     
 }
 
-SloveniaIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SloveniaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SloveniaIDFrontRecognizerResult = SloveniaIDFrontRecognizerResult;
+BlinkID.prototype.SloveniaIdFrontRecognizerResult = SloveniaIdFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan the front side of Slovenian national ID cards.
 
  */
-function SloveniaIDFrontRecognizer() {
-    Recognizer.call(this, 'SloveniaIDFrontRecognizer');
+function SloveniaIdFrontRecognizer() {
+    Recognizer.call(this, 'SloveniaIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -7356,34 +7435,19 @@ function SloveniaIDFrontRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SloveniaIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SloveniaIdFrontRecognizerResult(nativeResult); }
 
 }
 
-SloveniaIDFrontRecognizer.prototype = new Recognizer('SloveniaIDFrontRecognizer');
+SloveniaIdFrontRecognizer.prototype = new Recognizer('SloveniaIdFrontRecognizer');
 
-BlinkID.prototype.SloveniaIDFrontRecognizer = SloveniaIDFrontRecognizer;
+BlinkID.prototype.SloveniaIdFrontRecognizer = SloveniaIdFrontRecognizer;
 
 /**
- * Result object for SwitzerlandIDBackRecognizer.
+ * Result object for SwitzerlandIdBackRecognizer.
  */
-function SwitzerlandIDBackRecognizerResult(nativeResult) {
+function SwitzerlandIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -7451,6 +7515,21 @@ function SwitzerlandIDBackRecognizerResult(nativeResult) {
     this.issuer = nativeResult.issuer;
     
     /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
+    
+    /** 
      * Defines nationality of the holder represented by a three-letter or two-letter code. Three-letter 
      */
     this.nationality = nativeResult.nationality;
@@ -7497,16 +7576,16 @@ function SwitzerlandIDBackRecognizerResult(nativeResult) {
     
 }
 
-SwitzerlandIDBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SwitzerlandIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SwitzerlandIDBackRecognizerResult = SwitzerlandIDBackRecognizerResult;
+BlinkID.prototype.SwitzerlandIdBackRecognizerResult = SwitzerlandIdBackRecognizerResult;
 
 /**
  *  Recognizer which scans back side of Swiss ID card.
 
  */
-function SwitzerlandIDBackRecognizer() {
-    Recognizer.call(this, 'SwitzerlandIDBackRecognizer');
+function SwitzerlandIdBackRecognizer() {
+    Recognizer.call(this, 'SwitzerlandIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -7548,18 +7627,18 @@ function SwitzerlandIDBackRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SwitzerlandIDBackRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SwitzerlandIdBackRecognizerResult(nativeResult); }
 
 }
 
-SwitzerlandIDBackRecognizer.prototype = new Recognizer('SwitzerlandIDBackRecognizer');
+SwitzerlandIdBackRecognizer.prototype = new Recognizer('SwitzerlandIdBackRecognizer');
 
-BlinkID.prototype.SwitzerlandIDBackRecognizer = SwitzerlandIDBackRecognizer;
+BlinkID.prototype.SwitzerlandIdBackRecognizer = SwitzerlandIdBackRecognizer;
 
 /**
- * Result object for SwitzerlandIDFrontRecognizer.
+ * Result object for SwitzerlandIdFrontRecognizer.
  */
-function SwitzerlandIDFrontRecognizerResult(nativeResult) {
+function SwitzerlandIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -7594,16 +7673,16 @@ function SwitzerlandIDFrontRecognizerResult(nativeResult) {
     
 }
 
-SwitzerlandIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+SwitzerlandIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.SwitzerlandIDFrontRecognizerResult = SwitzerlandIDFrontRecognizerResult;
+BlinkID.prototype.SwitzerlandIdFrontRecognizerResult = SwitzerlandIdFrontRecognizerResult;
 
 /**
  *  Recognizer which can scan the front side of Swiss national ID cards.
 
  */
-function SwitzerlandIDFrontRecognizer() {
-    Recognizer.call(this, 'SwitzerlandIDFrontRecognizer');
+function SwitzerlandIdFrontRecognizer() {
+    Recognizer.call(this, 'SwitzerlandIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -7635,34 +7714,19 @@ function SwitzerlandIDFrontRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new SwitzerlandIDFrontRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new SwitzerlandIdFrontRecognizerResult(nativeResult); }
 
 }
 
-SwitzerlandIDFrontRecognizer.prototype = new Recognizer('SwitzerlandIDFrontRecognizer');
+SwitzerlandIdFrontRecognizer.prototype = new Recognizer('SwitzerlandIdFrontRecognizer');
 
-BlinkID.prototype.SwitzerlandIDFrontRecognizer = SwitzerlandIDFrontRecognizer;
+BlinkID.prototype.SwitzerlandIdFrontRecognizer = SwitzerlandIdFrontRecognizer;
 
 /**
  * Result object for SwitzerlandPassportRecognizer.
  */
 function SwitzerlandPassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
-     */
-    this.MRZParsed = nativeResult.MRZParsed;
-    
-    /** 
-     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
-     */
-    this.MRZText = nativeResult.MRZText;
-    
-    /** 
-     * Defines true if all check digits inside MRZ are correct, false otherwise. 
-     */
-    this.MRZVerified = nativeResult.MRZVerified;
     
     /** 
      * Defines alien number.<code>null</code> or empty string if not available. 
@@ -7733,6 +7797,21 @@ function SwitzerlandPassportRecognizerResult(nativeResult) {
      * Defines three-letter or two-letter code which indicate the issuing State. Three-letter codes are based 
      */
     this.issuer = nativeResult.issuer;
+    
+    /** 
+     * Defines true if Machine Readable Zone has been parsed, false otherwise. 
+     */
+    this.mrzParsed = nativeResult.mrzParsed;
+    
+    /** 
+     * Defines the entire Machine Readable Zone text from ID. This text is usually used for parsing 
+     */
+    this.mrzText = nativeResult.mrzText;
+    
+    /** 
+     * Defines true if all check digits inside MRZ are correct, false otherwise. 
+     */
+    this.mrzVerified = nativeResult.mrzVerified;
     
     /** 
      * the name of the Swiss passport owner. 
@@ -7886,32 +7965,32 @@ SwitzerlandPassportRecognizer.prototype = new Recognizer('SwitzerlandPassportRec
 BlinkID.prototype.SwitzerlandPassportRecognizer = SwitzerlandPassportRecognizer;
 
 /**
- * Result object for UnitedArabEmiratesIDBackRecognizer.
+ * Result object for UnitedArabEmiratesIdBackRecognizer.
  */
-function UnitedArabEmiratesIDBackRecognizerResult(nativeResult) {
+function UnitedArabEmiratesIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * The data extracted from the machine readable zone. 
-     */
-    this.MRZResult = nativeResult.MRZResult;
     
     /** 
      *  image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
+    /** 
+     * The data extracted from the machine readable zone. 
+     */
+    this.mrzResult = nativeResult.mrzResult;
+    
 }
 
-UnitedArabEmiratesIDBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+UnitedArabEmiratesIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.UnitedArabEmiratesIDBackRecognizerResult = UnitedArabEmiratesIDBackRecognizerResult;
+BlinkID.prototype.UnitedArabEmiratesIdBackRecognizerResult = UnitedArabEmiratesIdBackRecognizerResult;
 
 /**
  * Recognizer which can scan back side of United Arab Emirates national ID cards.
  */
-function UnitedArabEmiratesIDBackRecognizer() {
-    Recognizer.call(this, 'UnitedArabEmiratesIDBackRecognizer');
+function UnitedArabEmiratesIdBackRecognizer() {
+    Recognizer.call(this, 'UnitedArabEmiratesIdBackRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -7923,18 +8002,23 @@ function UnitedArabEmiratesIDBackRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new UnitedArabEmiratesIDBackRecognizerResult(nativeResult); }
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    this.createResultFromNative = function (nativeResult) { return new UnitedArabEmiratesIdBackRecognizerResult(nativeResult); }
 
 }
 
-UnitedArabEmiratesIDBackRecognizer.prototype = new Recognizer('UnitedArabEmiratesIDBackRecognizer');
+UnitedArabEmiratesIdBackRecognizer.prototype = new Recognizer('UnitedArabEmiratesIdBackRecognizer');
 
-BlinkID.prototype.UnitedArabEmiratesIDBackRecognizer = UnitedArabEmiratesIDBackRecognizer;
+BlinkID.prototype.UnitedArabEmiratesIdBackRecognizer = UnitedArabEmiratesIdBackRecognizer;
 
 /**
- * Result object for UnitedArabEmiratesIDFrontRecognizer.
+ * Result object for UnitedArabEmiratesIdFrontRecognizer.
  */
-function UnitedArabEmiratesIDFrontRecognizerResult(nativeResult) {
+function UnitedArabEmiratesIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
@@ -7964,15 +8048,15 @@ function UnitedArabEmiratesIDFrontRecognizerResult(nativeResult) {
     
 }
 
-UnitedArabEmiratesIDFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+UnitedArabEmiratesIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.UnitedArabEmiratesIDFrontRecognizerResult = UnitedArabEmiratesIDFrontRecognizerResult;
+BlinkID.prototype.UnitedArabEmiratesIdFrontRecognizerResult = UnitedArabEmiratesIdFrontRecognizerResult;
 
 /**
  * Recognizer which can scan front side of United Arab Emirates national ID cards.
  */
-function UnitedArabEmiratesIDFrontRecognizer() {
-    Recognizer.call(this, 'UnitedArabEmiratesIDFrontRecognizer');
+function UnitedArabEmiratesIdFrontRecognizer() {
+    Recognizer.call(this, 'UnitedArabEmiratesIdFrontRecognizer');
     
     /** 
      * Defines whether glare detector is enabled. 
@@ -7999,13 +8083,79 @@ function UnitedArabEmiratesIDFrontRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new UnitedArabEmiratesIDFrontRecognizerResult(nativeResult); }
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    this.createResultFromNative = function (nativeResult) { return new UnitedArabEmiratesIdFrontRecognizerResult(nativeResult); }
 
 }
 
-UnitedArabEmiratesIDFrontRecognizer.prototype = new Recognizer('UnitedArabEmiratesIDFrontRecognizer');
+UnitedArabEmiratesIdFrontRecognizer.prototype = new Recognizer('UnitedArabEmiratesIdFrontRecognizer');
 
-BlinkID.prototype.UnitedArabEmiratesIDFrontRecognizer = UnitedArabEmiratesIDFrontRecognizer;
+BlinkID.prototype.UnitedArabEmiratesIdFrontRecognizer = UnitedArabEmiratesIdFrontRecognizer;
+
+/**
+ * Result object for UsdlRecognizer.
+ */
+function UsdlRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * Array of elements that are not part of AAMVA standard and are specific to each US state. 
+     */
+    this.optionalElements = nativeResult.optionalElements;
+    
+    /** 
+     * The raw bytes contained inside 2D barcode. 
+     */
+    this.rawData = nativeResult.rawData;
+    
+    /** 
+     * Raw string inside 2D barcode. 
+     */
+    this.rawStringData = nativeResult.rawStringData;
+    
+    /** 
+     * True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
+     */
+    this.uncertain = nativeResult.uncertain;
+    
+}
+
+UsdlRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.UsdlRecognizerResult = UsdlRecognizerResult;
+
+/**
+ * Recognizer that scan 2D barcodes from United States Driver License.
+ */
+function UsdlRecognizer() {
+    Recognizer.call(this, 'UsdlRecognizer');
+    
+    /** 
+     * Allow scanning PDF417 barcodes which don't have quiet zone 
+     */
+    this.nullQuietZoneAllowed = true;
+    
+    /** 
+     * Enable decoding of non-standard PDF417 barcodes, but without 
+     */
+    this.uncertainDecoding = true;
+    
+    this.createResultFromNative = function (nativeResult) { return new UsdlRecognizerResult(nativeResult); }
+
+}
+
+UsdlRecognizer.prototype = new Recognizer('UsdlRecognizer');
+
+BlinkID.prototype.UsdlRecognizer = UsdlRecognizer;
 
 /**
  * Result object for VinRecognizer.

@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class MalaysiaDLFrontRecognizerSerialization implements RecognizerSerialization {
+public final class MalaysiaDlFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDLFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDLFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDLClass(jsonRecognizer.optBoolean("extractDLClass", true));
         recognizer.setExtractFullAddress(jsonRecognizer.optBoolean("extractFullAddress", true));
@@ -18,7 +18,7 @@ public final class MalaysiaDLFrontRecognizerSerialization implements RecognizerS
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));
         recognizer.setExtractValidFrom(jsonRecognizer.optBoolean("extractValidFrom", true));
         recognizer.setExtractValidUntil(jsonRecognizer.optBoolean("extractValidUntil", true));
-        recognizer.setFullDocumentImageDPI(jsonRecognizer.optInt("fullDocumentImageDPI", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -26,7 +26,7 @@ public final class MalaysiaDLFrontRecognizerSerialization implements RecognizerS
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDLFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDLFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -52,11 +52,11 @@ public final class MalaysiaDLFrontRecognizerSerialization implements RecognizerS
 
     @Override
     public String getJsonName() {
-        return "MalaysiaDLFrontRecognizer";
+        return "MalaysiaDlFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDLFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer.class;
     }
 }

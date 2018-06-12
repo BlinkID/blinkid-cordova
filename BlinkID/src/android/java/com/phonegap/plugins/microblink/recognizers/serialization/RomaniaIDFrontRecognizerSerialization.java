@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class RomaniaIDFrontRecognizerSerialization implements RecognizerSerialization {
+public final class RomaniaIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.romania.RomaniaIDFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.romania.RomaniaIDFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
         recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
@@ -27,13 +27,10 @@ public final class RomaniaIDFrontRecognizerSerialization implements RecognizerSe
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.romania.RomaniaIDFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.romania.RomaniaIDFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZParsed", result.isMRZParsed());
-            jsonResult.put("MRZText", result.getMRZText());
-            jsonResult.put("MRZVerified", result.isMRZVerified());
             jsonResult.put("address", result.getAddress());
             jsonResult.put("alienNumber", result.getAlienNumber());
             jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
@@ -52,6 +49,9 @@ public final class RomaniaIDFrontRecognizerSerialization implements RecognizerSe
             jsonResult.put("issuedBy", result.getIssuedBy());
             jsonResult.put("issuer", result.getIssuer());
             jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("mrzParsed", result.isMrzParsed());
+            jsonResult.put("mrzText", result.getMrzText());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("nonMRZNationality", result.getNonMRZNationality());
             jsonResult.put("nonMRZSex", result.getNonMRZSex());
@@ -73,11 +73,11 @@ public final class RomaniaIDFrontRecognizerSerialization implements RecognizerSe
 
     @Override
     public String getJsonName() {
-        return "RomaniaIDFrontRecognizer";
+        return "RomaniaIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.romania.RomaniaIDFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer.class;
     }
 }

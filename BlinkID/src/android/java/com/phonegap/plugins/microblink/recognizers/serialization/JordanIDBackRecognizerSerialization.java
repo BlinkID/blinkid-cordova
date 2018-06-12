@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class JordanIDBackRecognizerSerialization implements RecognizerSerialization {
+public final class JordanIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.jordan.JordanIDBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.jordan.JordanIDBackRecognizer();
+        com.microblink.entities.recognizers.blinkid.jordan.JordanIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.jordan.JordanIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -18,13 +18,10 @@ public final class JordanIDBackRecognizerSerialization implements RecognizerSeri
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.jordan.JordanIDBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.jordan.JordanIDBackRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.jordan.JordanIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.jordan.JordanIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZParsed", result.isMRZParsed());
-            jsonResult.put("MRZText", result.getMRZText());
-            jsonResult.put("MRZVerified", result.isMRZVerified());
             jsonResult.put("alienNumber", result.getAlienNumber());
             jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
@@ -35,6 +32,9 @@ public final class JordanIDBackRecognizerSerialization implements RecognizerSeri
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("mrzParsed", result.isMrzParsed());
+            jsonResult.put("mrzText", result.getMrzText());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("opt1", result.getOpt1());
             jsonResult.put("opt2", result.getOpt2());
@@ -50,11 +50,11 @@ public final class JordanIDBackRecognizerSerialization implements RecognizerSeri
 
     @Override
     public String getJsonName() {
-        return "JordanIDBackRecognizer";
+        return "JordanIdBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.jordan.JordanIDBackRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.jordan.JordanIdBackRecognizer.class;
     }
 }

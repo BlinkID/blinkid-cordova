@@ -6,14 +6,12 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class ColombiaIDFrontSideRecognizerSerialization implements RecognizerSerialization {
+public final class CzechiaIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.colombia.ColombiaIDFrontSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.colombia.ColombiaIDFrontSideRecognizer();
+        com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
-        recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
@@ -22,15 +20,20 @@ public final class ColombiaIDFrontSideRecognizerSerialization implements Recogni
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.colombia.ColombiaIDFrontSideRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.colombia.ColombiaIDFrontSideRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("documentNumber", result.getDocumentNumber());
+            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("ownerFirsName", result.getOwnerFirsName());
-            jsonResult.put("ownerLastName", result.getOwnerLastName());
+            jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
+            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
+            jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
@@ -41,11 +44,11 @@ public final class ColombiaIDFrontSideRecognizerSerialization implements Recogni
 
     @Override
     public String getJsonName() {
-        return "ColombiaIDFrontSideRecognizer";
+        return "CzechiaIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.colombia.ColombiaIDFrontSideRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer.class;
     }
 }

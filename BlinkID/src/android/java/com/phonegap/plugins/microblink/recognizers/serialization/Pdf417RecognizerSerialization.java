@@ -23,7 +23,7 @@ public final class Pdf417RecognizerSerialization implements RecognizerSerializat
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("barcodeFormat", SerializationUtils.serializeEnum(result.getBarcodeFormat()));
+            jsonResult.put("barcodeType", SerializationUtils.serializeEnum(result.getBarcodeType()));
             jsonResult.put("rawData", SerializationUtils.encodeByteArrayToBase64(result.getRawData()));
             jsonResult.put("stringData", result.getStringData());
             jsonResult.put("uncertain", result.isUncertain());

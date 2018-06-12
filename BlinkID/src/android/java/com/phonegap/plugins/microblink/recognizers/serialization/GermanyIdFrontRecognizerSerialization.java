@@ -6,16 +6,12 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class AustraliaDLFrontSideRecognizerSerialization implements RecognizerSerialization {
+public final class GermanyIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.australia.AustraliaDLFrontSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.australia.AustraliaDLFrontSideRecognizer();
-        recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
-        recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
-        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
-        recognizer.setExtractLicenceNumber(jsonRecognizer.optBoolean("extractLicenceNumber", true));
-        recognizer.setFullDocumentImageDPI(jsonRecognizer.optInt("fullDocumentImageDPI", 250));
+        com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer();
+        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
@@ -24,18 +20,19 @@ public final class AustraliaDLFrontSideRecognizerSerialization implements Recogn
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.australia.AustraliaDLFrontSideRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.australia.AustraliaDLFrontSideRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("address", result.getAddress());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("licenceNumber", result.getLicenceNumber());
-            jsonResult.put("licenceType", result.getLicenceType());
-            jsonResult.put("name", result.getName());
+            jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
+            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("nationality", result.getNationality());
+            jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
@@ -46,11 +43,11 @@ public final class AustraliaDLFrontSideRecognizerSerialization implements Recogn
 
     @Override
     public String getJsonName() {
-        return "AustraliaDLFrontSideRecognizer";
+        return "GermanyIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.australia.AustraliaDLFrontSideRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer.class;
     }
 }

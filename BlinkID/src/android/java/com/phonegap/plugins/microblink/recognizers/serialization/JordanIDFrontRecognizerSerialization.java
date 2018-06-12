@@ -6,16 +6,16 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class JordanIDFrontRecognizerSerialization implements RecognizerSerialization {
+public final class JordanIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.jordan.JordanIDFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.jordan.JordanIDFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.jordan.JordanIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.jordan.JordanIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
-        recognizer.setFullDocumentImageDPI(jsonRecognizer.optInt("fullDocumentImageDPI", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -23,7 +23,7 @@ public final class JordanIDFrontRecognizerSerialization implements RecognizerSer
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.jordan.JordanIDFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.jordan.JordanIDFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.jordan.JordanIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.jordan.JordanIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -42,11 +42,11 @@ public final class JordanIDFrontRecognizerSerialization implements RecognizerSer
 
     @Override
     public String getJsonName() {
-        return "JordanIDFrontRecognizer";
+        return "JordanIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.jordan.JordanIDFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.jordan.JordanIdFrontRecognizer.class;
     }
 }

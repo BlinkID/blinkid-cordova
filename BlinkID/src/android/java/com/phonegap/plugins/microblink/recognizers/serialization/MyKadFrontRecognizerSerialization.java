@@ -12,7 +12,7 @@ public final class MyKadFrontRecognizerSerialization implements RecognizerSerial
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MyKadFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MyKadFrontRecognizer();
         recognizer.setExtractArmyNumber(jsonRecognizer.optBoolean("extractArmyNumber", false));
-        recognizer.setFullDocumentImageDPI(jsonRecognizer.optInt("fullDocumentImageDPI", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;

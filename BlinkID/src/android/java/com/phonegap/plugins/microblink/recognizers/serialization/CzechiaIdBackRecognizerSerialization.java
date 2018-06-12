@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class PolandIDBackSideRecognizerSerialization implements RecognizerSerialization {
+public final class CzechiaIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.poland.PolandIDBackSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.poland.PolandIDBackSideRecognizer();
+        com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -18,15 +18,14 @@ public final class PolandIDBackSideRecognizerSerialization implements Recognizer
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.poland.PolandIDBackSideRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.poland.PolandIDBackSideRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZParsed", result.isMRZParsed());
-            jsonResult.put("MRZText", result.getMRZText());
-            jsonResult.put("MRZVerified", result.isMRZVerified());
+            jsonResult.put("address", result.getAddress());
             jsonResult.put("alienNumber", result.getAlienNumber());
             jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
+            jsonResult.put("authority", result.getAuthority());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("documentCode", result.getDocumentCode());
@@ -35,9 +34,13 @@ public final class PolandIDBackSideRecognizerSerialization implements Recognizer
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("mrzParsed", result.isMrzParsed());
+            jsonResult.put("mrzText", result.getMrzText());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("opt1", result.getOpt1());
             jsonResult.put("opt2", result.getOpt2());
+            jsonResult.put("personalNumber", result.getPersonalNumber());
             jsonResult.put("primaryId", result.getPrimaryId());
             jsonResult.put("secondaryId", result.getSecondaryId());
             jsonResult.put("sex", result.getSex());
@@ -50,11 +53,11 @@ public final class PolandIDBackSideRecognizerSerialization implements Recognizer
 
     @Override
     public String getJsonName() {
-        return "PolandIDBackSideRecognizer";
+        return "CzechiaIdBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.poland.PolandIDBackSideRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer.class;
     }
 }

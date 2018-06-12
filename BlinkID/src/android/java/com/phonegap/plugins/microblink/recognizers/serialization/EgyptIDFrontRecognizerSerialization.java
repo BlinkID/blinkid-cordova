@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class EgyptIDFrontRecognizerSerialization implements RecognizerSerialization {
+public final class EgyptIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.egypt.EgyptIDFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.egypt.EgyptIDFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.egypt.EgyptIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.egypt.EgyptIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractNationalNumber(jsonRecognizer.optBoolean("extractNationalNumber", true));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
@@ -20,7 +20,7 @@ public final class EgyptIDFrontRecognizerSerialization implements RecognizerSeri
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.egypt.EgyptIDFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.egypt.EgyptIDFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.egypt.EgyptIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.egypt.EgyptIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -37,11 +37,11 @@ public final class EgyptIDFrontRecognizerSerialization implements RecognizerSeri
 
     @Override
     public String getJsonName() {
-        return "EgyptIDFrontRecognizer";
+        return "EgyptIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.egypt.EgyptIDFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.egypt.EgyptIdFrontRecognizer.class;
     }
 }

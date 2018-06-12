@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SlovakiaIDFrontRecognizerSerialization implements RecognizerSerialization {
+public final class SlovakiaIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIDFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIDFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
@@ -27,7 +27,7 @@ public final class SlovakiaIDFrontRecognizerSerialization implements RecognizerS
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIDFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIDFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -53,11 +53,11 @@ public final class SlovakiaIDFrontRecognizerSerialization implements RecognizerS
 
     @Override
     public String getJsonName() {
-        return "SlovakiaIDFrontRecognizer";
+        return "SlovakiaIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIDFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.slovakia.SlovakiaIdFrontRecognizer.class;
     }
 }

@@ -19,7 +19,7 @@ public final class IKadRecognizerSerialization implements RecognizerSerializatio
         recognizer.setExtractPassportNumber(jsonRecognizer.optBoolean("extractPassportNumber", true));
         recognizer.setExtractSector(jsonRecognizer.optBoolean("extractSector", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
-        recognizer.setFullDocumentImageDPI(jsonRecognizer.optInt("fullDocumentImageDPI", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;

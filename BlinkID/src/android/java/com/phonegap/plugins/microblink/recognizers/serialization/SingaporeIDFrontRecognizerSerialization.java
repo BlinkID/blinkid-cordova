@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SingaporeIDFrontRecognizerSerialization implements RecognizerSerialization {
+public final class SingaporeIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.singapore.SingaporeIDFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeIDFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractCountryOfBirth(jsonRecognizer.optBoolean("extractCountryOfBirth", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
@@ -23,7 +23,7 @@ public final class SingaporeIDFrontRecognizerSerialization implements Recognizer
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.singapore.SingaporeIDFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.singapore.SingaporeIDFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -44,11 +44,11 @@ public final class SingaporeIDFrontRecognizerSerialization implements Recognizer
 
     @Override
     public String getJsonName() {
-        return "SingaporeIDFrontRecognizer";
+        return "SingaporeIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.singapore.SingaporeIDFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdFrontRecognizer.class;
     }
 }

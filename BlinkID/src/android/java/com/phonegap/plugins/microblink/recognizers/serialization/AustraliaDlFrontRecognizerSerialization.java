@@ -6,16 +6,16 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class AustriaIDFrontSideRecognizerSerialization implements RecognizerSerialization {
+public final class AustraliaDlFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.austria.AustriaIDFrontSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.austria.AustriaIDFrontSideRecognizer();
-        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        com.microblink.entities.recognizers.blinkid.australia.AustraliaDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.australia.AustraliaDlFrontRecognizer();
+        recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
-        recognizer.setExtractGivenName(jsonRecognizer.optBoolean("extractGivenName", true));
-        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
-        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
+        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractLicenceNumber(jsonRecognizer.optBoolean("extractLicenceNumber", true));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
@@ -24,18 +24,19 @@ public final class AustriaIDFrontSideRecognizerSerialization implements Recogniz
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.austria.AustriaIDFrontSideRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.austria.AustriaIDFrontSideRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.australia.AustraliaDlFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.australia.AustraliaDlFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth().getDate()));
-            jsonResult.put("documentNumber", result.getDocumentNumber());
+            jsonResult.put("address", result.getAddress());
+            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("givenName", result.getGivenName());
-            jsonResult.put("sex", result.getSex());
+            jsonResult.put("licenceNumber", result.getLicenceNumber());
+            jsonResult.put("licenceType", result.getLicenceType());
+            jsonResult.put("name", result.getName());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
-            jsonResult.put("surname", result.getSurname());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -45,11 +46,11 @@ public final class AustriaIDFrontSideRecognizerSerialization implements Recogniz
 
     @Override
     public String getJsonName() {
-        return "AustriaIDFrontSideRecognizer";
+        return "AustraliaDlFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.austria.AustriaIDFrontSideRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.australia.AustraliaDlFrontRecognizer.class;
     }
 }

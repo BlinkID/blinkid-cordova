@@ -26,6 +26,9 @@ public final class AustriaPassportRecognizerSerialization implements RecognizerS
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -35,7 +38,6 @@ public final class AustriaPassportRecognizerSerialization implements RecognizerS
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZResult", BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth().getDate()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry().getDate()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue().getDate()));
@@ -43,6 +45,7 @@ public final class AustriaPassportRecognizerSerialization implements RecognizerS
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("givenName", result.getGivenName());
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());
+            jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("passportNumber", result.getPassportNumber());
             jsonResult.put("placeOfBirth", result.getPlaceOfBirth());

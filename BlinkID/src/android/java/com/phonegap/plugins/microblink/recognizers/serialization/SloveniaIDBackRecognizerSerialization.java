@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SloveniaIDBackRecognizerSerialization implements RecognizerSerialization {
+public final class SloveniaIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIDBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIDBackRecognizer();
+        com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAuthority(jsonRecognizer.optBoolean("extractAuthority", true));
         recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
@@ -20,13 +20,10 @@ public final class SloveniaIDBackRecognizerSerialization implements RecognizerSe
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIDBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIDBackRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZParsed", result.isMRZParsed());
-            jsonResult.put("MRZText", result.getMRZText());
-            jsonResult.put("MRZVerified", result.isMRZVerified());
             jsonResult.put("address", result.getAddress());
             jsonResult.put("alienNumber", result.getAlienNumber());
             jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
@@ -40,6 +37,9 @@ public final class SloveniaIDBackRecognizerSerialization implements RecognizerSe
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("mrzParsed", result.isMrzParsed());
+            jsonResult.put("mrzText", result.getMrzText());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("opt1", result.getOpt1());
             jsonResult.put("opt2", result.getOpt2());
@@ -55,11 +55,11 @@ public final class SloveniaIDBackRecognizerSerialization implements RecognizerSe
 
     @Override
     public String getJsonName() {
-        return "SloveniaIDBackRecognizer";
+        return "SloveniaIdBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIDBackRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdBackRecognizer.class;
     }
 }

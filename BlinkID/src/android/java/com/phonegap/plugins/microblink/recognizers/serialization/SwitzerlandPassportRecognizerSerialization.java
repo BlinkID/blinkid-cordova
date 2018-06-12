@@ -33,9 +33,6 @@ public final class SwitzerlandPassportRecognizerSerialization implements Recogni
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZParsed", result.isMRZParsed());
-            jsonResult.put("MRZText", result.getMRZText());
-            jsonResult.put("MRZVerified", result.isMRZVerified());
             jsonResult.put("alienNumber", result.getAlienNumber());
             jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
             jsonResult.put("authority", result.getAuthority());
@@ -50,6 +47,9 @@ public final class SwitzerlandPassportRecognizerSerialization implements Recogni
             jsonResult.put("height", result.getHeight());
             jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("mrzParsed", result.isMrzParsed());
+            jsonResult.put("mrzText", result.getMrzText());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("name", result.getName());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("nonMRZDateOfBirth", SerializationUtils.serializeDate(result.getNonMRZDateOfBirth()));

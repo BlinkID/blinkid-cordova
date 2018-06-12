@@ -6,11 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class AustriaIDBackSideRecognizerSerialization implements RecognizerSerialization {
+public final class AustriaIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.austria.AustriaIDBackSideRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.austria.AustriaIDBackSideRecognizer();
+        com.microblink.entities.recognizers.blinkid.austria.AustriaIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.austria.AustriaIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfIssuance(jsonRecognizer.optBoolean("extractDateOfIssuance", true));
         recognizer.setExtractHeight(jsonRecognizer.optBoolean("extractHeight", true));
@@ -18,20 +18,21 @@ public final class AustriaIDBackSideRecognizerSerialization implements Recognize
         recognizer.setExtractPlaceOfBirth(jsonRecognizer.optBoolean("extractPlaceOfBirth", true));
         recognizer.setExtractPrincipalResidence(jsonRecognizer.optBoolean("extractPrincipalResidence", true));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         return recognizer;
     }
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.austria.AustriaIDBackSideRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.austria.AustriaIDBackSideRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.austria.AustriaIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.austria.AustriaIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZResult", BlinkIDSerializationUtils.serializeMRZResult(result.getMRZResult()));
             jsonResult.put("dateOfIssuance", SerializationUtils.serializeDate(result.getDateOfIssuance().getDate()));
             jsonResult.put("eyeColour", result.getEyeColour());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());
+            jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
             jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
             jsonResult.put("principalResidence", result.getPrincipalResidence());
             jsonResult.put("height", result.getHeight());
@@ -44,11 +45,11 @@ public final class AustriaIDBackSideRecognizerSerialization implements Recognize
 
     @Override
     public String getJsonName() {
-        return "AustriaIDBackSideRecognizer";
+        return "AustriaIdBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.austria.AustriaIDBackSideRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.austria.AustriaIdBackRecognizer.class;
     }
 }
