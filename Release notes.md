@@ -1,3 +1,6 @@
+## 1.5.7
+- [android] By default, uncertain scanning is enabled for PDF417 barcode
+
 ## 1.5.6
 - Fixed issue in `initIOSFramework` script for case sensitive systems
 

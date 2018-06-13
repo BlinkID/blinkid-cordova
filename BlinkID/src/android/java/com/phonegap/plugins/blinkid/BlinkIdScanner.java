@@ -507,8 +507,8 @@ public class BlinkIdScanner extends CordovaPlugin {
         Pdf417RecognizerSettings pdf417 = new Pdf417RecognizerSettings();
         // By setting this to true, you will enable scanning of non-standard elements, but there
         // is no guarantee that all data will be read. This option is used when multiple rows are
-        // missing (e.g. not whole barcode is printed). Default is false.
-        pdf417.setUncertainScanning(false);
+        // missing (e.g. not whole barcode is printed). Default is true.
+        pdf417.setUncertainScanning(true);
         // By setting this to true, you will allow scanning barcodes which don't have quiet zone
         // surrounding it (e.g. text concatenated with barcode). This option can significantly
         // increase recognition time. Default is false.
