@@ -47,6 +47,11 @@ BlinkID.prototype.scanWithCamera = function (successCallback, errorCallback, ove
         return;
     }
 
+    // first invalidate old results
+    for (var i = 0; i < recognizerCollection.recognizerArray[i].length; ++i ) {
+        recognizerCollection.recognizerArray[i].result = null;
+    }
+
     exec(
         function internalCallback(scanningResult) { 
             var cancelled = scanningResult.cancelled;
@@ -147,16 +152,47 @@ BlinkID.prototype.RecognizerCollection = RecognizerCollection;
  * Represents a date extracted from image.
  */
 function Date(nativeDate) {
+    /** day in month */
     this.day = nativeDate.day;
+    /** month in year */
     this.month = nativeDate.month;
+    /** year */
     this.year = nativeDate.year;
 }
 
 BlinkID.prototype.Date = Date;
+
+/**
+ * Represents a point in image
+ */
+function Point(nativePoint) {
+    /** x coordinate of the point */
+    this.x = nativePoint.x;
+    /** y coordinate of the point */
+    this.y = nativePoint.y;
+}
+
+BlinkID.prototype.Point = Point;
+
+/**
+ * Represents a quadrilateral location in the image
+ */
+function Quadrilateral(nativeQuad) {
+    /** upper left point of the quadrilateral */
+    this.upperLeft = new Point(nativeQuad.upperLeft);
+    /** upper right point of the quadrilateral */
+    this.upperRight = new Point(nativeQuad.upperRight);
+    /** lower left point of the quadrilateral */
+    this.lowerLeft = new Point(nativeQuad.lowerLeft);
+    /** lower right point of the quadrilateral */
+    this.lowerRight = new Point(nativeQuad.lowerRight);
+}
+
+BlinkID.prototype.Quadrilateral = Quadrilateral;
 /**
  * Possible types of Machine Readable Travel Documents (MRTDs).
  */
-BlinkID.prototype.MRTDDocumentType = Object.freeze(
+BlinkID.prototype.MrtdDocumentType = Object.freeze(
     {
         /** Unknown document type */
         Unknown : 1,
@@ -176,7 +212,7 @@ BlinkID.prototype.MRTDDocumentType = Object.freeze(
 /**
  * Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
  */
-function MRZResult(nativeMRZResult) {
+function MrzResult(nativeMRZResult) {
     /**
      * Type of recognized document. It is always one of the values represented by BlinkIDScanner.MRTDDocumentType
      */
@@ -192,7 +228,7 @@ function MRZResult(nativeMRZResult) {
      */
     this.issuer = nativeMRZResult.issuer;
     /** Holder's date of birth */
-    this.dateOfBirth = new Date(nativeMRZResult.dateOfBirth);
+    this.dateOfBirth = nativeMRZResult.dateOfBirth != null ? new Date(nativeMRZResult.dateOfBirth) : null;
     /**
      * The document number. Document number contains up to 9 characters.
      * Element does not exist on US Green Card. To see which document was scanned use documentType property.
@@ -221,7 +257,7 @@ function MRZResult(nativeMRZResult) {
      */
     this.documentCode = nativeMRZResult.documentCode;
     /** The date of expiry */
-    this.dateOfExpiry = new Date(nativeMRZResult.dateOfExpiry);
+    this.dateOfExpiry = nativeMRZResult.dateOfExpiry != null ? new Date(nativeMRZResult.dateOfExpiry) : null;
     /**
      * The first optional data. Contains empty string if not available.
      * Element does not exist on US Green Card. To see which document was scanned use the documentType property.
@@ -262,7 +298,7 @@ function MRZResult(nativeMRZResult) {
 /**
  * Possible values for EUDL country field.
  */
-var EUDLCountry = Object.freeze(
+var EudlCountry = Object.freeze(
     {
         /** UK Driver's license */
         UK : 1,
@@ -278,7 +314,7 @@ var EUDLCountry = Object.freeze(
 /**
  * Possible values for EUDL country field.
  */
-BlinkID.prototype.EUDLCountry = EUDLCountry;
+BlinkID.prototype.EudlCountry = EudlCountry;
 
 /** Possible supported detectors for documents containing face image */
 var DocumentFaceDetectorType = Object.freeze(
@@ -540,19 +576,19 @@ function AustriaCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * true if all check digits inside MRZ are correct, false otherwise. 
+     * the date of birth of the document owner 
      */
-    this.MRZVerified = nativeResult.MRZVerified;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * the date of birth of Austrian ID owner. 
+     * the date of expiry of the document. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * the date of issuance of the Austrian ID. 
+     * the date of issuance of the document. 
      */
-    this.dateOfIssuance = nativeResult.dateOfIssuance;
+    this.dateOfIssuance = nativeResult.dateOfIssuance != null ? new Date(nativeResult.dateOfIssuance) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -570,12 +606,12 @@ function AustriaCombinedRecognizerResult(nativeResult) {
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /** 
-     * the document date of expiry of the Austrian ID. 
+     * the document number. 
      */
-    this.documentDateOfExpiry = nativeResult.documentDateOfExpiry;
+    this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * the eye colour of the card holder. 
+     * the eye colour of the document holder. 
      */
     this.eyeColour = nativeResult.eyeColour;
     
@@ -583,11 +619,6 @@ function AustriaCombinedRecognizerResult(nativeResult) {
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
-    
-    /** 
-     * the first name of the Austrian ID owner. 
-     */
-    this.firstName = nativeResult.firstName;
     
     /** 
      *  back side image of the document 
@@ -600,39 +631,39 @@ function AustriaCombinedRecognizerResult(nativeResult) {
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /** 
-     * the height of the cardholder in centimeters. 
+     * the given name of the document owner. 
+     */
+    this.givenName = nativeResult.givenName;
+    
+    /** 
+     * the height of the document holder in centimeters. 
      */
     this.height = nativeResult.height;
     
     /** 
-     * the identity card number of Austrian ID. 
-     */
-    this.identityCardNumber = nativeResult.identityCardNumber;
-    
-    /** 
-     * the issuing authority of Austrian ID. 
+     * the issuing authority of the document. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * the last name of the Austrian ID owner. 
+     * true if all check digits inside MRZ are correct, false otherwise. 
      */
-    this.lastName = nativeResult.lastName;
+    this.mrtdVerified = nativeResult.mrtdVerified;
     
     /** 
-     * the nationality of card holder. 
+     * nationality of the document owner. 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * the place of birth of the card holder. 
+     * the place of birth of the document holder. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * principal residendce at issuance of the card holder. 
+     * principal residence at issuance of the document holder. 
      */
-    this.principalResidenceAtIssuance = nativeResult.principalResidenceAtIssuance;
+    this.principalResidence = nativeResult.principalResidence;
     
     /** 
      *  {true} if recognizer has finished scanning first side and is now scanning back side, 
@@ -640,7 +671,7 @@ function AustriaCombinedRecognizerResult(nativeResult) {
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
     /** 
-     * sex of the Austrian ID owner. 
+     * sex of the document owner. 
      */
     this.sex = nativeResult.sex;
     
@@ -649,6 +680,11 @@ function AustriaCombinedRecognizerResult(nativeResult) {
      */
     this.signatureImage = nativeResult.signatureImage;
     
+    /** 
+     * the surname of the document owner. 
+     */
+    this.surname = nativeResult.surname;
+    
 }
 
 AustriaCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -656,8 +692,7 @@ AustriaCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.AustriaCombinedRecognizerResult = AustriaCombinedRecognizerResult;
 
 /**
- *  Recognizer for combined reading of both front and back side of Austrian ID.
-
+ * Recognizer which can scan Austrian national ID card and passport.
  */
 function AustriaCombinedRecognizer() {
     Recognizer.call(this, 'AustriaCombinedRecognizer');
@@ -668,49 +703,79 @@ function AustriaCombinedRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * true if date of birth of Austrian ID owner is being extracted 
+     * Defines if date of birth of Austrian ID owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * true if date of expiry is being extracted 
+     * Defines if date of expiry of Austrian passport should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * true if date of issue is being extracted from Austrian ID 
+     * Defines if date of issuance should be extracted 
+     */
+    this.extractDateOfIssuance = true;
+    
+    /** 
+     * Defines if date of issue of Austrian passport should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * true if height is being extracted from Austrian ID 
+     * Defines if given name of Austrian ID owner should be extracted 
+     */
+    this.extractGivenName = true;
+    
+    /** 
+     * Defines if height of Austrian ID owner should be extracted 
      */
     this.extractHeight = true;
     
     /** 
-     * true if issuing authority is being extracted from Austrian ID 
+     * Defines if issuing authority should be extracted 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * true if nationality is being extracted from Austrian ID 
+     * Defines if nationality of Austrian passport owner should be extracted 
      */
-    this.extractNationality = true;
+    this.extractNationality = false;
     
     /** 
-     * true if place of birth is being extracted from Austrian ID 
+     * Defines if passport number of Austrian passport should be extracted 
+     */
+    this.extractPassportNumber = true;
+    
+    /** 
+     * Defines if place of birth of Austrian ID owner should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * true if principal residence is being extracted from Austrian ID 
+     * Defines if principal residence of Austrian ID owner should be extracted 
      */
     this.extractPrincipalResidence = true;
     
     /** 
-     * true if sex of Austrian ID owner is being extracted 
+     * Defines if sex of Austrian ID owner should be extracted 
      */
     this.extractSex = true;
+    
+    /** 
+     * Defines if surname of Austrian ID owner should be extracted 
+     */
+    this.extractSurname = true;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -732,6 +797,11 @@ function AustriaCombinedRecognizer() {
      */
     this.signResult = false;
     
+    /** 
+     * the DPI (Dots Per Inch) for signature image that should be returned. 
+     */
+    this.signatureImageDpi = 250;
+    
     this.createResultFromNative = function (nativeResult) { return new AustriaCombinedRecognizerResult(nativeResult); }
 
 }
@@ -749,7 +819,7 @@ function AustriaIdBackRecognizerResult(nativeResult) {
     /** 
      * the date of issuance of the ID. 
      */
-    this.dateOfIssuance = new Date(nativeResult.dateOfIssuance);
+    this.dateOfIssuance = nativeResult.dateOfIssuance != null ? new Date(nativeResult.dateOfIssuance) : null;
     
     /** 
      * the eye colour of the card holder. 
@@ -762,6 +832,11 @@ function AustriaIdBackRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
+     * the height of the cardholder in centimeters. 
+     */
+    this.height = nativeResult.height;
+    
+    /** 
      * the issuing authority of Austrian ID. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
@@ -769,7 +844,7 @@ function AustriaIdBackRecognizerResult(nativeResult) {
     /** 
      * The data extracted from the machine readable zone. 
      */
-    this.mrzResult = nativeResult.mrzResult;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
      * the place of birth of the card holder. 
@@ -780,11 +855,6 @@ function AustriaIdBackRecognizerResult(nativeResult) {
      * principal residence at issuance of the card holder. 
      */
     this.principalResidence = nativeResult.principalResidence;
-    
-    /** 
-     * the height of the cardholder in centimeters. 
-     */
-    this.height = nativeResult.height;
     
 }
 
@@ -829,14 +899,14 @@ function AustriaIdBackRecognizer() {
     this.extractPrincipalResidence = true;
     
     /** 
-     * Defines whether full document image will be available in result. 
-     */
-    this.returnFullDocumentImage = false;
-    
-    /** 
      * the DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Defines whether full document image will be available in result. 
+     */
+    this.returnFullDocumentImage = false;
     
     this.createResultFromNative = function (nativeResult) { return new AustriaIdBackRecognizerResult(nativeResult); }
 
@@ -855,7 +925,7 @@ function AustriaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Austrian ID owner 
      */
-    this.dateOfBirth = new Date(nativeResult.dateOfBirth);
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document number of Austrian ID. 
@@ -930,6 +1000,16 @@ function AustriaIdFrontRecognizer() {
     this.extractSurname = true;
     
     /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -943,16 +1023,6 @@ function AustriaIdFrontRecognizer() {
      * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
-    
-    /** 
-     * the DPI (Dots Per Inch) for full document image that should be returned. 
-     */
-    this.fullDocumentImageDpi = 250;
-    
-    /** 
-     * the DPI (Dots Per Inch) for face image that should be returned. 
-     */
-    this.faceImageDpi = 250;
     
     /** 
      * the DPI (Dots Per Inch) for signature image that should be returned. 
@@ -976,17 +1046,17 @@ function AustriaPassportRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Austrian passport owner 
      */
-    this.dateOfBirth = new Date(nativeResult.dateOfBirth);
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the date of expiry of Austrian passport 
      */
-    this.dateOfExpiry = new Date(nativeResult.dateOfExpiry);
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of Austrian passport 
      */
-    this.dateOfIssue = new Date(nativeResult.dateOfIssue);
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      *  face image from the document 
@@ -1004,6 +1074,11 @@ function AustriaPassportRecognizerResult(nativeResult) {
     this.givenName = nativeResult.givenName;
     
     /** 
+     * the height of the passport in centimeters. 
+     */
+    this.height = nativeResult.height;
+    
+    /** 
      * issuing authority of the Austrian passport. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
@@ -1011,7 +1086,7 @@ function AustriaPassportRecognizerResult(nativeResult) {
     /** 
      * The data extracted from the machine readable zone. 
      */
-    this.mrzResult = nativeResult.mrzResult;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
      * nationality of the Austrian passport owner. 
@@ -1042,11 +1117,6 @@ function AustriaPassportRecognizerResult(nativeResult) {
      * the surname of the Austrian passport owner. 
      */
     this.surname = nativeResult.surname;
-    
-    /** 
-     * the height of the passport in centimeters. 
-     */
-    this.height = nativeResult.height;
     
 }
 
@@ -1121,6 +1191,16 @@ function AustriaPassportRecognizer() {
     this.extractSurname = true;
     
     /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -1134,16 +1214,6 @@ function AustriaPassportRecognizer() {
      * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
-    
-    /** 
-     * the DPI (Dots Per Inch) for full document image that should be returned. 
-     */
-    this.fullDocumentImageDpi = 250;
-    
-    /** 
-     * the DPI (Dots Per Inch) for face image that should be returned. 
-     */
-    this.faceImageDpi = 250;
     
     /** 
      * the DPI (Dots Per Inch) for signature image that should be returned. 
@@ -1200,6 +1270,11 @@ function BarcodeRecognizer() {
      * Allow enabling the autodetection of image scale when scanning barcodes. 
      */
     this.autoScaleDetection = true;
+    
+    /** 
+     * The license key for unlocking improved aztec scanning feature, provided by Manatee. 
+     */
+    this.manateeLicenseKey = '';
     
     /** 
      * Allow scanning PDF417 barcodes which don't have quiet zone 
@@ -1425,6 +1500,16 @@ function ColombiaIdFrontRecognizer() {
     this.extractLastName = true;
     
     /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -1438,16 +1523,6 @@ function ColombiaIdFrontRecognizer() {
      * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
-    
-    /** 
-     * the DPI (Dots Per Inch) for full document image that should be returned. 
-     */
-    this.fullDocumentImageDpi = 250;
-    
-    /** 
-     * the DPI (Dots Per Inch) for face image that should be returned. 
-     */
-    this.faceImageDpi = 250;
     
     /** 
      * the DPI (Dots Per Inch) for signature image that should be returned. 
@@ -2200,6 +2275,21 @@ function CzechiaIdBackRecognizer() {
     this.detectGlare = true;
     
     /** 
+     * {true} if the authority is being extracted, {false} otherwise. 
+     */
+    this.extractAuthority = true;
+    
+    /** 
+     * {true} if the permanent stay is being extracted, {false} otherwise. 
+     */
+    this.extractPermanentStay = true;
+    
+    /** 
+     * {true} if the personal number is being extracted, {false} otherwise. 
+     */
+    this.extractPersonalNumber = true;
+    
+    /** 
      * Defines whether full document image will be available in result. 
      */
     this.returnFullDocumentImage = false;
@@ -2292,6 +2382,41 @@ function CzechiaIdFrontRecognizer() {
     this.detectGlare = true;
     
     /** 
+     * {true} if the date of birth is being extracted, {false} otherwise. 
+     */
+    this.extractDateOfBirth = true;
+    
+    /** 
+     * {true} if the date of expiry is being extracted, {false} otherwise. 
+     */
+    this.extractDateOfExpiry = true;
+    
+    /** 
+     * {true} if the date of issue is being extracted, {false} otherwise. 
+     */
+    this.extractDateOfIssue = true;
+    
+    /** 
+     * {true} if the given names is being extracted, {false} otherwise. 
+     */
+    this.extractGivenNames = true;
+    
+    /** 
+     * {true} if the place of birth is being extracted, {false} otherwise. 
+     */
+    this.extractPlaceOfBirth = true;
+    
+    /** 
+     * {true} if the sex is being extracted, {false} otherwise. 
+     */
+    this.extractSex = true;
+    
+    /** 
+     * {true} if the surname is being extracted, {false} otherwise. 
+     */
+    this.extractSurname = true;
+    
+    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -2321,9 +2446,19 @@ function DocumentFaceRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
+     * the location of document detection in coordinate system of full input frame. 
+     */
+    this.documentLocation = nativeResult.documentLocation != null ? new Quadrilateral(nativeResult.documentLocation) : null;
+    
+    /** 
      *  face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     * the location of face detection in coordinate system of cropped full document image. 
+     */
+    this.faceLocation = nativeResult.faceLocation != null ? new Quadrilateral(nativeResult.faceLocation) : null;
     
     /** 
      *  image of the full document 
@@ -2343,6 +2478,21 @@ function DocumentFaceRecognizer() {
     Recognizer.call(this, 'DocumentFaceRecognizer');
     
     /** 
+     * currently used detector type. 
+     */
+    this.detectorType = DocumentFaceDetectorType.TD1;
+    
+    /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -2351,21 +2501,6 @@ function DocumentFaceRecognizer() {
      * Defines whether full document image will be available in result. 
      */
     this.returnFullDocumentImage = false;
-    
-    /** 
-     * the DPI (Dots Per Inch) for full document image that should be returned. 
-     */
-    this.fullDocumentImageDpi = 250;
-    
-    /** 
-     * the DPI (Dots Per Inch) for face image that should be returned. 
-     */
-    this.faceImageDpi = 250;
-    
-    /** 
-     * currently used detector type. 
-     */
-    this.detectorType = DocumentFaceDetectorType.TD1;
     
     this.createResultFromNative = function (nativeResult) { return new DocumentFaceRecognizerResult(nativeResult); }
 
@@ -2454,6 +2589,21 @@ function EudlRecognizerResult(nativeResult) {
     this.address = nativeResult.address;
     
     /** 
+     * the date of birth of Driver's Licence owner 
+     */
+    this.birthDate = nativeResult.birthDate != null ? new Date(nativeResult.birthDate) : null;
+    
+    /** 
+     * the place of birth of Driver's Licence owner 
+     */
+    this.birthPlace = nativeResult.birthPlace;
+    
+    /** 
+     * the country where the driver's license has been issued. 
+     */
+    this.country = nativeResult.country;
+    
+    /** 
      * the driver number. 
      */
     this.driverNumber = nativeResult.driverNumber;
@@ -2461,7 +2611,7 @@ function EudlRecognizerResult(nativeResult) {
     /** 
      * the expiry date of the Driver's Licence 
      */
-    this.expiryDate = new Date(nativeResult.expiryDate);
+    this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
     
     /** 
      *  face image from the document 
@@ -2481,7 +2631,7 @@ function EudlRecognizerResult(nativeResult) {
     /** 
      * the issue date of the Driver's Licence 
      */
-    this.issueDate = new Date(nativeResult.issueDate);
+    this.issueDate = nativeResult.issueDate != null ? new Date(nativeResult.issueDate) : null;
     
     /** 
      * document issuing authority. 
@@ -2498,16 +2648,6 @@ function EudlRecognizerResult(nativeResult) {
      */
     this.personalNumber = nativeResult.personalNumber;
     
-    /** 
-     * the place of birth of Driver's Licence owner 
-     */
-    this.birthPlace = nativeResult.birthPlace;
-    
-    /** 
-     * the country where the driver's license has been issued. 
-     */
-    this.country = nativeResult.country;
-    
 }
 
 EudlRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -2519,6 +2659,11 @@ BlinkID.prototype.EudlRecognizerResult = EudlRecognizerResult;
  */
 function EudlRecognizer() {
     Recognizer.call(this, 'EudlRecognizer');
+    
+    /** 
+     * currently used country. 
+     */
+    this.country = EudlCountry.Automatic;
     
     /** 
      * Defines if address should be extracted from EU driver's license 
@@ -2546,6 +2691,16 @@ function EudlRecognizer() {
     this.extractPersonalNumber = true;
     
     /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -2554,21 +2709,6 @@ function EudlRecognizer() {
      * Defines whether full document image will be available in result. 
      */
     this.returnFullDocumentImage = false;
-    
-    /** 
-     * the DPI (Dots Per Inch) for full document image that should be returned. 
-     */
-    this.fullDocumentImageDpi = 250;
-    
-    /** 
-     * the DPI (Dots Per Inch) for face image that should be returned. 
-     */
-    this.faceImageDpi = 250;
-    
-    /** 
-     * currently used country. 
-     */
-    this.country = EudlCountry.Automatic;
     
     this.createResultFromNative = function (nativeResult) { return new EudlRecognizerResult(nativeResult); }
 
@@ -2905,6 +3045,31 @@ function GermanyIdBackRecognizer() {
     this.detectGlare = true;
     
     /** 
+     * {true} if the address is being extracted, {false} otherwise. 
+     */
+    this.extractAddress = true;
+    
+    /** 
+     * {true} if the authority is being extracted, {false} otherwise. 
+     */
+    this.extractAuthority = true;
+    
+    /** 
+     * {true} if the date of issue is being extracted, {false} otherwise. 
+     */
+    this.extractDateOfIssue = true;
+    
+    /** 
+     * {true} if the eye colour is being extracted, {false} otherwise. 
+     */
+    this.extractEyeColour = true;
+    
+    /** 
+     * {true} if the height is being extracted, {false} otherwise. 
+     */
+    this.extractHeight = true;
+    
+    /** 
      * Defines whether full document image will be available in result. 
      */
     this.returnFullDocumentImage = false;
@@ -2990,6 +3155,41 @@ function GermanyIdFrontRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
+    
+    /** 
+     * {true} if the can number is being extracted, {false} otherwise. 
+     */
+    this.extractCanNumber = true;
+    
+    /** 
+     * {true} if the date of expiry is being extracted, {false} otherwise. 
+     */
+    this.extractDateOfExpiry = true;
+    
+    /** 
+     * {true} if the document number is being extracted, {false} otherwise. 
+     */
+    this.extractDocumentNumber = true;
+    
+    /** 
+     * {true} if the given names is being extracted, {false} otherwise. 
+     */
+    this.extractGivenNames = true;
+    
+    /** 
+     * {true} if the nationality is being extracted, {false} otherwise. 
+     */
+    this.extractNationality = true;
+    
+    /** 
+     * {true} if the place of birth is being extracted, {false} otherwise. 
+     */
+    this.extractPlaceOfBirth = true;
+    
+    /** 
+     * {true} if the surname is being extracted, {false} otherwise. 
+     */
+    this.extractSurname = true;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -3147,6 +3347,11 @@ function GermanyOldIdRecognizer() {
      * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
+    
+    /** 
+     * {true} if the place of birth is being extracted, {false} otherwise. 
+     */
+    this.extractPlaceOfBirth = true;
     
     /** 
      * Defines whether face image will be available in result. 
@@ -4564,7 +4769,7 @@ function MrtdRecognizerResult(nativeResult) {
     /** 
      * The Data extracted from the machine readable zone. 
      */
-    this.mrzResult = nativeResult.mrzResult;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
 }
 
@@ -7978,7 +8183,7 @@ function UnitedArabEmiratesIdBackRecognizerResult(nativeResult) {
     /** 
      * The data extracted from the machine readable zone. 
      */
-    this.mrzResult = nativeResult.mrzResult;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
 }
 
@@ -7998,14 +8203,14 @@ function UnitedArabEmiratesIdBackRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines whether full document image will be available in result. 
-     */
-    this.returnFullDocumentImage = false;
-    
-    /** 
      * the DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Defines whether full document image will be available in result. 
+     */
+    this.returnFullDocumentImage = false;
     
     this.createResultFromNative = function (nativeResult) { return new UnitedArabEmiratesIdBackRecognizerResult(nativeResult); }
 
@@ -8074,6 +8279,16 @@ function UnitedArabEmiratesIdFrontRecognizer() {
     this.extractNationality = true;
     
     /** 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -8082,16 +8297,6 @@ function UnitedArabEmiratesIdFrontRecognizer() {
      * Defines whether full document image will be available in result. 
      */
     this.returnFullDocumentImage = false;
-    
-    /** 
-     * the DPI (Dots Per Inch) for full document image that should be returned. 
-     */
-    this.fullDocumentImageDpi = 250;
-    
-    /** 
-     * the DPI (Dots Per Inch) for face image that should be returned. 
-     */
-    this.faceImageDpi = 250;
     
     this.createResultFromNative = function (nativeResult) { return new UnitedArabEmiratesIdFrontRecognizerResult(nativeResult); }
 
@@ -8102,10 +8307,35 @@ UnitedArabEmiratesIdFrontRecognizer.prototype = new Recognizer('UnitedArabEmirat
 BlinkID.prototype.UnitedArabEmiratesIdFrontRecognizer = UnitedArabEmiratesIdFrontRecognizer;
 
 /**
- * Result object for UsdlRecognizer.
+ * Result object for UsdlCombinedRecognizer.
  */
-function UsdlRecognizerResult(nativeResult) {
+function UsdlCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * Defines digital signature of recognition results. 
+     */
+    this.digitalSignature = nativeResult.digitalSignature;
+    
+    /** 
+     * Defines digital signature version. 
+     */
+    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
+    
+    /** 
+     * Defines {true} if data from scanned parts/sides of the document match, 
+     */
+    this.documentDataMatch = nativeResult.documentDataMatch;
+    
+    /** 
+     *  face image from the document 
+     */
+    this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     *  image of the full document 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
      * Array of elements that are not part of AAMVA standard and are specific to each US state. 
@@ -8123,39 +8353,60 @@ function UsdlRecognizerResult(nativeResult) {
     this.rawStringData = nativeResult.rawStringData;
     
     /** 
+     *  {true} if recognizer has finished scanning first side and is now scanning back side, 
+     */
+    this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
+    
+    /** 
      * True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
      */
     this.uncertain = nativeResult.uncertain;
     
 }
 
-UsdlRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+UsdlCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.UsdlRecognizerResult = UsdlRecognizerResult;
+BlinkID.prototype.UsdlCombinedRecognizerResult = UsdlCombinedRecognizerResult;
 
 /**
- * Recognizer that scan 2D barcodes from United States Driver License.
+ * Recognizer for combined reading of face from front side of documents and USDL barcode from back side of
+ * US driver's license.
  */
-function UsdlRecognizer() {
-    Recognizer.call(this, 'UsdlRecognizer');
+function UsdlCombinedRecognizer() {
+    Recognizer.call(this, 'UsdlCombinedRecognizer');
     
     /** 
-     * Allow scanning PDF417 barcodes which don't have quiet zone 
+     * the DPI (Dots Per Inch) for face image that should be returned. 
      */
-    this.nullQuietZoneAllowed = true;
+    this.faceImageDpi = 250;
     
     /** 
-     * Enable decoding of non-standard PDF417 barcodes, but without 
+     * the DPI (Dots Per Inch) for full document image that should be returned. 
      */
-    this.uncertainDecoding = true;
+    this.fullDocumentImageDpi = 250;
     
-    this.createResultFromNative = function (nativeResult) { return new UsdlRecognizerResult(nativeResult); }
+    /** 
+     * Defines whether face image will be available in result. 
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Defines whether full document image will be available in result. 
+     */
+    this.returnFullDocumentImage = false;
+    
+    /** 
+     * Defines whether or not recognition result should be signed. 
+     */
+    this.signResult = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new UsdlCombinedRecognizerResult(nativeResult); }
 
 }
 
-UsdlRecognizer.prototype = new Recognizer('UsdlRecognizer');
+UsdlCombinedRecognizer.prototype = new Recognizer('UsdlCombinedRecognizer');
 
-BlinkID.prototype.UsdlRecognizer = UsdlRecognizer;
+BlinkID.prototype.UsdlCombinedRecognizer = UsdlCombinedRecognizer;
 
 /**
  * Result object for VinRecognizer.
@@ -8188,7 +8439,7 @@ VinRecognizer.prototype = new Recognizer('VinRecognizer');
 
 BlinkID.prototype.VinRecognizer = VinRecognizer;
 
-BlinkID.prototype.USDLKeys = Object.freeze(
+BlinkID.prototype.UsdlKeys = Object.freeze(
     {
         //==============================================================/
         //============== 1. DETERMINING BARCODE VERSION ================/
@@ -9090,9 +9341,9 @@ BlinkID.prototype.USDLKeys = Object.freeze(
 );
 
 /**
- * Result object for USDLRecognizer.
+ * Result object for UsdlRecognizer.
  */
-function USDLRecognizerResult(nativeResult) {
+function UsdlRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** Array of elements that are not part of AAMVA standard and are specific to each US state. */
@@ -9107,20 +9358,20 @@ function USDLRecognizerResult(nativeResult) {
     /** True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. */
     this.uncertain = nativeResult.uncertain;
 
-    /** Fields inside US Driver's licence. Available Keys are listed in BlinkIDScanner.USDLKeys enum. */
+    /** Fields inside US Driver's licence. Available Keys are listed in BlinkIDScanner.UsdlKeys enum. */
     this.fields = nativeResult.fields;
     
 }
 
-USDLRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+UsdlRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.USDLRecognizerResult = USDLRecognizerResult;
+BlinkID.prototype.UsdlRecognizerResult = UsdlRecognizerResult;
 
 /**
  * Recognizer that scan 2D barcodes from United States Driver License.
  */
-function USDLRecognizer() {
-    Recognizer.call(this, 'USDLRecognizer');
+function UsdlRecognizer() {
+    Recognizer.call(this, 'UsdlRecognizer');
     
     /** Allow scanning PDF417 barcodes which don't have quiet zone */
     this.nullQuietZoneAllowed = true;
@@ -9128,13 +9379,13 @@ function USDLRecognizer() {
     /** Enable decoding of non-standard PDF417 barcodes, but without */
     this.uncertainDecoding = true;
     
-    this.createResultFromNative = function (nativeResult) { return new USDLRecognizerResult(nativeResult); }
+    this.createResultFromNative = function (nativeResult) { return new UsdlRecognizerResult(nativeResult); }
     
 }
 
-USDLRecognizer.prototype = new Recognizer('USDLRecognizer');
+UsdlRecognizer.prototype = new Recognizer('UsdlRecognizer');
 
-BlinkID.prototype.USDLRecognizer = USDLRecognizer;
+BlinkID.prototype.UsdlRecognizer = UsdlRecognizer;
 
 // RECOGNIZERS
 
