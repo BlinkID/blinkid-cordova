@@ -17,15 +17,6 @@
  * under the License.
  */
 
-// implement your decoding as you need it, this just does ASCII decoding
-function hex2a(hex) {
-    var str = '';
-    for (var i = 0; i < hex.length; i += 2) {
-        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-    }
-    return str;
-}
-
 var app = {
     // Application Constructor
     initialize: function() {
@@ -60,14 +51,17 @@ var app = {
         documentImageDiv.style.visibility = "hidden"
         faceImageDiv.style.visibility = "hidden"
 
-        // to scan EU driver's licences, use EUDLRecognizer
-        var eudlRecognizer = new cordova.plugins.BlinkID.EUDLRecognizer();
+        // to scan EU driver's licences, use EudlRecognizer
+        var eudlRecognizer = new cordova.plugins.BlinkID.EudlRecognizer();
         eudlRecognizer.returnFaceImage = true;
         eudlRecognizer.returnFullDocumentImage = true;
 
+        // to scan US driver's licenses, use UsdlRecognizer
+        var usdlRecognizer = new cordova.plugins.BlinkID.UsdlRecognizer();
+
         // to scan any machine readable travel document (passports, visa's and IDs with 
-        // machine readable zone), use MRTDRecognizer
-        var mrtdRecognizer = new cordova.plugins.BlinkID.MRTDRecognizer();
+        // machine readable zone), use MrtdRecognizer
+        var mrtdRecognizer = new cordova.plugins.BlinkID.MrtdRecognizer();
         mrtdRecognizer.returnFullDocumentImage = true;
 
         // there are lots of Recognizer objects in BlinkID - check blinkIdScanner.js for full reference
@@ -75,7 +69,7 @@ var app = {
         var documentOverlaySettings = new cordova.plugins.BlinkID.DocumentOverlaySettings();
 
         // create RecognizerCollection from any number of recognizers that should perform recognition
-        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([eudlRecognizer, mrtdRecognizer]);
+        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([eudlRecognizer, mrtdRecognizer, usdlRecognizer]);
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
@@ -137,19 +131,51 @@ var app = {
                             documentImageDiv.style.visibility = "hidden";
                         }
 
-                        // MRTDRecognizer does not support face image extraction
+                        // MrtdRecognizer does not support face image extraction
                         faceImageDiv.style.visibility = "hidden";
 
                         // fill data
                         resultDiv.innerHTML = /** Personal information */
-                            "First name: " + mrtdRecognizer.result.MRZResult.secondaryId + "<br>" +
-                            "Last name: " + mrtdRecognizer.result.MRZResult.primaryId + "<br>" +
-                            "Nationality: " + mrtdRecognizer.result.MRZResult.nationality + "<br>" +
-                            "Gender: " + mrtdRecognizer.result.MRZResult.gender + "<br>" +
+                            "First name: " + mrtdRecognizer.result.mrzResult.secondaryId + "<br>" +
+                            "Last name: " + mrtdRecognizer.result.mrzResult.primaryId + "<br>" +
+                            "Nationality: " + mrtdRecognizer.result.mrzResult.nationality + "<br>" +
+                            "Gender: " + mrtdRecognizer.result.mrzResult.gender + "<br>" +
                             "Date of birth: " +
-                                mrtdRecognizer.result.MRZResult.dateOfBirth.day + "." +
-                                mrtdRecognizer.result.MRZResult.dateOfBirth.month + "." +
-                                mrtdRecognizer.result.MRZResult.dateOfBirth.year + ". <br>";
+                            mrtdRecognizer.result.mrzResult.dateOfBirth.day + "." +
+                            mrtdRecognizer.result.mrzResult.dateOfBirth.month + "." +
+                            mrtdRecognizer.result.mrzResult.dateOfBirth.year + ". <br>";
+                    } else if (usdlRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
+                        // UsdlRecognizer does not support face image extraction
+                        faceImageDiv.style.visibility = "hidden";
+                        // UsdlRecognizer does not support full document image extraction
+                        faceImageDiv.style.visibility = "hidden";
+
+                        var fields = usdlRecognizer.result.fields;
+                        var USDLKeys = cordova.plugins.BlinkID.UsdlKeys;
+                        var fieldDelim = "<br>";
+
+                        resultDiv.innerHTML = /** Personal information */
+                            "USDL version: " + fields[USDLKeys.StandardVersionNumber] + fieldDelim +
+                            "Family name: " + fields[USDLKeys.CustomerFamilyName] + fieldDelim +
+                            "First name: " + fields[USDLKeys.CustomerFirstName] + fieldDelim +
+                            "Date of birth: " + fields[USDLKeys.DateOfBirth] + fieldDelim +
+                            "Sex: " + fields[USDLKeys.Sex] + fieldDelim +
+                            "Eye color: " + fields[USDLKeys.EyeColor] + fieldDelim +
+                            "Height: " + fields[USDLKeys.Height] + fieldDelim +
+                            "Street: " + fields[USDLKeys.AddressStreet] + fieldDelim +
+                            "City: " + fields[USDLKeys.AddressCity] + fieldDelim +
+                            "Jurisdiction: " + fields[USDLKeys.AddressJurisdictionCode] + fieldDelim +
+                            "Postal code: " + fields[USDLKeys.AddressPostalCode] + fieldDelim +
+                            /** License information */
+                            "Issue date: " + fields[USDLKeys.DocumentIssueDate] + fieldDelim +
+                            "Expiration date: " + fields[USDLKeys.DocumentExpirationDate] + fieldDelim +
+                            "Issuer ID: " + fields[USDLKeys.IssuerIdentificationNumber] + fieldDelim +
+                            "Jurisdiction version: " + fields[USDLKeys.JurisdictionVersionNumber] + fieldDelim +
+                            "Vehicle class: " + fields[USDLKeys.JurisdictionVehicleClass] + fieldDelim +
+                            "Restrictions: " + fields[USDLKeys.JurisdictionRestrictionCodes] + fieldDelim +
+                            "Endorsments: " + fields[USDLKeys.JurisdictionEndorsementCodes] + fieldDelim +
+                            "Customer ID: " + fields[USDLKeys.CustomerIdNumber] + fieldDelim;
+
                     } else {
                         resultDiv.innerHTML = "Result is empty!";
                     }
