@@ -413,7 +413,7 @@ function AustraliaDlBackRecognizerResult(nativeResult) {
     /** 
      * the date of expiry of Australian DL. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      *  image of the full document 
@@ -490,12 +490,12 @@ function AustraliaDlFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Australian DL owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the date of expiry of Australian DL. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      *  face image from the document 
@@ -1397,7 +1397,7 @@ function ColombiaIdBackRecognizerResult(nativeResult) {
     /** 
      * owner date of birth 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the Colombian ID document number number. 
@@ -1575,12 +1575,12 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Croatian ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Croatian ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * true if document expiry is permanent 
@@ -1590,7 +1590,7 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     /** 
      * the document date of issue of the Croatian ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -1737,12 +1737,12 @@ function CroatiaIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * true if date of expiry of the Croatian ID is permanent else false 
@@ -1752,7 +1752,7 @@ function CroatiaIdBackRecognizerResult(nativeResult) {
     /** 
      * the document date of issue of the Croatian ID 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -1879,12 +1879,12 @@ function CroatiaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Croatian ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Croatian ID 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * true if date of expiry of the Croatian ID is permanent else false 
@@ -2006,17 +2006,17 @@ function CzechiaCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Czech ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Czech ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the document date of issue of the Czech ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -2168,12 +2168,12 @@ function CzechiaIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -2300,17 +2300,17 @@ function CzechiaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Czech ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the date of expiry of Czech ID 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of Czech ID 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      *  face image from the document 
@@ -2721,17 +2721,17 @@ function GermanyCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of German ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the German ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the document date of issue of the German ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -2913,17 +2913,17 @@ function GermanyIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of the ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -3075,12 +3075,12 @@ function GermanyIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of German ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the date of expiry of German ID 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the document number of German ID. 
@@ -3212,12 +3212,12 @@ function GermanyOldIdRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -3364,17 +3364,17 @@ function GermanyPassportRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of German passport. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -3556,12 +3556,12 @@ function HongKongIdFrontRecognizerResult(nativeResult) {
     /** 
      * owner's date of birth if it is successfully converted to {Date} from date format: <code>DDMMYYYY</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * ID date of issue it is successfully converted to {Date} from date format: <code>DDMMYYYY</code>. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * the Hong Kong document number. 
@@ -3663,7 +3663,7 @@ function IkadRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Malaysian iKad owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * employer of the Malaysian iKad owner. 
@@ -3673,7 +3673,7 @@ function IkadRecognizerResult(nativeResult) {
     /** 
      * the expiry date of the Malaysian iKad 
      */
-    this.expiryDate = nativeResult.expiryDate;
+    this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
     
     /** 
      *  face image from the document 
@@ -3825,7 +3825,7 @@ function IndonesiaIdFrontRecognizerResult(nativeResult) {
     /** 
      * date of birth of Indonesian ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * district of Indonesian ID owner. 
@@ -3910,7 +3910,7 @@ function IndonesiaIdFrontRecognizerResult(nativeResult) {
     /** 
      * valid until of Indonesian ID. 
      */
-    this.validUntil = nativeResult.validUntil;
+    this.validUntil = nativeResult.validUntil != null ? new Date(nativeResult.validUntil) : null;
     
     /** 
      * {true} if date of expiry of the Indonesian ID is permanent, {false} otherwise. 
@@ -4042,12 +4042,12 @@ function JordanCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Jordan ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Jordan ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -4184,12 +4184,12 @@ function JordanIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -4296,7 +4296,7 @@ function JordanIdFrontRecognizerResult(nativeResult) {
     /** 
      * date of birth of Jordan ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      *  face image from the document 
@@ -4438,12 +4438,12 @@ function MalaysiaDlFrontRecognizerResult(nativeResult) {
     /** 
      * Malaysian DL valid from. 
      */
-    this.validFrom = nativeResult.validFrom;
+    this.validFrom = nativeResult.validFrom != null ? new Date(nativeResult.validFrom) : null;
     
     /** 
      * Malaysian DL valid until. 
      */
-    this.validUntil = nativeResult.validUntil;
+    this.validUntil = nativeResult.validUntil != null ? new Date(nativeResult.validUntil) : null;
     
     /** 
      * extracted ZIP code from the owner address. 
@@ -4530,12 +4530,12 @@ function MrtdCombinedRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -4885,7 +4885,7 @@ function MyKadFrontRecognizerResult(nativeResult) {
     /** 
      * owner's date of birth if it is successfully converted to {Date} from date format: <code>YYMMDD</code>. 
      */
-    this.ownerBirthDate = nativeResult.ownerBirthDate;
+    this.ownerBirthDate = nativeResult.ownerBirthDate != null ? new Date(nativeResult.ownerBirthDate) : null;
     
     /** 
      * owner full name 
@@ -4997,7 +4997,7 @@ function MyTenteraRecognizerResult(nativeResult) {
     /** 
      * owner's date of birth if it is successfully converted to {Date} from date format: <code>YYMMDD</code>. 
      */
-    this.ownerBirthDate = nativeResult.ownerBirthDate;
+    this.ownerBirthDate = nativeResult.ownerBirthDate != null ? new Date(nativeResult.ownerBirthDate) : null;
     
     /** 
      * owner full name 
@@ -5084,7 +5084,7 @@ function NewZealandDlFrontRecognizerResult(nativeResult) {
     /** 
      * date of birth on New Zealand drivers license. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * true if DONOR is on New Zealand drivers license else returns false. 
@@ -5094,7 +5094,7 @@ function NewZealandDlFrontRecognizerResult(nativeResult) {
     /** 
      * expiry date on New Zealand drivers license. 
      */
-    this.expiryDate = nativeResult.expiryDate;
+    this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
     
     /** 
      *  face image from the document 
@@ -5114,7 +5114,7 @@ function NewZealandDlFrontRecognizerResult(nativeResult) {
     /** 
      * issue date on New Zealand drivers license. 
      */
-    this.issueDate = nativeResult.issueDate;
+    this.issueDate = nativeResult.issueDate != null ? new Date(nativeResult.issueDate) : null;
     
     /** 
      * license number on New Zealand drivers license. 
@@ -5272,12 +5272,12 @@ function PolandCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Polish ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Polish ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -5444,12 +5444,12 @@ function PolandIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -5556,7 +5556,7 @@ function PolandIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Polish ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      *  face image from the document 
@@ -5678,12 +5678,12 @@ function RomaniaIdFrontRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -5803,12 +5803,12 @@ function RomaniaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the valid from date of Romanian ID. 
      */
-    this.validFrom = nativeResult.validFrom;
+    this.validFrom = nativeResult.validFrom != null ? new Date(nativeResult.validFrom) : null;
     
     /** 
      * the valid until date of Romanian ID. 
      */
-    this.validUntil = nativeResult.validUntil;
+    this.validUntil = nativeResult.validUntil != null ? new Date(nativeResult.validUntil) : null;
     
 }
 
@@ -5895,17 +5895,17 @@ function SerbiaCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of the Serbian ID holder. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Serbian ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the document date of issue of the Serbian ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -6042,12 +6042,12 @@ function SerbiaIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -6169,7 +6169,7 @@ function SerbiaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the issuing date of the Serbian ID. 
      */
-    this.issuingDate = nativeResult.issuingDate;
+    this.issuingDate = nativeResult.issuingDate != null ? new Date(nativeResult.issuingDate) : null;
     
     /** 
      *  signature image from the document 
@@ -6179,7 +6179,7 @@ function SerbiaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the valid until of the Serbian ID. 
      */
-    this.validUntil = nativeResult.validUntil;
+    this.validUntil = nativeResult.validUntil != null ? new Date(nativeResult.validUntil) : null;
     
 }
 
@@ -6292,12 +6292,12 @@ function SingaporeCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Singapore ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of issue of the Singapore ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -6414,7 +6414,7 @@ function SingaporeIdBackRecognizerResult(nativeResult) {
     /** 
      * the document date of issue of the Singapore ID 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      *  image of the full document 
@@ -6481,7 +6481,7 @@ function SingaporeIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Singapore ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      *  face image from the document 
@@ -6578,17 +6578,17 @@ function SlovakiaCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Slovak ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Slovak ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the document date of issue of the Slovak ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -6795,12 +6795,12 @@ function SlovakiaIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -6937,17 +6937,17 @@ function SlovakiaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Slovak ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the date of expiry of Slovak ID 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of Slovak ID 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * the identity card number of Slovak ID. 
@@ -7094,17 +7094,17 @@ function SloveniaCombinedRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Slovenian ID owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the document date of expiry of the Slovenian ID. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the document date of issue of the Slovenian ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines digital signature of recognition results. 
@@ -7246,17 +7246,17 @@ function SloveniaIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of the ID. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -7373,12 +7373,12 @@ function SloveniaIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Slovenian ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * the date of expiry of Slovenian ID owner 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      *  face image from the document 
@@ -7485,17 +7485,17 @@ function SwedenDlFrontRecognizerResult(nativeResult) {
     /** 
      * date of birth of Sweden DL owner. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * date of expiry of Sweden DL. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * date of issue of Sweden DL. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      *  face image from the document 
@@ -7642,17 +7642,17 @@ function SwitzerlandIdBackRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of Swiss ID card. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -7702,7 +7702,7 @@ function SwitzerlandIdBackRecognizerResult(nativeResult) {
     /** 
      * the date of expiry of Swiss ID card. 
      */
-    this.nonMrzDateOfExpiry = nativeResult.nonMrzDateOfExpiry;
+    this.nonMrzDateOfExpiry = nativeResult.nonMrzDateOfExpiry != null ? new Date(nativeResult.nonMrzDateOfExpiry) : null;
     
     /** 
      * the sex of the Swiss ID card owner. 
@@ -7809,7 +7809,7 @@ function SwitzerlandIdFrontRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Swiss ID owner 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      *  face image from the document 
@@ -7901,17 +7901,17 @@ function SwitzerlandPassportRecognizerResult(nativeResult) {
     /** 
      * Defines holder's date of birth if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
      * Defines date of expiry if it is successfully converted to result from MRZ date format: <code>YYMMDD</code>. 
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * the date of issue of Swiss passport. 
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
      * Defines document code. Document code contains two characters. For MRTD the first character shall 
@@ -7971,12 +7971,12 @@ function SwitzerlandPassportRecognizerResult(nativeResult) {
     /** 
      * the date of birth of Swiss passport. 
      */
-    this.nonMrzDateOfBirth = nativeResult.nonMrzDateOfBirth;
+    this.nonMrzDateOfBirth = nativeResult.nonMrzDateOfBirth != null ? new Date(nativeResult.nonMrzDateOfBirth) : null;
     
     /** 
      * the date of expiry of Swiss passport. 
      */
-    this.nonMrzDateOfExpiry = nativeResult.nonMrzDateOfExpiry;
+    this.nonMrzDateOfExpiry = nativeResult.nonMrzDateOfExpiry != null ? new Date(nativeResult.nonMrzDateOfExpiry) : null;
     
     /** 
      * the sex of the Swiss passport owner. 
