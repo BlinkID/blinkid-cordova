@@ -31,8 +31,7 @@ public final class EudlRecognizerSerialization implements RecognizerSerializatio
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
-            jsonResult.put("birthDate", SerializationUtils.serializeDate(result.getBirthDate()));
-            jsonResult.put("birthPlace", result.getBirthPlace());
+            jsonResult.put("birthData", result.getBirthData());
             jsonResult.put("country", SerializationUtils.serializeEnum(result.getCountry()));
             jsonResult.put("driverNumber", result.getDriverNumber());
             jsonResult.put("expiryDate", SerializationUtils.serializeDate(result.getExpiryDate()));

@@ -15,7 +15,7 @@ public final class MrtdRecognizerSerialization implements RecognizerSerializatio
         recognizer.setAllowUnverifiedResults(jsonRecognizer.optBoolean("allowUnverifiedResults", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
-        recognizer.setReturnMRZImage(jsonRecognizer.optBoolean("returnMRZImage", false));
+        recognizer.setReturnMrzImage(jsonRecognizer.optBoolean("returnMrzImage", false));
         recognizer.setSaveImageDPI(jsonRecognizer.optInt("saveImageDPI", 250));
         return recognizer;
     }

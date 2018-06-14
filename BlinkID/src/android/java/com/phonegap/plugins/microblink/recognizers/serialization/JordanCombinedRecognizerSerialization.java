@@ -27,7 +27,6 @@ public final class JordanCombinedRecognizerSerialization implements RecognizerSe
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZVerified", result.isMRZVerified());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
@@ -38,8 +37,9 @@ public final class JordanCombinedRecognizerSerialization implements RecognizerSe
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
             jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("name", result.getName());
-            jsonResult.put("natianalNumber", result.getNatianalNumber());
+            jsonResult.put("nationalNumber", result.getNationalNumber());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("sex", result.getSex());

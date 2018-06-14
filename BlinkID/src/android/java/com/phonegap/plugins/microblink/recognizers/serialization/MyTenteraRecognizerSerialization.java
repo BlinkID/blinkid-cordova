@@ -29,7 +29,7 @@ public final class MyTenteraRecognizerSerialization implements RecognizerSeriali
             jsonResult.put("armyNumber", result.getArmyNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("nRICNumber", result.getNRICNumber());
+            jsonResult.put("nricNumber", result.getNricNumber());
             jsonResult.put("ownerAddress", result.getOwnerAddress());
             jsonResult.put("ownerAddressCity", result.getOwnerAddressCity());
             jsonResult.put("ownerAddressState", result.getOwnerAddressState());

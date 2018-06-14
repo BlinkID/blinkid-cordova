@@ -18,6 +18,7 @@ public final class GermanyPassportRecognizerSerialization implements RecognizerS
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));
         recognizer.setExtractPlaceOfBirth(jsonRecognizer.optBoolean("extractPlaceOfBirth", true));
         recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
@@ -30,18 +31,14 @@ public final class GermanyPassportRecognizerSerialization implements RecognizerS
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("alienNumber", result.getAlienNumber());
-            jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
             jsonResult.put("authority", result.getAuthority());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("documentCode", result.getDocumentCode());
             jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
             jsonResult.put("mrzParsed", result.isMrzParsed());
             jsonResult.put("mrzText", result.getMrzText());

@@ -30,7 +30,6 @@ public final class PolandCombinedRecognizerSerialization implements RecognizerSe
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZVerified", result.isMRZVerified());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
@@ -43,6 +42,7 @@ public final class PolandCombinedRecognizerSerialization implements RecognizerSe
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
             jsonResult.put("givenNames", result.getGivenNames());
             jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("parentsGivenNames", result.getParentsGivenNames());
             jsonResult.put("personalNumber", result.getPersonalNumber());

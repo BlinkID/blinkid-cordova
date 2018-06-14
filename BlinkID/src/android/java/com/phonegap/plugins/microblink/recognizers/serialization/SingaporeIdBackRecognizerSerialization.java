@@ -27,7 +27,7 @@ public final class SingaporeIdBackRecognizerSerialization implements RecognizerS
             jsonResult.put("address", result.getAddress());
             jsonResult.put("bloodGroup", result.getBloodGroup());
             jsonResult.put("cardNumber", result.getCardNumber());
-            jsonResult.put("documentDateOfIssue", SerializationUtils.serializeDate(result.getDocumentDateOfIssue()));
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException

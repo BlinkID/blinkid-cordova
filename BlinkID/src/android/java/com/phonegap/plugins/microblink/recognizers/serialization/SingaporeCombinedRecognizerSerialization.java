@@ -29,10 +29,10 @@ public final class SingaporeCombinedRecognizerSerialization implements Recognize
             jsonResult.put("cardNumber", result.getCardNumber());
             jsonResult.put("countryOfBirth", result.getCountryOfBirth());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
-            jsonResult.put("documentDateOfIssue", SerializationUtils.serializeDate(result.getDocumentDateOfIssue()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));

@@ -32,20 +32,16 @@ public final class RomaniaIdFrontRecognizerSerialization implements RecognizerSe
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
-            jsonResult.put("alienNumber", result.getAlienNumber());
-            jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
-            jsonResult.put("cNP", result.getCNP());
+            jsonResult.put("cnp", result.getCnp());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("documentCode", result.getDocumentCode());
             jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
+            jsonResult.put("idSeries", result.getIdSeries());
             jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
-            jsonResult.put("identityCardSeries", result.getIdentityCardSeries());
-            jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuedBy", result.getIssuedBy());
             jsonResult.put("issuer", result.getIssuer());
             jsonResult.put("lastName", result.getLastName());

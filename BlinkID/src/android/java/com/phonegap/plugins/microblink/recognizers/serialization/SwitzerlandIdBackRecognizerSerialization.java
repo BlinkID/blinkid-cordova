@@ -28,25 +28,21 @@ public final class SwitzerlandIdBackRecognizerSerialization implements Recognize
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("alienNumber", result.getAlienNumber());
-            jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
             jsonResult.put("authority", result.getAuthority());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("documentCode", result.getDocumentCode());
             jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("height", result.getHeight());
-            jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
             jsonResult.put("mrzParsed", result.isMrzParsed());
             jsonResult.put("mrzText", result.getMrzText());
             jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
-            jsonResult.put("nonMRZDateOfExpiry", SerializationUtils.serializeDate(result.getNonMRZDateOfExpiry()));
-            jsonResult.put("nonMRZSex", result.getNonMRZSex());
+            jsonResult.put("nonMrzDateOfExpiry", SerializationUtils.serializeDate(result.getNonMrzDateOfExpiry()));
+            jsonResult.put("nonMrzSex", result.getNonMrzSex());
             jsonResult.put("opt1", result.getOpt1());
             jsonResult.put("opt2", result.getOpt2());
             jsonResult.put("placeOfOrigin", result.getPlaceOfOrigin());

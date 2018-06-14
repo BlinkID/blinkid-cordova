@@ -28,14 +28,14 @@ public final class HongKongIdFrontRecognizerSerialization implements RecognizerS
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
+            jsonResult.put("commercialCode", result.getCommercialCode());
+            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("ownerBirthDate", SerializationUtils.serializeDate(result.getOwnerBirthDate()));
-            jsonResult.put("ownerCommercialCode", result.getOwnerCommercialCode());
-            jsonResult.put("ownerFullName", result.getOwnerFullName());
-            jsonResult.put("ownerSex", result.getOwnerSex());
+            jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

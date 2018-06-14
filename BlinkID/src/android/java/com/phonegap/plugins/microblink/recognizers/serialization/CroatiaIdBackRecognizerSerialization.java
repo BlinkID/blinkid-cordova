@@ -25,17 +25,13 @@ public final class CroatiaIdBackRecognizerSerialization implements RecognizerSer
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
-            jsonResult.put("alienNumber", result.getAlienNumber());
-            jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
+            jsonResult.put("dateOfExpiryPermanent", result.getDateOfExpiryPermanent());
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("documentCode", result.getDocumentCode());
-            jsonResult.put("documentDateOfExpiryPermanent", result.getDocumentDateOfExpiryPermanent());
-            jsonResult.put("documentDateOfIssue", SerializationUtils.serializeDate(result.getDocumentDateOfIssue()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());
             jsonResult.put("mrzParsed", result.isMrzParsed());

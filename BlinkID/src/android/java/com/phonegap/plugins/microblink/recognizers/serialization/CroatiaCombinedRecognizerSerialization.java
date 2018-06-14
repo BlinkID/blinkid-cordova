@@ -25,17 +25,16 @@ public final class CroatiaCombinedRecognizerSerialization implements RecognizerS
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("MRZVerified", result.isMRZVerified());
             jsonResult.put("address", result.getAddress());
             jsonResult.put("citizenship", result.getCitizenship());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
             jsonResult.put("documentBilingual", result.isDocumentBilingual());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
-            jsonResult.put("documentDateOfIssue", SerializationUtils.serializeDate(result.getDocumentDateOfIssue()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
@@ -43,6 +42,8 @@ public final class CroatiaCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());
             jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("mrzVerified", result.isMrzVerified());
+            jsonResult.put("nonResident", result.isNonResident());
             jsonResult.put("personalIdentificationNumber", result.getPersonalIdentificationNumber());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("sex", result.getSex());

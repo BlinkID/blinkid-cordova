@@ -31,7 +31,7 @@ public final class MalaysiaDlFrontRecognizerSerialization implements RecognizerS
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("city", result.getCity());
-            jsonResult.put("dLClass", result.getDLClass());
+            jsonResult.put("dlClass", result.getDlClass());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullAddress", result.getFullAddress());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
