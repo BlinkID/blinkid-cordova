@@ -22,6 +22,7 @@ public enum RecognizerSerializers {
     }
 
     RecognizerSerializers() {
+        registerMapping(new SuccessFrameGrabberRecognizerSerialization());
         registerMapping(new AustraliaDlBackRecognizerSerialization());
         registerMapping(new AustraliaDlFrontRecognizerSerialization());
         registerMapping(new AustriaCombinedRecognizerSerialization());
@@ -88,11 +89,11 @@ public enum RecognizerSerializers {
         
     }
 
-    private RecognizerSerialization getRecognizerSerialization(JSONObject jsonRecognizer) throws JSONException {
+    public RecognizerSerialization getRecognizerSerialization(JSONObject jsonRecognizer) throws JSONException {
         return mByJSONName.get(jsonRecognizer.getString("recognizerType"));
     }
 
-    private RecognizerSerialization getRecognizerSerialization(Recognizer<?,?> recognizer) {
+    public RecognizerSerialization getRecognizerSerialization(Recognizer<?,?> recognizer) {
         return mByClass.get(recognizer.getClass());
     }
 

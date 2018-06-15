@@ -398,6 +398,35 @@ BlinkID.prototype.DocumentVerificationOverlaySettings = DocumentVerificationOver
 // OVERLAY SETTINGS
 
 // RECOGNIZERS
+function SuccessFrameGrabberRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    /** Camera frame at the time slave recognizer finished recognition */
+    this.successFrame = nativeResult.successFrame;
+}
+
+SuccessFrameGrabberRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.SuccessFrameGrabberRecognizerResult = SuccessFrameGrabberRecognizerResult;
+
+function SuccessFrameGrabberRecognizer(slaveRecognizer) {
+    Recognizer.call(this, 'SuccessFrameGrabberRecognizer');
+    /** Slave recognizer that SuccessFrameGrabberRecognizer will watch */
+    this.slaveRecognizer = slaveRecognizer;
+
+    if (!this.slaveRecognizer instanceof Recognizer) {
+        throw new Error("Slave recognizer must be Recognizer!");
+    }
+
+    this.createResultFromNative = (function (nativeResult) { 
+        this.slaveRecognizer.result = this.slaveRecognizer.createResultFromNative(nativeResult.slaveRecognizerResult);
+        return new SuccessFrameGrabberRecognizerResult(nativeResult) 
+    }).bind(this);
+}
+
+SuccessFrameGrabberRecognizer.prototype = new Recognizer('SuccessFrameGrabberRecognizer');
+
+BlinkID.prototype.SuccessFrameGrabberRecognizer = SuccessFrameGrabberRecognizer;
+
 
 /**
  * Result object for AustraliaDlBackRecognizer.
