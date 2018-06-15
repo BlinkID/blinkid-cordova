@@ -56,20 +56,29 @@ var app = {
         eudlRecognizer.returnFaceImage = true;
         eudlRecognizer.returnFullDocumentImage = true;
 
+        // if you also want to obtain camera frame on which specific recognizer has
+        // finished its recognition, wrap it with SuccessFrameGrabberRecognizer and use
+        // the wrapper instead of original for building RecognizerCollection
+        var eudlSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(eudlRecognizer);
+
         // to scan US driver's licenses, use UsdlRecognizer
         var usdlRecognizer = new cordova.plugins.BlinkID.UsdlRecognizer();
 
+        var usdlSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(usdlRecognizer);
+        
         // to scan any machine readable travel document (passports, visa's and IDs with 
         // machine readable zone), use MrtdRecognizer
         var mrtdRecognizer = new cordova.plugins.BlinkID.MrtdRecognizer();
         mrtdRecognizer.returnFullDocumentImage = true;
+
+        var mrtdSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(mrtdRecognizer);
 
         // there are lots of Recognizer objects in BlinkID - check blinkIdScanner.js for full reference
 
         var documentOverlaySettings = new cordova.plugins.BlinkID.DocumentOverlaySettings();
 
         // create RecognizerCollection from any number of recognizers that should perform recognition
-        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([eudlRecognizer, mrtdRecognizer, usdlRecognizer]);
+        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([eudlSuccessFrameGrabber, usdlSuccessFrameGrabber, mrtdSuccessFrameGrabber]);
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
@@ -114,6 +123,15 @@ var app = {
                             faceImageDiv.style.visibility = "hidden";
                         }
 
+                        // success frame is available in eudlRecognizer's successFrameGrabber wrapper's result as Base64 encoded JPEG
+                        var successFrame = eudlSuccessFrameGrabber.result.successFrame;
+                        if (successFrame) {
+                            successfulImage.src = "data:image/jpg;base64, " + successFrame;
+                            successfulImageDiv.style.visibility = "visible";
+                        } else {
+                            successfulImageDiv.style.visibility = "hidden";
+                        }
+
                         // fill data
                         resultDiv.innerHTML = /** Personal information */
                             "First name: " + eudlRecognizer.result.firstName + "<br>" +
@@ -134,6 +152,15 @@ var app = {
                         // MrtdRecognizer does not support face image extraction
                         faceImageDiv.style.visibility = "hidden";
 
+                        // success frame is available in mrtdRecognizer's successFrameGrabber wrapper's result as Base64 encoded JPEG
+                        var successFrame = mrtdSuccessFrameGrabber.result.successFrame;
+                        if (successFrame) {
+                            successfulImage.src = "data:image/jpg;base64, " + successFrame;
+                            successfulImageDiv.style.visibility = "visible";
+                        } else {
+                            successfulImageDiv.style.visibility = "hidden";
+                        }
+
                         // fill data
                         resultDiv.innerHTML = /** Personal information */
                             "First name: " + mrtdRecognizer.result.mrzResult.secondaryId + "<br>" +
@@ -149,6 +176,15 @@ var app = {
                         faceImageDiv.style.visibility = "hidden";
                         // UsdlRecognizer does not support full document image extraction
                         faceImageDiv.style.visibility = "hidden";
+
+                        // success frame is available in usdlRecognizer's successFrameGrabber wrapper's result as Base64 encoded JPEG
+                        var successFrame = usdlSuccessFrameGrabber.result.successFrame;
+                        if (successFrame) {
+                            successfulImage.src = "data:image/jpg;base64, " + successFrame;
+                            successfulImageDiv.style.visibility = "visible";
+                        } else {
+                            successfulImageDiv.style.visibility = "hidden";
+                        }
 
                         var fields = usdlRecognizer.result.fields;
                         var USDLKeys = cordova.plugins.BlinkID.UsdlKeys;
