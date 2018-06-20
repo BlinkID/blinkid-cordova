@@ -28,7 +28,7 @@ cp  -f -r ../www .
 # build app
 cordova prepare
 
-if true; then
+if false; then
     pushd platforms/ios/$APP_NAME/Plugins/com.microblink.BlinkIDScanner
     rm -rf MicroBlink.framework
     cp -r /Users/dodo/Desktop/MicroBlink.framework ./
