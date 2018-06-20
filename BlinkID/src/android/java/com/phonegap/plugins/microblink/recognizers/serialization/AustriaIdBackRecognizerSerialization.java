@@ -29,6 +29,7 @@ public final class AustriaIdBackRecognizerSerialization implements RecognizerSer
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("dateOfIssuance", SerializationUtils.serializeDate(result.getDateOfIssuance()));
+            jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("eyeColour", result.getEyeColour());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("height", result.getHeight());

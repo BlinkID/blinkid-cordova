@@ -11,6 +11,7 @@ public final class NewZealandDlFrontRecognizerSerialization implements Recognize
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.newzealand.NewZealandDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.newzealand.NewZealandDlFrontRecognizer();
+        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractDonorIndicator(jsonRecognizer.optBoolean("extractDonorIndicator", true));

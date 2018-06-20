@@ -14,10 +14,10 @@ public final class PolandIdFrontRecognizerSerialization implements RecognizerSer
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractFamilyName(jsonRecognizer.optBoolean("extractFamilyName", true));
-        recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
-        recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
-        recognizer.setExtractParentsName(jsonRecognizer.optBoolean("extractParentsName", true));
+        recognizer.setExtractGivenNames(jsonRecognizer.optBoolean("extractGivenNames", true));
+        recognizer.setExtractParentsGivenNames(jsonRecognizer.optBoolean("extractParentsGivenNames", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;

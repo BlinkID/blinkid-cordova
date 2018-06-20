@@ -24,6 +24,8 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
+            jsonResult.put("alienNumber", result.getAlienNumber());
+            jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
@@ -31,9 +33,11 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
             jsonResult.put("documentCode", result.getDocumentCode());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
             jsonResult.put("documentNumber", result.getDocumentNumber());
+            jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
+            jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
             jsonResult.put("issuer", result.getIssuer());
             jsonResult.put("mrzImage", SerializationUtils.encodeImageBase64(result.getMrzImage()));
             jsonResult.put("mrzParsed", result.isMrzParsed());

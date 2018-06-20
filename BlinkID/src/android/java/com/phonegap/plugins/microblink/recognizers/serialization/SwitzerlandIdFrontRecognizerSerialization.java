@@ -12,8 +12,8 @@ public final class SwitzerlandIdFrontRecognizerSerialization implements Recogniz
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
-        recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
+        recognizer.setExtractGivenName(jsonRecognizer.optBoolean("extractGivenName", true));
+        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
@@ -28,10 +28,10 @@ public final class SwitzerlandIdFrontRecognizerSerialization implements Recogniz
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
-            jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("givenName", result.getGivenName());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("surname", result.getSurname());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

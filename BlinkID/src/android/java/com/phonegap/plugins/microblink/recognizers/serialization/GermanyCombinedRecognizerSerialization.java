@@ -12,6 +12,7 @@ public final class GermanyCombinedRecognizerSerialization implements RecognizerS
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.germany.GermanyCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.germany.GermanyCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
