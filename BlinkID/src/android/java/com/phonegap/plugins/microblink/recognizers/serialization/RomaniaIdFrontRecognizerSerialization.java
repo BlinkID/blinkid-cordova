@@ -32,6 +32,7 @@ public final class RomaniaIdFrontRecognizerSerialization implements RecognizerSe
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
+            jsonResult.put("cardNumber", result.getCardNumber());
             jsonResult.put("cnp", result.getCnp());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
@@ -41,7 +42,6 @@ public final class RomaniaIdFrontRecognizerSerialization implements RecognizerSe
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("idSeries", result.getIdSeries());
-            jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
             jsonResult.put("issuedBy", result.getIssuedBy());
             jsonResult.put("issuer", result.getIssuer());
             jsonResult.put("lastName", result.getLastName());

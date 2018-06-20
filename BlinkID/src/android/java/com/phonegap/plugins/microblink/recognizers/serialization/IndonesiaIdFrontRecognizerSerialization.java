@@ -26,7 +26,6 @@ public final class IndonesiaIdFrontRecognizerSerialization implements Recognizer
         recognizer.setExtractRt(jsonRecognizer.optBoolean("extractRt", true));
         recognizer.setExtractRw(jsonRecognizer.optBoolean("extractRw", true));
         recognizer.setExtractValidUntil(jsonRecognizer.optBoolean("extractValidUntil", true));
-        recognizer.setExtractValidUntilPermanent(jsonRecognizer.optBoolean("extractValidUntilPermanent", true));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));

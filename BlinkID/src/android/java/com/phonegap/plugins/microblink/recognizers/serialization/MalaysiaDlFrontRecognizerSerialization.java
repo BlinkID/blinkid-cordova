@@ -12,7 +12,7 @@ public final class MalaysiaDlFrontRecognizerSerialization implements RecognizerS
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractDLClass(jsonRecognizer.optBoolean("extractDLClass", true));
+        recognizer.setExtractDlClass(jsonRecognizer.optBoolean("extractDlClass", true));
         recognizer.setExtractFullAddress(jsonRecognizer.optBoolean("extractFullAddress", true));
         recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));

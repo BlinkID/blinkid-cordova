@@ -24,7 +24,7 @@ public final class BarcodeRecognizerSerialization implements RecognizerSerializa
         recognizer.setScanInverse(jsonRecognizer.optBoolean("scanInverse", false));
         recognizer.setScanItf(jsonRecognizer.optBoolean("scanItf", false));
         recognizer.setScanPdf417(jsonRecognizer.optBoolean("scanPdf417", false));
-        recognizer.setScanQRCode(jsonRecognizer.optBoolean("scanQRCode", false));
+        recognizer.setScanQrCode(jsonRecognizer.optBoolean("scanQrCode", false));
         recognizer.setScanUncertain(jsonRecognizer.optBoolean("scanUncertain", true));
         recognizer.setScanUpca(jsonRecognizer.optBoolean("scanUpca", false));
         recognizer.setScanUpce(jsonRecognizer.optBoolean("scanUpce", false));

@@ -1387,7 +1387,7 @@ function BarcodeRecognizer() {
     /** 
      * Should QR code be scanned. 
      */
-    this.scanQRCode = false;
+    this.scanQrCode = false;
     
     /** 
      * Enable decoding of non-standard PDF417 barcodes, but without 
@@ -2190,11 +2190,6 @@ function CzechiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * the address of the card holder. 
-     */
-    this.address = nativeResult.address;
-    
-    /** 
      * the authority of Czech ID. 
      */
     this.authority = nativeResult.authority;
@@ -2258,6 +2253,11 @@ function CzechiaIdBackRecognizerResult(nativeResult) {
      * Defines second optional data.<code>null</code> or empty string if not available. 
      */
     this.opt2 = nativeResult.opt2;
+    
+    /** 
+     * the permanent stay address of the card holder. 
+     */
+    this.permanentStay = nativeResult.permanentStay;
     
     /** 
      * personal number of the card holder. 
@@ -4045,11 +4045,6 @@ function IndonesiaIdFrontRecognizer() {
     this.extractValidUntil = true;
     
     /** 
-     * true if valid until permanent of Indonesian ID owner is being extracted 
-     */
-    this.extractValidUntilPermanent = true;
-    
-    /** 
      * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
@@ -4355,7 +4350,7 @@ function JordanIdFrontRecognizerResult(nativeResult) {
     /** 
      * the national number of Jordan ID card owner. 
      */
-    this.natianalNumber = nativeResult.natianalNumber;
+    this.nationalNumber = nativeResult.nationalNumber;
     
     /** 
      * sex of Jordan ID owner. 
@@ -4510,7 +4505,7 @@ function MalaysiaDlFrontRecognizer() {
     /** 
      * true if DL class is being extracted 
      */
-    this.extractDLClass = true;
+    this.extractDlClass = true;
     
     /** 
      * true if full address of Malaysian DL owner is being extracted 
@@ -5735,6 +5730,11 @@ function RomaniaIdFrontRecognizerResult(nativeResult) {
     this.address = nativeResult.address;
     
     /** 
+     * the card number of Romanian ID. 
+     */
+    this.cardNumber = nativeResult.cardNumber;
+    
+    /** 
      * the CNP of Romanian ID owner. 
      */
     this.cnp = nativeResult.cnp;
@@ -5778,11 +5778,6 @@ function RomaniaIdFrontRecognizerResult(nativeResult) {
      * the identity card series of Romanian ID. 
      */
     this.idSeries = nativeResult.idSeries;
-    
-    /** 
-     * the identity card number of Romanian ID. 
-     */
-    this.identityCardNumber = nativeResult.identityCardNumber;
     
     /** 
      * issuing authority the Romanian ID. 

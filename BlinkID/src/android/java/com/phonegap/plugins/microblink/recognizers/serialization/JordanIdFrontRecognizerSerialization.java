@@ -31,7 +31,7 @@ public final class JordanIdFrontRecognizerSerialization implements RecognizerSer
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("name", result.getName());
-            jsonResult.put("natianalNumber", result.getNatianalNumber());
+            jsonResult.put("nationalNumber", result.getNationalNumber());
             jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException

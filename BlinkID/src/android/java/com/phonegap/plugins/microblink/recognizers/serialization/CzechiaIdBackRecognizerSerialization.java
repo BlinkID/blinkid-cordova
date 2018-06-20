@@ -25,7 +25,6 @@ public final class CzechiaIdBackRecognizerSerialization implements RecognizerSer
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("address", result.getAddress());
             jsonResult.put("authority", result.getAuthority());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
@@ -39,6 +38,7 @@ public final class CzechiaIdBackRecognizerSerialization implements RecognizerSer
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("opt1", result.getOpt1());
             jsonResult.put("opt2", result.getOpt2());
+            jsonResult.put("permanentStay", result.getPermanentStay());
             jsonResult.put("personalNumber", result.getPersonalNumber());
             jsonResult.put("primaryId", result.getPrimaryId());
             jsonResult.put("secondaryId", result.getSecondaryId());
