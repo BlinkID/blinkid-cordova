@@ -170,6 +170,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBNewZealandDlFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaCombinedRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBCzechiaIdBackRecognizerWrapper.h" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBSwedenDlFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyIdBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBColombiaIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUnitedArabEmiratesIdBackRecognizerWrapper.h" />
@@ -219,6 +220,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCzechiaIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBEgyptIdFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMyKadBackRecognizerWrapper.m" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBPolandIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaCombinedRecognizerWrapper.h" />
@@ -233,6 +235,7 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSimNumberRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBColombiaIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyIdBackRecognizerWrapper.h" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBSwedenDlFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaCombinedRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCzechiaIdBackRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBNewZealandDlFrontRecognizerWrapper.h" />
@@ -281,6 +284,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMyTenteraRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaCombinedRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBPolandIdFrontRecognizerWrapper.h" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlCombinedRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyCombinedRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBEgyptIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMyKadBackRecognizerWrapper.h" />
