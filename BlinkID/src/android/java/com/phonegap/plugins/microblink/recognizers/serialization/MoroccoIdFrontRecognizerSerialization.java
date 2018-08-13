@@ -6,40 +6,43 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class HongKongIdFrontRecognizerSerialization implements RecognizerSerialization {
+public final class MoroccoIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractCommercialCode(jsonRecognizer.optBoolean("extractCommercialCode", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
-        recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
-        recognizer.setExtractFullName(jsonRecognizer.optBoolean("extractFullName", true));
-        recognizer.setExtractResidentialStatus(jsonRecognizer.optBoolean("extractResidentialStatus", true));
+        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
+        recognizer.setExtractPlaceOfBirth(jsonRecognizer.optBoolean("extractPlaceOfBirth", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
+        recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("commercialCode", result.getCommercialCode());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
-            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("fullName", result.getFullName());
-            jsonResult.put("residentialStatus", result.getResidentialStatus());
+            jsonResult.put("name", result.getName());
+            jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
             jsonResult.put("sex", result.getSex());
+            jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("surname", result.getSurname());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -49,11 +52,11 @@ public final class HongKongIdFrontRecognizerSerialization implements RecognizerS
 
     @Override
     public String getJsonName() {
-        return "HongKongIdFrontRecognizer";
+        return "MoroccoIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer.class;
     }
 }

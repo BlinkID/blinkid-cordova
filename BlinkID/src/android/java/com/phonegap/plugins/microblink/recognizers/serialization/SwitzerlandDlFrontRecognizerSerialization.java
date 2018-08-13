@@ -6,18 +6,20 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class CroatiaIdFrontRecognizerSerialization implements RecognizerSerialization {
+public final class SwitzerlandDlFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.croatia.CroatiaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.croatia.CroatiaIdFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandDlFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractCitizenship(jsonRecognizer.optBoolean("extractCitizenship", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
         recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
+        recognizer.setExtractIssuingAuthority(jsonRecognizer.optBoolean("extractIssuingAuthority", true));
         recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
-        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setExtractPlaceOfBirth(jsonRecognizer.optBoolean("extractPlaceOfBirth", true));
+        recognizer.setExtractVehicleCategories(jsonRecognizer.optBoolean("extractVehicleCategories", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
@@ -29,22 +31,23 @@ public final class CroatiaIdFrontRecognizerSerialization implements RecognizerSe
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.croatia.CroatiaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.croatia.CroatiaIdFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandDlFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandDlFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("citizenship", result.getCitizenship());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
-            jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
-            jsonResult.put("documentBilingual", result.isDocumentBilingual());
-            jsonResult.put("documentNumber", result.getDocumentNumber());
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
+            jsonResult.put("expiryDatePermanent", result.isExpiryDatePermanent());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
+            jsonResult.put("issuingAuthority", result.getIssuingAuthority());
             jsonResult.put("lastName", result.getLastName());
-            jsonResult.put("sex", result.getSex());
+            jsonResult.put("licenseNumber", result.getLicenseNumber());
+            jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("vehicleCategories", result.getVehicleCategories());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -54,11 +57,11 @@ public final class CroatiaIdFrontRecognizerSerialization implements RecognizerSe
 
     @Override
     public String getJsonName() {
-        return "CroatiaIdFrontRecognizer";
+        return "SwitzerlandDlFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.croatia.CroatiaIdFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandDlFrontRecognizer.class;
     }
 }

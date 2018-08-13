@@ -12,6 +12,7 @@ public final class MyKadBackRecognizerSerialization implements RecognizerSeriali
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MyKadBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MyKadBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractOldNric(jsonRecognizer.optBoolean("extractOldNric", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
@@ -29,6 +30,7 @@ public final class MyKadBackRecognizerSerialization implements RecognizerSeriali
             jsonResult.put("extendedNric", result.getExtendedNric());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("nric", result.getNric());
+            jsonResult.put("oldNric", result.getOldNric());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
         } catch (JSONException e) {
