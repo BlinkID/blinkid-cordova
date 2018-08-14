@@ -1,3 +1,6 @@
+## 4.1.0
+- Updated to [Android SDK v4.1.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.1.0) and [iOS SDK v4.1.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.1.0)
+
 ## 4.0.0
 - new API, which is not backward compatible with 1.x.x release series, but resembles native iOS and Android APIs and also has feature parity with all recognizers available in native SDKs
     - using [iOS SDK v4.0.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.0.0) and [Android SDK v4.0.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.0.0)

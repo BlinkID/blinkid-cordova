@@ -14,14 +14,17 @@ public final class NewZealandDlFrontRecognizerSerialization implements Recognize
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
+        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
         recognizer.setExtractDonorIndicator(jsonRecognizer.optBoolean("extractDonorIndicator", true));
-        recognizer.setExtractExpiryDate(jsonRecognizer.optBoolean("extractExpiryDate", true));
         recognizer.setExtractFirstNames(jsonRecognizer.optBoolean("extractFirstNames", true));
-        recognizer.setExtractIssueDate(jsonRecognizer.optBoolean("extractIssueDate", true));
         recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -34,12 +37,12 @@ public final class NewZealandDlFrontRecognizerSerialization implements Recognize
             jsonResult.put("address", result.getAddress());
             jsonResult.put("cardVersion", result.getCardVersion());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
-            jsonResult.put("donorIndicator", result.getDonorIndicator());
-            jsonResult.put("expiryDate", SerializationUtils.serializeDate(result.getExpiryDate()));
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
+            jsonResult.put("donorIndicator", result.isDonorIndicator());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("firstNames", result.getFirstNames());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("issueDate", SerializationUtils.serializeDate(result.getIssueDate()));
             jsonResult.put("licenseNumber", result.getLicenseNumber());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
             jsonResult.put("surname", result.getSurname());

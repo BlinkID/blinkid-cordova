@@ -12,7 +12,6 @@ public final class BarcodeRecognizerSerialization implements RecognizerSerializa
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkbarcode.barcode.BarcodeRecognizer recognizer = new com.microblink.entities.recognizers.blinkbarcode.barcode.BarcodeRecognizer();
         recognizer.setAutoScaleDetection(jsonRecognizer.optBoolean("autoScaleDetection", true));
-        recognizer.setManateeLicenseKey(jsonRecognizer.optString("manateeLicenseKey", ""));
         recognizer.setNullQuietZoneAllowed(jsonRecognizer.optBoolean("nullQuietZoneAllowed", false));
         recognizer.setReadCode39AsExtendedData(jsonRecognizer.optBoolean("readCode39AsExtendedData", false));
         recognizer.setScanAztecCode(jsonRecognizer.optBoolean("scanAztecCode", false));

@@ -11,7 +11,10 @@ public final class ColombiaIdBackRecognizerSerialization implements RecognizerSe
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdBackRecognizer();
+        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setNullQuietZoneAllowed(jsonRecognizer.optBoolean("nullQuietZoneAllowed", true));
+        recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setScanUncertain(jsonRecognizer.optBoolean("scanUncertain", true));
         return recognizer;
     }
@@ -22,11 +25,12 @@ public final class ColombiaIdBackRecognizerSerialization implements RecognizerSe
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
+            jsonResult.put("birthDate", SerializationUtils.serializeDate(result.getBirthDate()));
             jsonResult.put("bloodGroup", result.getBloodGroup());
-            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("fingerprint", SerializationUtils.encodeByteArrayToBase64(result.getFingerprint()));
             jsonResult.put("firstName", result.getFirstName());
+            jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("lastName", result.getLastName());
             jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
