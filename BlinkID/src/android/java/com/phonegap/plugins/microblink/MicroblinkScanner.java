@@ -92,6 +92,9 @@ public class MicroblinkScanner extends CordovaPlugin {
     }
 
     private void setLicense( JSONObject jsonLicense ) throws JSONException {
+        MicroblinkSDK.setShowTimeLimitedLicenseWarning(
+                jsonLicense.optBoolean("showTimeLimitedLicenseKeyWarning", true)
+        );
         String androidLicense = jsonLicense.getString("android");
         MicroblinkSDK.setLicenseKey(androidLicense, this.cordova.getContext());
         MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
