@@ -75,6 +75,10 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
 }
 
 - (void)setLicense:(NSDictionary*) jsonLicense {
+    if ([jsonLicense objectForKey:@"showTimeLimitedLicenseKeyWarning"] != nil) {
+        BOOL showTimeLimitedLicenseKeyWarning = [[jsonLicense objectForKey:@"showTimeLimitedLicenseKeyWarning"] boolValue];
+        [MBMicroblinkSDK sharedInstance].showLicenseKeyTimeLimitedWarning = showTimeLimitedLicenseKeyWarning;
+    }
     NSString* iosLicense = [jsonLicense objectForKey:@"ios"];
     [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense];
 }
