@@ -9,6 +9,7 @@
 package com.phonegap.plugins.microblink;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 
 import com.microblink.MicroblinkSDK;
@@ -96,7 +97,13 @@ public class MicroblinkScanner extends CordovaPlugin {
                 jsonLicense.optBoolean("showTimeLimitedLicenseKeyWarning", true)
         );
         String androidLicense = jsonLicense.getString("android");
-        MicroblinkSDK.setLicenseKey(androidLicense, this.cordova.getContext());
+        String licensee = jsonLicense.optString("licensee", null);
+        Context context = cordova.getContext();
+        if (licensee == null) {
+            MicroblinkSDK.setLicenseKey(androidLicense, context);
+        } else {
+            MicroblinkSDK.setLicenseKey(androidLicense, licensee, context);
+        }
         MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
     }
 

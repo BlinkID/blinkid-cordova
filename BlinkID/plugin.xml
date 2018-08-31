@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.microblink.BlinkIDScanner" 
-        version="4.1.0">
+        version="4.2.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -66,6 +66,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/RecognizerSerializers.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/RecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SerializationUtils.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SpainDlFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/UnitedArabEmiratesIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SwitzerlandIdBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/ColombiaIdBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -74,11 +75,13 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SwitzerlandDlFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SuccessFrameGrabberRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/AustraliaDlFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/KuwaitIdBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MoroccoIdBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/AustriaPassportRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SwitzerlandPassportRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MyTenteraRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/VinRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/UnitedArabEmiratesDlFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/JordanIdBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SwitzerlandIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/GermanyIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -89,10 +92,14 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PolandIdBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PolandIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SlovakiaIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PaymentCardBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CyprusIdBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CyprusIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MrtdCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/EgyptIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/JordanCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MyKadBackRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/KuwaitIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CzechiaCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CroatiaIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SlovakiaCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -113,6 +120,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/GermanyPassportRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/UsdlRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SloveniaIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PaymentCardFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SloveniaCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SingaporeDlFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SerbiaCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -127,6 +135,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/AustriaCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PolandCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MalaysiaDlFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PaymentCardCombinedRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/AustriaIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/IndonesiaIdFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SwedenDlFrontRecognizerSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers/serialization" />

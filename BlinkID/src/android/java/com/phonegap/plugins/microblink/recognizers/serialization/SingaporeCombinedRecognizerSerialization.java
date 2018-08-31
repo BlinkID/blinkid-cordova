@@ -12,6 +12,17 @@ public final class SingaporeCombinedRecognizerSerialization implements Recognize
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.singapore.SingaporeCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
+        recognizer.setExtractAddressChangeDate(jsonRecognizer.optBoolean("extractAddressChangeDate", false));
+        recognizer.setExtractBloodType(jsonRecognizer.optBoolean("extractBloodType", true));
+        recognizer.setExtractCountryOfBirth(jsonRecognizer.optBoolean("extractCountryOfBirth", true));
+        recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
+        recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
+        recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
+        recognizer.setExtractRace(jsonRecognizer.optBoolean("extractRace", true));
+        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
@@ -25,8 +36,8 @@ public final class SingaporeCombinedRecognizerSerialization implements Recognize
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
-            jsonResult.put("bloodGroup", result.getBloodGroup());
-            jsonResult.put("cardNumber", result.getCardNumber());
+            jsonResult.put("addressChangeDate", SerializationUtils.serializeDate(result.getAddressChangeDate()));
+            jsonResult.put("bloodType", result.getBloodType());
             jsonResult.put("countryOfBirth", result.getCountryOfBirth());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
@@ -36,6 +47,7 @@ public final class SingaporeCombinedRecognizerSerialization implements Recognize
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
+            jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
             jsonResult.put("name", result.getName());
             jsonResult.put("race", result.getRace());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
