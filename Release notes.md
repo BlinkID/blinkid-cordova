@@ -1,5 +1,6 @@
 ## 4.2.0
 - Updated to [Android SDK v4.2.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.2.0) and [iOS SDK v4.2.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.2.0)
+- [android] fixed NPE when serializing recognizer result containing `null` byte array field 
 
 
 ## 4.1.0
