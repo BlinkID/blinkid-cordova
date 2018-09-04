@@ -80,7 +80,13 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
         [MBMicroblinkSDK sharedInstance].showLicenseKeyTimeLimitedWarning = showTimeLimitedLicenseKeyWarning;
     }
     NSString* iosLicense = [jsonLicense objectForKey:@"ios"];
-    [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense];
+    if ([jsonLicense objectForKey:@"licensee"] != nil) {
+        NSString *licensee = [jsonLicense objectForKey:@"licensee"];
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee];
+    }
+    else {
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense];
+    }
 }
 
 - (void)overlayViewControllerDidFinishScanning:(MBOverlayViewController *)overlayViewController state:(MBRecognizerResultState)state {
