@@ -1,5 +1,6 @@
 package com.phonegap.plugins.microblink.overlays.serialization;
 
+import com.microblink.blinkid.R;
 import com.microblink.entities.recognizers.RecognizerBundle;;
 import com.microblink.uisettings.DocumentUISettings;
 import com.microblink.uisettings.UISettings;
@@ -11,7 +12,9 @@ public final class DocumentOverlaySettingsSerialization implements OverlaySettin
     @Override
     public UISettings createUISettings(JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         // no settings deserialized at the moment
-        return new DocumentUISettings(recognizerBundle);
+        DocumentUISettings uiSettings = new DocumentUISettings(recognizerBundle);
+        uiSettings.setSplashScreenLayoutResourceID(R.layout.mb_layout_splash_screen);
+        return uiSettings;
     }
 
     @Override
