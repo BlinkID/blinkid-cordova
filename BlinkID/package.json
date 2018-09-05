@@ -1,6 +1,6 @@
 {
   "name": "blinkid-cordova",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "A small and powerful ID card scanning library",
   "cordova": {
     "id": "com.microblink.blinkid",
