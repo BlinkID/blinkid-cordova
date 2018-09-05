@@ -23,10 +23,16 @@ function BlinkID() {
  * errorCallback: callback that will be invoked on error
  * overlaySettings: settings for desired camera overlay
  * recognizerCollection: {RecognizerCollection} containing recognizers to use for scanning
- * licenses: object containing base64 licenses for iOS and Android in format
+ * licenses: object containing:
+ *               - base64 license keys for iOS and Android
+ *               - optioanl parameter 'licensee' when license for multiple apps is used
+ *               - optional flag 'showTimeLimitedLicenseKeyWarning' which indicates
+ *                  whether warning for time limited license key will be shown, in format
  *  {
  *      ios: 'base64iOSLicense',
- *      android: 'base64AndroidLicense'
+ *      android: 'base64AndroidLicense',
+ *      licensee: String,
+ *      showTimeLimitedLicenseKeyWarning: Boolean
  *  }
  */
 BlinkID.prototype.scanWithCamera = function (successCallback, errorCallback, overlaySettings, recognizerCollection, licenses) {
