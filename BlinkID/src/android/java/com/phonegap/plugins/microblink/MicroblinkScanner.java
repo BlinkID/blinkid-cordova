@@ -76,7 +76,7 @@ public class MicroblinkScanner extends CordovaPlugin {
 
                 setLicense(jsonLicenses);
                 mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-                UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(jsonOverlaySettings, mRecognizerBundle);
+                UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(cordova.getContext(), jsonOverlaySettings, mRecognizerBundle);
 
                 // unable to use ActivityRunner because we need to use cordova's activity launcher
                 Intent intent = new Intent(this.cordova.getContext(), overlaySettings.getTargetActivity());

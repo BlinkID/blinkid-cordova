@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="com.microblink.BlinkIDScanner" 
-        version="4.2.0">
+        version="4.2.1">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -61,6 +61,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/OverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/overlays" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/OverlaySettingsSerializers.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/overlays" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/DocumentVerificationOverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/overlays/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/BaseOverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/overlays/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/DocumentOverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/overlays/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/BarcodeOverlaySettingsSerialization.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/overlays/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/RecognizerSerializers.java" target-dir="app/src/main/java/com/phonegap/plugins/microblink/recognizers" />

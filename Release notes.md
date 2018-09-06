@@ -1,3 +1,6 @@
+## 4.2.1
+- [android] fixed error in `*OverlaySettingsSerialization`: package com.microblink.blinkid does not exist
+
 ## 4.2.0
 - Updated to [Android SDK v4.2.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.2.0) and [iOS SDK v4.2.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.2.0)
 - [android, iOS] added option to disable warning for time limited license key
