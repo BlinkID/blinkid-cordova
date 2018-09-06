@@ -1,6 +1,8 @@
 package com.phonegap.plugins.microblink.overlays;
 
 
+import android.content.Context;
+
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.uisettings.UISettings;
 import com.phonegap.plugins.microblink.overlays.serialization.*;
@@ -25,9 +27,9 @@ public enum OverlaySettingsSerializers {
         registerMapping(new DocumentVerificationOverlaySettingsSerialization());
     }
 
-    public UISettings getOverlaySettings(JSONObject jsonOverlaySettings, RecognizerBundle recognizerBundle) {
+    public UISettings getOverlaySettings(Context context, JSONObject jsonOverlaySettings, RecognizerBundle recognizerBundle) {
         try {
-            return mByJSONName.get(jsonOverlaySettings.getString("overlaySettingsType")).createUISettings(jsonOverlaySettings, recognizerBundle);
+            return mByJSONName.get(jsonOverlaySettings.getString("overlaySettingsType")).createUISettings(context, jsonOverlaySettings, recognizerBundle);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
