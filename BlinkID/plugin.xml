@@ -363,7 +363,6 @@
         </config-file>
         
         <hook type="before_platform_add" src="scripts/initIOSFramework.sh"/>
-        <hook type="after_platform_add" src="scripts/addEmbedded.js" />
     </platform>
     
 </plugin>

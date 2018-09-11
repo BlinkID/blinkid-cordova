@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="BlinkIdDemo"
+APP_NAME="BlinkIDDemo"
 
 # position to a relative path
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
@@ -27,17 +27,6 @@ cp  -f -r ../www .
 
 # build app
 cordova prepare
-
-if false; then
-    pushd platforms/ios/$APP_NAME/Plugins/com.microblink.BlinkIDScanner
-    rm -rf MicroBlink.framework
-    cp -r /Users/dodo/Desktop/MicroBlink.framework ./
-    popd
-    pushd platforms/ios/$APP_NAME/Resources
-    rm -rf MicroBlink.bundle
-    cp -r /Users/dodo/Desktop/MicroBlink.bundle ./
-    popd
-fi
 
 # how to run
 echo "To run iOS demo application open Xcode project $APP_NAME.xcodeproj"
