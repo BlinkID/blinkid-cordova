@@ -83,7 +83,7 @@ Step by step guide how to start blinkid-phonegap using Cordova. A tutorial flows
   <a href="https://vimeo.com/278694990" target="_blank">
     <img src="https://i.vimeocdn.com/video/711780861_1280x720.webp" alt="Video tutorial" />
   </a>
-  <a href="https://vimeo.com/278694990" target="_blank">Watch on Vimeo</a>
+  <a href="https://vimeo.com/278694990" target="_blank">Watch on Vimeo</a>  <a href=https://www.youtube.com/watch?v=Q8KiKb0n0wE target="_blank">Watch on Youtube</a
 </p>
 
 ## Installation
