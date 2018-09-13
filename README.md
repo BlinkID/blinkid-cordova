@@ -73,6 +73,19 @@ ionic run android
 
 - Get information about pricing and licensing of [BlinkID](https://microblink.com/blinkid)
 
+## Video tutorial
+
+### Cordova
+
+Step by step guide how to start blinkid-phonegap using Cordova. A tutorial flows from cloning repository via git clone to successfully deployed demo application on Android and iOS device with real-time screen mirroring. Application demo contains simple use of USDL recognizer with Ontario drivers license card.
+
+<p align="center" >
+  <a href="https://vimeo.com/278694990" target="_blank">
+    <img src="https://i.vimeocdn.com/video/711780861_1280x720.webp" alt="Video tutorial" />
+  </a>
+  <a href="https://vimeo.com/278694990" target="_blank">Watch on Vimeo</a>
+</p>
+
 ## Installation
 
 First generate a empty project if needed:
