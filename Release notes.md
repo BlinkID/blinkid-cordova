@@ -1,3 +1,24 @@
+## 4.2.1
+- [android] fixed error in `*OverlaySettingsSerialization`: package com.microblink.blinkid does not exist
+
+## 4.2.0
+- Updated to [Android SDK v4.2.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.2.0) and [iOS SDK v4.2.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.2.0)
+- [android, iOS] added option to disable warning for time limited license key
+- [android] fixed NPE when serializing recognizer result containing `null` byte array field 
+- [android] removed Microblink logo from camera splash screen
+
+
+## 4.1.0
+- Updated to [Android SDK v4.1.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.1.0) and [iOS SDK v4.1.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.1.0)
+
+## 4.0.0
+- new API, which is not backward compatible with 1.x.x release series, but resembles native iOS and Android APIs and also has feature parity with all recognizers available in native SDKs
+    - using [iOS SDK v4.0.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.0.0) and [Android SDK v4.0.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.0.0)
+    - check updated [demo app](www/js/index.js) for information how to use v4.0.0 and [README](README.md) for information about using BlinkID in your project
+
+## 1.5.7
+- [android] By default, uncertain scanning is enabled for PDF417 barcode
+
 ## 1.5.6
 - Fixed issue in `initIOSFramework` script for case sensitive systems
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="BlinkIdDemo"
+APP_NAME="BlinkIDDemo"
 
 # position to a relative path
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"

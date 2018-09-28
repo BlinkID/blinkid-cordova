@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="BlinkIdDemo"
+APP_NAME="BlinkIDDemo"
 APP_ID="com.microblink.blinkid"
 
 # remove any existing code
