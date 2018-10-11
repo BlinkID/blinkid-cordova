@@ -4,7 +4,7 @@ APP_NAME="BlinkIDDemo"
 
 # position to a relative path
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
-pushd $HERE >> /dev/null
+pushd "${HERE}" >> /dev/null
 
 # remove any existing code
 rm -rf $APP_NAME
