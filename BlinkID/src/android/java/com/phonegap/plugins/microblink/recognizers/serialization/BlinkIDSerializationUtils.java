@@ -1,7 +1,7 @@
 package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.blinkid.mrtd.MrzResult;
-import com.microblink.entities.settings.image.ImageExtensionFactors;
+import com.microblink.entities.recognizers.blinkid.imageoptions.extension.ImageExtensionFactors;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -12,13 +12,15 @@ public final class MalaysiaDlFrontRecognizerSerialization implements RecognizerS
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaDlFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractDlClass(jsonRecognizer.optBoolean("extractDlClass", true));
-        recognizer.setExtractFullAddress(jsonRecognizer.optBoolean("extractFullAddress", true));
+        recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
+        recognizer.setExtractClass(jsonRecognizer.optBoolean("extractClass", true));
         recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));
         recognizer.setExtractValidFrom(jsonRecognizer.optBoolean("extractValidFrom", true));
         recognizer.setExtractValidUntil(jsonRecognizer.optBoolean("extractValidUntil", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -38,11 +40,11 @@ public final class MalaysiaDlFrontRecognizerSerialization implements RecognizerS
             jsonResult.put("identityNumber", result.getIdentityNumber());
             jsonResult.put("name", result.getName());
             jsonResult.put("nationality", result.getNationality());
-            jsonResult.put("state", result.getState());
+            jsonResult.put("ownerState", result.getOwnerState());
             jsonResult.put("street", result.getStreet());
             jsonResult.put("validFrom", SerializationUtils.serializeDate(result.getValidFrom()));
             jsonResult.put("validUntil", SerializationUtils.serializeDate(result.getValidUntil()));
-            jsonResult.put("zipCode", result.getZipCode());
+            jsonResult.put("zipcode", result.getZipcode());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

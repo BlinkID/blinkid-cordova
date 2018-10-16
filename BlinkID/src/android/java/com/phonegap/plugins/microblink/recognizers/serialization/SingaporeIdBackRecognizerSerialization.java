@@ -13,10 +13,11 @@ public final class SingaporeIdBackRecognizerSerialization implements RecognizerS
         com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
-        recognizer.setExtractAddressChangeDate(jsonRecognizer.optBoolean("extractAddressChangeDate", false));
-        recognizer.setExtractBloodType(jsonRecognizer.optBoolean("extractBloodType", true));
+        recognizer.setExtractAddressChangeDate(jsonRecognizer.optBoolean("extractAddressChangeDate", true));
+        recognizer.setExtractBloodGroup(jsonRecognizer.optBoolean("extractBloodGroup", true));
         recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
     }
@@ -29,7 +30,7 @@ public final class SingaporeIdBackRecognizerSerialization implements RecognizerS
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
             jsonResult.put("addressChangeDate", SerializationUtils.serializeDate(result.getAddressChangeDate()));
-            jsonResult.put("bloodType", result.getBloodType());
+            jsonResult.put("bloodGroup", result.getBloodGroup());
             jsonResult.put("cardNumber", result.getCardNumber());
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));

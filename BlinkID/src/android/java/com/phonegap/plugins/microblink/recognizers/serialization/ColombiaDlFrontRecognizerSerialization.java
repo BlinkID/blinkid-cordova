@@ -6,16 +6,16 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SingaporeDlFrontRecognizerSerialization implements RecognizerSerialization {
+public final class ColombiaDlFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.singapore.SingaporeDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeDlFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.colombia.ColombiaDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.colombia.ColombiaDlFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractBirthDate(jsonRecognizer.optBoolean("extractBirthDate", true));
-        recognizer.setExtractIssueDate(jsonRecognizer.optBoolean("extractIssueDate", true));
+        recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
+        recognizer.setExtractDriverRestrictions(jsonRecognizer.optBoolean("extractDriverRestrictions", true));
+        recognizer.setExtractIssuingAgency(jsonRecognizer.optBoolean("extractIssuingAgency", true));
         recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
-        recognizer.setExtractValidTill(jsonRecognizer.optBoolean("extractValidTill", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
@@ -26,17 +26,18 @@ public final class SingaporeDlFrontRecognizerSerialization implements Recognizer
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.singapore.SingaporeDlFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.singapore.SingaporeDlFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.colombia.ColombiaDlFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.colombia.ColombiaDlFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("birthDate", SerializationUtils.serializeDate(result.getBirthDate()));
+            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
+            jsonResult.put("driverRestrictions", result.getDriverRestrictions());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("issueDate", SerializationUtils.serializeDate(result.getIssueDate()));
+            jsonResult.put("issuingAgency", result.getIssuingAgency());
             jsonResult.put("licenceNumber", result.getLicenceNumber());
             jsonResult.put("name", result.getName());
-            jsonResult.put("validTill", SerializationUtils.serializeDate(result.getValidTill()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -46,11 +47,11 @@ public final class SingaporeDlFrontRecognizerSerialization implements Recognizer
 
     @Override
     public String getJsonName() {
-        return "SingaporeDlFrontRecognizer";
+        return "ColombiaDlFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.singapore.SingaporeDlFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.colombia.ColombiaDlFrontRecognizer.class;
     }
 }

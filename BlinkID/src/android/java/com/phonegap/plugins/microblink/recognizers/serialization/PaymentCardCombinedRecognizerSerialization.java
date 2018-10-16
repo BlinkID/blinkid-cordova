@@ -16,6 +16,7 @@ public final class PaymentCardCombinedRecognizerSerialization implements Recogni
         recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", true));
         recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
         return recognizer;
@@ -30,7 +31,7 @@ public final class PaymentCardCombinedRecognizerSerialization implements Recogni
             jsonResult.put("cardNumber", result.getCardNumber());
             jsonResult.put("cvv", result.getCvv());
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
-            jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
+            jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));

@@ -16,6 +16,7 @@ public final class IndonesiaIdFrontRecognizerSerialization implements Recognizer
         recognizer.setExtractBloodType(jsonRecognizer.optBoolean("extractBloodType", true));
         recognizer.setExtractCitizenship(jsonRecognizer.optBoolean("extractCitizenship", true));
         recognizer.setExtractCity(jsonRecognizer.optBoolean("extractCity", true));
+        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
         recognizer.setExtractDistrict(jsonRecognizer.optBoolean("extractDistrict", true));
         recognizer.setExtractKelDesa(jsonRecognizer.optBoolean("extractKelDesa", true));
         recognizer.setExtractMaritalStatus(jsonRecognizer.optBoolean("extractMaritalStatus", true));
@@ -25,10 +26,13 @@ public final class IndonesiaIdFrontRecognizerSerialization implements Recognizer
         recognizer.setExtractReligion(jsonRecognizer.optBoolean("extractReligion", true));
         recognizer.setExtractRt(jsonRecognizer.optBoolean("extractRt", true));
         recognizer.setExtractRw(jsonRecognizer.optBoolean("extractRw", true));
-        recognizer.setExtractValidUntil(jsonRecognizer.optBoolean("extractValidUntil", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -43,8 +47,9 @@ public final class IndonesiaIdFrontRecognizerSerialization implements Recognizer
             jsonResult.put("citizenship", result.getCitizenship());
             jsonResult.put("city", result.getCity());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
+            jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
             jsonResult.put("district", result.getDistrict());
-            jsonResult.put("documentClassifier", result.getDocumentClassifier());
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
@@ -59,8 +64,6 @@ public final class IndonesiaIdFrontRecognizerSerialization implements Recognizer
             jsonResult.put("rw", result.getRw());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
-            jsonResult.put("validUntil", SerializationUtils.serializeDate(result.getValidUntil()));
-            jsonResult.put("validUntilPermanent", result.getValidUntilPermanent());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
