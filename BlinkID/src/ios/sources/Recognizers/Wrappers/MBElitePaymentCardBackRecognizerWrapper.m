@@ -1,21 +1,21 @@
-#import "MBMyKadBackRecognizerWrapper.h"
+#import "MBElitePaymentCardBackRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
 
-@implementation MBMyKadBackRecognizerCreator
+@implementation MBElitePaymentCardBackRecognizerCreator
 
 @synthesize jsonName = _jsonName;
 
 -(instancetype) init {
     self = [super init];
     if (self) {
-        _jsonName = @"MyKadBackRecognizer";
+        _jsonName = @"ElitePaymentCardBackRecognizer";
     }
     return self;
 }
 
 -(MBRecognizer *) createRecognizer:(NSDictionary*) jsonRecognizer {
-    MBMyKadBackRecognizer *recognizer = [[MBMyKadBackRecognizer alloc] init];
+    MBElitePaymentCardBackRecognizer *recognizer = [[MBElitePaymentCardBackRecognizer alloc] init];
     {
         id detectGlare = [jsonRecognizer valueForKey:@"detectGlare"];
         if (detectGlare != nil) {
@@ -23,9 +23,21 @@
         }
     }
     {
-        id extractOldNric = [jsonRecognizer valueForKey:@"extractOldNric"];
-        if (extractOldNric != nil) {
-            recognizer.extractOldNric = [(NSNumber *)extractOldNric boolValue];
+        id extractCvv = [jsonRecognizer valueForKey:@"extractCvv"];
+        if (extractCvv != nil) {
+            recognizer.extractCvv = [(NSNumber *)extractCvv boolValue];
+        }
+    }
+    {
+        id extractInventoryNumber = [jsonRecognizer valueForKey:@"extractInventoryNumber"];
+        if (extractInventoryNumber != nil) {
+            recognizer.extractInventoryNumber = [(NSNumber *)extractInventoryNumber boolValue];
+        }
+    }
+    {
+        id extractValidThru = [jsonRecognizer valueForKey:@"extractValidThru"];
+        if (extractValidThru != nil) {
+            recognizer.extractValidThru = [(NSNumber *)extractValidThru boolValue];
         }
     }
     {
@@ -46,38 +58,24 @@
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
     }
-    {
-        id returnSignatureImage = [jsonRecognizer valueForKey:@"returnSignatureImage"];
-        if (returnSignatureImage != nil) {
-            recognizer.returnSignatureImage = [(NSNumber *)returnSignatureImage boolValue];
-        }
-    }
-    {
-        id signatureImageDpi = [jsonRecognizer valueForKey:@"signatureImageDpi"];
-        if (signatureImageDpi != nil) {
-            recognizer.signatureImageDpi = [(NSNumber *)signatureImageDpi unsignedIntegerValue];
-        }
-    }
 
     return recognizer;
 }
 
 @end
 
-@interface MBMyKadBackRecognizer (JsonSerialization)
+@interface MBElitePaymentCardBackRecognizer (JsonSerialization)
 @end
 
-@implementation MBMyKadBackRecognizer (JsonSerialization)
+@implementation MBElitePaymentCardBackRecognizer (JsonSerialization)
 
 -(NSDictionary *) serializeResult {
     NSMutableDictionary* jsonResult = (NSMutableDictionary*)[super serializeResult];
-    [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfBirth] forKey:@"dateOfBirth"];
-    [jsonResult setValue:self.result.extendedNric forKey:@"extendedNric"];
+    [jsonResult setValue:self.result.cardNumber forKey:@"cardNumber"];
+    [jsonResult setValue:self.result.cvv forKey:@"cvv"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentImage] forKey:@"fullDocumentImage"];
-    [jsonResult setValue:self.result.nric forKey:@"nric"];
-    [jsonResult setValue:self.result.oldNric forKey:@"oldNric"];
-    [jsonResult setValue:self.result.sex forKey:@"sex"];
-    [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.signatureImage] forKey:@"signatureImage"];
+    [jsonResult setValue:self.result.inventoryNumber forKey:@"inventoryNumber"];
+    [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.validThru] forKey:@"validThru"];
 
     return jsonResult;
 }

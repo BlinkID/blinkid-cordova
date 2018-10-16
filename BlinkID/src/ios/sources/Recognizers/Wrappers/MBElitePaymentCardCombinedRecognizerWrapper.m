@@ -1,25 +1,37 @@
-#import "MBPaymentCardFrontRecognizerWrapper.h"
+#import "MBElitePaymentCardCombinedRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
 
-@implementation MBPaymentCardFrontRecognizerCreator
+@implementation MBElitePaymentCardCombinedRecognizerCreator
 
 @synthesize jsonName = _jsonName;
 
 -(instancetype) init {
     self = [super init];
     if (self) {
-        _jsonName = @"PaymentCardFrontRecognizer";
+        _jsonName = @"ElitePaymentCardCombinedRecognizer";
     }
     return self;
 }
 
 -(MBRecognizer *) createRecognizer:(NSDictionary*) jsonRecognizer {
-    MBPaymentCardFrontRecognizer *recognizer = [[MBPaymentCardFrontRecognizer alloc] init];
+    MBElitePaymentCardCombinedRecognizer *recognizer = [[MBElitePaymentCardCombinedRecognizer alloc] init];
     {
         id detectGlare = [jsonRecognizer valueForKey:@"detectGlare"];
         if (detectGlare != nil) {
             recognizer.detectGlare = [(NSNumber *)detectGlare boolValue];
+        }
+    }
+    {
+        id extractCvv = [jsonRecognizer valueForKey:@"extractCvv"];
+        if (extractCvv != nil) {
+            recognizer.extractCvv = [(NSNumber *)extractCvv boolValue];
+        }
+    }
+    {
+        id extractInventoryNumber = [jsonRecognizer valueForKey:@"extractInventoryNumber"];
+        if (extractInventoryNumber != nil) {
+            recognizer.extractInventoryNumber = [(NSNumber *)extractInventoryNumber boolValue];
         }
     }
     {
@@ -52,22 +64,35 @@
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
     }
+    {
+        id signResult = [jsonRecognizer valueForKey:@"signResult"];
+        if (signResult != nil) {
+            recognizer.signResult = [(NSNumber *)signResult boolValue];
+        }
+    }
 
     return recognizer;
 }
 
 @end
 
-@interface MBPaymentCardFrontRecognizer (JsonSerialization)
+@interface MBElitePaymentCardCombinedRecognizer (JsonSerialization)
 @end
 
-@implementation MBPaymentCardFrontRecognizer (JsonSerialization)
+@implementation MBElitePaymentCardCombinedRecognizer (JsonSerialization)
 
 -(NSDictionary *) serializeResult {
     NSMutableDictionary* jsonResult = (NSMutableDictionary*)[super serializeResult];
     [jsonResult setValue:self.result.cardNumber forKey:@"cardNumber"];
-    [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentImage] forKey:@"fullDocumentImage"];
+    [jsonResult setValue:self.result.cvv forKey:@"cvv"];
+    [jsonResult setValue:[self.result.digitalSignature base64EncodedStringWithOptions:0] forKey:@"digitalSignature"];
+    [jsonResult setValue:[NSNumber numberWithUnsignedInteger:self.result.digitalSignatureVersion] forKey:@"digitalSignatureVersion"];
+    [jsonResult setValue:[NSNumber numberWithBool:self.result.documentDataMatch] forKey:@"documentDataMatch"];
+    [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentBackImage] forKey:@"fullDocumentBackImage"];
+    [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentFrontImage] forKey:@"fullDocumentFrontImage"];
+    [jsonResult setValue:self.result.inventoryNumber forKey:@"inventoryNumber"];
     [jsonResult setValue:self.result.owner forKey:@"owner"];
+    [jsonResult setValue:[NSNumber numberWithBool:self.result.scanningFirstSideDone] forKey:@"scanningFirstSideDone"];
     [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.validThru] forKey:@"validThru"];
 
     return jsonResult;

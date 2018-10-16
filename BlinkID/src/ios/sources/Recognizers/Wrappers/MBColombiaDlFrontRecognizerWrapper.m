@@ -1,21 +1,21 @@
-#import "MBColombiaIdFrontRecognizerWrapper.h"
+#import "MBColombiaDlFrontRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
 
-@implementation MBColombiaIdFrontRecognizerCreator
+@implementation MBColombiaDlFrontRecognizerCreator
 
 @synthesize jsonName = _jsonName;
 
 -(instancetype) init {
     self = [super init];
     if (self) {
-        _jsonName = @"ColombiaIdFrontRecognizer";
+        _jsonName = @"ColombiaDlFrontRecognizer";
     }
     return self;
 }
 
 -(MBRecognizer *) createRecognizer:(NSDictionary*) jsonRecognizer {
-    MBColombiaIdFrontRecognizer *recognizer = [[MBColombiaIdFrontRecognizer alloc] init];
+    MBColombiaDlFrontRecognizer *recognizer = [[MBColombiaDlFrontRecognizer alloc] init];
     {
         id detectGlare = [jsonRecognizer valueForKey:@"detectGlare"];
         if (detectGlare != nil) {
@@ -23,15 +23,27 @@
         }
     }
     {
-        id extractFirstName = [jsonRecognizer valueForKey:@"extractFirstName"];
-        if (extractFirstName != nil) {
-            recognizer.extractFirstName = [(NSNumber *)extractFirstName boolValue];
+        id extractDateOfBirth = [jsonRecognizer valueForKey:@"extractDateOfBirth"];
+        if (extractDateOfBirth != nil) {
+            recognizer.extractDateOfBirth = [(NSNumber *)extractDateOfBirth boolValue];
         }
     }
     {
-        id extractLastName = [jsonRecognizer valueForKey:@"extractLastName"];
-        if (extractLastName != nil) {
-            recognizer.extractLastName = [(NSNumber *)extractLastName boolValue];
+        id extractDriverRestrictions = [jsonRecognizer valueForKey:@"extractDriverRestrictions"];
+        if (extractDriverRestrictions != nil) {
+            recognizer.extractDriverRestrictions = [(NSNumber *)extractDriverRestrictions boolValue];
+        }
+    }
+    {
+        id extractIssuingAgency = [jsonRecognizer valueForKey:@"extractIssuingAgency"];
+        if (extractIssuingAgency != nil) {
+            recognizer.extractIssuingAgency = [(NSNumber *)extractIssuingAgency boolValue];
+        }
+    }
+    {
+        id extractName = [jsonRecognizer valueForKey:@"extractName"];
+        if (extractName != nil) {
+            recognizer.extractName = [(NSNumber *)extractName boolValue];
         }
     }
     {
@@ -64,37 +76,27 @@
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
     }
-    {
-        id returnSignatureImage = [jsonRecognizer valueForKey:@"returnSignatureImage"];
-        if (returnSignatureImage != nil) {
-            recognizer.returnSignatureImage = [(NSNumber *)returnSignatureImage boolValue];
-        }
-    }
-    {
-        id signatureImageDpi = [jsonRecognizer valueForKey:@"signatureImageDpi"];
-        if (signatureImageDpi != nil) {
-            recognizer.signatureImageDpi = [(NSNumber *)signatureImageDpi unsignedIntegerValue];
-        }
-    }
 
     return recognizer;
 }
 
 @end
 
-@interface MBColombiaIdFrontRecognizer (JsonSerialization)
+@interface MBColombiaDlFrontRecognizer (JsonSerialization)
 @end
 
-@implementation MBColombiaIdFrontRecognizer (JsonSerialization)
+@implementation MBColombiaDlFrontRecognizer (JsonSerialization)
 
 -(NSDictionary *) serializeResult {
     NSMutableDictionary* jsonResult = (NSMutableDictionary*)[super serializeResult];
-    [jsonResult setValue:self.result.documentNumber forKey:@"documentNumber"];
+    [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfBirth] forKey:@"dateOfBirth"];
+    [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfIssue] forKey:@"dateOfIssue"];
+    [jsonResult setValue:self.result.driverRestrictions forKey:@"driverRestrictions"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.faceImage] forKey:@"faceImage"];
-    [jsonResult setValue:self.result.firstName forKey:@"firstName"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentImage] forKey:@"fullDocumentImage"];
-    [jsonResult setValue:self.result.lastName forKey:@"lastName"];
-    [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.signatureImage] forKey:@"signatureImage"];
+    [jsonResult setValue:self.result.issuingAgency forKey:@"issuingAgency"];
+    [jsonResult setValue:self.result.licenceNumber forKey:@"licenceNumber"];
+    [jsonResult setValue:self.result.name forKey:@"name"];
 
     return jsonResult;
 }
