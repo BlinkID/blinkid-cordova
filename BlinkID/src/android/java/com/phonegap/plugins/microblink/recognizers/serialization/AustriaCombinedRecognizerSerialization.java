@@ -27,6 +27,7 @@ public final class AustriaCombinedRecognizerSerialization implements RecognizerS
         recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
@@ -45,7 +46,7 @@ public final class AustriaCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssuance", SerializationUtils.serializeDate(result.getDateOfIssuance()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
-            jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
+            jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("eyeColour", result.getEyeColour());

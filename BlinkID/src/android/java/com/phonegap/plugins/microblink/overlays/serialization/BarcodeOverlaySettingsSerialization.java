@@ -2,16 +2,16 @@ package com.phonegap.plugins.microblink.overlays.serialization;
 
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.uisettings.BarcodeUISettings;
-import com.microblink.uisettings.BaseScanUISettings;
+import com.microblink.uisettings.UISettings;
+import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerialization;
 
 import org.json.JSONObject;
 
-public final class BarcodeOverlaySettingsSerialization extends BaseOverlaySettingsSerialization {
+public final class BarcodeOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
-    public BaseScanUISettings createUISettings(JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
+    public UISettings createUISettings(JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         // no settings deserialized at the moment
-        BarcodeUISettings uiSettings = new BarcodeUISettings(recognizerBundle);
-        return uiSettings;
+        return new BarcodeUISettings(recognizerBundle);
     }
 
     @Override

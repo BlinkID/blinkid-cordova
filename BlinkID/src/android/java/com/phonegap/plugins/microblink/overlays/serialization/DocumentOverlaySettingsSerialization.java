@@ -1,17 +1,17 @@
 package com.phonegap.plugins.microblink.overlays.serialization;
 
-import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.uisettings.BaseScanUISettings;
+import com.microblink.entities.recognizers.RecognizerBundle;;
 import com.microblink.uisettings.DocumentUISettings;
+import com.microblink.uisettings.UISettings;
+import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerialization;
 
 import org.json.JSONObject;
 
-public final class DocumentOverlaySettingsSerialization extends BaseOverlaySettingsSerialization {
+public final class DocumentOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
-    public BaseScanUISettings createUISettings(JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
+    public UISettings createUISettings(JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         // no settings deserialized at the moment
-        DocumentUISettings uiSettings = new DocumentUISettings(recognizerBundle);
-        return uiSettings;
+        return new DocumentUISettings(recognizerBundle);
     }
 
     @Override

@@ -30,7 +30,7 @@ public final class JordanCombinedRecognizerSerialization implements RecognizerSe
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
-            jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
+            jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));

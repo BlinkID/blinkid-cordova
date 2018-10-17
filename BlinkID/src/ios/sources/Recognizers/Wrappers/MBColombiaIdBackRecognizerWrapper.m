@@ -29,6 +29,12 @@
         }
     }
     {
+        id fullDocumentImageExtensionFactors = [jsonRecognizer valueForKey:@"fullDocumentImageExtensionFactors"];
+        if (fullDocumentImageExtensionFactors != nil) {
+            recognizer.fullDocumentImageExtensionFactors = [MBBlinkIDSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
+        }
+    }
+    {
         id nullQuietZoneAllowed = [jsonRecognizer valueForKey:@"nullQuietZoneAllowed"];
         if (nullQuietZoneAllowed != nil) {
             recognizer.nullQuietZoneAllowed = [(NSNumber *)nullQuietZoneAllowed boolValue];
@@ -62,7 +68,7 @@
     [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.birthDate] forKey:@"birthDate"];
     [jsonResult setValue:self.result.bloodGroup forKey:@"bloodGroup"];
     [jsonResult setValue:self.result.documentNumber forKey:@"documentNumber"];
-    [jsonResult setValue:[self.result.fingerprint base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed] forKey:@"fingerprint"];
+    [jsonResult setValue:[self.result.fingerprint base64EncodedStringWithOptions:0] forKey:@"fingerprint"];
     [jsonResult setValue:self.result.firstName forKey:@"firstName"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentImage] forKey:@"fullDocumentImage"];
     [jsonResult setValue:self.result.lastName forKey:@"lastName"];

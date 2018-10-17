@@ -15,6 +15,7 @@ public final class PaymentCardFrontRecognizerSerialization implements Recognizer
         recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", true));
         recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
     }
