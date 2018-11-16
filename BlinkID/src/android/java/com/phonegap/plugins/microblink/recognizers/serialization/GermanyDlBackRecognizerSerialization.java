@@ -6,16 +6,12 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class PaymentCardFrontRecognizerSerialization implements RecognizerSerialization {
+public final class GermanyDlBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardFrontRecognizer();
-        recognizer.setAnonymizeCardNumber(jsonRecognizer.optBoolean("anonymizeCardNumber", false));
-        recognizer.setAnonymizeOwner(jsonRecognizer.optBoolean("anonymizeOwner", false));
+        com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", true));
-        recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
@@ -24,14 +20,13 @@ public final class PaymentCardFrontRecognizerSerialization implements Recognizer
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("cardNumber", result.getCardNumber());
+            jsonResult.put("dateOfIssueB10", SerializationUtils.serializeDate(result.getDateOfIssueB10()));
+            jsonResult.put("dateOfIssueB10NotSpecified", result.isDateOfIssueB10NotSpecified());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("owner", result.getOwner());
-            jsonResult.put("validThru", SerializationUtils.serializeDate(result.getValidThru()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -41,11 +36,11 @@ public final class PaymentCardFrontRecognizerSerialization implements Recognizer
 
     @Override
     public String getJsonName() {
-        return "PaymentCardFrontRecognizer";
+        return "GermanyDlBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer.class;
     }
 }

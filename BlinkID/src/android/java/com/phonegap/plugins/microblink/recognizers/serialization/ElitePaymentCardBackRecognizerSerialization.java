@@ -11,6 +11,8 @@ public final class ElitePaymentCardBackRecognizerSerialization implements Recogn
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardBackRecognizer();
+        recognizer.setAnonymizeCardNumber(jsonRecognizer.optBoolean("anonymizeCardNumber", false));
+        recognizer.setAnonymizeCvv(jsonRecognizer.optBoolean("anonymizeCvv", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractCvv(jsonRecognizer.optBoolean("extractCvv", true));
         recognizer.setExtractInventoryNumber(jsonRecognizer.optBoolean("extractInventoryNumber", true));

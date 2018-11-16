@@ -11,6 +11,7 @@ public final class PaymentCardBackRecognizerSerialization implements RecognizerS
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardBackRecognizer();
+        recognizer.setAnonymizeCvv(jsonRecognizer.optBoolean("anonymizeCvv", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractInventoryNumber(jsonRecognizer.optBoolean("extractInventoryNumber", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));

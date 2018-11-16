@@ -12,6 +12,7 @@ public final class CyprusIdBackRecognizerSerialization implements RecognizerSeri
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractExpiresOn(jsonRecognizer.optBoolean("extractExpiresOn", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
@@ -26,6 +27,7 @@ public final class CyprusIdBackRecognizerSerialization implements RecognizerSeri
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("expiresOn", SerializationUtils.serializeDate(result.getExpiresOn()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {

@@ -6,14 +6,15 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SwitzerlandIdFrontRecognizerSerialization implements RecognizerSerialization {
+public final class MexicoVoterIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractGivenName(jsonRecognizer.optBoolean("extractGivenName", true));
-        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
+        recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
+        recognizer.setExtractCurp(jsonRecognizer.optBoolean("extractCurp", true));
+        recognizer.setExtractFullName(jsonRecognizer.optBoolean("extractFullName", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
@@ -26,16 +27,19 @@ public final class SwitzerlandIdFrontRecognizerSerialization implements Recogniz
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
+            jsonResult.put("address", result.getAddress());
+            jsonResult.put("curp", result.getCurp());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("electorKey", result.getElectorKey());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("givenName", result.getGivenName());
+            jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
-            jsonResult.put("surname", result.getSurname());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -45,11 +49,11 @@ public final class SwitzerlandIdFrontRecognizerSerialization implements Recogniz
 
     @Override
     public String getJsonName() {
-        return "SwitzerlandIdFrontRecognizer";
+        return "MexicoVoterIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer.class;
     }
 }
