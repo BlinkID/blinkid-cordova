@@ -158,7 +158,6 @@
 
         <!-- resources -->
         <source-file src="src/android/res/raw/beep.mp3" target-dir="app/src/main/res/raw" />
-        <source-file src="src/android/res/layout/mb_layout_splash_screen.xml" target-dir="app/src/main/res/layout" />
 
         <framework src="src/android/libBlinkID.gradle" custom="true" type="gradleReference" />
         
