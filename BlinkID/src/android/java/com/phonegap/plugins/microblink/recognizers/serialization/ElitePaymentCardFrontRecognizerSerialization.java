@@ -11,6 +11,7 @@ public final class ElitePaymentCardFrontRecognizerSerialization implements Recog
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardFrontRecognizer();
+        recognizer.setAnonymizeOwner(jsonRecognizer.optBoolean("anonymizeOwner", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));

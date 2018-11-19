@@ -6,15 +6,17 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class MyTenteraRecognizerSerialization implements RecognizerSerialization {
+public final class MalaysiaMyTenteraFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.malaysia.MyTenteraRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MyTenteraRecognizer();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractFullNameAndAddress(jsonRecognizer.optBoolean("extractFullNameAndAddress", true));
         recognizer.setExtractReligion(jsonRecognizer.optBoolean("extractReligion", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -22,23 +24,23 @@ public final class MyTenteraRecognizerSerialization implements RecognizerSeriali
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.malaysia.MyTenteraRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MyTenteraRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("armyNumber", result.getArmyNumber());
+            jsonResult.put("birthDate", SerializationUtils.serializeDate(result.getBirthDate()));
+            jsonResult.put("city", result.getCity());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("fullAddress", result.getFullAddress());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("nricNumber", result.getNricNumber());
-            jsonResult.put("ownerAddress", result.getOwnerAddress());
-            jsonResult.put("ownerAddressCity", result.getOwnerAddressCity());
-            jsonResult.put("ownerAddressState", result.getOwnerAddressState());
-            jsonResult.put("ownerAddressStreet", result.getOwnerAddressStreet());
-            jsonResult.put("ownerAddressZipCode", result.getOwnerAddressZipCode());
-            jsonResult.put("ownerBirthDate", SerializationUtils.serializeDate(result.getOwnerBirthDate()));
-            jsonResult.put("ownerFullName", result.getOwnerFullName());
-            jsonResult.put("ownerReligion", result.getOwnerReligion());
-            jsonResult.put("ownerSex", result.getOwnerSex());
+            jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("nric", result.getNric());
+            jsonResult.put("ownerState", result.getOwnerState());
+            jsonResult.put("religion", result.getReligion());
+            jsonResult.put("sex", result.getSex());
+            jsonResult.put("street", result.getStreet());
+            jsonResult.put("zipcode", result.getZipcode());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -48,11 +50,11 @@ public final class MyTenteraRecognizerSerialization implements RecognizerSeriali
 
     @Override
     public String getJsonName() {
-        return "MyTenteraRecognizer";
+        return "MalaysiaMyTenteraFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.malaysia.MyTenteraRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer.class;
     }
 }
