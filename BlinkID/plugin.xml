@@ -157,7 +157,7 @@
         <!-- ANDROID SOURCE FILES END -->
 
         <!-- resources -->
-        <source-file src="src/android/res/raw/beep.mp3" target-dir="app/src/main/res/raw" />
+        <resource-file src="src/android/res/raw/beep.mp3" target="res/raw/beep.mp3" />
 
         <framework src="src/android/libBlinkID.gradle" custom="true" type="gradleReference" />
         
