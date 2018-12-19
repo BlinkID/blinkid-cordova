@@ -14,9 +14,11 @@ public final class MrtdRecognizerSerialization implements RecognizerSerializatio
         recognizer.setAllowUnparsedResults(jsonRecognizer.optBoolean("allowUnparsedResults", false));
         recognizer.setAllowUnverifiedResults(jsonRecognizer.optBoolean("allowUnverifiedResults", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
+        recognizer.setMrzImageDpi(jsonRecognizer.optInt("mrzImageDpi", 250));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnMrzImage(jsonRecognizer.optBoolean("returnMrzImage", false));
-        recognizer.setSaveImageDPI(jsonRecognizer.optInt("saveImageDPI", 250));
         return recognizer;
     }
 

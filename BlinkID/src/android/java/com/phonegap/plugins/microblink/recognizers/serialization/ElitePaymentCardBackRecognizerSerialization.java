@@ -14,7 +14,6 @@ public final class ElitePaymentCardBackRecognizerSerialization implements Recogn
         recognizer.setAnonymizeCardNumber(jsonRecognizer.optBoolean("anonymizeCardNumber", false));
         recognizer.setAnonymizeCvv(jsonRecognizer.optBoolean("anonymizeCvv", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractCvv(jsonRecognizer.optBoolean("extractCvv", true));
         recognizer.setExtractInventoryNumber(jsonRecognizer.optBoolean("extractInventoryNumber", true));
         recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));

@@ -18,6 +18,8 @@ public final class SwitzerlandIdBackRecognizerSerialization implements Recognize
         recognizer.setExtractHeight(jsonRecognizer.optBoolean("extractHeight", true));
         recognizer.setExtractPlaceOfOrigin(jsonRecognizer.optBoolean("extractPlaceOfOrigin", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
     }
@@ -29,25 +31,12 @@ public final class SwitzerlandIdBackRecognizerSerialization implements Recognize
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("authority", result.getAuthority());
-            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
-            jsonResult.put("documentCode", result.getDocumentCode());
-            jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("height", result.getHeight());
-            jsonResult.put("issuer", result.getIssuer());
-            jsonResult.put("mrzParsed", result.isMrzParsed());
-            jsonResult.put("mrzText", result.getMrzText());
-            jsonResult.put("mrzVerified", result.isMrzVerified());
-            jsonResult.put("nationality", result.getNationality());
-            jsonResult.put("nonMrzDateOfExpiry", SerializationUtils.serializeDate(result.getNonMrzDateOfExpiry()));
-            jsonResult.put("nonMrzSex", result.getNonMrzSex());
-            jsonResult.put("opt1", result.getOpt1());
-            jsonResult.put("opt2", result.getOpt2());
+            jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
             jsonResult.put("placeOfOrigin", result.getPlaceOfOrigin());
-            jsonResult.put("primaryId", result.getPrimaryId());
-            jsonResult.put("secondaryId", result.getSecondaryId());
             jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException

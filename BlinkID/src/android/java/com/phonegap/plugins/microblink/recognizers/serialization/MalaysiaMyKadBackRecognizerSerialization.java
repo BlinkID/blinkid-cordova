@@ -6,16 +6,15 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class CyprusIdFrontRecognizerSerialization implements RecognizerSerialization {
+public final class MalaysiaMyKadBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setExtractOldNric(jsonRecognizer.optBoolean("extractOldNric", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
-        recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
         recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
@@ -24,13 +23,16 @@ public final class CyprusIdFrontRecognizerSerialization implements RecognizerSer
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("extendedNric", result.getExtendedNric());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("idNumber", result.getIdNumber());
+            jsonResult.put("nric", result.getNric());
+            jsonResult.put("oldNric", result.getOldNric());
+            jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
@@ -41,11 +43,11 @@ public final class CyprusIdFrontRecognizerSerialization implements RecognizerSer
 
     @Override
     public String getJsonName() {
-        return "CyprusIdFrontRecognizer";
+        return "MalaysiaMyKadBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer.class;
     }
 }

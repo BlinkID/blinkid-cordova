@@ -15,7 +15,6 @@ public final class ElitePaymentCardCombinedRecognizerSerialization implements Re
         recognizer.setAnonymizeCvv(jsonRecognizer.optBoolean("anonymizeCvv", false));
         recognizer.setAnonymizeOwner(jsonRecognizer.optBoolean("anonymizeOwner", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractCvv(jsonRecognizer.optBoolean("extractCvv", true));
         recognizer.setExtractInventoryNumber(jsonRecognizer.optBoolean("extractInventoryNumber", true));
         recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", true));
         recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
