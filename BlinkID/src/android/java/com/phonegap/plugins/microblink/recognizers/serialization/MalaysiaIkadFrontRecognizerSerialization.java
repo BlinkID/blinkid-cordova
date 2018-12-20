@@ -6,21 +6,24 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class IkadRecognizerSerialization implements RecognizerSerialization {
+public final class MalaysiaIkadFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.malaysia.IkadRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.IkadRecognizer();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaIkadFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaIkadFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
+        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
         recognizer.setExtractEmployer(jsonRecognizer.optBoolean("extractEmployer", true));
-        recognizer.setExtractExpiryDate(jsonRecognizer.optBoolean("extractExpiryDate", true));
         recognizer.setExtractFacultyAddress(jsonRecognizer.optBoolean("extractFacultyAddress", true));
+        recognizer.setExtractGender(jsonRecognizer.optBoolean("extractGender", true));
+        recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));
         recognizer.setExtractPassportNumber(jsonRecognizer.optBoolean("extractPassportNumber", true));
         recognizer.setExtractSector(jsonRecognizer.optBoolean("extractSector", true));
-        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -28,22 +31,22 @@ public final class IkadRecognizerSerialization implements RecognizerSerializatio
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.malaysia.IkadRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.IkadRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaIkadFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaIkadFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("employer", result.getEmployer());
-            jsonResult.put("expiryDate", SerializationUtils.serializeDate(result.getExpiryDate()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("facultyAddress", result.getFacultyAddress());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
+            jsonResult.put("gender", result.getGender());
             jsonResult.put("name", result.getName());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("passportNumber", result.getPassportNumber());
             jsonResult.put("sector", result.getSector());
-            jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -53,11 +56,11 @@ public final class IkadRecognizerSerialization implements RecognizerSerializatio
 
     @Override
     public String getJsonName() {
-        return "IkadRecognizer";
+        return "MalaysiaIkadFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.malaysia.IkadRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaIkadFrontRecognizer.class;
     }
 }

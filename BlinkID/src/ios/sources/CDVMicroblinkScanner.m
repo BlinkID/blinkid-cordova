@@ -50,14 +50,30 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
 
 @synthesize lastCommand;
 
+/**
+ Method  sanitizes the dictionary replaces all occurances of NSNull with nil
+
+ @param dictionary JSON objects
+ @return new dictionary with NSNull values replaced with nil
+*/
+- (NSDictionary *)sanitizeDictionary:(NSDictionary *)dictionary {
+    NSMutableDictionary *mutableDictionary = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
+    for (NSString* key in dictionary.allKeys) {
+        if (mutableDictionary[key] == [NSNull null]) {
+            mutableDictionary[key] = nil;
+        }
+    }
+    return mutableDictionary;
+}
+
 #pragma mark - Main
 - (void)scanWithCamera:(CDVInvokedUrlCommand *)command {
 
     [self setLastCommand:command];
 
-    NSDictionary *jsonOverlaySettings = [self.lastCommand argumentAtIndex:0];
-    NSDictionary *jsonRecognizerCollection = [self.lastCommand argumentAtIndex:1];
-    NSDictionary *jsonLicenses = [self.lastCommand argumentAtIndex:2];
+    NSDictionary *jsonOverlaySettings = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:0]];
+    NSDictionary *jsonRecognizerCollection = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:1]];
+    NSDictionary *jsonLicenses = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:2]];
 
     [self setLicense:jsonLicenses];
 

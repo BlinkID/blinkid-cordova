@@ -1,3 +1,6 @@
+## 4.5.0
+- Updated to [Android SDK v4.5.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.5.0) and [iOS SDK v4.5.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.5.0)
+
 ## 4.4.0
 - Updated to [Android SDK v4.4.0](https://github.com/BlinkID/blinkid-android/releases/tag/v4.4.0) and [iOS SDK v4.4.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v4.4.0)
 - [android, iOS] added support for changing tooltip strings in  `DocumentVerificationOverlay`

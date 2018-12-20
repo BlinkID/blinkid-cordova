@@ -6,32 +6,42 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class CyprusIdFrontRecognizerSerialization implements RecognizerSerialization {
+public final class MalaysiaMyKasFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractFullNameAndAddress(jsonRecognizer.optBoolean("extractFullNameAndAddress", true));
+        recognizer.setExtractReligion(jsonRecognizer.optBoolean("extractReligion", true));
+        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
-        recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
-        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
+            jsonResult.put("birthDate", SerializationUtils.serializeDate(result.getBirthDate()));
+            jsonResult.put("city", result.getCity());
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("fullAddress", result.getFullAddress());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("idNumber", result.getIdNumber());
-            jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("nric", result.getNric());
+            jsonResult.put("ownerState", result.getOwnerState());
+            jsonResult.put("religion", result.getReligion());
+            jsonResult.put("sex", result.getSex());
+            jsonResult.put("street", result.getStreet());
+            jsonResult.put("zipcode", result.getZipcode());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -41,11 +51,11 @@ public final class CyprusIdFrontRecognizerSerialization implements RecognizerSer
 
     @Override
     public String getJsonName() {
-        return "CyprusIdFrontRecognizer";
+        return "MalaysiaMyKasFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer.class;
     }
 }
