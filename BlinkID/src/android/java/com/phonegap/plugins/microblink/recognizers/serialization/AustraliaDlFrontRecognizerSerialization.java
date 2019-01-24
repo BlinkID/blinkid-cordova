@@ -11,13 +11,18 @@ public final class AustraliaDlFrontRecognizerSerialization implements Recognizer
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.australia.AustraliaDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.australia.AustraliaDlFrontRecognizer();
+        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
-        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractFullName(jsonRecognizer.optBoolean("extractFullName", true));
+        recognizer.setExtractLicenseExpiry(jsonRecognizer.optBoolean("extractLicenseExpiry", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -29,12 +34,12 @@ public final class AustraliaDlFrontRecognizerSerialization implements Recognizer
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
-            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
+            jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("licenceExpiry", SerializationUtils.serializeDate(result.getLicenceExpiry()));
             jsonResult.put("licenceNumber", result.getLicenceNumber());
             jsonResult.put("licenceType", result.getLicenceType());
-            jsonResult.put("name", result.getName());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException

@@ -16,8 +16,6 @@ public final class MalaysiaMyKadBackRecognizerSerialization implements Recognize
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
-        recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
-        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -32,8 +30,6 @@ public final class MalaysiaMyKadBackRecognizerSerialization implements Recognize
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("nric", result.getNric());
             jsonResult.put("oldNric", result.getOldNric());
-            jsonResult.put("sex", result.getSex());
-            jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

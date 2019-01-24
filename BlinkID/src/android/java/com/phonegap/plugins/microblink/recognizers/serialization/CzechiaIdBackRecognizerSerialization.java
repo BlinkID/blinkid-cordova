@@ -15,6 +15,8 @@ public final class CzechiaIdBackRecognizerSerialization implements RecognizerSer
         recognizer.setExtractAuthority(jsonRecognizer.optBoolean("extractAuthority", true));
         recognizer.setExtractPermanentStay(jsonRecognizer.optBoolean("extractPermanentStay", true));
         recognizer.setExtractPersonalNumber(jsonRecognizer.optBoolean("extractPersonalNumber", true));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
     }
@@ -26,23 +28,10 @@ public final class CzechiaIdBackRecognizerSerialization implements RecognizerSer
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("authority", result.getAuthority());
-            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
-            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
-            jsonResult.put("documentCode", result.getDocumentCode());
-            jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("issuer", result.getIssuer());
-            jsonResult.put("mrzParsed", result.isMrzParsed());
-            jsonResult.put("mrzText", result.getMrzText());
-            jsonResult.put("mrzVerified", result.isMrzVerified());
-            jsonResult.put("nationality", result.getNationality());
-            jsonResult.put("opt1", result.getOpt1());
-            jsonResult.put("opt2", result.getOpt2());
+            jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
             jsonResult.put("permanentStay", result.getPermanentStay());
             jsonResult.put("personalNumber", result.getPersonalNumber());
-            jsonResult.put("primaryId", result.getPrimaryId());
-            jsonResult.put("secondaryId", result.getSecondaryId());
-            jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

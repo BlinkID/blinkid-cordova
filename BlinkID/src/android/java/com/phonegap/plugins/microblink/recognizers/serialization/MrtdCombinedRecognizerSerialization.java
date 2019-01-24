@@ -13,10 +13,14 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
         com.microblink.entities.recognizers.blinkid.mrtd.MrtdCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.mrtd.MrtdCombinedRecognizer();
         recognizer.setAllowUnparsedResults(jsonRecognizer.optBoolean("allowUnparsedResults", false));
         recognizer.setAllowUnverifiedResults(jsonRecognizer.optBoolean("allowUnverifiedResults", false));
+        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonRecognizer.optInt("detectorType", 1) - 1]);
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setNumStableDetectionsThreshold(jsonRecognizer.optInt("numStableDetectionsThreshold", 6));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
-        recognizer.setReturnMrzImage(jsonRecognizer.optBoolean("returnMrzImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
         return recognizer;
     }
@@ -27,32 +31,14 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("alienNumber", result.getAlienNumber());
-            jsonResult.put("applicationReceiptNumber", result.getApplicationReceiptNumber());
-            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
-            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
-            jsonResult.put("documentCode", result.getDocumentCode());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
-            jsonResult.put("documentNumber", result.getDocumentNumber());
-            jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
-            jsonResult.put("immigrantCaseNumber", result.getImmigrantCaseNumber());
-            jsonResult.put("issuer", result.getIssuer());
-            jsonResult.put("mrzImage", SerializationUtils.encodeImageBase64(result.getMrzImage()));
-            jsonResult.put("mrzParsed", result.isMrzParsed());
-            jsonResult.put("mrzText", result.getMrzText());
-            jsonResult.put("mrzVerified", result.isMrzVerified());
-            jsonResult.put("nationality", result.getNationality());
-            jsonResult.put("opt1", result.getOpt1());
-            jsonResult.put("opt2", result.getOpt2());
-            jsonResult.put("primaryId", result.getPrimaryId());
+            jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
-            jsonResult.put("secondaryId", result.getSecondaryId());
-            jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

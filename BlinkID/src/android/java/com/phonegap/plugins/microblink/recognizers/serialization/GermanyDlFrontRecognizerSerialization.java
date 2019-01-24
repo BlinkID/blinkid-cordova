@@ -6,19 +6,20 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class CzechiaIdFrontRecognizerSerialization implements RecognizerSerialization {
+public final class GermanyDlFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer();
+        com.microblink.entities.recognizers.blinkid.germany.GermanyDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.germany.GermanyDlFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
         recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
-        recognizer.setExtractGivenNames(jsonRecognizer.optBoolean("extractGivenNames", true));
+        recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
+        recognizer.setExtractIssuingAuthority(jsonRecognizer.optBoolean("extractIssuingAuthority", true));
+        recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
+        recognizer.setExtractLicenceCategories(jsonRecognizer.optBoolean("extractLicenceCategories", true));
         recognizer.setExtractPlaceOfBirth(jsonRecognizer.optBoolean("extractPlaceOfBirth", true));
-        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
-        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
@@ -31,21 +32,22 @@ public final class CzechiaIdFrontRecognizerSerialization implements RecognizerSe
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.germany.GermanyDlFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.germany.GermanyDlFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
-            jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("givenNames", result.getGivenNames());
+            jsonResult.put("issuingAuthority", result.getIssuingAuthority());
+            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("licenceCategories", result.getLicenceCategories());
+            jsonResult.put("licenceNumber", result.getLicenceNumber());
             jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
-            jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
-            jsonResult.put("surname", result.getSurname());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -55,11 +57,11 @@ public final class CzechiaIdFrontRecognizerSerialization implements RecognizerSe
 
     @Override
     public String getJsonName() {
-        return "CzechiaIdFrontRecognizer";
+        return "GermanyDlFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdFrontRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.germany.GermanyDlFrontRecognizer.class;
     }
 }
