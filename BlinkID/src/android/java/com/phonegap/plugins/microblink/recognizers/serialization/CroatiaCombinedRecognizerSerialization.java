@@ -12,10 +12,24 @@ public final class CroatiaCombinedRecognizerSerialization implements RecognizerS
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.croatia.CroatiaCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.croatia.CroatiaCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractCitizenship(jsonRecognizer.optBoolean("extractCitizenship", true));
+        recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
+        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
+        recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
+        recognizer.setExtractIssuedBy(jsonRecognizer.optBoolean("extractIssuedBy", true));
+        recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
+        recognizer.setExtractPersonalIdentificationNumber(jsonRecognizer.optBoolean("extractPersonalIdentificationNumber", true));
+        recognizer.setExtractResidence(jsonRecognizer.optBoolean("extractResidence", true));
+        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -25,7 +39,6 @@ public final class CroatiaCombinedRecognizerSerialization implements RecognizerS
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("address", result.getAddress());
             jsonResult.put("citizenship", result.getCitizenship());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
@@ -35,16 +48,17 @@ public final class CroatiaCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentBilingual", result.isDocumentBilingual());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
+            jsonResult.put("documentForNonResident", result.isDocumentForNonResident());
+            jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
-            jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
-            jsonResult.put("issuingAuthority", result.getIssuingAuthority());
+            jsonResult.put("issuedBy", result.getIssuedBy());
             jsonResult.put("lastName", result.getLastName());
             jsonResult.put("mrzVerified", result.isMrzVerified());
-            jsonResult.put("nonResident", result.isNonResident());
-            jsonResult.put("personalIdentificationNumber", result.getPersonalIdentificationNumber());
+            jsonResult.put("oib", result.getOib());
+            jsonResult.put("residence", result.getResidence());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));

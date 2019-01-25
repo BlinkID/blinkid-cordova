@@ -16,12 +16,18 @@ public final class SlovakiaIdFrontRecognizerSerialization implements RecognizerS
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
         recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
         recognizer.setExtractDocumentNumber(jsonRecognizer.optBoolean("extractDocumentNumber", true));
+        recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
         recognizer.setExtractIssuedBy(jsonRecognizer.optBoolean("extractIssuedBy", true));
+        recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 

@@ -16,7 +16,7 @@ public final class PaymentCardCombinedRecognizerSerialization implements Recogni
         recognizer.setAnonymizeOwner(jsonRecognizer.optBoolean("anonymizeOwner", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractInventoryNumber(jsonRecognizer.optBoolean("extractInventoryNumber", true));
-        recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", true));
+        recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", false));
         recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));

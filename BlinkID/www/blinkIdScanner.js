@@ -512,14 +512,9 @@ function AustraliaDlBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the Australian DL owner. 
+     * The address of the Australia DL owner 
      */
     this.address = nativeResult.address;
-    
-    /** 
-     * The document date of expiry of the Australian DL 
-     */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * full document image if enabled with returnFullDocumentImage property. 
@@ -527,12 +522,17 @@ function AustraliaDlBackRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The last name of the Australian DL owner. 
+     * The last name of the Australia DL owner 
      */
     this.lastName = nativeResult.lastName;
     
     /** 
-     * The licence number of the Australian DL owner. 
+     * The date of expiry of the Australia DL 
+     */
+    this.licenceExpiry = nativeResult.licenceExpiry != null ? new Date(nativeResult.licenceExpiry) : null;
+    
+    /** 
+     * The licence number of the Australia DL 
      */
     this.licenceNumber = nativeResult.licenceNumber;
     
@@ -543,33 +543,45 @@ AustraliaDlBackRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.AustraliaDlBackRecognizerResult = AustraliaDlBackRecognizerResult;
 
 /**
- * Class for configuring Australia DL Back Recognizer.
- * 
- * Australia DL Back recognizer is used for scanning back side of Australia DL.
+ * Recognizer which can scan the back side of Australian driver's licences
  */
 function AustraliaDlBackRecognizer() {
     Recognizer.call(this, 'AustraliaDlBackRecognizer');
     
     /** 
-     *  Defines if sex of Australian DL owner should be extracted
+     * Defines if glare detection should be turned on/off.
      * 
-     *   
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Defines if address of the Australia DL owner should be extracted
+     * 
+     *  
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Australian DL
+     * Defines if last name of the Australia DL owner should be extracted
      * 
      *  
      */
-    this.extractDateOfExpiry = true;
+    this.extractLastName = true;
     
     /** 
-     *  Defines if last name of Australian DL owner should be extracted
+     * Defines if the licence number of the Australia DL should be extracted
      * 
-     *   
+     *  
      */
-    this.extractLastName = true;
+    this.extractLicenceNumber = true;
+    
+    /** 
+     * Defines if date of expiry of the Australia DL should be extracted
+     * 
+     *  
+     */
+    this.extractLicenseExpiry = true;
     
     /** 
      * Property for setting DPI for full document images
@@ -578,6 +590,14 @@ function AustraliaDlBackRecognizer() {
      *  
      */
     this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
      * Sets whether full document image of ID card should be extracted.
@@ -601,19 +621,14 @@ function AustraliaDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the Australian DL owner. 
+     * The address of the Australian DL owner 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The date of birth of Australian DL owner 
+     * The date of birth of the Australian DL owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
-    
-    /** 
-     * The document date of expiry of the Australian DL 
-     */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
      * face image from the document if enabled with returnFaceImage property. 
@@ -626,19 +641,24 @@ function AustraliaDlFrontRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The licence number of the Australian DL owner. 
+     * The full name of the Australian DL owner 
+     */
+    this.fullName = nativeResult.fullName;
+    
+    /** 
+     * The date of expiry of the Australian DL 
+     */
+    this.licenceExpiry = nativeResult.licenceExpiry != null ? new Date(nativeResult.licenceExpiry) : null;
+    
+    /** 
+     * The licence number of the Australian DL 
      */
     this.licenceNumber = nativeResult.licenceNumber;
     
     /** 
-     * The licence type of Australian DL. 
+     * The licence type of the Australian DL 
      */
     this.licenceType = nativeResult.licenceType;
-    
-    /** 
-     * The first name of the Australian DL owner. 
-     */
-    this.name = nativeResult.name;
     
     /** 
      * image of the signature if enabled with returnSignatureImage property. 
@@ -652,17 +672,22 @@ AustraliaDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResu
 BlinkID.prototype.AustraliaDlFrontRecognizerResult = AustraliaDlFrontRecognizerResult;
 
 /**
- * Class for configuring Australia DL Front Recognizer.
- * 
- * Australia DL Front recognizer is used for scanning front side of Australia DL.
+ * Recognizer which can scan the front side of Australian driver's licences.
  */
 function AustraliaDlFrontRecognizer() {
     Recognizer.call(this, 'AustraliaDlFrontRecognizer');
     
     /** 
-     *  Defines if sex of Australian DL owner should be extracted
+     * Defines if glare detection should be turned on/off.
      * 
-     *   
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Defines if address of Australian DL owner should be extracted
+     * 
+     *  
      */
     this.extractAddress = true;
     
@@ -674,11 +699,26 @@ function AustraliaDlFrontRecognizer() {
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Australian DL
+     * Defines if full name of Australian DL owner should be extracted
      * 
      *  
      */
-    this.extractDateOfExpiry = true;
+    this.extractFullName = true;
+    
+    /** 
+     * Defines if date of expiry of Australian DL should be extracted
+     * 
+     *  
+     */
+    this.extractLicenseExpiry = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
     
     /** 
      * Property for setting DPI for full document images
@@ -687,6 +727,14 @@ function AustraliaDlFrontRecognizer() {
      *  
      */
     this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
      * Sets whether face image from ID card should be extracted
@@ -708,6 +756,14 @@ function AustraliaDlFrontRecognizer() {
      *  
      */
     this.returnSignatureImage = false;
+    
+    /** 
+     * Property for setting DPI for signature images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.signatureImageDpi = 250;
     
     this.createResultFromNative = function (nativeResult) { return new AustraliaDlFrontRecognizerResult(nativeResult); }
 
@@ -1937,6 +1993,108 @@ BarcodeRecognizer.prototype = new Recognizer('BarcodeRecognizer');
 BlinkID.prototype.BarcodeRecognizer = BarcodeRecognizer;
 
 /**
+ * Result object for BruneiIdBackRecognizer.
+ */
+function BruneiIdBackRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * The address of Brunei ID owner. 
+     */
+    this.address = nativeResult.address;
+    
+    /** 
+     * The date of issue of Brunei ID. 
+     */
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    
+    /** 
+     * full document image if enabled with returnFullDocumentImage property. 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The data extracted from the machine readable zone. 
+     */
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
+    
+    /** 
+     * The race of Brunei ID owner. 
+     */
+    this.race = nativeResult.race;
+    
+}
+
+BruneiIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.BruneiIdBackRecognizerResult = BruneiIdBackRecognizerResult;
+
+/**
+ * Recognizer which can scan back side of Brunei national ID cards.
+ */
+function BruneiIdBackRecognizer() {
+    Recognizer.call(this, 'BruneiIdBackRecognizer');
+    
+    /** 
+     * Defines if glare detection should be turned on/off.
+     * 
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Defines if address of Brunei ID owner should be extracted.
+     * 
+     *  
+     */
+    this.extractAddress = true;
+    
+    /** 
+     * Defines if date of issue of Brunei ID should be extracted.
+     * 
+     *  
+     */
+    this.extractDateOfIssue = true;
+    
+    /** 
+     * Defines if the race of Brunei ID owner should be extracted.
+     * 
+     *  
+     */
+    this.extractRace = true;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     *  
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new BruneiIdBackRecognizerResult(nativeResult); }
+
+}
+
+BruneiIdBackRecognizer.prototype = new Recognizer('BruneiIdBackRecognizer');
+
+BlinkID.prototype.BruneiIdBackRecognizer = BruneiIdBackRecognizer;
+
+/**
  * Result object for BruneiIdFrontRecognizer.
  */
 function BruneiIdFrontRecognizerResult(nativeResult) {
@@ -2069,6 +2227,242 @@ function BruneiIdFrontRecognizer() {
 BruneiIdFrontRecognizer.prototype = new Recognizer('BruneiIdFrontRecognizer');
 
 BlinkID.prototype.BruneiIdFrontRecognizer = BruneiIdFrontRecognizer;
+
+/**
+ * Result object for BruneiResidencePermitBackRecognizer.
+ */
+function BruneiResidencePermitBackRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * The address of Brunei Residence Permit card owner. 
+     */
+    this.address = nativeResult.address;
+    
+    /** 
+     * The date of issue of Brunei Residence Permit card. 
+     */
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    
+    /** 
+     * full document image if enabled with returnFullDocumentImage property. 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The data extracted from the machine readable zone. 
+     */
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
+    
+    /** 
+     * The race of Brunei Residence Permit card owner. 
+     */
+    this.race = nativeResult.race;
+    
+}
+
+BruneiResidencePermitBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.BruneiResidencePermitBackRecognizerResult = BruneiResidencePermitBackRecognizerResult;
+
+/**
+ * Recognizer which can scan back side of Brunei national Residence Permit cards.
+ */
+function BruneiResidencePermitBackRecognizer() {
+    Recognizer.call(this, 'BruneiResidencePermitBackRecognizer');
+    
+    /** 
+     * Defines if glare detection should be turned on/off.
+     * 
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Defines if address of Brunei Residence Permit card owner should be extracted.
+     * 
+     *  
+     */
+    this.extractAddress = true;
+    
+    /** 
+     * Defines if date of issue of Brunei Residence Permit card should be extracted.
+     * 
+     *  
+     */
+    this.extractDateOfIssue = true;
+    
+    /** 
+     * Defines if the race of Brunei Residence Permit card owner should be extracted.
+     * 
+     *  
+     */
+    this.extractRace = true;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     *  
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new BruneiResidencePermitBackRecognizerResult(nativeResult); }
+
+}
+
+BruneiResidencePermitBackRecognizer.prototype = new Recognizer('BruneiResidencePermitBackRecognizer');
+
+BlinkID.prototype.BruneiResidencePermitBackRecognizer = BruneiResidencePermitBackRecognizer;
+
+/**
+ * Result object for BruneiResidencePermitFrontRecognizer.
+ */
+function BruneiResidencePermitFrontRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * The date of birth of Brunei residence permit owner. 
+     */
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
+    
+    /** 
+     * The document number of Brunei residence permit. 
+     */
+    this.documentNumber = nativeResult.documentNumber;
+    
+    /** 
+     * face image from the document if enabled with returnFaceImage property. 
+     */
+    this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     * full document image if enabled with returnFullDocumentImage property. 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The full name of Brunei residence permit owner. 
+     */
+    this.fullName = nativeResult.fullName;
+    
+    /** 
+     * The place of birth of Brunei residence permit owner. 
+     */
+    this.placeOfBirth = nativeResult.placeOfBirth;
+    
+    /** 
+     * The sex of Brunei residence permit owner. 
+     */
+    this.sex = nativeResult.sex;
+    
+}
+
+BruneiResidencePermitFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.BruneiResidencePermitFrontRecognizerResult = BruneiResidencePermitFrontRecognizerResult;
+
+/**
+ * Recognizer which can scan front side of Brunei residence permits.
+ */
+function BruneiResidencePermitFrontRecognizer() {
+    Recognizer.call(this, 'BruneiResidencePermitFrontRecognizer');
+    
+    /** 
+     * Defines if glare detection should be turned on/off.
+     * 
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Defines if date of birth of Brunei residence permit owner should be extracted.
+     * 
+     *  
+     */
+    this.extractDateOfBirth = true;
+    
+    /** 
+     * Defines if full name of Brunei residence permit owner should be extracted.
+     * 
+     *  
+     */
+    this.extractFullName = true;
+    
+    /** 
+     * Defines if place of birth of Brunei residence permit owner should be extracted.
+     * 
+     *  
+     */
+    this.extractPlaceOfBirth = true;
+    
+    /** 
+     * Defines if sex of Brunei residence permit owner should be extracted.
+     * 
+     *  
+     */
+    this.extractSex = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Sets whether face image from ID card should be extracted
+     * 
+     *  
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     *  
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new BruneiResidencePermitFrontRecognizerResult(nativeResult); }
+
+}
+
+BruneiResidencePermitFrontRecognizer.prototype = new Recognizer('BruneiResidencePermitFrontRecognizer');
+
+BlinkID.prototype.BruneiResidencePermitFrontRecognizer = BruneiResidencePermitFrontRecognizer;
 
 /**
  * Result object for ColombiaDlFrontRecognizer.
@@ -2465,32 +2859,27 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the Croatian ID owner. 
-     */
-    this.address = nativeResult.address;
-    
-    /** 
      * The citizenship of the Croatian ID owner. 
      */
     this.citizenship = nativeResult.citizenship;
     
     /** 
-     * The date of birth of Croatian ID owner 
+     * The date of birth of the Croatian ID owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The document date of expiry of the Croatian ID 
+     * The date of expiry of the Croatian ID. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * Check if date of expiry is permanent on the Croatian ID. 
+     * Determines if date of expiry of the Croatian ID is permanent. 
      */
     this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
     
     /** 
-     * The document date of issue of the Croatian ID. 
+     * The date of issue of Croatian ID. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
@@ -2505,7 +2894,7 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * true if the document is bilingual 
+     * Determines if Croatian ID is bilingual. 
      */
     this.documentBilingual = nativeResult.documentBilingual;
     
@@ -2516,6 +2905,16 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
      * be true only if scanned values for all fields that are compared are the same. 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
+    
+    /** 
+     * Determines if Croatian ID is issued for non resident. 
+     */
+    this.documentForNonResident = nativeResult.documentForNonResident;
+    
+    /** 
+     * The document number of the Croatian ID. 
+     */
+    this.documentNumber = nativeResult.documentNumber;
     
     /** 
      * face image from the document if enabled with returnFaceImage property. 
@@ -2538,14 +2937,9 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /** 
-     * The identity card number of Croatian ID. 
+     * The issuer of Croatian ID. 
      */
-    this.identityCardNumber = nativeResult.identityCardNumber;
-    
-    /** 
-     * The issuing authority of Croatian ID. 
-     */
-    this.issuingAuthority = nativeResult.issuingAuthority;
+    this.issuedBy = nativeResult.issuedBy;
     
     /** 
      * The last name of the Croatian ID owner. 
@@ -2553,20 +2947,19 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.lastName = nativeResult.lastName;
     
     /** 
-     * true if all check digits inside MRZ are correct, false otherwise.
-     * More specifically, true if MRZ complies with ICAO Document 9303 standard, false otherwise. 
+     * Determines if all check digits inside MRZ are correct. 
      */
     this.mrzVerified = nativeResult.mrzVerified;
     
     /** 
-     * true if the person is non Croatian resident 
+     * The OIB of Croatian ID owner. 
      */
-    this.nonResident = nativeResult.nonResident;
+    this.oib = nativeResult.oib;
     
     /** 
-     * The OIB (PIN) of the Croatian ID owner. 
+     * The residence of Croatian ID owner. 
      */
-    this.personalIdentificationNumber = nativeResult.personalIdentificationNumber;
+    this.residence = nativeResult.residence;
     
     /** 
      * Returns true if recognizer has finished scanning first side and is now scanning back side,
@@ -2591,9 +2984,7 @@ CroatiaCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.CroatiaCombinedRecognizerResult = CroatiaCombinedRecognizerResult;
 
 /**
- * Croatian ID Combined Recognizer.
- * 
- * Croatian ID Combined recognizer is used for scanning both front and back side of Croatian ID.
+ * Recognizer which can front and back side of Croatian national ID cards.
  */
 function CroatiaCombinedRecognizer() {
     Recognizer.call(this, 'CroatiaCombinedRecognizer');
@@ -2604,6 +2995,93 @@ function CroatiaCombinedRecognizer() {
      *  
      */
     this.detectGlare = true;
+    
+    /** 
+     * Defines if citizenship of Croatian ID owner should be extracted
+     * 
+     *  
+     */
+    this.extractCitizenship = true;
+    
+    /** 
+     * Defines if date of birth of Croatian ID owner should be extracted
+     * 
+     *  
+     */
+    this.extractDateOfBirth = true;
+    
+    /** 
+     * Defines if date of expiry of Croatian ID document should be extracted
+     * 
+     *  
+     */
+    this.extractDateOfExpiry = true;
+    
+    /** 
+     * Defines if date of issue of Croatian ID should be extracted.
+     * 
+     *  
+     */
+    this.extractDateOfIssue = true;
+    
+    /** 
+     * Defines if first name of Croatian ID owner should be extracted
+     * 
+     *  
+     */
+    this.extractFirstName = true;
+    
+    /** 
+     * Defines if issuer of Croatian ID should be extracted.
+     * 
+     *  
+     */
+    this.extractIssuedBy = true;
+    
+    /** 
+     * Defines if last name of Croatian ID owner should be extracted
+     * 
+     *  
+     */
+    this.extractLastName = true;
+    
+    /** 
+     * Defines if residence of Croatian ID owner should be extracted.
+     * 
+     *  
+     */
+    this.extractResidence = true;
+    
+    /** 
+     * Defines if sex of Croatian ID owner should be extracted
+     * 
+     *  
+     */
+    this.extractSex = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
      * Sets whether face image from ID card should be extracted
@@ -2632,6 +3110,14 @@ function CroatiaCombinedRecognizer() {
      *  
      */
     this.signResult = false;
+    
+    /** 
+     * Property for setting DPI for signature images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.signatureImageDpi = 250;
     
     this.createResultFromNative = function (nativeResult) { return new CroatiaCombinedRecognizerResult(nativeResult); }
 
@@ -3511,36 +3997,9 @@ function CzechiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The issuing authority of the Czech ID. 
+     * The Czech ID's issuing authority. 
      */
     this.authority = nativeResult.authority;
-    
-    /** 
-     * Holder's date of birth. 
-     */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
-    
-    /** 
-     * Date of expiry of the document. 
-     */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
-    
-    /** 
-     * The document code. Document code contains two characters. For MRTD the first character
-     * shall be A, C or I. The second character shall be discretion of the issuing State or organization
-     * except that V shall not be used, and C shall not be used after A except in the crew member
-     * certificate. On machine-readable passports (MRP) first character shall be P to designate an MRP.
-     * One additional letter may be used, at the discretion of the issuing State or organization,
-     * to designate a particular MRP. If the second character position is not used for this purpose, it
-     * shall be filled by the filter character <. 
-     */
-    this.documentCode = nativeResult.documentCode;
-    
-    /** 
-     * Unique number of the document. Document number contains up to 9 characters.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.documentNumber = nativeResult.documentNumber;
     
     /** 
      * full document image if enabled with returnFullDocumentImage property. 
@@ -3548,85 +4007,19 @@ function CzechiaIdBackRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * Three-letter code which indicate the issuing State.
-     * Three-letter codes are based on Alpha-3 codes for entities specified in
-     * ISO 3166-1, with extensions for certain States. 
+     * The data extracted from Czech ID's machine readable zone. 
      */
-    this.issuer = nativeResult.issuer;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * Boolean value which denotes that MRTD result is successfully parsed. When the result is parsed, all
-     * properties below are present.
-     * 
-     * If in the PPMrtdRecognizerSettings you specified allowUnparsedResults = true, then it can happen that
-     * MRTDRecognizerResult is not parsed. When this happens, this property will be equal to true.
-     * 
-     * In that case, you can use rawOcrResult property to obtain the raw result of the OCR process, so you can
-     * implement MRTD parsing in your application.
-     * 
-     *  @return true if MRTD Recognizer result was successfully parsed and all the fields are extracted. false otherwise. 
-     */
-    this.mrzParsed = nativeResult.mrzParsed;
-    
-    /** 
-     * The entire Machine Readable Zone text from ID. This text is usually used for parsing
-     * other elements. 
-     */
-    this.mrzText = nativeResult.mrzText;
-    
-    /** 
-     * true if all check digits inside MRZ are correct, false otherwise.
-     * More specifically, true if MRZ complies with ICAO Document 9303 standard, false otherwise. 
-     */
-    this.mrzVerified = nativeResult.mrzVerified;
-    
-    /** 
-     * Nationality of the holder represented by a three-letter code. Three-letter codes are based
-     * on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. 
-     */
-    this.nationality = nativeResult.nationality;
-    
-    /** 
-     * First optional data. Returns nil or empty string if not available.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.opt1 = nativeResult.opt1;
-    
-    /** 
-     * Second optional data. Returns nil or empty string if not available.
-     * Element does not exist on Passports and Visas. To see which document was scanned use documentType property. 
-     */
-    this.opt2 = nativeResult.opt2;
-    
-    /** 
-     * The address of the Czech ID owner. 
+     * The Czech ID owner's permanent address. 
      */
     this.permanentStay = nativeResult.permanentStay;
     
     /** 
-     * The personal number of the Czech ID owner. 
+     * The Czech ID owner's personal number. 
      */
     this.personalNumber = nativeResult.personalNumber;
-    
-    /** 
-     * Returns the primary indentifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return primary id of a card holder. 
-     */
-    this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Returns the secondary identifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return secondary id of a card holder 
-     */
-    this.secondaryId = nativeResult.secondaryId;
-    
-    /** 
-     * Sex of the card holder. Sex is specified by use of the single initial, capital
-     * letter F for female, M for male or < for unspecified. 
-     */
-    this.sex = nativeResult.sex;
     
 }
 
@@ -3635,9 +4028,7 @@ CzechiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultS
 BlinkID.prototype.CzechiaIdBackRecognizerResult = CzechiaIdBackRecognizerResult;
 
 /**
- * Class for configuring Cz ID Back Recognizer.
- * 
- * Cz ID Back recognizer is used for scanning back side of Cz ID.
+ * Recognizer which can scan the back side of Czech IDs.
  */
 function CzechiaIdBackRecognizer() {
     Recognizer.call(this, 'CzechiaIdBackRecognizer');
@@ -3650,25 +4041,41 @@ function CzechiaIdBackRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines if citizenship of Czech ID authority should be extracted
+     * Defines if Czech ID's issuing authority should be extracted.
      * 
      *  
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if address of Czech ID owner should be extracted
+     * Defines if Czech ID owner's permanent address should be extracted.
      * 
      *  
      */
     this.extractPermanentStay = true;
     
     /** 
-     * Defines if personal number should be extracted from Czech ID
+     * Defines if Czech ID owner's personal number should be extracted.
      * 
      *  
      */
     this.extractPersonalNumber = true;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
      * Sets whether full document image of ID card should be extracted.
@@ -3692,19 +4099,24 @@ function CzechiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date of birth of the Czech ID owner. 
+     * The date of birth of Czech ID owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date of expiry of the Czech ID owner. 
+     * The date of expiry of Czech ID. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date of issue of the Czech ID owner. 
+     * The date of issue of Czech ID. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    
+    /** 
+     * The document number of Czech ID. 
+     */
+    this.documentNumber = nativeResult.documentNumber;
     
     /** 
      * face image from the document if enabled with returnFaceImage property. 
@@ -3712,32 +4124,22 @@ function CzechiaIdFrontRecognizerResult(nativeResult) {
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first name of the Czech ID owner. 
-     */
-    this.firstName = nativeResult.firstName;
-    
-    /** 
      * full document image if enabled with returnFullDocumentImage property. 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The ID card number of the Czech ID. 
+     * The given names of Czech ID owner. 
      */
-    this.identityCardNumber = nativeResult.identityCardNumber;
+    this.givenNames = nativeResult.givenNames;
     
     /** 
-     * The last name of the Czech ID owner. 
-     */
-    this.lastName = nativeResult.lastName;
-    
-    /** 
-     * The place of birth of the Czech ID owner. 
+     * The place of birth of Czech ID owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * The sex of the Czech ID owner. 
+     * The sex of Czech ID owner. 
      */
     this.sex = nativeResult.sex;
     
@@ -3746,6 +4148,11 @@ function CzechiaIdFrontRecognizerResult(nativeResult) {
      */
     this.signatureImage = nativeResult.signatureImage;
     
+    /** 
+     * The surname of Czech ID owner. 
+     */
+    this.surname = nativeResult.surname;
+    
 }
 
 CzechiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -3753,9 +4160,7 @@ CzechiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResult
 BlinkID.prototype.CzechiaIdFrontRecognizerResult = CzechiaIdFrontRecognizerResult;
 
 /**
- * Class for configuring Cz ID Front Recognizer.
- * 
- * Cz ID Front recognizer is used for scanning front side of Cz ID.
+ * Recognizer which can scan the front side of Czech IDs.
  */
 function CzechiaIdFrontRecognizer() {
     Recognizer.call(this, 'CzechiaIdFrontRecognizer');
@@ -3768,53 +4173,77 @@ function CzechiaIdFrontRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Czech ID
+     * Defines if Czech ID owner's date of birth should be extracted
      * 
      *  
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Czech ID
+     * Defines if Czech ID's date of expiry should be extracted
      * 
      *  
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue should be extracted from Czech ID
+     * Defines if Czech ID's date of issue should be extracted
      * 
      *  
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if given names of Czech ID owner should be extracted
+     * Defines if Czech ID owner's given names should be extracted
      * 
      *  
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if place of birth should be extracted from Czech ID
+     * Defines if Czech ID owner's place of birth should be extracted
      * 
      *  
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     *  Defines if sex of Czech ID owner should be extracted
+     * Defines if Czech ID owner's sex should be extracted
      * 
-     *   
+     *  
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Czech ID owner should be extracted
+     * Defines if Czech ID owner's surname should be extracted
      * 
      *  
      */
     this.extractSurname = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
      * Sets whether face image from ID card should be extracted
@@ -3836,6 +4265,14 @@ function CzechiaIdFrontRecognizer() {
      *  
      */
     this.returnSignatureImage = false;
+    
+    /** 
+     * Property for setting DPI for signature images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.signatureImageDpi = 250;
     
     this.createResultFromNative = function (nativeResult) { return new CzechiaIdFrontRecognizerResult(nativeResult); }
 
@@ -4815,77 +5252,35 @@ GermanyDlBackRecognizer.prototype = new Recognizer('GermanyDlBackRecognizer');
 BlinkID.prototype.GermanyDlBackRecognizer = GermanyDlBackRecognizer;
 
 /**
- * Result object for GermanyIdBackRecognizer.
+ * Result object for GermanyDlFrontRecognizer.
  */
-function GermanyIdBackRecognizerResult(nativeResult) {
+function GermanyDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Full address 
-     */
-    this.address = nativeResult.address;
-    
-    /** 
-     * City 
-     */
-    this.addressCity = nativeResult.addressCity;
-    
-    /** 
-     * House number 
-     */
-    this.addressHouseNumber = nativeResult.addressHouseNumber;
-    
-    /** 
-     * Stret name in single line 
-     */
-    this.addressStreet = nativeResult.addressStreet;
-    
-    /** 
-     * ZIP code 
-     */
-    this.addressZipCode = nativeResult.addressZipCode;
-    
-    /** 
-     * Issuing authority of the ID 
-     */
-    this.authority = nativeResult.authority;
-    
-    /** 
-     * Holder's date of birth. 
+     * The date of birth of Germany DL owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * Date of expiry of the document. 
+     * The date of expiry of Germany DL. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * Date of issue 
+     * The date of issue of Germany DL. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * The document code. Document code contains two characters. For MRTD the first character
-     * shall be A, C or I. The second character shall be discretion of the issuing State or organization
-     * except that V shall not be used, and C shall not be used after A except in the crew member
-     * certificate. On machine-readable passports (MRP) first character shall be P to designate an MRP.
-     * One additional letter may be used, at the discretion of the issuing State or organization,
-     * to designate a particular MRP. If the second character position is not used for this purpose, it
-     * shall be filled by the filter character <. 
+     * face image from the document if enabled with returnFaceImage property. 
      */
-    this.documentCode = nativeResult.documentCode;
+    this.faceImage = nativeResult.faceImage;
     
     /** 
-     * Unique number of the document. Document number contains up to 9 characters.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
+     * The first name of the Germany DL owner. 
      */
-    this.documentNumber = nativeResult.documentNumber;
-    
-    /** 
-     * Eye colour 
-     */
-    this.eyeColour = nativeResult.eyeColour;
+    this.firstName = nativeResult.firstName;
     
     /** 
      * full document image if enabled with returnFullDocumentImage property. 
@@ -4893,80 +5288,231 @@ function GermanyIdBackRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * Height in cm 
+     * The issuing authority of the Germany DL. 
+     */
+    this.issuingAuthority = nativeResult.issuingAuthority;
+    
+    /** 
+     * The last name of the Germany DL owner. 
+     */
+    this.lastName = nativeResult.lastName;
+    
+    /** 
+     * The licence categories of the Germany DL. 
+     */
+    this.licenceCategories = nativeResult.licenceCategories;
+    
+    /** 
+     * The licence number of the Germany DL. 
+     */
+    this.licenceNumber = nativeResult.licenceNumber;
+    
+    /** 
+     * The place of birth of Germany DL owner. 
+     */
+    this.placeOfBirth = nativeResult.placeOfBirth;
+    
+    /** 
+     * image of the signature if enabled with returnSignatureImage property. 
+     */
+    this.signatureImage = nativeResult.signatureImage;
+    
+}
+
+GermanyDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.GermanyDlFrontRecognizerResult = GermanyDlFrontRecognizerResult;
+
+/**
+ * Recognizer which can scan front side of Germany national DL cards
+ */
+function GermanyDlFrontRecognizer() {
+    Recognizer.call(this, 'GermanyDlFrontRecognizer');
+    
+    /** 
+     * Defines if glare detection should be turned on/off.
+     * 
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Defines if date of birth of Germany DL owner should be extracted.
+     * 
+     *  
+     */
+    this.extractDateOfBirth = true;
+    
+    /** 
+     * Defines if date of expiry of Germany DL should be extracted.
+     * 
+     *  
+     */
+    this.extractDateOfExpiry = true;
+    
+    /** 
+     * Defines if date of issue of Germany DL should be extracted.
+     * 
+     *  
+     */
+    this.extractDateOfIssue = true;
+    
+    /** 
+     * Defines if first name of Germany DL owner should be extracted.
+     * 
+     *  
+     */
+    this.extractFirstName = true;
+    
+    /** 
+     * Defines if issuing authority of Germany DL should be extracted.
+     * 
+     *  
+     */
+    this.extractIssuingAuthority = true;
+    
+    /** 
+     * Defines if last name of Germany DL owner should be extracted.
+     * 
+     *  
+     */
+    this.extractLastName = true;
+    
+    /** 
+     * Defines if licence categories of Germany DL should be extracted.
+     * 
+     *  
+     */
+    this.extractLicenceCategories = true;
+    
+    /** 
+     * Defines if place of birth of Germany DL owner should be extracted.
+     * 
+     *  
+     */
+    this.extractPlaceOfBirth = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Sets whether face image from ID card should be extracted
+     * 
+     *  
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     *  
+     */
+    this.returnFullDocumentImage = false;
+    
+    /** 
+     * Sets whether signature image from ID card should be extracted.
+     * 
+     *  
+     */
+    this.returnSignatureImage = false;
+    
+    /** 
+     * Property for setting DPI for signature images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.signatureImageDpi = 250;
+    
+    this.createResultFromNative = function (nativeResult) { return new GermanyDlFrontRecognizerResult(nativeResult); }
+
+}
+
+GermanyDlFrontRecognizer.prototype = new Recognizer('GermanyDlFrontRecognizer');
+
+BlinkID.prototype.GermanyDlFrontRecognizer = GermanyDlFrontRecognizer;
+
+/**
+ * Result object for GermanyIdBackRecognizer.
+ */
+function GermanyIdBackRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * The city of German ID owner. 
+     */
+    this.addressCity = nativeResult.addressCity;
+    
+    /** 
+     * The house number of German ID owner. 
+     */
+    this.addressHouseNumber = nativeResult.addressHouseNumber;
+    
+    /** 
+     * The street of German ID owner. 
+     */
+    this.addressStreet = nativeResult.addressStreet;
+    
+    /** 
+     * The zip code of German ID owner. 
+     */
+    this.addressZipCode = nativeResult.addressZipCode;
+    
+    /** 
+     * The issuing authority of German ID. 
+     */
+    this.authority = nativeResult.authority;
+    
+    /** 
+     * The colour of eyes of German ID owner. 
+     */
+    this.colourOfEyes = nativeResult.colourOfEyes;
+    
+    /** 
+     * The date of issue of German ID. 
+     */
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    
+    /** 
+     * The full address of German ID owner. 
+     */
+    this.fullAddress = nativeResult.fullAddress;
+    
+    /** 
+     * full document image if enabled with returnFullDocumentImage property. 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The height of German ID owner. 
      */
     this.height = nativeResult.height;
     
     /** 
-     * Three-letter code which indicate the issuing State.
-     * Three-letter codes are based on Alpha-3 codes for entities specified in
-     * ISO 3166-1, with extensions for certain States. 
+     * The data extracted from the machine readable zone. 
      */
-    this.issuer = nativeResult.issuer;
-    
-    /** 
-     * Boolean value which denotes that MRTD result is successfully parsed. When the result is parsed, all
-     * properties below are present.
-     * 
-     * If in the PPMrtdRecognizerSettings you specified allowUnparsedResults = true, then it can happen that
-     * MRTDRecognizerResult is not parsed. When this happens, this property will be equal to true.
-     * 
-     * In that case, you can use rawOcrResult property to obtain the raw result of the OCR process, so you can
-     * implement MRTD parsing in your application.
-     * 
-     *  @return true if MRTD Recognizer result was successfully parsed and all the fields are extracted. false otherwise. 
-     */
-    this.mrzParsed = nativeResult.mrzParsed;
-    
-    /** 
-     * The entire Machine Readable Zone text from ID. This text is usually used for parsing
-     * other elements. 
-     */
-    this.mrzText = nativeResult.mrzText;
-    
-    /** 
-     * true if all check digits inside MRZ are correct, false otherwise.
-     * More specifically, true if MRZ complies with ICAO Document 9303 standard, false otherwise. 
-     */
-    this.mrzVerified = nativeResult.mrzVerified;
-    
-    /** 
-     * Nationality of the holder represented by a three-letter code. Three-letter codes are based
-     * on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. 
-     */
-    this.nationality = nativeResult.nationality;
-    
-    /** 
-     * First optional data. Returns nil or empty string if not available.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.opt1 = nativeResult.opt1;
-    
-    /** 
-     * Second optional data. Returns nil or empty string if not available.
-     * Element does not exist on Passports and Visas. To see which document was scanned use documentType property. 
-     */
-    this.opt2 = nativeResult.opt2;
-    
-    /** 
-     * Returns the primary indentifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return primary id of a card holder. 
-     */
-    this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Returns the secondary identifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return secondary id of a card holder 
-     */
-    this.secondaryId = nativeResult.secondaryId;
-    
-    /** 
-     * Sex of the card holder. Sex is specified by use of the single initial, capital
-     * letter F for female, M for male or < for unspecified. 
-     */
-    this.sex = nativeResult.sex;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
 }
 
@@ -4975,9 +5521,7 @@ GermanyIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultS
 BlinkID.prototype.GermanyIdBackRecognizerResult = GermanyIdBackRecognizerResult;
 
 /**
- * Class for configuring German ID Back Recognizer.
- * 
- * German ID Back recognizer is used for scanning back side of German ID.
+ * Recognizer which can scan back side of German ID.
  */
 function GermanyIdBackRecognizer() {
     Recognizer.call(this, 'GermanyIdBackRecognizer');
@@ -4990,39 +5534,47 @@ function GermanyIdBackRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's address should be extracted from German ID
+     * Defines if address of German ID owner should be extracted.
      * 
      *  
      */
     this.extractAddress = true;
     
     /** 
-     * If authority should be extracted, set this to true
+     * Defines if issuing authority of German ID should be extracted.
      * 
      *  
      */
     this.extractAuthority = true;
     
     /** 
-     * If date of issue should be extracted, set this to true
+     * Defines if colour of eyes of German ID owner should be extracted.
+     * 
+     *  
+     */
+    this.extractColourOfEyes = true;
+    
+    /** 
+     * Defines if date of issue of German ID should be extracted.
      * 
      *  
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * If eye color should be extracted, set this to true
-     * 
-     *  
-     */
-    this.extractEyeColour = true;
-    
-    /** 
-     * If height should be extracted, set this to true
+     * Defines if height of German ID owner should be extracted.
      * 
      *  
      */
     this.extractHeight = true;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Image extension factors for full document image.
@@ -5238,37 +5790,10 @@ GermanyIdFrontRecognizer.prototype = new Recognizer('GermanyIdFrontRecognizer');
 BlinkID.prototype.GermanyIdFrontRecognizer = GermanyIdFrontRecognizer;
 
 /**
- * Result object for GermanyOldIdRecognizer.
+ * Result object for GermanyIdOldRecognizer.
  */
-function GermanyOldIdRecognizerResult(nativeResult) {
+function GermanyIdOldRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
-    
-    /** 
-     * Holder's date of birth. 
-     */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
-    
-    /** 
-     * Date of expiry of the document. 
-     */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
-    
-    /** 
-     * The document code. Document code contains two characters. For MRTD the first character
-     * shall be A, C or I. The second character shall be discretion of the issuing State or organization
-     * except that V shall not be used, and C shall not be used after A except in the crew member
-     * certificate. On machine-readable passports (MRP) first character shall be P to designate an MRP.
-     * One additional letter may be used, at the discretion of the issuing State or organization,
-     * to designate a particular MRP. If the second character position is not used for this purpose, it
-     * shall be filled by the filter character <. 
-     */
-    this.documentCode = nativeResult.documentCode;
-    
-    /** 
-     * Unique number of the document. Document number contains up to 9 characters.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.documentNumber = nativeResult.documentNumber;
     
     /** 
      * face image from the document if enabled with returnFaceImage property. 
@@ -5281,80 +5806,14 @@ function GermanyOldIdRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * Three-letter code which indicate the issuing State.
-     * Three-letter codes are based on Alpha-3 codes for entities specified in
-     * ISO 3166-1, with extensions for certain States. 
+     * The data extracted from the machine readable zone. 
      */
-    this.issuer = nativeResult.issuer;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * Boolean value which denotes that MRTD result is successfully parsed. When the result is parsed, all
-     * properties below are present.
-     * 
-     * If in the PPMrtdRecognizerSettings you specified allowUnparsedResults = true, then it can happen that
-     * MRTDRecognizerResult is not parsed. When this happens, this property will be equal to true.
-     * 
-     * In that case, you can use rawOcrResult property to obtain the raw result of the OCR process, so you can
-     * implement MRTD parsing in your application.
-     * 
-     *  @return true if MRTD Recognizer result was successfully parsed and all the fields are extracted. false otherwise. 
-     */
-    this.mrzParsed = nativeResult.mrzParsed;
-    
-    /** 
-     * The entire Machine Readable Zone text from ID. This text is usually used for parsing
-     * other elements. 
-     */
-    this.mrzText = nativeResult.mrzText;
-    
-    /** 
-     * true if all check digits inside MRZ are correct, false otherwise.
-     * More specifically, true if MRZ complies with ICAO Document 9303 standard, false otherwise. 
-     */
-    this.mrzVerified = nativeResult.mrzVerified;
-    
-    /** 
-     * Nationality of the holder represented by a three-letter code. Three-letter codes are based
-     * on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. 
-     */
-    this.nationality = nativeResult.nationality;
-    
-    /** 
-     * First optional data. Returns nil or empty string if not available.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.opt1 = nativeResult.opt1;
-    
-    /** 
-     * Second optional data. Returns nil or empty string if not available.
-     * Element does not exist on Passports and Visas. To see which document was scanned use documentType property. 
-     */
-    this.opt2 = nativeResult.opt2;
-    
-    /** 
-     * The place of birth on the German ID 
+     * The place of birth of old German ID owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
-    
-    /** 
-     * Returns the primary indentifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return primary id of a card holder. 
-     */
-    this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Returns the secondary identifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return secondary id of a card holder 
-     */
-    this.secondaryId = nativeResult.secondaryId;
-    
-    /** 
-     * Sex of the card holder. Sex is specified by use of the single initial, capital
-     * letter F for female, M for male or < for unspecified. 
-     */
-    this.sex = nativeResult.sex;
     
     /** 
      * image of the signature if enabled with returnSignatureImage property. 
@@ -5363,17 +5822,15 @@ function GermanyOldIdRecognizerResult(nativeResult) {
     
 }
 
-GermanyOldIdRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+GermanyIdOldRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
 
-BlinkID.prototype.GermanyOldIdRecognizerResult = GermanyOldIdRecognizerResult;
+BlinkID.prototype.GermanyIdOldRecognizerResult = GermanyIdOldRecognizerResult;
 
 /**
- * Class for configuring German Old ID Recognizer.
- * 
- * German Old ID recognizer is used for scanning German Old ID.
+ * Recognizer which can scan old German ID.
  */
-function GermanyOldIdRecognizer() {
-    Recognizer.call(this, 'GermanyOldIdRecognizer');
+function GermanyIdOldRecognizer() {
+    Recognizer.call(this, 'GermanyIdOldRecognizer');
     
     /** 
      * Defines if glare detection should be turned on/off.
@@ -5383,11 +5840,27 @@ function GermanyOldIdRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted from German ID
+     * Defines if place of birth of old German ID owner should be extracted.
      * 
      *  
      */
     this.extractPlaceOfBirth = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Image extension factors for full document image.
@@ -5418,13 +5891,21 @@ function GermanyOldIdRecognizer() {
      */
     this.returnSignatureImage = false;
     
-    this.createResultFromNative = function (nativeResult) { return new GermanyOldIdRecognizerResult(nativeResult); }
+    /** 
+     * Property for setting DPI for signature images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.signatureImageDpi = 250;
+    
+    this.createResultFromNative = function (nativeResult) { return new GermanyIdOldRecognizerResult(nativeResult); }
 
 }
 
-GermanyOldIdRecognizer.prototype = new Recognizer('GermanyOldIdRecognizer');
+GermanyIdOldRecognizer.prototype = new Recognizer('GermanyIdOldRecognizer');
 
-BlinkID.prototype.GermanyOldIdRecognizer = GermanyOldIdRecognizer;
+BlinkID.prototype.GermanyIdOldRecognizer = GermanyIdOldRecognizer;
 
 /**
  * Result object for GermanyPassportRecognizer.
@@ -5433,41 +5914,14 @@ function GermanyPassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Issuing authority of the Passport 
+     * The issuing authority of German passport. 
      */
     this.authority = nativeResult.authority;
     
     /** 
-     * Holder's date of birth. 
-     */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
-    
-    /** 
-     * Date of expiry of the document. 
-     */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
-    
-    /** 
-     * Date of issue in NSDate object 
+     * The date of issue of German passport. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
-    
-    /** 
-     * The document code. Document code contains two characters. For MRTD the first character
-     * shall be A, C or I. The second character shall be discretion of the issuing State or organization
-     * except that V shall not be used, and C shall not be used after A except in the crew member
-     * certificate. On machine-readable passports (MRP) first character shall be P to designate an MRP.
-     * One additional letter may be used, at the discretion of the issuing State or organization,
-     * to designate a particular MRP. If the second character position is not used for this purpose, it
-     * shall be filled by the filter character <. 
-     */
-    this.documentCode = nativeResult.documentCode;
-    
-    /** 
-     * Unique number of the document. Document number contains up to 9 characters.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.documentNumber = nativeResult.documentNumber;
     
     /** 
      * face image from the document if enabled with returnFaceImage property. 
@@ -5480,85 +5934,24 @@ function GermanyPassportRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * Three-letter code which indicate the issuing State.
-     * Three-letter codes are based on Alpha-3 codes for entities specified in
-     * ISO 3166-1, with extensions for certain States. 
+     * The given name of German passport owner. 
      */
-    this.issuer = nativeResult.issuer;
+    this.givenName = nativeResult.givenName;
     
     /** 
-     * Boolean value which denotes that MRTD result is successfully parsed. When the result is parsed, all
-     * properties below are present.
-     * 
-     * If in the PPMrtdRecognizerSettings you specified allowUnparsedResults = true, then it can happen that
-     * MRTDRecognizerResult is not parsed. When this happens, this property will be equal to true.
-     * 
-     * In that case, you can use rawOcrResult property to obtain the raw result of the OCR process, so you can
-     * implement MRTD parsing in your application.
-     * 
-     *  @return true if MRTD Recognizer result was successfully parsed and all the fields are extracted. false otherwise. 
+     * The data extracted from the machine readable zone. 
      */
-    this.mrzParsed = nativeResult.mrzParsed;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * The entire Machine Readable Zone text from ID. This text is usually used for parsing
-     * other elements. 
-     */
-    this.mrzText = nativeResult.mrzText;
-    
-    /** 
-     * true if all check digits inside MRZ are correct, false otherwise.
-     * More specifically, true if MRZ complies with ICAO Document 9303 standard, false otherwise. 
-     */
-    this.mrzVerified = nativeResult.mrzVerified;
-    
-    /** 
-     * The name of the German Passport owner. 
-     */
-    this.name = nativeResult.name;
-    
-    /** 
-     * Nationality of the holder represented by a three-letter code. Three-letter codes are based
-     * on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. 
+     * The nationality of German passport owner. 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * First optional data. Returns nil or empty string if not available.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.opt1 = nativeResult.opt1;
-    
-    /** 
-     * Second optional data. Returns nil or empty string if not available.
-     * Element does not exist on Passports and Visas. To see which document was scanned use documentType property. 
-     */
-    this.opt2 = nativeResult.opt2;
-    
-    /** 
-     * The place of birth of the German Passport owner 
+     * The place of birth of German passport owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
-    
-    /** 
-     * Returns the primary indentifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return primary id of a card holder. 
-     */
-    this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Returns the secondary identifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return secondary id of a card holder 
-     */
-    this.secondaryId = nativeResult.secondaryId;
-    
-    /** 
-     * Sex of the card holder. Sex is specified by use of the single initial, capital
-     * letter F for female, M for male or < for unspecified. 
-     */
-    this.sex = nativeResult.sex;
     
     /** 
      * image of the signature if enabled with returnSignatureImage property. 
@@ -5566,7 +5959,7 @@ function GermanyPassportRecognizerResult(nativeResult) {
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The surname of the German Passport owner. 
+     * The surname of German passport owner. 
      */
     this.surname = nativeResult.surname;
     
@@ -5577,9 +5970,7 @@ GermanyPassportRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.GermanyPassportRecognizerResult = GermanyPassportRecognizerResult;
 
 /**
- * Class for configuring German Passport Recognizer.
- * 
- * German Passport recognizer is used for scanning German Passport.
+ * Recognizer which can scan German passport.
  */
 function GermanyPassportRecognizer() {
     Recognizer.call(this, 'GermanyPassportRecognizer');
@@ -5592,46 +5983,62 @@ function GermanyPassportRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines if authority should be extracted from German ID
+     * Defines if issuing authority of German passport should be extracted.
      * 
      *  
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if date of issue should be extracted from German ID
+     * Defines if date of issue of German passport should be extracted.
      * 
      *  
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if owner's name should be extracted from German ID
+     * Defines if given name of German passport owner should be extracted.
      * 
      *  
      */
-    this.extractName = true;
+    this.extractGivenName = true;
     
     /** 
-     * Defines if owner's nationality should be extracted from German ID
+     * Defines if nationality of German passport owner should be extracted.
      * 
      *  
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted from German ID
+     * Defines if place of birth of German passport owner should be extracted.
      * 
      *  
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if owner's surname should be extracted from German ID
+     * Defines if surname of German passport owner should be extracted.
      * 
      *  
      */
     this.extractSurname = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
     
     /** 
      * Image extension factors for full document image.
@@ -5661,6 +6068,14 @@ function GermanyPassportRecognizer() {
      *  
      */
     this.returnSignatureImage = false;
+    
+    /** 
+     * Property for setting DPI for signature images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.signatureImageDpi = 250;
     
     this.createResultFromNative = function (nativeResult) { return new GermanyPassportRecognizerResult(nativeResult); }
 
@@ -7599,16 +8014,6 @@ function MalaysiaMyKadBackRecognizerResult(nativeResult) {
      */
     this.oldNric = nativeResult.oldNric;
     
-    /** 
-     * The Sex of the MyKad owner. 
-     */
-    this.sex = nativeResult.sex;
-    
-    /** 
-     * image of the signature if enabled with returnSignatureImage property. 
-     */
-    this.signatureImage = nativeResult.signatureImage;
-    
 }
 
 MalaysiaMyKadBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -7659,21 +8064,6 @@ function MalaysiaMyKadBackRecognizer() {
      *  
      */
     this.returnFullDocumentImage = false;
-    
-    /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
-     */
-    this.returnSignatureImage = false;
-    
-    /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
-     */
-    this.signatureImageDpi = 250;
     
     this.createResultFromNative = function (nativeResult) { return new MalaysiaMyKadBackRecognizerResult(nativeResult); }
 
@@ -8778,28 +9168,6 @@ function MrtdCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Alien number. Returns nil or empty string if not available.
-     * Exists only on US Green Cards. To see which document was scanned use documentType property. 
-     */
-    this.alienNumber = nativeResult.alienNumber;
-    
-    /** 
-     * Application receipt number. Returns nil or empty string if not available.
-     * Exists only on US Green Cards. To see which document was scanned use documentType property. 
-     */
-    this.applicationReceiptNumber = nativeResult.applicationReceiptNumber;
-    
-    /** 
-     * Holder's date of birth. 
-     */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
-    
-    /** 
-     * Date of expiry of the document. 
-     */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
-    
-    /** 
      * Digital signature of the recognition result. Available only if enabled with signResult property. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
@@ -8810,34 +9178,12 @@ function MrtdCombinedRecognizerResult(nativeResult) {
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * The document code. Document code contains two characters. For MRTD the first character
-     * shall be A, C or I. The second character shall be discretion of the issuing State or organization
-     * except that V shall not be used, and C shall not be used after A except in the crew member
-     * certificate. On machine-readable passports (MRP) first character shall be P to designate an MRP.
-     * One additional letter may be used, at the discretion of the issuing State or organization,
-     * to designate a particular MRP. If the second character position is not used for this purpose, it
-     * shall be filled by the filter character <. 
-     */
-    this.documentCode = nativeResult.documentCode;
-    
-    /** 
      * Returns true if data from scanned parts/sides of the document match,
      * false otherwise. For example if date of expiry is scanned from the front and back side
      * of the document and values do not match, this method will return false. Result will
      * be true only if scanned values for all fields that are compared are the same. 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
-    
-    /** 
-     * Unique number of the document. Document number contains up to 9 characters.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.documentNumber = nativeResult.documentNumber;
-    
-    /** 
-     * Returns the MRTD document type of recognized document. 
-     */
-    this.documentType = nativeResult.documentType;
     
     /** 
      * face image from the document if enabled with returnFaceImage property. 
@@ -8855,92 +9201,15 @@ function MrtdCombinedRecognizerResult(nativeResult) {
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /** 
-     * Immigrant case number. Returns nil or empty string if not available.
-     * Exists only on US Green Cards. To see which document was scanned use documentType property. 
+     * Returns the Data extracted from the machine readable zone. 
      */
-    this.immigrantCaseNumber = nativeResult.immigrantCaseNumber;
-    
-    /** 
-     * Three-letter code which indicate the issuing State.
-     * Three-letter codes are based on Alpha-3 codes for entities specified in
-     * ISO 3166-1, with extensions for certain States. 
-     */
-    this.issuer = nativeResult.issuer;
-    
-    /** 
-     * face image from the document if enabled with returnMrzImage property. 
-     */
-    this.mrzImage = nativeResult.mrzImage;
-    
-    /** 
-     * Boolean value which denotes that MRTD result is successfully parsed. When the result is parsed, all
-     * properties below are present.
-     * 
-     * If in the PPMrtdRecognizerSettings you specified allowUnparsedResults = true, then it can happen that
-     * MRTDRecognizerResult is not parsed. When this happens, this property will be equal to true.
-     * 
-     * In that case, you can use rawOcrResult property to obtain the raw result of the OCR process, so you can
-     * implement MRTD parsing in your application.
-     * 
-     *  @return true if MRTD Recognizer result was successfully parsed and all the fields are extracted. false otherwise. 
-     */
-    this.mrzParsed = nativeResult.mrzParsed;
-    
-    /** 
-     * The entire Machine Readable Zone text from ID. This text is usually used for parsing
-     * other elements. 
-     */
-    this.mrzText = nativeResult.mrzText;
-    
-    /** 
-     * true if all check digits inside MRZ are correct, false otherwise.
-     * More specifically, true if MRZ complies with ICAO Document 9303 standard, false otherwise. 
-     */
-    this.mrzVerified = nativeResult.mrzVerified;
-    
-    /** 
-     * Nationality of the holder represented by a three-letter code. Three-letter codes are based
-     * on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. 
-     */
-    this.nationality = nativeResult.nationality;
-    
-    /** 
-     * First optional data. Returns nil or empty string if not available.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.opt1 = nativeResult.opt1;
-    
-    /** 
-     * Second optional data. Returns nil or empty string if not available.
-     * Element does not exist on Passports and Visas. To see which document was scanned use documentType property. 
-     */
-    this.opt2 = nativeResult.opt2;
-    
-    /** 
-     * Returns the primary indentifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return primary id of a card holder. 
-     */
-    this.primaryId = nativeResult.primaryId;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
      * Returns true if recognizer has finished scanning first side and is now scanning back side,
      * false if it's still scanning first side. 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
-    
-    /** 
-     * Returns the secondary identifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return secondary id of a card holder 
-     */
-    this.secondaryId = nativeResult.secondaryId;
-    
-    /** 
-     * Sex of the card holder. Sex is specified by use of the single initial, capital
-     * letter F for female, M for male or < for unspecified. 
-     */
-    this.sex = nativeResult.sex;
     
 }
 
@@ -8972,6 +9241,44 @@ function MrtdCombinedRecognizer() {
     this.allowUnverifiedResults = false;
     
     /** 
+     * Defines if glare detection should be turned on/off.
+     * 
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Type of document this recognizer will scan.
+     * 
+     *  
+     */
+    this.detectorType = DocumentFaceDetectorType.TD1;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
      * Defines how many times the same document should be detected before the detector
      * returns this document as a result of the deteciton
      * 
@@ -8994,13 +9301,6 @@ function MrtdCombinedRecognizer() {
      *  
      */
     this.returnFullDocumentImage = false;
-    
-    /** 
-     * Sets whether MRZ image from ID card should be extracted
-     * 
-     *  
-     */
-    this.returnMrzImage = false;
     
     /** 
      * Whether or not recognition result should be signed.
@@ -9517,7 +9817,7 @@ function PaymentCardCombinedRecognizer() {
      * 
      *  
      */
-    this.extractOwner = true;
+    this.extractOwner = false;
     
     /** 
      * Should extract the payment card's month of expiry
@@ -9628,7 +9928,7 @@ function PaymentCardFrontRecognizer() {
      * 
      *  
      */
-    this.extractOwner = true;
+    this.extractOwner = false;
     
     /** 
      * Should extract the payment card's month of expiry
@@ -11954,36 +12254,9 @@ function SlovakiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the Slovakian ID owner. 
+     * The address of Slovak ID owner. 
      */
     this.address = nativeResult.address;
-    
-    /** 
-     * Holder's date of birth. 
-     */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
-    
-    /** 
-     * Date of expiry of the document. 
-     */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
-    
-    /** 
-     * The document code. Document code contains two characters. For MRTD the first character
-     * shall be A, C or I. The second character shall be discretion of the issuing State or organization
-     * except that V shall not be used, and C shall not be used after A except in the crew member
-     * certificate. On machine-readable passports (MRP) first character shall be P to designate an MRP.
-     * One additional letter may be used, at the discretion of the issuing State or organization,
-     * to designate a particular MRP. If the second character position is not used for this purpose, it
-     * shall be filled by the filter character <. 
-     */
-    this.documentCode = nativeResult.documentCode;
-    
-    /** 
-     * Unique number of the document. Document number contains up to 9 characters.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.documentNumber = nativeResult.documentNumber;
     
     /** 
      * full document image if enabled with returnFullDocumentImage property. 
@@ -11991,88 +12264,22 @@ function SlovakiaIdBackRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * Three-letter code which indicate the issuing State.
-     * Three-letter codes are based on Alpha-3 codes for entities specified in
-     * ISO 3166-1, with extensions for certain States. 
+     * The data extracted from the machine readable zone. 
      */
-    this.issuer = nativeResult.issuer;
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * Boolean value which denotes that MRTD result is successfully parsed. When the result is parsed, all
-     * properties below are present.
-     * 
-     * If in the PPMrtdRecognizerSettings you specified allowUnparsedResults = true, then it can happen that
-     * MRTDRecognizerResult is not parsed. When this happens, this property will be equal to true.
-     * 
-     * In that case, you can use rawOcrResult property to obtain the raw result of the OCR process, so you can
-     * implement MRTD parsing in your application.
-     * 
-     *  @return true if MRTD Recognizer result was successfully parsed and all the fields are extracted. false otherwise. 
-     */
-    this.mrzParsed = nativeResult.mrzParsed;
-    
-    /** 
-     * The entire Machine Readable Zone text from ID. This text is usually used for parsing
-     * other elements. 
-     */
-    this.mrzText = nativeResult.mrzText;
-    
-    /** 
-     * true if all check digits inside MRZ are correct, false otherwise.
-     * More specifically, true if MRZ complies with ICAO Document 9303 standard, false otherwise. 
-     */
-    this.mrzVerified = nativeResult.mrzVerified;
-    
-    /** 
-     * Nationality of the holder represented by a three-letter code. Three-letter codes are based
-     * on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. 
-     */
-    this.nationality = nativeResult.nationality;
-    
-    /** 
-     * First optional data. Returns nil or empty string if not available.
-     * Element does not exist on US Green Card. To see which document was scanned use documentType property. 
-     */
-    this.opt1 = nativeResult.opt1;
-    
-    /** 
-     * Second optional data. Returns nil or empty string if not available.
-     * Element does not exist on Passports and Visas. To see which document was scanned use documentType property. 
-     */
-    this.opt2 = nativeResult.opt2;
-    
-    /** 
-     * The place of birth of the Slovakian ID owner. 
+     * The place of birth of Slovak ID owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * Returns the primary indentifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return primary id of a card holder. 
-     */
-    this.primaryId = nativeResult.primaryId;
-    
-    /** 
-     * Returns the secondary identifier. If there is more than one component, they are separated with space.
-     * 
-     *  @return secondary id of a card holder 
-     */
-    this.secondaryId = nativeResult.secondaryId;
-    
-    /** 
-     * Sex of the card holder. Sex is specified by use of the single initial, capital
-     * letter F for female, M for male or < for unspecified. 
-     */
-    this.sex = nativeResult.sex;
-    
-    /** 
-     * The special remarks of the Slovakian ID owner. 
+     * The special remarks of Slovak ID owner. 
      */
     this.specialRemarks = nativeResult.specialRemarks;
     
     /** 
-     * The surname at birth of the Slovakian ID owner. 
+     * The surname at birth of Slovak ID owner. 
      */
     this.surnameAtBirth = nativeResult.surnameAtBirth;
     
@@ -12083,9 +12290,7 @@ SlovakiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResult
 BlinkID.prototype.SlovakiaIdBackRecognizerResult = SlovakiaIdBackRecognizerResult;
 
 /**
- * Class for configuring Slovak ID Back Recognizer.
- * 
- * Slovak ID Back recognizer is used for scanning back side of Slovak ID.
+ * Recognizer which can scan back side of Slovak ID cards.
  */
 function SlovakiaIdBackRecognizer() {
     Recognizer.call(this, 'SlovakiaIdBackRecognizer');
@@ -12098,25 +12303,48 @@ function SlovakiaIdBackRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted from Slovakian ID
+     * Defines if address of Slovak ID owner should be extracted.
+     * 
+     *  
+     */
+    this.extractAddress = true;
+    
+    /** 
+     * Defines if place of birth of Slovak ID owner should be extracted.
      * 
      *  
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if owner's special remarks should be extracted from Slovakian ID
+     * Defines if special remarks of Slovak ID owner should be extracted.
      * 
      *  
      */
     this.extractSpecialRemarks = true;
     
     /** 
-     * Defines if owner's surname at birth should be extracted from Slovakian ID
+     * Defines if surname at birth of Slovak ID owner should be extracted.
      * 
      *  
      */
     this.extractSurnameAtBirth = true;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
      * Sets whether full document image of ID card should be extracted.
@@ -12140,22 +12368,22 @@ function SlovakiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date of birth of the Slovakian ID owner. 
+     * The date of birth of the Slovak ID owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date of expiry of the Slovakian ID. 
+     * The date of expiry of the Slovak ID card. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date of issue of the Slovakian ID. 
+     * The date of issue of the Slovak ID card. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * The document number of the Slovakian ID. 
+     * The document number of the Slovak ID card. 
      */
     this.documentNumber = nativeResult.documentNumber;
     
@@ -12165,7 +12393,7 @@ function SlovakiaIdFrontRecognizerResult(nativeResult) {
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first name of the Slovakian ID owner. 
+     * The first name of the Slovak ID owner. 
      */
     this.firstName = nativeResult.firstName;
     
@@ -12175,27 +12403,27 @@ function SlovakiaIdFrontRecognizerResult(nativeResult) {
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issuing authority of the ID. 
+     * The issuing authority of the Slovak ID card. 
      */
     this.issuedBy = nativeResult.issuedBy;
     
     /** 
-     * The last name of the Slovakian ID owner. 
+     * The last name of the Slovak ID owner. 
      */
     this.lastName = nativeResult.lastName;
     
     /** 
-     * The nationality of the Slovakian ID owner. 
+     * The nationality of the Slovak ID owner. 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * The personal number of the Slovakian ID owner. 
+     * The personal number of the Slovak ID owner. 
      */
     this.personalNumber = nativeResult.personalNumber;
     
     /** 
-     * The sex of the Slovakian ID owner. 
+     * The sex of the Slovak ID owner. 
      */
     this.sex = nativeResult.sex;
     
@@ -12211,9 +12439,7 @@ SlovakiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.SlovakiaIdFrontRecognizerResult = SlovakiaIdFrontRecognizerResult;
 
 /**
- * Class for configuring Slovak ID Front Recognizer.
- * 
- * Slovak ID Front recognizer is used for scanning front side of Slovak ID.
+ * Recognizer which can scan front side of Slovak national ID cards.
  */
 function SlovakiaIdFrontRecognizer() {
     Recognizer.call(this, 'SlovakiaIdFrontRecognizer');
@@ -12226,53 +12452,91 @@ function SlovakiaIdFrontRecognizer() {
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's date of birth should be extracted from Slovakian ID
+     * Defines if date of birth of Slovak ID owner should be extracted.
      * 
      *  
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if ID's date of expiry should be extracted
+     * Defines if date of expiry of Slovak ID should be extracted.
      * 
      *  
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if ID's date of issue should be extracted
+     * Defines if date of issue of Slovak ID should be extracted.
      * 
      *  
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if issuing document number should be extracted from Slovakian ID
+     * Defines if document number of Slovak ID should be extracted.
      * 
      *  
      */
     this.extractDocumentNumber = true;
     
     /** 
-     * Defines if issuing authority should be extracted from Slovakian ID
+     * Defines if first name of Slovak ID owner should be extracted.
+     * 
+     *  
+     */
+    this.extractFirstName = true;
+    
+    /** 
+     * Defines if issuing authority of Slovak ID should be extracted.
      * 
      *  
      */
     this.extractIssuedBy = true;
     
     /** 
-     * Defines if owner's nationality should be extracted from Slovakian ID
+     * Defines if last name of Slovak ID owner should be extracted.
+     * 
+     *  
+     */
+    this.extractLastName = true;
+    
+    /** 
+     * Defines if nationality of Slovak ID owner should be extracted.
      * 
      *  
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if owner's sex should be extracted from Slovakian ID
+     * Defines if sex of Slovak ID owner should be extracted.
      * 
      *  
      */
     this.extractSex = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
      * Sets whether face image from ID card should be extracted
@@ -12294,6 +12558,14 @@ function SlovakiaIdFrontRecognizer() {
      *  
      */
     this.returnSignatureImage = false;
+    
+    /** 
+     * Property for setting DPI for signature images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.signatureImageDpi = 250;
     
     this.createResultFromNative = function (nativeResult) { return new SlovakiaIdFrontRecognizerResult(nativeResult); }
 
