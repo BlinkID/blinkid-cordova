@@ -11,14 +11,13 @@ public final class MrtdRecognizerSerialization implements RecognizerSerializatio
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.mrtd.MrtdRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.mrtd.MrtdRecognizer();
+        recognizer.setAllowSpecialCharacters(jsonRecognizer.optBoolean("allowSpecialCharacters", false));
         recognizer.setAllowUnparsedResults(jsonRecognizer.optBoolean("allowUnparsedResults", false));
         recognizer.setAllowUnverifiedResults(jsonRecognizer.optBoolean("allowUnverifiedResults", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
-        recognizer.setMrzImageDpi(jsonRecognizer.optInt("mrzImageDpi", 250));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
-        recognizer.setReturnMrzImage(jsonRecognizer.optBoolean("returnMrzImage", false));
         return recognizer;
     }
 
@@ -29,7 +28,6 @@ public final class MrtdRecognizerSerialization implements RecognizerSerializatio
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("mrzImage", SerializationUtils.encodeImageBase64(result.getMrzImage()));
             jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException

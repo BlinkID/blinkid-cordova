@@ -6,15 +6,16 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class PaymentCardCombinedRecognizerSerialization implements RecognizerSerialization {
+public final class BlinkCardRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardCombinedRecognizer();
+        com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer recognizer = new com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer();
         recognizer.setAnonymizeCardNumber(jsonRecognizer.optBoolean("anonymizeCardNumber", false));
         recognizer.setAnonymizeCvv(jsonRecognizer.optBoolean("anonymizeCvv", false));
         recognizer.setAnonymizeOwner(jsonRecognizer.optBoolean("anonymizeOwner", false));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractCvv(jsonRecognizer.optBoolean("extractCvv", true));
         recognizer.setExtractInventoryNumber(jsonRecognizer.optBoolean("extractInventoryNumber", true));
         recognizer.setExtractOwner(jsonRecognizer.optBoolean("extractOwner", false));
         recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
@@ -27,7 +28,7 @@ public final class PaymentCardCombinedRecognizerSerialization implements Recogni
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardCombinedRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardCombinedRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer.Result result = ((com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
@@ -39,6 +40,7 @@ public final class PaymentCardCombinedRecognizerSerialization implements Recogni
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
             jsonResult.put("inventoryNumber", result.getInventoryNumber());
+            jsonResult.put("issuer", SerializationUtils.serializeEnum(result.getIssuer()));
             jsonResult.put("owner", result.getOwner());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("validThru", SerializationUtils.serializeDate(result.getValidThru()));
@@ -51,11 +53,11 @@ public final class PaymentCardCombinedRecognizerSerialization implements Recogni
 
     @Override
     public String getJsonName() {
-        return "PaymentCardCombinedRecognizer";
+        return "BlinkCardRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.paymentcard.PaymentCardCombinedRecognizer.class;
+        return com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer.class;
     }
 }
