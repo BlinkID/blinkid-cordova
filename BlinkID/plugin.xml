@@ -2,13 +2,13 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkid-cordova" 
-        version="4.6.0">
+        version="4.7.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
     <license>MIT</license>
     <keywords>ID</keywords>
-    <author>MicroBlink Team info@microblink.com</author>
+    <author>Microblink Team info@microblink.com</author>
 
     <engines>
         <engine name="cordova" version=">=7.0.0" />
