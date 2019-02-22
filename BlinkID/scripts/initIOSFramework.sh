@@ -4,7 +4,7 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd "${HERE}/../src/ios/" > /dev/null
 
-LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v4.6.0/blinkid-ios_v4.6.0.zip'
+LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v4.7.0/blinkid-ios_v4.7.0.zip'
 FILENAME='blinkid-ios.zip'
 
 # check if Microblink framework and bundle already exist
@@ -15,18 +15,18 @@ echo "Unzipping ${FILENAME}"
 unzip -v > /dev/null 2>&1 || { echo "ERROR: couldn't unzip Microblink framework, install unzip" && exit 1; }
 unzip -o "${FILENAME}" > /dev/null 2>&1 && echo "Unzipped ${FILENAME}"
 
-if [ -d 'MicroBlink.bundle' ] ; then
-    rm -rf MicroBlink.bundle && echo "Removing MicroBlink.bundle"
+if [ -d 'Microblink.bundle' ] ; then
+    rm -rf Microblink.bundle && echo "Removing Microblink.bundle"
 fi
 
-if [ -d 'MicroBlink.framework' ] ; then
-    rm -rf MicroBlink.framework && echo "Removing MicroBlink.framework"
+if [ -d 'Microblink.framework' ] ; then
+    rm -rf Microblink.framework && echo "Removing Microblink.framework"
 fi 
 
 cd blinkid-ios || exit 1
 
-mv -f MicroBlink.framework ../MicroBlink.framework
-mv -f MicroBlink.bundle ../MicroBlink.bundle
+mv -f Microblink.framework ../Microblink.framework
+mv -f Microblink.bundle ../Microblink.bundle
 
 cd ..
 
