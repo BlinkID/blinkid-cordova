@@ -6,16 +6,15 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class ElitePaymentCardBackRecognizerSerialization implements RecognizerSerialization {
+public final class BruneiTemporaryResidencePermitBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardBackRecognizer();
-        recognizer.setAnonymizeCardNumber(jsonRecognizer.optBoolean("anonymizeCardNumber", false));
-        recognizer.setAnonymizeCvv(jsonRecognizer.optBoolean("anonymizeCvv", false));
+        com.microblink.entities.recognizers.blinkid.brunei.BruneiTemporaryResidencePermitBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.brunei.BruneiTemporaryResidencePermitBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractInventoryNumber(jsonRecognizer.optBoolean("extractInventoryNumber", true));
-        recognizer.setExtractValidThru(jsonRecognizer.optBoolean("extractValidThru", true));
+        recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
+        recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
+        recognizer.setExtractPassportNumber(jsonRecognizer.optBoolean("extractPassportNumber", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
@@ -24,15 +23,15 @@ public final class ElitePaymentCardBackRecognizerSerialization implements Recogn
 
     @Override
     public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardBackRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.brunei.BruneiTemporaryResidencePermitBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.brunei.BruneiTemporaryResidencePermitBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("cardNumber", result.getCardNumber());
-            jsonResult.put("cvv", result.getCvv());
+            jsonResult.put("address", result.getAddress());
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("inventoryNumber", result.getInventoryNumber());
-            jsonResult.put("validThru", SerializationUtils.serializeDate(result.getValidThru()));
+            jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
+            jsonResult.put("passportNumber", result.getPassportNumber());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -42,11 +41,11 @@ public final class ElitePaymentCardBackRecognizerSerialization implements Recogn
 
     @Override
     public String getJsonName() {
-        return "ElitePaymentCardBackRecognizer";
+        return "BruneiTemporaryResidencePermitBackRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.elitepaymentcard.ElitePaymentCardBackRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.brunei.BruneiTemporaryResidencePermitBackRecognizer.class;
     }
 }

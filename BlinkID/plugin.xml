@@ -2,13 +2,13 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkid-cordova" 
-        version="4.6.0">
+        version="4.7.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
     <license>MIT</license>
     <keywords>ID</keywords>
-    <author>MicroBlink Team info@microblink.com</author>
+    <author>Microblink Team info@microblink.com</author>
 
     <engines>
         <engine name="cordova" version=">=7.0.0" />
@@ -60,6 +60,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/RecognizerType.java" target-dir="src/com/phonegap/plugins/microblink" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/OverlaySettingsSerialization.java" target-dir="src/com/phonegap/plugins/microblink/overlays" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/OverlaySettingsSerializers.java" target-dir="src/com/phonegap/plugins/microblink/overlays" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/BlinkCardOverlaySettingsSerialization.java" target-dir="src/com/phonegap/plugins/microblink/overlays/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/DocumentVerificationOverlaySettingsSerialization.java" target-dir="src/com/phonegap/plugins/microblink/overlays/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/DocumentOverlaySettingsSerialization.java" target-dir="src/com/phonegap/plugins/microblink/overlays/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/BarcodeOverlaySettingsSerialization.java" target-dir="src/com/phonegap/plugins/microblink/overlays/serialization" />
@@ -67,6 +68,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/RecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MalaysiaIkadFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SerializationUtils.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BlinkCardRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SpainDlFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/UnitedArabEmiratesIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SwitzerlandIdBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -89,20 +91,19 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SwitzerlandIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/GermanyIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MrtdRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BruneiTemporaryResidencePermitBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MalaysiaMyKasFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MalaysiaMyKadFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/Pdf417RecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
-        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/ElitePaymentCardCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/GermanyCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BlinkCardEliteRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/ColombiaDlFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SloveniaIdBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PolandIdBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PolandIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SlovakiaIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
-        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PaymentCardBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CyprusIdBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BruneiIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
-        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/ElitePaymentCardFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CyprusIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MrtdCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/EgyptIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -134,8 +135,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SloveniaIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/ItalyDlFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/GermanyIdOldRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
-        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PaymentCardFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
-        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/ElitePaymentCardBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BruneiTemporaryResidencePermitFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SloveniaCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SingaporeDlFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SerbiaCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -150,7 +150,6 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/AustriaCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PolandCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MalaysiaDlFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
-        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PaymentCardCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CyprusOldIdFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MalaysiaMyTenteraFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BruneiIdBackRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -188,9 +187,11 @@
         <header-file src="src/ios/sources/Overlays/Serialization/MBDocumentOverlaySettingsSerialization.h" />
         <header-file src="src/ios/sources/Overlays/Serialization/MBBarcodeOverlaySettingsSerialization.h" />
         <source-file src="src/ios/sources/Overlays/Serialization/MBDocumentVerificationOverlaySettingsSerialization.m" />
+        <header-file src="src/ios/sources/Overlays/Serialization/MBBlinkCardOverlaySettingsSerialization.h" />
         <source-file src="src/ios/sources/Overlays/Serialization/MBDocumentOverlaySettingsSerialization.m" />
         <header-file src="src/ios/sources/Overlays/Serialization/MBDocumentVerificationOverlaySettingsSerialization.h" />
         <source-file src="src/ios/sources/Overlays/Serialization/MBBarcodeOverlaySettingsSerialization.m" />
+        <source-file src="src/ios/sources/Overlays/Serialization/MBBlinkCardOverlaySettingsSerialization.m" />
         <header-file src="src/ios/sources/Recognizers/MBRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/MBRecognizerSerializers.h" />
         <source-file src="src/ios/sources/Recognizers/MBRecognizerWrapper.m" />
@@ -202,12 +203,10 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBNewZealandDlFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaCombinedRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBCzechiaIdBackRecognizerWrapper.h" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBElitePaymentCardBackRecognizerWrapper.h" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBBruneiTemporaryResidencePermitBackRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSwedenDlFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyIdBackRecognizerWrapper.m" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBPaymentCardFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBColombiaIdFrontRecognizerWrapper.m" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBElitePaymentCardFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSingaporeChangiEmployeeIdRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCyprusOldIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUnitedArabEmiratesIdBackRecognizerWrapper.h" />
@@ -241,11 +240,11 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCyprusIdBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMexicoVoterIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSingaporeIdFrontRecognizerWrapper.h" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBElitePaymentCardCombinedRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandDlFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaMyKasFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBRomaniaIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaMyKadBackRecognizerWrapper.h" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkCardEliteRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaDlFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBJordanIdBackRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBBarcodeRecognizerWrapper.h" />
@@ -257,12 +256,12 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaDlFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBCyprusIdFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBColombiaIdBackRecognizerWrapper.m" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkCardRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandIdBackRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBPolandIdBackRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBBruneiIdBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBVinRecognizerWrapper.m" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBPaymentCardCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaMyPrFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSerbiaCombinedRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSerbiaIdFrontRecognizerWrapper.m" />
@@ -283,6 +282,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBKuwaitIdFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBPolandIdFrontRecognizerWrapper.m" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBBruneiTemporaryResidencePermitFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaCombinedRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBKuwaitIdBackRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSloveniaIdBackRecognizerWrapper.h" />
@@ -290,7 +290,6 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyDlFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMoroccoIdBackRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBHongKongIdFrontRecognizerWrapper.h" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBPaymentCardBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyDlBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBAustraliaDlFrontRecognizerWrapper.h" />
@@ -299,15 +298,13 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBCyprusOldIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSimNumberRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUnitedArabEmiratesDlFrontRecognizerWrapper.h" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBElitePaymentCardFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSingaporeChangiEmployeeIdRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBColombiaIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyIdBackRecognizerWrapper.h" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBPaymentCardFrontRecognizerWrapper.m" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBBruneiTemporaryResidencePermitBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSwedenDlFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaCombinedRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCzechiaIdBackRecognizerWrapper.m" />
-        <source-file src="src/ios/sources/Recognizers/Wrappers/MBElitePaymentCardBackRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBNewZealandDlFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBCroatiaIdBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyIdOldRecognizerWrapper.m" />
@@ -318,7 +315,6 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaMyKadBackRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSingaporeIdFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandDlFrontRecognizerWrapper.m" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBElitePaymentCardCombinedRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMexicoVoterIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUnitedArabEmiratesIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSpainDlFrontRecognizerWrapper.h" />
@@ -353,11 +349,11 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaMyKadFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSerbiaCombinedRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaMyPrFrontRecognizerWrapper.h" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBPaymentCardCombinedRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBPolandIdBackRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBVinRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBBruneiIdBackRecognizerWrapper.h" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkCardRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandIdBackRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBJordanIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMalaysiaMyTenteraFrontRecognizerWrapper.h" />
@@ -370,7 +366,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBBarcodeRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBJordanIdBackRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaDlFrontRecognizerWrapper.h" />
-        <header-file src="src/ios/sources/Recognizers/Wrappers/MBPaymentCardBackRecognizerWrapper.h" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkCardEliteRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBHongKongIdFrontRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMoroccoIdBackRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBGermanyDlFrontRecognizerWrapper.m" />
@@ -378,6 +374,7 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBBruneiResidencePermitBackRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBKuwaitIdBackRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaCombinedRecognizerWrapper.m" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBBruneiTemporaryResidencePermitFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBKuwaitIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBPolandIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlCombinedRecognizerWrapper.h" />
@@ -400,14 +397,14 @@
         <framework src="AudioToolbox.framework" />
         <framework src="OpenGLES.framework" />
         <framework src="Accelerate.framework" />
-        <framework src="src/ios/MicroBlink.framework" custom="true" embed="true"/>
+        <framework src="src/ios/Microblink.framework" custom="true" embed="true"/>
         
         <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
         <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
             <string>$CAMERA_USAGE_DESCRIPTION</string>
         </config-file>
         
-        <resource-file src="src/ios/MicroBlink.bundle" />
+        <resource-file src="src/ios/Microblink.bundle" />
         <config-file target="config.xml" parent="/*">
             <feature name="BlinkIDScanner">
                 <param name="ios-package" value="CDVMicroblinkScanner" />

@@ -19,7 +19,6 @@ public final class CroatiaCombinedRecognizerSerialization implements RecognizerS
         recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
         recognizer.setExtractIssuedBy(jsonRecognizer.optBoolean("extractIssuedBy", true));
         recognizer.setExtractLastName(jsonRecognizer.optBoolean("extractLastName", true));
-        recognizer.setExtractPersonalIdentificationNumber(jsonRecognizer.optBoolean("extractPersonalIdentificationNumber", true));
         recognizer.setExtractResidence(jsonRecognizer.optBoolean("extractResidence", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
