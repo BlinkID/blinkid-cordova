@@ -13,11 +13,14 @@ public final class PolandCombinedRecognizerSerialization implements RecognizerSe
         com.microblink.entities.recognizers.blinkid.poland.PolandCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.poland.PolandCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
-        recognizer.setExtractFamilyName(jsonRecognizer.optBoolean("extractFamilyName", true));
+        recognizer.setExtractFamilyName(jsonRecognizer.optBoolean("extractFamilyName", false));
         recognizer.setExtractGivenNames(jsonRecognizer.optBoolean("extractGivenNames", true));
-        recognizer.setExtractParentsGivenNames(jsonRecognizer.optBoolean("extractParentsGivenNames", true));
+        recognizer.setExtractParentsGivenNames(jsonRecognizer.optBoolean("extractParentsGivenNames", false));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
         recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
@@ -41,7 +44,7 @@ public final class PolandCombinedRecognizerSerialization implements RecognizerSe
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
             jsonResult.put("givenNames", result.getGivenNames());
-            jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("issuedBy", result.getIssuedBy());
             jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("parentsGivenNames", result.getParentsGivenNames());

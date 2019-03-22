@@ -82,7 +82,7 @@ var app = {
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
-            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/uxZPa4hZVgtas+jQ5541YiJZ976RAggQPOrc5N8O/l3+rY6WZ4/lf5wmx8A3SNkpwIxV15mSXi5buTRMOG4qBxs3jyPWq0wx5+oKjhJuR/IR+mJaP+hVOWSVuqSaD02u7hsdkflgMyJblCyb4/X1YDJEsP3Wgo+Ug48RfN/qwrEhA7TptY3c4pwyLihW9xaoWDGNrR30/DUl5N1FbWgdanujQ0JkAsXS6q3zMr2sLhU1u2AQ==',
+            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/ux5PGYgpVxe8daSAIioOFooMH1zSjCtUFYDv9AqV87Ew8fx8H/ag2O5/E1nN18stdwBpBjEvyG+tOKGyUYC3WecONS+6edT6mBfhwXh11Qgkn/eMeip1ep/k/tMcs4IPI6xLzevdpUY8YLwcWAlBGoCmYo6ijxrnKXcRck2FpXUdZedgOH0mRtTrSyT40DBjuA6O11rYPnCX1phzsobd2S71qVLoZ+zHg+60e3ePigLxIKiA==',
             ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++pNbt56NxeFUlNwkHlhe/ZxmxJJ0+pes7fmuKKweVErJkVco+Jhdxt5af8yLyrtf0/MjnXstFX7s6cvsO2oGpwCvJ6DUF2K+UJyvtGpr5+NEP3/l9sXuwJzZjiJwZGXfCrBpzHINFcB3z2LX4D7FqiUfPncq3PgKKzYrnjwjMIfyqpDHrEI9zb2yNkyliK0cRybGOpISSWGR6J5Fnu5MGQ89sHAPqmZDMYW3OjB+/nxWUtdQ=='
         };
 
@@ -186,32 +186,31 @@ var app = {
                             successfulImageDiv.style.visibility = "hidden";
                         }
 
-                        var fields = usdlRecognizer.result.fields;
-                        var USDLKeys = cordova.plugins.BlinkID.UsdlKeys;
                         var fieldDelim = "<br>";
+                        var usdlResult = usdlRecognizer.result;
 
                         resultDiv.innerHTML = /** Personal information */
-                            "USDL version: " + fields[USDLKeys.StandardVersionNumber] + fieldDelim +
-                            "Family name: " + fields[USDLKeys.CustomerFamilyName] + fieldDelim +
-                            "First name: " + fields[USDLKeys.CustomerFirstName] + fieldDelim +
-                            "Date of birth: " + fields[USDLKeys.DateOfBirth] + fieldDelim +
-                            "Sex: " + fields[USDLKeys.Sex] + fieldDelim +
-                            "Eye color: " + fields[USDLKeys.EyeColor] + fieldDelim +
-                            "Height: " + fields[USDLKeys.Height] + fieldDelim +
-                            "Street: " + fields[USDLKeys.AddressStreet] + fieldDelim +
-                            "City: " + fields[USDLKeys.AddressCity] + fieldDelim +
-                            "Jurisdiction: " + fields[USDLKeys.AddressJurisdictionCode] + fieldDelim +
-                            "Postal code: " + fields[USDLKeys.AddressPostalCode] + fieldDelim +
-                            /** License information */
-                            "Issue date: " + fields[USDLKeys.DocumentIssueDate] + fieldDelim +
-                            "Expiration date: " + fields[USDLKeys.DocumentExpirationDate] + fieldDelim +
-                            "Issuer ID: " + fields[USDLKeys.IssuerIdentificationNumber] + fieldDelim +
-                            "Jurisdiction version: " + fields[USDLKeys.JurisdictionVersionNumber] + fieldDelim +
-                            "Vehicle class: " + fields[USDLKeys.JurisdictionVehicleClass] + fieldDelim +
-                            "Restrictions: " + fields[USDLKeys.JurisdictionRestrictionCodes] + fieldDelim +
-                            "Endorsments: " + fields[USDLKeys.JurisdictionEndorsementCodes] + fieldDelim +
-                            "Customer ID: " + fields[USDLKeys.CustomerIdNumber] + fieldDelim;
-
+                             "First name: " + usdlResult.firstName + fieldDelim +
+                             "Last name: " + usdlResult.lastName + fieldDelim +
+                             "Full name: " + usdlResult.fullName + fieldDelim +
+                             "Address: " + usdlResult.address + fieldDelim +
+                             "Document number: " + usdlResult.documentNumber + fieldDelim +
+                             "Sex: " + usdlResult.sex + fieldDelim +
+                             "Restrictions: " + usdlResult.restrictions + fieldDelim +
+                             "Endorsments: " + usdlResult.endorsements + fieldDelim +
+                             "Vehicle class: " + usdlResult.vehicleClass + fieldDelim +
+                             "Date of birth: " +
+                                  usdlResult.dateOfBirth.day + "." +
+                                  usdlResult.dateOfBirth.month + "." +
+                                  usdlResult.dateOfBirth.year + "." + fieldDelim + 
+                             "Date of issue: " +
+                                  usdlResult.dateOfIssue.day + "." +
+                                  usdlResult.dateOfIssue.month + "." +
+                                  usdlResult.dateOfIssue.year + "." + fieldDelim +
+                             "Date of expiry: " +
+                                  usdlResult.dateOfExpiry.day + "." +
+                                  usdlResult.dateOfExpiry.month + "." +
+                                  usdlResult.dateOfExpiry.year + "." + fieldDelim;
                     } else {
                         resultDiv.innerHTML = "Result is empty!";
                     }

@@ -6,7 +6,7 @@ repositories {
 
 dependencies {
     implementation "com.android.support:appcompat-v7:27.1.1"
-    implementation('com.microblink:blinkid:4.7.0@aar') {
+    implementation('com.microblink:blinkid:4.8.0@aar') {
         transitive = false
     }
 }

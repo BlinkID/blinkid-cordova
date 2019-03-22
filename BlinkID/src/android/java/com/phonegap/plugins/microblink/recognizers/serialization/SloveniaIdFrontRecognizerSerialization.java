@@ -12,13 +12,18 @@ public final class SloveniaIdFrontRecognizerSerialization implements RecognizerS
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractGivenNames(jsonRecognizer.optBoolean("extractGivenNames", true));
         recognizer.setExtractNationality(jsonRecognizer.optBoolean("extractNationality", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -31,12 +36,12 @@ public final class SloveniaIdFrontRecognizerSerialization implements RecognizerS
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
-            jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("givenNames", result.getGivenNames());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("surname", result.getSurname());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

@@ -12,10 +12,24 @@ public final class CzechiaCombinedRecognizerSerialization implements RecognizerS
     public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.czechia.CzechiaCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.czechia.CzechiaCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
+        recognizer.setExtractAuthority(jsonRecognizer.optBoolean("extractAuthority", true));
+        recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
+        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
+        recognizer.setExtractDateOfIssue(jsonRecognizer.optBoolean("extractDateOfIssue", true));
+        recognizer.setExtractGivenNames(jsonRecognizer.optBoolean("extractGivenNames", true));
+        recognizer.setExtractPermanentStay(jsonRecognizer.optBoolean("extractPermanentStay", true));
+        recognizer.setExtractPersonalNumber(jsonRecognizer.optBoolean("extractPersonalNumber", true));
+        recognizer.setExtractPlaceOfBirth(jsonRecognizer.optBoolean("extractPlaceOfBirth", true));
+        recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setExtractSurname(jsonRecognizer.optBoolean("extractSurname", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonRecognizer.optBoolean("returnSignatureImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
+        recognizer.setSignatureImageDpi(jsonRecognizer.optInt("signatureImageDpi", 250));
         return recognizer;
     }
 
@@ -25,27 +39,27 @@ public final class CzechiaCombinedRecognizerSerialization implements RecognizerS
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("address", result.getAddress());
+            jsonResult.put("authority", result.getAuthority());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
+            jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
-            jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
-            jsonResult.put("identityCardNumber", result.getIdentityCardNumber());
-            jsonResult.put("issuingAuthority", result.getIssuingAuthority());
-            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("givenNames", result.getGivenNames());
             jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
-            jsonResult.put("personalIdentificationNumber", result.getPersonalIdentificationNumber());
+            jsonResult.put("permanentStay", result.getPermanentStay());
+            jsonResult.put("personalNumber", result.getPersonalNumber());
             jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("surname", result.getSurname());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
