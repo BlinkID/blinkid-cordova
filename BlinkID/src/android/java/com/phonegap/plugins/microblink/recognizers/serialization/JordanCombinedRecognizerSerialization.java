@@ -13,8 +13,12 @@ public final class JordanCombinedRecognizerSerialization implements RecognizerSe
         com.microblink.entities.recognizers.blinkid.jordan.JordanCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.jordan.JordanCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
+        recognizer.setExtractFullName(jsonRecognizer.optBoolean("extractFullName", true));
         recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
         recognizer.setExtractSex(jsonRecognizer.optBoolean("extractSex", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
@@ -36,7 +40,7 @@ public final class JordanCombinedRecognizerSerialization implements RecognizerSe
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
-            jsonResult.put("issuer", result.getIssuer());
+            jsonResult.put("issuedBy", result.getIssuedBy());
             jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("name", result.getName());
             jsonResult.put("nationalNumber", result.getNationalNumber());

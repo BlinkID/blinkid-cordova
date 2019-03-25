@@ -30,6 +30,18 @@ public final class UsdlRecognizerSerialization implements RecognizerSerializatio
             jsonResult.put("rawStringData", result.getRawStringData());
             jsonResult.put("uncertain", result.isUncertain());
             jsonResult.put("fields", serializeFields(result));
+            jsonResult.put("firstName", result.getFirstName());
+            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("address", result.getAddress());
+            jsonResult.put("documentNumber", result.getDocumentNumber());
+            jsonResult.put("sex", result.getSex());
+            jsonResult.put("restrictions", result.getRestrictions());
+            jsonResult.put("endorsements", result.getEndorsements());
+            jsonResult.put("vehicleClass", result.getVehicleClass());
+            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
+            jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

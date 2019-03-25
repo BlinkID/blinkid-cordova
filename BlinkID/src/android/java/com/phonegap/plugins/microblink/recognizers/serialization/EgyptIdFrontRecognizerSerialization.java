@@ -13,6 +13,9 @@ public final class EgyptIdFrontRecognizerSerialization implements RecognizerSeri
         com.microblink.entities.recognizers.blinkid.egypt.EgyptIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.egypt.EgyptIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractNationalNumber(jsonRecognizer.optBoolean("extractNationalNumber", true));
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
