@@ -61,6 +61,7 @@ public final class GermanyCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("mrzVerified", result.isMrzVerified());
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
+            jsonResult.put("rawMrzString", result.getRawMrzString());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
