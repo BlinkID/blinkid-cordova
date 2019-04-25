@@ -270,6 +270,7 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSloveniaIdFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBPolandCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaIdBackRecognizerWrapper.m" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaIdFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaIdFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandPassportRecognizerWrapper.m" />
@@ -381,6 +382,7 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandPassportRecognizerWrapper.h" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.h" />
         <!-- IOS SOURCE FILES END -->
         
         <framework src="libc++.dylib" />

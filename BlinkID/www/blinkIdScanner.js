@@ -5369,6 +5369,13 @@ function DocumentFaceRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
+    /** 
+     * Setting for control over FaceImageCropProcessor's tryBothOrientations option
+     * 
+     *  
+     */
+    this.tryBothOrientations = false;
+    
     this.createResultFromNative = function (nativeResult) { return new DocumentFaceRecognizerResult(nativeResult); }
 
 }
@@ -5746,6 +5753,11 @@ function GermanyCombinedRecognizerResult(nativeResult) {
      * The place of birth of the Germany ID owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
+    
+    /** 
+     * The full mrz string result. 
+     */
+    this.rawMrzString = nativeResult.rawMrzString;
     
     /** 
      * Returns true if recognizer has finished scanning first side and is now scanning back side,
@@ -10343,6 +10355,92 @@ function NewZealandDlFrontRecognizer() {
 NewZealandDlFrontRecognizer.prototype = new Recognizer('NewZealandDlFrontRecognizer');
 
 BlinkID.prototype.NewZealandDlFrontRecognizer = NewZealandDlFrontRecognizer;
+
+/**
+ * Result object for PassportRecognizer.
+ */
+function PassportRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * face image from the document if enabled with returnFaceImage property. 
+     */
+    this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     * full document image if enabled with returnFullDocumentImage property. 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The data extracted from the machine readable zone. 
+     */
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
+    
+}
+
+PassportRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.PassportRecognizerResult = PassportRecognizerResult;
+
+/**
+ * Recognizer which can scan all passports with MRZ.
+ */
+function PassportRecognizer() {
+    Recognizer.call(this, 'PassportRecognizer');
+    
+    /** 
+     * Defines if glare detection should be turned on/off.
+     * 
+     *  
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * Property for setting DPI for face images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * Property for setting DPI for full document images
+     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+     * 
+     *  
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * Image extension factors for full document image.
+     * 
+     * @see ImageExtensionFactors
+     *  
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Sets whether face image from ID card should be extracted
+     * 
+     *  
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Sets whether full document image of ID card should be extracted.
+     * 
+     *  
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new PassportRecognizerResult(nativeResult); }
+
+}
+
+PassportRecognizer.prototype = new Recognizer('PassportRecognizer');
+
+BlinkID.prototype.PassportRecognizer = PassportRecognizer;
 
 /**
  * Result object for Pdf417Recognizer.
