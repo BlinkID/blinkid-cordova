@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkid-cordova" 
-        version="4.8.0">
+        version="4.9.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -138,6 +138,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BruneiTemporaryResidencePermitFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SloveniaCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SingaporeDlFrontRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/PassportRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/EudlRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/CroatiaCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SingaporeChangiEmployeeIdRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -270,6 +271,7 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSloveniaIdFrontRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBPolandCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaIdBackRecognizerWrapper.m" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaIdFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaIdFrontRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandPassportRecognizerWrapper.m" />
@@ -381,6 +383,7 @@
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBAustriaIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSlovakiaIdFrontRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBSwitzerlandPassportRecognizerWrapper.h" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.h" />
         <!-- IOS SOURCE FILES END -->
         
         <framework src="libc++.dylib" />

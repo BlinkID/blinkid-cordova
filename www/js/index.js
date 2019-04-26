@@ -82,8 +82,8 @@ var app = {
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
-            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/ux5PGYgpVxe8daSAIioOFooMH1zSjCtUFYDv9AqV87Ew8fx8H/ag2O5/E1nN18stdwBpBjEvyG+tOKGyUYC3WecONS+6edT6mBfhwXh11Qgkn/eMeip1ep/k/tMcs4IPI6xLzevdpUY8YLwcWAlBGoCmYo6ijxrnKXcRck2FpXUdZedgOH0mRtTrSyT40DBjuA6O11rYPnCX1phzsobd2S71qVLoZ+zHg+60e3ePigLxIKiA==',
-            ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++ptby56tjjJxcwi2w3o+JAeNhIYMY5L6BLVFWcAs12PilSay+gzrckE5oqyLvoz+/3OetjSSfjR69q2W0pmm23dX2IvFUqw5VNK1MGgcauw6wGsDFKyD5T8YJv6bRz180DRH/XZaRbP6AajJ8vD+BpRN08dckzZP6xE+9BQwtMJFKY3Y9uSCJx42LII8SblOZVe2x2awwIGwrXcMGMQsqpcBCDx8Hq9s83augQ2bpgn0uKow=='
+            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/ux5PUoKjyTpOK/Xi9t7cx7ZuiLoN86RhkY28pvSxf0MuuwpIa3oFeAFWqNOB+joH0zcxSCfOp5wSZFvatFB0TFDUubaP6X+iJQtok7/qx3Ioy503yXeyQPJG/Grr510Gh3q4n1kgy+U3ZEsYusp/UN8CdExK/+gW2UL5d3iKzqNeAonpVDPS3B70fRUcm8abLqxYyjSjZp/1Pum4Fdye7AlcGXnv3vnB2O7g4LrJ419mNaOg==',
+            ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++ptbiZ7dj1E80ExjC//oFNqdO1aP3BzyX/8qAoWiV5mCPgIIDWRIXc2UdU0OrG+6/mEPb2u6EGhxMIXonSGsd8WICdxSV+baMRJck21qyZoCgRwz+eC0MXrTaPt1jqWVKHjYT7BvPaC8p+EV8RY6Vph89PLKDZxsvxM93HVFB7cah4xN12S6gNrtm25aIMEbpBInI40zmtpCBGoU8KR3U21A8spXVHZyGcGsG3guOSsqpsNg=='
         };
 
         scanButton.addEventListener('click', function() {
