@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-    implementation('com.microblink:blinkid:4.9.0@aar') {
+    implementation('com.microblink:blinkid:4.10.0@aar') {
         transitive = true
     }
 }
