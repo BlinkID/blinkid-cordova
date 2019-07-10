@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class AustriaCombinedRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.austria.AustriaCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.austria.AustriaCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
@@ -37,7 +37,7 @@ public final class AustriaCombinedRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.austria.AustriaCombinedRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.austria.AustriaCombinedRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

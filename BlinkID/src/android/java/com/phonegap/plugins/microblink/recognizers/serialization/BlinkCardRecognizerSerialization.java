@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class BlinkCardRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer recognizer = new com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer();
         recognizer.setAnonymizeCardNumber(jsonRecognizer.optBoolean("anonymizeCardNumber", false));
         recognizer.setAnonymizeCvv(jsonRecognizer.optBoolean("anonymizeCvv", false));
@@ -27,7 +27,7 @@ public final class BlinkCardRecognizerSerialization implements RecognizerSeriali
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer.Result result = ((com.microblink.entities.recognizers.blinkcard.BlinkCardRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

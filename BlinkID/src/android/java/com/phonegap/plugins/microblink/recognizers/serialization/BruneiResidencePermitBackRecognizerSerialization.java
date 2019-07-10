@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class BruneiResidencePermitBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.brunei.BruneiResidencePermitBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.brunei.BruneiResidencePermitBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
@@ -22,7 +22,7 @@ public final class BruneiResidencePermitBackRecognizerSerialization implements R
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.brunei.BruneiResidencePermitBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.brunei.BruneiResidencePermitBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

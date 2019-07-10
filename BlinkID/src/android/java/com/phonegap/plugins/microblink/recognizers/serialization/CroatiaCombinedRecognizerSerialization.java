@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class CroatiaCombinedRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.croatia.CroatiaCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.croatia.CroatiaCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractCitizenship(jsonRecognizer.optBoolean("extractCitizenship", true));
@@ -33,7 +33,7 @@ public final class CroatiaCombinedRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.croatia.CroatiaCombinedRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.croatia.CroatiaCombinedRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

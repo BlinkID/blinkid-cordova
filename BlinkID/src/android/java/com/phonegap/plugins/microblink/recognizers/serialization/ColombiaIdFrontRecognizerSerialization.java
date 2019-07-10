@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class ColombiaIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractFirstName(jsonRecognizer.optBoolean("extractFirstName", true));
@@ -25,7 +25,7 @@ public final class ColombiaIdFrontRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

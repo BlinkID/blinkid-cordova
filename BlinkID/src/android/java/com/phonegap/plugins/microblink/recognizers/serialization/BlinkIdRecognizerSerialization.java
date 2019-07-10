@@ -6,15 +6,11 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class SingaporeChangiEmployeeIdRecognizerSerialization implements RecognizerSerialization {
+public final class BlinkIdRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer();
-        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setExtractCompanyName(jsonRecognizer.optBoolean("extractCompanyName", true));
-        recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
-        recognizer.setExtractName(jsonRecognizer.optBoolean("extractName", true));
+        com.microblink.entities.recognizers.blinkid.generic.BlinkIdRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.generic.BlinkIdRecognizer();
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
@@ -25,16 +21,22 @@ public final class SingaporeChangiEmployeeIdRecognizerSerialization implements R
 
     @Override
     public JSONObject serializeResult(Recognizer<?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.generic.BlinkIdRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.generic.BlinkIdRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("companyName", result.getCompanyName());
+            jsonResult.put("address", result.getAddress());
+            jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
+            jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
+            jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
-            jsonResult.put("name", result.getName());
+            jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("sex", result.getSex());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
@@ -44,11 +46,11 @@ public final class SingaporeChangiEmployeeIdRecognizerSerialization implements R
 
     @Override
     public String getJsonName() {
-        return "SingaporeChangiEmployeeIdRecognizer";
+        return "BlinkIdRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.generic.BlinkIdRecognizer.class;
     }
 }

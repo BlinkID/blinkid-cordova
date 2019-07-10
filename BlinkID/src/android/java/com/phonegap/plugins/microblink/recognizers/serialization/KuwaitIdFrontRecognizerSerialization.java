@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class KuwaitIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractBirthDate(jsonRecognizer.optBoolean("extractBirthDate", true));
@@ -25,7 +25,7 @@ public final class KuwaitIdFrontRecognizerSerialization implements RecognizerSer
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

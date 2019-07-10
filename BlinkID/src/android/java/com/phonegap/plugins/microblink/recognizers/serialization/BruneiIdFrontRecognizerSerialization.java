@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class BruneiIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.brunei.BruneiIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.brunei.BruneiIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
@@ -25,7 +25,7 @@ public final class BruneiIdFrontRecognizerSerialization implements RecognizerSer
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.brunei.BruneiIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.brunei.BruneiIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

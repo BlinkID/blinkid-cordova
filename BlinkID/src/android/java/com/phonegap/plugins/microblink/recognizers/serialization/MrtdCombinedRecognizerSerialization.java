@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class MrtdCombinedRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.mrtd.MrtdCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.mrtd.MrtdCombinedRecognizer();
         recognizer.setAllowSpecialCharacters(jsonRecognizer.optBoolean("allowSpecialCharacters", false));
         recognizer.setAllowUnparsedResults(jsonRecognizer.optBoolean("allowUnparsedResults", false));
@@ -26,7 +26,7 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.mrtd.MrtdCombinedRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.mrtd.MrtdCombinedRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

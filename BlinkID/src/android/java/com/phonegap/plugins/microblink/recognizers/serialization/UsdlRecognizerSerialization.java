@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public final class UsdlRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer recognizer = new com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer();
         recognizer.setNullQuietZoneAllowed(jsonRecognizer.optBoolean("nullQuietZoneAllowed", true));
         recognizer.setUncertainDecoding(jsonRecognizer.optBoolean("uncertainDecoding", true));
@@ -20,7 +20,7 @@ public final class UsdlRecognizerSerialization implements RecognizerSerializatio
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         UsdlRecognizer.Result result = ((UsdlRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

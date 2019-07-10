@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class KuwaitIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractSerialNo(jsonRecognizer.optBoolean("extractSerialNo", true));
@@ -20,7 +20,7 @@ public final class KuwaitIdBackRecognizerSerialization implements RecognizerSeri
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.kuwait.KuwaitIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

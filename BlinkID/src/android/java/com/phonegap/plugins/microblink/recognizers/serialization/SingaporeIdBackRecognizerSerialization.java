@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class SingaporeIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
@@ -23,7 +23,7 @@ public final class SingaporeIdBackRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.singapore.SingaporeIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class GermanyPassportRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.germany.GermanyPassportRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.germany.GermanyPassportRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAuthority(jsonRecognizer.optBoolean("extractAuthority", true));
@@ -29,7 +29,7 @@ public final class GermanyPassportRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.germany.GermanyPassportRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.germany.GermanyPassportRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

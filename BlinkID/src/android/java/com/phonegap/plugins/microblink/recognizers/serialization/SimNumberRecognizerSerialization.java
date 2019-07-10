@@ -9,13 +9,13 @@ import org.json.JSONObject;
 public final class SimNumberRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkbarcode.simnumber.SimNumberRecognizer recognizer = new com.microblink.entities.recognizers.blinkbarcode.simnumber.SimNumberRecognizer();
         return recognizer;
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkbarcode.simnumber.SimNumberRecognizer.Result result = ((com.microblink.entities.recognizers.blinkbarcode.simnumber.SimNumberRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -24,6 +24,7 @@ public enum OverlaySettingsSerializers {
         registerMapping(new DocumentOverlaySettingsSerialization());
         registerMapping(new DocumentVerificationOverlaySettingsSerialization());
         registerMapping(new BlinkCardOverlaySettingsSerialization());
+        registerMapping(new BlinkIdOverlaySettingsSerialization());
     }
 
     public UISettings getOverlaySettings(JSONObject jsonOverlaySettings, RecognizerBundle recognizerBundle) {

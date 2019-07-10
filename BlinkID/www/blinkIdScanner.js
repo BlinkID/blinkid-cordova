@@ -550,6 +550,18 @@ BlinkCardOverlaySettings.prototype = new OverlaySettings();
 
 BlinkID.prototype.BlinkCardOverlaySettings = BlinkCardOverlaySettings;
 
+/**
+ * Class for setting up BlinkId overlay.
+ * BlinkId overlay is best suited for recognizers that perform ID document scanning.
+ */
+function BlinkIdOverlaySettings() {
+    OverlaySettings.call(this, 'BlinkIdOverlaySettings');
+}
+BlinkIdOverlaySettings.prototype = new OverlaySettings();
+
+BlinkID.prototype.BlinkIdOverlaySettings = BlinkIdOverlaySettings;
+
+
 // OVERLAY SETTINGS
 
 // RECOGNIZERS
@@ -602,7 +614,7 @@ function AustraliaDlBackRecognizerResult(nativeResult) {
     this.address = nativeResult.address;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -634,60 +646,42 @@ function AustraliaDlBackRecognizer() {
     Recognizer.call(this, 'AustraliaDlBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of the Australia DL owner should be extracted
-     * 
-     *  
+     * Defines if address of the Australia DL owner should be extracted 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if last name of the Australia DL owner should be extracted
-     * 
-     *  
+     * Defines if last name of the Australia DL owner should be extracted 
      */
     this.extractLastName = true;
     
     /** 
-     * Defines if the licence number of the Australia DL should be extracted
-     * 
-     *  
+     * Defines if the licence number of the Australia DL should be extracted 
      */
     this.extractLicenceNumber = true;
     
     /** 
-     * Defines if date of expiry of the Australia DL should be extracted
-     * 
-     *  
+     * Defines if date of expiry of the Australia DL should be extracted 
      */
     this.extractLicenseExpiry = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -716,12 +710,12 @@ function AustraliaDlFrontRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -746,7 +740,7 @@ function AustraliaDlFrontRecognizerResult(nativeResult) {
     this.licenceType = nativeResult.licenceType;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -763,90 +757,62 @@ function AustraliaDlFrontRecognizer() {
     Recognizer.call(this, 'AustraliaDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Australian DL owner should be extracted
-     * 
-     *  
+     * Defines if address of Australian DL owner should be extracted 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of birth of Australian DL owner should be extracted
-     * 
-     *  
+     * Defines if date of birth of Australian DL owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if full name of Australian DL owner should be extracted
-     * 
-     *  
+     * Defines if full name of Australian DL owner should be extracted 
      */
     this.extractFullName = true;
     
     /** 
-     * Defines if date of expiry of Australian DL should be extracted
-     * 
-     *  
+     * Defines if date of expiry of Australian DL should be extracted 
      */
     this.extractLicenseExpiry = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -865,116 +831,112 @@ function AustriaCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date of birth of Austrian ID owner 
+     * The date of birth of the document owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date of expiry of Austrian ID 
+     * The date of expiry of the document 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date of issuance of the Austrian ID 
+     * The date of issuance of the document 
      */
     this.dateOfIssuance = nativeResult.dateOfIssuance != null ? new Date(nativeResult.dateOfIssuance) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /** 
-     * The document number of the Austrian ID. 
+     * The document number 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * The eye eyeColour of Austrian ID owner. 
+     * The eye colour of the document holder. 
      */
     this.eyeColour = nativeResult.eyeColour;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /** 
-     * The gien name of the Austrian ID owner. 
+     * The given name of the document owner 
      */
     this.givenName = nativeResult.givenName;
     
     /** 
-     * The height of Austrian ID owner. 
+     * The height of the document holder in centimeters 
      */
     this.height = nativeResult.height;
     
     /** 
-     * The issuing authority of Austrian ID. 
+     * The issuing authority of the document 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * Whether check digits in machine readable zone of the Austrian ID are OK. 
+     * Determines if all check digits inside MRZ are correct 
      */
     this.mrtdVerified = nativeResult.mrtdVerified;
     
     /** 
-     * The nationaliy of the Austrian ID owner. 
+     * The nationality of the document owner 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * The place of birth of the Austrian ID owner. 
+     * The place of birth of the document holder 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * The principal residence of the Austrian ID owner. 
+     * The principal residence at issuance of the document holder. 
      */
     this.principalResidence = nativeResult.principalResidence;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
     /** 
-     * The sex of the Austrian ID owner. 
+     * The sex of the document owner 
      */
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The surname of the Austrian ID owner. 
+     * The surname of the document owner 
      */
     this.surname = nativeResult.surname;
     
@@ -985,168 +947,118 @@ AustriaCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.AustriaCombinedRecognizerResult = AustriaCombinedRecognizerResult;
 
 /**
- * Austrian ID Combined Recognizer.
- * 
- * Austrian ID Combined recognizer is used for scanning both front and back side of Austrian ID.
+ * Recognizer which can scan Austrian national ID card and passport.
  */
 function AustriaCombinedRecognizer() {
     Recognizer.call(this, 'AustriaCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if ownder's date of birth should be extracted
-     * 
-     *  
+     * Defines if date of birth of Austrian ID owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if date of expiry of Austrian passport should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issuance should be extracted from back side of Austrian ID
-     * 
-     *  
+     * Defines if date of issuance should be extracted 
      */
     this.extractDateOfIssuance = true;
     
     /** 
-     * Defines if date of issue should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if date of issue of Austrian passport should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if owner's given name should be extracted
-     * 
-     *  
+     * Defines if given name of Austrian ID owner should be extracted 
      */
     this.extractGivenName = true;
     
     /** 
-     * Defines if owner's height should be extracted
-     * 
-     *  
+     * Defines if height of Austrian ID owner should be extracted 
      */
     this.extractHeight = true;
     
     /** 
-     * Defines if issuing authority should be extracted
-     * 
-     *  
+     * Defines if issuing authority should be extracted 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if owner's nationality should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if nationality of the Austrian passport owner should be extracted 
      */
     this.extractNationality = false;
     
     /** 
-     * Defines if passport number should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if passport number of Austrian passport should be extracted 
      */
     this.extractPassportNumber = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted
-     * 
-     *  
+     * Defines if place of birth of Austrian ID owner should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if owner's principal residence should be extracted from back side of Austrian ID
-     * 
-     *  
+     * Defines if principal residence of Austrian ID owner should be extracted 
      */
     this.extractPrincipalResidence = true;
     
     /** 
-     * Defines if owner's sex should be extracted
-     * 
-     *  
+     * Defines if sex of Austrian ID owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if owner's surname should be extracted
-     * 
-     *  
+     * Defines if surname of Austrian ID owner should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -1165,62 +1077,62 @@ function AustriaDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date Of Birth of the front side of the Austria Dl owner. 
+     * The date of birth of the Austrian DL owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date Of Expiry of the front side of the Austria Dl owner. 
+     * The date of expiry of the Austrian DL. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date Of Issue of the front side of the Austria Dl owner. 
+     * The date of issue of the Austrian DL. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first Name of the front side of the Austria Dl owner. 
+     * The first name of the Austrian DL owner. 
      */
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issuing Authority of the front side of the Austria Dl owner. 
+     * The issuing authority of the Austrian DL. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * The licence Number of the front side of the Austria Dl owner. 
+     * The licence number of the Austrian DL. 
      */
     this.licenceNumber = nativeResult.licenceNumber;
     
     /** 
-     * The name of the front side of the Austria Dl owner. 
+     * The name of the Austrian DL owner. 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The place Of Birth of the front side of the Austria Dl owner. 
+     * The place of birth of the Austrian DL owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The vehicle Categories of the front side of the Austria Dl owner. 
+     * The vehicle categories of the Austrian DL. 
      */
     this.vehicleCategories = nativeResult.vehicleCategories;
     
@@ -1237,118 +1149,82 @@ function AustriaDlFrontRecognizer() {
     Recognizer.call(this, 'AustriaDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Austrian DL owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Austrian DL owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Austrian DL should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Austrian DL should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Austrian DL should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Austrian DL should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if first name of Austrian DL owner should be extracted.
-     * 
-     *  
+     * Defines if first name of Austrian DL owner should be extracted. 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority of Austrian DL should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Austrian DL should be extracted. 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if name of Austrian DL owner should be extracted.
-     * 
-     *  
+     * Defines if name of Austrian DL owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if place of birth of Austrian DL owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Austrian DL owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if vehicle categories of Austrian DL should be extracted.
-     * 
-     *  
+     * Defines if vehicle categories of Austrian DL should be extracted. 
      */
     this.extractVehicleCategories = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -1367,47 +1243,47 @@ function AustriaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The Date Of Issuance of Austrian ID. 
+     * The date of issuance of the ID 
      */
     this.dateOfIssuance = nativeResult.dateOfIssuance != null ? new Date(nativeResult.dateOfIssuance) : null;
     
     /** 
-     * The Document Number of Austrian ID. 
+     * The document number of Austrian ID 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * The Eye Colour of Austrian ID owner. 
+     * The eye colour of the card holder. 
      */
     this.eyeColour = nativeResult.eyeColour;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The Height of Austrian ID owner. 
+     * The height of the cardholder in centimeters 
      */
     this.height = nativeResult.height;
     
     /** 
-     * The Issuing Authority of Austrian ID. 
+     * The issuing authority of Austrian ID 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * The mrz on the back side of Austrian ID. 
+     * The data extracted from the machine readable zone. 
      */
     this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * The Place Of Birth of Austrian ID owner. 
+     * The place of birth of the card holder 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * The Principal Residence of Austrian ID owner. 
+     * The principal residence at issuance of the card holder. 
      */
     this.principalResidence = nativeResult.principalResidence;
     
@@ -1418,75 +1294,53 @@ AustriaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultS
 BlinkID.prototype.AustriaIdBackRecognizerResult = AustriaIdBackRecognizerResult;
 
 /**
- * Class for configuring Austrian ID Back Recognizer.
- * 
- * Austrian ID Back recognizer is used for scanning back side of Austrian ID.
+ * Recognizer which can scan back side of Austrian national ID cards.
  */
 function AustriaIdBackRecognizer() {
     Recognizer.call(this, 'AustriaIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of issuance should be extracted from back side of Austrian ID
-     * 
-     *  
+     * Defines if date of issuance should be extracted 
      */
     this.extractDateOfIssuance = true;
     
     /** 
-     * Defines if owner's height should be extracted from back side of Austrian ID
-     * 
-     *  
+     * Defines if height of Austrian ID owner should be extracted 
      */
     this.extractHeight = true;
     
     /** 
-     * Defines if issuing authority should be extracted from back side of Austrian ID
-     * 
-     *  
+     * Defines if issuing authority should be extracted 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted from back side of Austrian ID
-     * 
-     *  
+     * Defines if place of birth of Austrian ID owner should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if owner's principal residence should be extracted from back side of Austrian ID
-     * 
-     *  
+     * Defines if principal residence of Austrian ID owner should be extracted 
      */
     this.extractPrincipalResidence = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -1505,42 +1359,42 @@ function AustriaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date of birth of the Austrian Id owner. 
+     * The date of birth of Austrian ID owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The document number of the Austrian Id. 
+     * The document number of Austrian ID 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The first name of the Austrian Id owner. 
+     * The given name of the Austrian ID owner 
      */
     this.givenName = nativeResult.givenName;
     
     /** 
-     * The sex of the Austrian Id owner. 
+     * The sex of the Austrian ID owner 
      */
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The last name of the Austrian Id owner. 
+     * The surname of the Austrian ID owner. 
      */
     this.surname = nativeResult.surname;
     
@@ -1551,98 +1405,68 @@ AustriaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResult
 BlinkID.prototype.AustriaIdFrontRecognizerResult = AustriaIdFrontRecognizerResult;
 
 /**
- * Class for configuring Austrian ID Front Recognizer.
- * 
- * Aus ID Front recognizer is used for scanning front side of Austrian Id.
+ * Recognizer which can scan front side of Austrian national ID cards.
  */
 function AustriaIdFrontRecognizer() {
     Recognizer.call(this, 'AustriaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth should be extracted from Austrian ID
-     * 
-     *  
+     * Defines if date of birth of Austrian ID owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if given name of Austrian Id owner should be extracted
-     * 
-     *  
+     * Defines if given name of Austrian ID owner should be extracted 
      */
     this.extractGivenName = true;
     
     /** 
-     *  Defines if sex of Austrian Id owner should be extracted
-     * 
-     *   
+     * Defines if sex of Austrian ID owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Austrian Id owner should be extracted
-     * 
-     *  
+     * Defines if surname of Austrian ID owner should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -1661,77 +1485,77 @@ function AustriaPassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date Of Birth of the Austrian Passport owner. 
+     * The date of birth of Austrian passport owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date Of Expiry of the Austrian Passport. 
+     * The date of expiry of Austrian passport 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date Of Issue of the Austrian Passport. 
+     * The date of issue of Austrian passport 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The given Name of the Austrian Passport owner. 
+     * The given name of the Austrian passport owner 
      */
     this.givenName = nativeResult.givenName;
     
     /** 
-     * The height of the Austrian Passport owner. 
+     * The height of the passport owner in centimeters 
      */
     this.height = nativeResult.height;
     
     /** 
-     * The issuing Authority of the Austrian Passport. 
+     * The issuing authority of the Austrian passport 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * The mrz of the back side of Austria Passport. 
+     * The data extracted from the machine readable zone. 
      */
     this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * The nationality of the Austrian Passport owner. 
+     * The nationality of the Austrian passport owner 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * The passport Number of the Austrian Passport. 
+     * The passport number of the Austrian passport 
      */
     this.passportNumber = nativeResult.passportNumber;
     
     /** 
-     * The place Of Birth of the Austrian Passport owner. 
+     * The place of birth of the Austrian passport owner 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * The sex of the Austrian Passport owner. 
+     * The sex of the Austrian passport owner 
      */
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The surname of the Austrian Passport owner. 
+     * The surname of the Austrian passport owner. 
      */
     this.surname = nativeResult.surname;
     
@@ -1742,147 +1566,103 @@ AustriaPassportRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.AustriaPassportRecognizerResult = AustriaPassportRecognizerResult;
 
 /**
- * Class for configuring Austrian Passport Recognizer.
- * 
- * Austrian Passport recognizer is used for scanning Austrian Passport.
+ * Recognizer which can scan Austrian passport.
  */
 function AustriaPassportRecognizer() {
     Recognizer.call(this, 'AustriaPassportRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's date of birth should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if date of birth of Austrian passport owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if date of expiry of Austrian passport should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if date of issue of Austrian passport should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if owner's given name should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if given name of Austrian passport owner should be extracted 
      */
     this.extractGivenName = true;
     
     /** 
-     * Defines if owner's height should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if height of Austrian passport owner should be extracted 
      */
     this.extractHeight = true;
     
     /** 
-     * Defines if issuing authority should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if issuing authority of Austrian passport should be extracted 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if owner's nationality should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if nationality of the Austrian passport owner should be extracted 
      */
     this.extractNationality = false;
     
     /** 
-     * Defines if passport number should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if passport number of Austrian passport should be extracted 
      */
     this.extractPassportNumber = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if place of birth of Austrian passport owner should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if owner's sex should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if sex of Austrian passport owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if owner's surname should be extracted from Austrian Passport
-     * 
-     *  
+     * Defines if surname of Austrian passport owner should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -1901,25 +1681,22 @@ function BarcodeRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Type of the barcode scanned
-     * 
-     *  @return Type of the barcode 
+     * The format of the scanned barcode. 
      */
     this.barcodeType = nativeResult.barcodeType;
     
     /** 
-     * Byte array with result of the scan 
+     * The raw bytes contained inside barcode. 
      */
     this.rawData = nativeResult.rawData;
     
     /** 
-     * Retrieves string content of scanned data 
+     * String representation of data inside barcode. 
      */
     this.stringData = nativeResult.stringData;
     
     /** 
-     * Flag indicating uncertain scanning data
-     * E.g obtained from damaged barcode. 
+     * True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
      */
     this.uncertain = nativeResult.uncertain;
     
@@ -1930,142 +1707,93 @@ BarcodeRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.e
 BlinkID.prototype.BarcodeRecognizerResult = BarcodeRecognizerResult;
 
 /**
- * BarcodeRecognizer is used for scanning most of 1D barcode formats, and 2D format
- * such as Aztec, DataMatrix and QR code
+ * Recognizer that can perform recognition of any supported barcode type.
  */
 function BarcodeRecognizer() {
     Recognizer.call(this, 'BarcodeRecognizer');
     
     /** 
-     * Allow enabling the autodetection of image scale when scanning barcodes.
-     * If set to true, prior reading barcode, image scale will be
-     * corrected. This enabled correct reading of barcodes on high
-     * resolution images but slows down the recognition process.
-     * 
-     * falseTE: This setting is applied only for Code39 and Code128 barcode scanning.
-     * 
-     *  
+     * Allow enabling the autodetection of image scale when scanning barcodes. 
      */
     this.autoScaleDetection = true;
     
     /** 
-     * Set this to true to scan barcodes which don't have quiet zone (white area) around it
-     * 
-     * Use only if necessary because it slows down the recognition process
-     * 
-     *  
+     * Allow scanning PDF417 barcodes which don't have quiet zone 
      */
     this.nullQuietZoneAllowed = false;
     
     /** 
-     * Enable reading code39 barcode contents as extended data. For more information about code39
-     * extended data (a.k.a. full ASCII mode), see https://en.wikipedia.org/wiki/Code_39#Full_ASCII_Code_39
-     * 
-     *  
+     * Enable reading code39 barcode contents as extended data. For more information about code39 
      */
     this.readCode39AsExtendedData = false;
     
     /** 
-     * Set this to true to scan Aztec 2D barcodes
-     * 
-     *  
+     * Should Aztec 2D barcode be scanned. 
      */
     this.scanAztecCode = false;
     
     /** 
-     * Set this to true to scan Code 128 1D barcodes
-     * 
-     *  
+     * Should Code128 barcode be scanned. 
      */
     this.scanCode128 = false;
     
     /** 
-     * Set this to true to scan Code 39 1D barcodes
-     * 
-     *  
+     * Should Code39 barcode be scanned. 
      */
     this.scanCode39 = false;
     
     /** 
-     * Set this to true to scan DataMatrix 2D barcodes
-     * 
-     *  
+     * Should DataMatrix 2D barcode be scanned. 
      */
     this.scanDataMatrix = false;
     
     /** 
-     * Set this to true to scan EAN 13 barcodes
-     * 
-     *  
+     * Should EAN13 barcode be scanned. 
      */
     this.scanEan13 = false;
     
     /** 
-     * Set this to true to scan EAN8 barcodes
-     * 
-     *  
+     * Should EAN8 barcode be scanned. 
      */
     this.scanEan8 = false;
     
     /** 
-     * Set this to true to allow scanning barcodes with inverted intensities
-     * (i.e. white barcodes on black background)
-     * 
-     * falseTE: this options doubles the frame processing time
-     * 
-     *  
+     * Enables scanning of barcodes with inverse intensity values (e.g. white barcode on black background) 
      */
     this.scanInverse = false;
     
     /** 
-     * Set this to true to scan ITF barcodes
-     * 
-     *  
+     * Should ITF barcode be scanned. 
      */
     this.scanItf = false;
     
     /** 
-     * Set this to true to scan Pdf417 barcodes
-     * 
-     *  
+     * Should PDF417 2D barcode be scanned. 
      */
     this.scanPdf417 = false;
     
     /** 
-     * Set this to true to scan QR barcodes
-     * 
-     *  
+     * Should QR code be scanned. 
      */
     this.scanQrCode = false;
     
     /** 
-     * Set this to true to scan even barcode not compliant with standards
-     * For example, malformed PDF417 barcodes which were incorrectly encoded
-     * 
-     * Use only if necessary because it slows down the recognition process
-     * 
-     *  
+     * Enable decoding of non-standard PDF417 barcodes, but without 
      */
     this.scanUncertain = true;
     
     /** 
-     * Set this to true to scan UPCA barcodes
-     * 
-     *  
+     * Should UPCA barcode be scanned. 
      */
     this.scanUpca = false;
     
     /** 
-     * Set this to true to scan UPCE barcodes
-     * 
-     *  
+     * Should UPCE barcode be scanned. 
      */
     this.scanUpce = false;
     
     /** 
-     * Set this to true to allow slower, but better image processing.
-     * 
-     *  
+     * Enable slower, but more thorough scanning, thus giving higher possibility of successful scan. 
      */
     this.slowerThoroughScan = true;
     
@@ -2089,35 +1817,32 @@ function BlinkCardEliteRecognizerResult(nativeResult) {
     this.cardNumber = nativeResult.cardNumber;
     
     /** 
-     *  Payment card's security code/value 
+     * Payment card's security code/value. 
      */
     this.cvv = nativeResult.cvv;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -2127,13 +1852,12 @@ function BlinkCardEliteRecognizerResult(nativeResult) {
     this.inventoryNumber = nativeResult.inventoryNumber;
     
     /** 
-     * Information about the payment card owner (name, company, etc.). 
+     * Information about the payment card owner (name, company, etc.) 
      */
     this.owner = nativeResult.owner;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -2149,87 +1873,63 @@ BlinkCardEliteRecognizerResult.prototype = new RecognizerResult(RecognizerResult
 BlinkID.prototype.BlinkCardEliteRecognizerResult = BlinkCardEliteRecognizerResult;
 
 /**
- * Recognizer used for scanning the front side of elite credit/debit cards.
+ * Recognizer used for scanning both sides of elite payment cards.
  */
 function BlinkCardEliteRecognizer() {
     Recognizer.call(this, 'BlinkCardEliteRecognizer');
     
     /** 
-     * Should anonymize the card number area (redact image pixels) on the document image result
-     * 
-     *  
+     * Should anonymize the card number area (redact image pixels) on the document image result 
      */
     this.anonymizeCardNumber = false;
     
     /** 
-     * Should anonymize the CVV on the document image result
-     * 
-     *  
+     * Should anonymize the CVV area (redact image pixels) on the document image result 
      */
     this.anonymizeCvv = false;
     
     /** 
-     * Should anonymize the owner area (redact image pixels) on the document image result
-     * 
-     *  
+     * Should anonymize the owner area (redact image pixels) on the document image result 
      */
     this.anonymizeOwner = false;
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Should extract the card's inventory number
-     * 
-     *  
+     * Should extract the card's inventory number 
      */
     this.extractInventoryNumber = true;
     
     /** 
-     * Should extract the card owner information
-     * 
-     *  
+     * Should extract the card owner information 
      */
     this.extractOwner = true;
     
     /** 
-     * Should extract the payment card's month of expiry
-     * 
-     *  
+     * Should extract the payment card's month of expiry 
      */
     this.extractValidThru = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
@@ -2253,35 +1953,32 @@ function BlinkCardRecognizerResult(nativeResult) {
     this.cardNumber = nativeResult.cardNumber;
     
     /** 
-     *  Payment card's security code/value 
+     * Payment card's security code/value. 
      */
     this.cvv = nativeResult.cvv;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -2291,18 +1988,17 @@ function BlinkCardRecognizerResult(nativeResult) {
     this.inventoryNumber = nativeResult.inventoryNumber;
     
     /** 
-     * Payment card's issuing networ 
+     * The payment card's issuing network. 
      */
     this.issuer = nativeResult.issuer;
     
     /** 
-     * Information about the payment card owner (name, company, etc.). 
+     * Information about the payment card owner (name, company, etc.) 
      */
     this.owner = nativeResult.owner;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -2318,94 +2014,68 @@ BlinkCardRecognizerResult.prototype = new RecognizerResult(RecognizerResultState
 BlinkID.prototype.BlinkCardRecognizerResult = BlinkCardRecognizerResult;
 
 /**
- * Recognizer used for scanning the front side of credit/debit cards.
+ * Recognizer used for scanning both sides of payment cards.
  */
 function BlinkCardRecognizer() {
     Recognizer.call(this, 'BlinkCardRecognizer');
     
     /** 
-     * Should anonymize the card number area (redact image pixels) on the document image result
-     * 
-     *  
+     * Should anonymize the card number area (redact image pixels) on the document image result 
      */
     this.anonymizeCardNumber = false;
     
     /** 
-     * Should anonymize the CVV on the document image result
-     * 
-     *  
+     * Should anonymize the CVV area (redact image pixels) on the document image result 
      */
     this.anonymizeCvv = false;
     
     /** 
-     * Should anonymize the owner area (redact image pixels) on the document image result
-     * 
-     *  
+     * Should anonymize the owner area (redact image pixels) on the document image result 
      */
     this.anonymizeOwner = false;
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Should extract CVV
-     * 
-     *  
+     * Should extract the card CVV 
      */
     this.extractCvv = true;
     
     /** 
-     * Should extract the card's inventory number
-     * 
-     *  
+     * Should extract the card's inventory number 
      */
     this.extractInventoryNumber = true;
     
     /** 
-     * Should extract the card owner information
-     * 
-     *  
+     * Should extract the card owner information 
      */
     this.extractOwner = false;
     
     /** 
-     * Should extract the payment card's month of expiry
-     * 
-     *  
+     * Should extract the payment card's month of expiry 
      */
     this.extractValidThru = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
@@ -2416,6 +2086,253 @@ function BlinkCardRecognizer() {
 BlinkCardRecognizer.prototype = new Recognizer('BlinkCardRecognizer');
 
 BlinkID.prototype.BlinkCardRecognizer = BlinkCardRecognizer;
+
+/**
+ * Result object for BlinkIdCombinedRecognizer.
+ */
+function BlinkIdCombinedRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * The address of the document owner. 
+     */
+    this.address = nativeResult.address;
+    
+    /** 
+     * The date of birth of the document owner. 
+     */
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
+    
+    /** 
+     * The date of expiry of the document. 
+     */
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
+    
+    /** 
+     * The date of issue of the document. 
+     */
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    
+    /** 
+     * Defines digital signature of recognition results. 
+     */
+    this.digitalSignature = nativeResult.digitalSignature;
+    
+    /** 
+     * Defines digital signature version. 
+     */
+    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
+    
+    /** 
+     * Defines {true} if data from scanned parts/sides of the document match, 
+     */
+    this.documentDataMatch = nativeResult.documentDataMatch;
+    
+    /** 
+     * The document number. 
+     */
+    this.documentNumber = nativeResult.documentNumber;
+    
+    /** 
+     * The driver license detailed info. 
+     */
+    this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
+    
+    /** 
+     * Face image from the document 
+     */
+    this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     * The first name of the document owner. 
+     */
+    this.firstName = nativeResult.firstName;
+    
+    /** 
+     * Image of the full document 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The full name of the document owner. 
+     */
+    this.fullName = nativeResult.fullName;
+    
+    /** 
+     * The last name of the document owner. 
+     */
+    this.lastName = nativeResult.lastName;
+    
+    /** 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
+     */
+    this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
+    
+    /** 
+     * The sex of the document owner. 
+     */
+    this.sex = nativeResult.sex;
+    
+}
+
+BlinkIdCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.BlinkIdCombinedRecognizerResult = BlinkIdCombinedRecognizerResult;
+
+/**
+ * A generic recognizer which can scan front and back side of the document.
+ */
+function BlinkIdCombinedRecognizer() {
+    Recognizer.call(this, 'BlinkIdCombinedRecognizer');
+    
+    /** 
+     * The DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * The extension factors for full document image. 
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Defines whether face image will be available in result. 
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Defines whether full document image will be available in 
+     */
+    this.returnFullDocumentImage = false;
+    
+    /** 
+     * Defines whether or not recognition result should be signed. 
+     */
+    this.signResult = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new BlinkIdCombinedRecognizerResult(nativeResult); }
+
+}
+
+BlinkIdCombinedRecognizer.prototype = new Recognizer('BlinkIdCombinedRecognizer');
+
+BlinkID.prototype.BlinkIdCombinedRecognizer = BlinkIdCombinedRecognizer;
+
+/**
+ * Result object for BlinkIdRecognizer.
+ */
+function BlinkIdRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * The address of the document owner. 
+     */
+    this.address = nativeResult.address;
+    
+    /** 
+     * The date of birth of the document owner. 
+     */
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
+    
+    /** 
+     * The date of expiry of the document. 
+     */
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
+    
+    /** 
+     * The date of issue of the document. 
+     */
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    
+    /** 
+     * The document number. 
+     */
+    this.documentNumber = nativeResult.documentNumber;
+    
+    /** 
+     * The driver license detailed info. 
+     */
+    this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
+    
+    /** 
+     * Face image from the document 
+     */
+    this.faceImage = nativeResult.faceImage;
+    
+    /** 
+     * The first name of the document owner. 
+     */
+    this.firstName = nativeResult.firstName;
+    
+    /** 
+     * Image of the full document 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The full name of the document owner. 
+     */
+    this.fullName = nativeResult.fullName;
+    
+    /** 
+     * The last name of the document owner. 
+     */
+    this.lastName = nativeResult.lastName;
+    
+    /** 
+     * The sex of the document owner. 
+     */
+    this.sex = nativeResult.sex;
+    
+}
+
+BlinkIdRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.BlinkIdRecognizerResult = BlinkIdRecognizerResult;
+
+/**
+ * Generic BlinkID recognizer.
+ */
+function BlinkIdRecognizer() {
+    Recognizer.call(this, 'BlinkIdRecognizer');
+    
+    /** 
+     * The DPI (Dots Per Inch) for face image that should be returned. 
+     */
+    this.faceImageDpi = 250;
+    
+    /** 
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * The extension factors for full document image. 
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Defines whether face image will be available in result. 
+     */
+    this.returnFaceImage = false;
+    
+    /** 
+     * Defines whether full document image will be available in 
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new BlinkIdRecognizerResult(nativeResult); }
+
+}
+
+BlinkIdRecognizer.prototype = new Recognizer('BlinkIdRecognizer');
+
+BlinkID.prototype.BlinkIdRecognizer = BlinkIdRecognizer;
 
 /**
  * Result object for BruneiIdBackRecognizer.
@@ -2434,7 +2351,7 @@ function BruneiIdBackRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -2461,53 +2378,37 @@ function BruneiIdBackRecognizer() {
     Recognizer.call(this, 'BruneiIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Brunei ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Brunei ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of issue of Brunei ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Brunei ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if the race of Brunei ID owner should be extracted.
-     * 
-     *  
+     * Defines if the race of Brunei ID owner should be extracted. 
      */
     this.extractRace = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -2536,12 +2437,12 @@ function BruneiIdFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -2551,7 +2452,7 @@ function BruneiIdFrontRecognizerResult(nativeResult) {
     this.fullName = nativeResult.fullName;
     
     /** 
-     * The place of birth of Brunei ID owner. 
+     * The country of birth of Brunei ID owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
@@ -2567,81 +2468,58 @@ BruneiIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultS
 BlinkID.prototype.BruneiIdFrontRecognizerResult = BruneiIdFrontRecognizerResult;
 
 /**
- * Recognizer which can scan front side of yellow version of Brunei ID.
+ * Recognizer which can scan front side of Brunei ID.
  */
 function BruneiIdFrontRecognizer() {
     Recognizer.call(this, 'BruneiIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Brunei ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Brunei ID owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if full name of Brunei ID owner should be extracted.
-     * 
-     *  
+     * Defines if full name of Brunei ID owner should be extracted. 
      */
     this.extractFullName = true;
     
     /** 
-     * Defines if place of birth of Brunei ID owner should be extracted.
-     * 
-     *  
+     * Defines if country of birth of Brunei ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if sex of Brunei ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Brunei ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -2675,12 +2553,12 @@ function BruneiMilitaryIdBackRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -2697,61 +2575,42 @@ function BruneiMilitaryIdBackRecognizer() {
     Recognizer.call(this, 'BruneiMilitaryIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of expiry of Brunei Military ID card should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Brunei Military ID card should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Brunei Military ID card should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Brunei Military ID card should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -2775,12 +2634,12 @@ function BruneiMilitaryIdFrontRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -2807,61 +2666,42 @@ function BruneiMilitaryIdFrontRecognizer() {
     Recognizer.call(this, 'BruneiMilitaryIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if full name of Brunei Military ID owner should be extracted.
-     * 
-     *  
+     * Defines if full name of Brunei Military ID owner should be extracted. 
      */
     this.extractFullName = true;
     
     /** 
-     * Defines if military rank of Brunei Military ID owner should be extracted.
-     * 
-     *  
+     * Defines if military rank of Brunei Military ID owner should be extracted. 
      */
     this.extractRank = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -2890,7 +2730,7 @@ function BruneiResidencePermitBackRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -2917,53 +2757,37 @@ function BruneiResidencePermitBackRecognizer() {
     Recognizer.call(this, 'BruneiResidencePermitBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Brunei Residence Permit card owner should be extracted.
-     * 
-     *  
+     * Defines if address of Brunei Residence Permit card owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of issue of Brunei Residence Permit card should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Brunei Residence Permit card should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if the race of Brunei Residence Permit card owner should be extracted.
-     * 
-     *  
+     * Defines if the race of Brunei Residence Permit card owner should be extracted. 
      */
     this.extractRace = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -2992,12 +2816,12 @@ function BruneiResidencePermitFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -3029,75 +2853,52 @@ function BruneiResidencePermitFrontRecognizer() {
     Recognizer.call(this, 'BruneiResidencePermitFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Brunei residence permit owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Brunei residence permit owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if full name of Brunei residence permit owner should be extracted.
-     * 
-     *  
+     * Defines if full name of Brunei residence permit owner should be extracted. 
      */
     this.extractFullName = true;
     
     /** 
-     * Defines if place of birth of Brunei residence permit owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Brunei residence permit owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if sex of Brunei residence permit owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Brunei residence permit owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -3126,7 +2927,7 @@ function BruneiTemporaryResidencePermitBackRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -3153,53 +2954,37 @@ function BruneiTemporaryResidencePermitBackRecognizer() {
     Recognizer.call(this, 'BruneiTemporaryResidencePermitBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Brunei temporary residence permit owner's employer should be extracted.
-     * 
-     *  
+     * Defines if address of Brunei temporary residence permit owner's employer should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of issue of Brunei temporary residence permit should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Brunei temporary residence permit should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if the passport number of Brunei temporary residence permit owner should be extracted.
-     * 
-     *  
+     * Defines if the passport number of Brunei temporary residence permit owner should be extracted. 
      */
     this.extractPassportNumber = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -3233,12 +3018,12 @@ function BruneiTemporaryResidencePermitFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -3270,82 +3055,57 @@ function BruneiTemporaryResidencePermitFrontRecognizer() {
     Recognizer.call(this, 'BruneiTemporaryResidencePermitFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Brunei Temporary Residence Permit owner should be extracted.
-     * 
-     *  
+     * Defines if address of Brunei Temporary Residence Permit owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of birth of Brunei Temporary Residence Permit owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Brunei Temporary Residence Permit owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if full name of Brunei Temporary Residence Permit owner should be extracted.
-     * 
-     *  
+     * Defines if full name of Brunei Temporary Residence Permit owner should be extracted. 
      */
     this.extractFullName = true;
     
     /** 
-     * Defines if place of birth of Brunei Temporary Residence Permit owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Brunei Temporary Residence Permit owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if sex of Brunei Temporary Residence Permit owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Brunei Temporary Residence Permit owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -3364,42 +3124,42 @@ function ColombiaDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date Of Birth of the front side of the Colombia Dl owner. 
+     * The date of birth of the Colombia Dl card owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date Of Issue of the front side of the Colombia Dl owner. 
+     * The date of issue of the Colombia Dl card. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * The driver Restrictions of the front side of the Colombia Dl owner. 
+     * The driver restrictions of the Colombia Dl card owner. 
      */
     this.driverRestrictions = nativeResult.driverRestrictions;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issuing Agency of the front side of the Colombia Dl owner. 
+     * The issuing agency of the Colombia Dl card. 
      */
     this.issuingAgency = nativeResult.issuingAgency;
     
     /** 
-     * The licence Number of the front side of the Colombia Dl owner. 
+     * The licence number of the Colombia Dl card. 
      */
     this.licenceNumber = nativeResult.licenceNumber;
     
     /** 
-     * The name of the front side of the Colombia Dl owner. 
+     * The name of the Colombia Dl card owner. 
      */
     this.name = nativeResult.name;
     
@@ -3416,75 +3176,52 @@ function ColombiaDlFrontRecognizer() {
     Recognizer.call(this, 'ColombiaDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if the date of birth of the Colombia Dl owner should be extracted.
-     * 
-     *  
+     * Defines if the date of birth of the Colombia Dl owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if the driver restrictions of the Colombia Dl owner should be extracted.
-     * 
-     *  
+     * Defines if the driver restrictions of the Colombia Dl owner should be extracted. 
      */
     this.extractDriverRestrictions = true;
     
     /** 
-     * Defines if the issuing agency of the Colombia Dl card should be extracted.
-     * 
-     *  
+     * Defines if the issuing agency of the Colombia Dl card should be extracted. 
      */
     this.extractIssuingAgency = true;
     
     /** 
-     * Defines if the name of the Colombia Dl owner should be extracted.
-     * 
-     *  
+     * Defines if the name of the Colombia Dl owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -3503,42 +3240,42 @@ function ColombiaIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The birth Date of the Colombia Id owner. 
+     * The birth date of Colombia ID owner. 
      */
     this.birthDate = nativeResult.birthDate != null ? new Date(nativeResult.birthDate) : null;
     
     /** 
-     * The blood Group of the Colombia Id owner. 
+     * The blood group of Colombia ID owner. 
      */
     this.bloodGroup = nativeResult.bloodGroup;
     
     /** 
-     * The document Number Colombia Id owner. 
+     * The document number of Colombia ID. 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * The fingerprint of the Colombian ID owner. 
+     * The encoded fingerprint of Colombia ID owner. 
      */
     this.fingerprint = nativeResult.fingerprint;
     
     /** 
-     * The first Name of the Colombia Id owner. 
+     * The first name of Colombia ID owner. 
      */
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The last Name of the Colombia Id owner. 
+     * The last name of Colombia ID owner. 
      */
     this.lastName = nativeResult.lastName;
     
     /** 
-     * The sex of the Colombia Id owner. 
+     * The sex of Colombia ID owner. 
      */
     this.sex = nativeResult.sex;
     
@@ -3549,59 +3286,38 @@ ColombiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResult
 BlinkID.prototype.ColombiaIdBackRecognizerResult = ColombiaIdBackRecognizerResult;
 
 /**
- * Class for configuring Colombia Id Back Recognizer.
- * 
- * Colombia Id Back recognizer is used for scanning back side of the Colombia Id.
+ * Recognizer which can scan back side of Colombian national ID cards.
  */
 function ColombiaIdBackRecognizer() {
     Recognizer.call(this, 'ColombiaIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Set this to true to scan barcodes which don't have quiet zone (white area) around it
-     * 
-     * Use only if necessary because it slows down the recognition process
-     * 
-     *  
+     * Allow scanning PDF417 barcodes which don't have quiet zone 
      */
     this.nullQuietZoneAllowed = true;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Set this to true to scan even barcode not compliant with standards
-     * For example, malformed PDF417 barcodes which were incorrectly encoded
-     * 
-     * Use only if necessary because it slows down the recognition process
-     * 
-     *  
+     * Enable decoding of non-standard PDF417 barcodes, but without 
      */
     this.scanUncertain = true;
     
@@ -3620,32 +3336,32 @@ function ColombiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The document Number of the Colombia Id. 
+     * The document number of Colombia ID. 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first Name of the Colombia Id owner. 
+     * The first name of Colombia ID owner. 
      */
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The last Name of the Colombia Id owner. 
+     * The last name of Colombia ID owner. 
      */
     this.lastName = nativeResult.lastName;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -3656,84 +3372,58 @@ ColombiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.ColombiaIdFrontRecognizerResult = ColombiaIdFrontRecognizerResult;
 
 /**
- * Class for configuring Colombia Id Front Recognizer.
- * 
- * Colombia Id Front recognizer is used for scanning front side of the Colombia Id.
+ * Recognizer which can scan front side of Colombian national ID cards.
  */
 function ColombiaIdFrontRecognizer() {
     Recognizer.call(this, 'ColombiaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's first name should be extracted from front side of the Colombia Id
-     * 
-     *  
+     * Defines if first name of ID owner should be extracted 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if owner's last name should be extracted from front side of the Colombia Id
-     * 
-     *  
+     * Defines if last name of ID owner should be extracted 
      */
     this.extractLastName = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -3777,12 +3467,12 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
@@ -3792,10 +3482,7 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.documentBilingual = nativeResult.documentBilingual;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
@@ -3810,7 +3497,7 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -3820,12 +3507,12 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.firstName = nativeResult.firstName;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -3855,8 +3542,7 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.residence = nativeResult.residence;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -3866,7 +3552,7 @@ function CroatiaCombinedRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -3877,138 +3563,98 @@ CroatiaCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.CroatiaCombinedRecognizerResult = CroatiaCombinedRecognizerResult;
 
 /**
- * Recognizer which can front and back side of Croatian national ID cards.
+ * Recognizer for combined reading of both front and back side of Croatian ID.
  */
 function CroatiaCombinedRecognizer() {
     Recognizer.call(this, 'CroatiaCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if citizenship of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if citizenship of Croatian ID owner should be extracted 
      */
     this.extractCitizenship = true;
     
     /** 
-     * Defines if date of birth of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if date of birth of Croatian ID owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Croatian ID document should be extracted
-     * 
-     *  
+     * Defines if date of expiry of Croatian ID document should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Croatian ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Croatian ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if first name of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if first name of Croatian ID owner should be extracted 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuer of Croatian ID should be extracted.
-     * 
-     *  
+     * Defines if issuer of Croatian ID should be extracted. 
      */
     this.extractIssuedBy = true;
     
     /** 
-     * Defines if last name of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if last name of Croatian ID owner should be extracted 
      */
     this.extractLastName = true;
     
     /** 
-     * Defines if residence of Croatian ID owner should be extracted.
-     * 
-     *  
+     * Defines if residence of Croatian ID owner should be extracted. 
      */
     this.extractResidence = true;
     
     /** 
-     * Defines if sex of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if sex of Croatian ID owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -4042,7 +3688,7 @@ function CroatiaIdBackRecognizerResult(nativeResult) {
     this.documentForNonResident = nativeResult.documentForNonResident;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -4052,7 +3698,7 @@ function CroatiaIdBackRecognizerResult(nativeResult) {
     this.issuedBy = nativeResult.issuedBy;
     
     /** 
-     * The data extracted from the machine readable zone 
+     * The data extracted from the machine readable zone. 
      */
     this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
@@ -4068,62 +3714,43 @@ CroatiaIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultS
 BlinkID.prototype.CroatiaIdBackRecognizerResult = CroatiaIdBackRecognizerResult;
 
 /**
- * Croatian ID Back Recognizer.
- * 
- * Croatian ID Back recognizer is used for scanning back side of Croatian ID. It always extracts
- * MRZ zone and address of ID holder while extracting other elements is optional.
+ * Recognizer which can scan back side of Croatian national ID cards.
  */
 function CroatiaIdBackRecognizer() {
     Recognizer.call(this, 'CroatiaIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of issue of Croatian ID should be extracted
-     * 
-     *  
+     * Defines if date of issue of Croatian ID should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if issuer of Croatian ID should be extracted
-     * 
-     *  
+     * Defines if issuer of Croatian ID should be extracted 
      */
     this.extractIssuedBy = true;
     
     /** 
-     * Defines if residence of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if residence of Croatian ID owner should be extracted 
      */
     this.extractResidence = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -4142,62 +3769,62 @@ function CroatiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The citizenship of the Croatian ID owner. 
+     * The citizenship of the Croatian ID owner 
      */
     this.citizenship = nativeResult.citizenship;
     
     /** 
-     * The date of birth of Croatian ID owner 
+     * The date of birth of the Croatian ID owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The document date of expiry of the Croatian ID 
+     * The date of expiry of the Croatian ID document 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * Check if date of expiry is permanent on the Croatian ID. 
+     * The date of expiry of the Croatian ID document is permanent 
      */
     this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
     
     /** 
-     * true if the document is bilingual 
+     * The Croatian ID document is bilingual 
      */
     this.documentBilingual = nativeResult.documentBilingual;
     
     /** 
-     * The document number of the Croatian ID. 
+     * The document number of the Croatian ID 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first name of the Croatian ID owner. 
+     * The last name of the Croatian ID owner 
      */
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The last name of the Croatian ID owner. 
+     * The first name of the Croatian ID owner 
      */
     this.lastName = nativeResult.lastName;
     
     /** 
-     * The sex of the Croatian ID owner. 
+     * The sex of the Croatian ID owner 
      */
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -4208,113 +3835,78 @@ CroatiaIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResult
 BlinkID.prototype.CroatiaIdFrontRecognizerResult = CroatiaIdFrontRecognizerResult;
 
 /**
- * Croatian ID Front Recognizer.
- * 
- * Croatian ID Front recognizer is used for scanning front side of Croatian ID. It always extracts
- * identity card number, first and last name of ID holder while extracting other elements is optional.
+ * Recognizer which can scan front side of Croatia national ID cards.
  */
 function CroatiaIdFrontRecognizer() {
     Recognizer.call(this, 'CroatiaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if citizenship of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if citizenship of Croatian ID owner should be extracted 
      */
     this.extractCitizenship = true;
     
     /** 
-     * Defines if date of birth of Croatian ID owner should be extracted
-     * 
-     *  
+     * Defines if date of birth of Croatian ID owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Croatian ID
-     * 
-     *  
+     * Defines if date of expiry of Croatian ID document should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     *  Defines if first name of Croatian ID owner should be extracted
-     * 
-     *   
+     * Defines if first name of Croatian ID owner should be extracted 
      */
     this.extractFirstName = true;
     
     /** 
-     *  Defines if last name of Croatian ID owner should be extracted
-     * 
-     *   
+     * Defines if last name of Croatian ID owner should be extracted 
      */
     this.extractLastName = true;
     
     /** 
-     *  Defines if sex of Croatian ID owner should be extracted
-     * 
-     *   
+     * Defines if sex of Croatian ID owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -4333,7 +3925,7 @@ function CyprusIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -4355,32 +3947,22 @@ function CyprusIdBackRecognizer() {
     Recognizer.call(this, 'CyprusIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -4399,12 +3981,12 @@ function CyprusIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -4414,7 +3996,7 @@ function CyprusIdFrontRecognizerResult(nativeResult) {
     this.idNumber = nativeResult.idNumber;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -4431,62 +4013,42 @@ function CyprusIdFrontRecognizer() {
     Recognizer.call(this, 'CyprusIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -4515,7 +4077,7 @@ function CyprusOldIdBackRecognizerResult(nativeResult) {
     this.expiresOn = nativeResult.expiresOn != null ? new Date(nativeResult.expiresOn) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -4537,46 +4099,32 @@ function CyprusOldIdBackRecognizer() {
     Recognizer.call(this, 'CyprusOldIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if the expiry date of old Cryprus ID card should be extracted.
-     * 
-     *  
+     * Defines if the expiry date of old Cryprus ID card should be extracted. 
      */
     this.extractExpiresOn = true;
     
     /** 
-     * Defines if the sex of old Cyprus ID card owner should be extracted.
-     * 
-     *  
+     * Defines if the sex of old Cyprus ID card owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -4600,12 +4148,12 @@ function CyprusOldIdFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -4637,68 +4185,47 @@ function CyprusOldIdFrontRecognizer() {
     Recognizer.call(this, 'CyprusOldIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if document number of old Cyprus ID card should be extracted.
-     * 
-     *  
+     * Defines if document number of old Cyprus ID card should be extracted. 
      */
     this.extractDocumentNumber = true;
     
     /** 
-     * Defines if name of old Cyprus ID card owner should be extracted.
-     * 
-     *  
+     * Defines if name of old Cyprus ID card owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if surname of old Cyprus ID card owner should be extracted.
-     * 
-     *  
+     * Defines if surname of old Cyprus ID card owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -4737,20 +4264,17 @@ function CzechiaCombinedRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
@@ -4760,17 +4284,17 @@ function CzechiaCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -4805,8 +4329,7 @@ function CzechiaCombinedRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -4816,7 +4339,7 @@ function CzechiaCombinedRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -4838,139 +4361,97 @@ function CzechiaCombinedRecognizer() {
     Recognizer.call(this, 'CzechiaCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if Czech ID's issuing authority should be extracted.
-     * 
-     *  
+     * Defines if Czech ID's issuing authority should be extracted. 
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if Czech ID owner's date of birth should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's date of birth should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if Czech ID's date of expiry should be extracted
-     * 
-     *  
+     * Defines if Czech ID's date of expiry should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if Czech ID's date of issue should be extracted
-     * 
-     *  
+     * Defines if Czech ID's date of issue should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if Czech ID owner's given names should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's given names should be extracted 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if Czech ID owner's permanent address should be extracted.
-     * 
-     *  
+     * Defines if Czech ID owner's permanent address should be extracted. 
      */
     this.extractPermanentStay = true;
     
     /** 
-     * Defines if Czech ID owner's personal number should be extracted.
-     * 
-     *  
+     * Defines if Czech ID owner's personal number should be extracted. 
      */
     this.extractPersonalNumber = true;
     
     /** 
-     * Defines if Czech ID owner's place of birth should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's place of birth should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if Czech ID owner's sex should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's sex should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if Czech ID owner's surname should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's surname should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -4994,7 +4475,7 @@ function CzechiaIdBackRecognizerResult(nativeResult) {
     this.authority = nativeResult.authority;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -5026,53 +4507,37 @@ function CzechiaIdBackRecognizer() {
     Recognizer.call(this, 'CzechiaIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if Czech ID's issuing authority should be extracted.
-     * 
-     *  
+     * Defines if Czech ID's issuing authority should be extracted. 
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if Czech ID owner's permanent address should be extracted.
-     * 
-     *  
+     * Defines if Czech ID owner's permanent address should be extracted. 
      */
     this.extractPermanentStay = true;
     
     /** 
-     * Defines if Czech ID owner's personal number should be extracted.
-     * 
-     *  
+     * Defines if Czech ID owner's personal number should be extracted. 
      */
     this.extractPersonalNumber = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -5111,12 +4576,12 @@ function CzechiaIdFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -5136,7 +4601,7 @@ function CzechiaIdFrontRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -5158,111 +4623,77 @@ function CzechiaIdFrontRecognizer() {
     Recognizer.call(this, 'CzechiaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if Czech ID owner's date of birth should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's date of birth should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if Czech ID's date of expiry should be extracted
-     * 
-     *  
+     * Defines if Czech ID's date of expiry should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if Czech ID's date of issue should be extracted
-     * 
-     *  
+     * Defines if Czech ID's date of issue should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if Czech ID owner's given names should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's given names should be extracted 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if Czech ID owner's place of birth should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's place of birth should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if Czech ID owner's sex should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's sex should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if Czech ID owner's surname should be extracted
-     * 
-     *  
+     * Defines if Czech ID owner's surname should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -5281,22 +4712,22 @@ function DocumentFaceRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Quadrangle represeting corner points of the document within the input image. 
+     * The location of document detection in coordinate system of full input frame. 
      */
     this.documentLocation = nativeResult.documentLocation != null ? new Quadrilateral(nativeResult.documentLocation) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * Quadrangle represeting corner points of the face image within the input image. 
+     * The location of face detection in coordinate system of cropped full document image. 
      */
     this.faceLocation = nativeResult.faceLocation != null ? new Quadrilateral(nativeResult.faceLocation) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -5307,74 +4738,50 @@ DocumentFaceRecognizerResult.prototype = new RecognizerResult(RecognizerResultSt
 BlinkID.prototype.DocumentFaceRecognizerResult = DocumentFaceRecognizerResult;
 
 /**
- * Class for configuring Document Face Recognizer Recognizer.
- * 
- * Document Face Recognizer recognizer is used for scanning documents containing face images.
+ * Recognizer for detecting holder's photo on documents containing image.
  */
 function DocumentFaceRecognizer() {
     Recognizer.call(this, 'DocumentFaceRecognizer');
     
     /** 
-     * Type of docment this recognizer will scan.
-     * 
-     *  
+     * Currently used detector type. 
      */
     this.detectorType = DocumentFaceDetectorType.TD1;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Defines how many times the same document should be detected before the detector
-     * returns this document as a result of the deteciton
-     * 
-     * Higher number means more reliable detection, but slower processing
-     * 
-     *  
+     * Minimum number of stable detections required for detection to be successful. 
      */
     this.numStableDetectionsThreshold = 6;
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Setting for control over FaceImageCropProcessor's tryBothOrientations option
-     * 
-     *  
+     * Defines whether document will be scanned in both orientations - normal and upside down. 
      */
-    this.tryBothOrientations = false;
+    this.tryBothOrientations = true;
     
     this.createResultFromNative = function (nativeResult) { return new DocumentFaceRecognizerResult(nativeResult); }
 
@@ -5396,12 +4803,12 @@ function EgyptIdFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -5423,54 +4830,37 @@ function EgyptIdFrontRecognizer() {
     Recognizer.call(this, 'EgyptIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if national number of Egypt ID should be extracted.
-     * 
-     *  
+     * Defines if national number of Egypt ID should be extracted. 
      */
     this.extractNationalNumber = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -5489,62 +4879,62 @@ function EudlRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the EU Driver License owner. 
+     * The address of the Driver's Licence owner. 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The birth Data of the EU Driver License owner. 
+     * Birth date and birth place of Driver's Licence owner 
      */
     this.birthData = nativeResult.birthData;
     
     /** 
-     * The country of the EU Driver License owner. 
+     * The country where the driver's license has been issued. 
      */
     this.country = nativeResult.country;
     
     /** 
-     * The driver Number of the EU Driver License owner. 
+     * The driver number. 
      */
     this.driverNumber = nativeResult.driverNumber;
     
     /** 
-     * The expiry Date of the EU Driver License owner. 
+     * The expiry date of the Driver's Licence 
      */
     this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first Name of the EU Driver License owner. 
+     * The first name of the Driver's Licence owner. 
      */
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issue Date of the EU Driver License owner. 
+     * The issue date of the Driver's Licence 
      */
     this.issueDate = nativeResult.issueDate != null ? new Date(nativeResult.issueDate) : null;
     
     /** 
-     * The issuing Authority of the EU Driver License owner. 
+     * Document issuing authority. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * The last Name of the EU Driver License owner. 
+     * The last name of the Driver's Licence owner. 
      */
     this.lastName = nativeResult.lastName;
     
     /** 
-     * The personal Number of the EU Driver License owner. 
+     * The personal number of the Driver's Licence owner. 
      */
     this.personalNumber = nativeResult.personalNumber;
     
@@ -5555,90 +4945,63 @@ EudlRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empt
 BlinkID.prototype.EudlRecognizerResult = EudlRecognizerResult;
 
 /**
- * Class for configuring EU Driver License Recognizer.
- * 
- * EU Driver License recognizer is used for scanning EU Driver License.
+ * Recognizer for scanning driver's licence of several european countries
  */
 function EudlRecognizer() {
     Recognizer.call(this, 'EudlRecognizer');
     
     /** 
-     * Country of scanning Eudl. The default value of EudlCountryAny will scan all supported driver's licenses.
-     * 
-     *  
+     * Currently used country. 
      */
     this.country = EudlCountry.Automatic;
     
     /** 
-     * Defines if owner's address should be extracted from EU Driver License
-     * 
-     *  
+     * Defines if address should be extracted from EU driver's license 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if owner's date of expiry should be extracted from EU Driver License
-     * 
-     *  
+     * Defines if expiry date should be extracted from EU driver's license 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if owner's date of issue should be extracted from EU Driver License
-     * 
-     *  
+     * Defines if issue date should be extracted from EU driver's license 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if owner's issuing authority should be extracted from EU Driver License
-     * 
-     *  
+     * Defines if issuing authority should be extracted from EU driver's license 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if owner's personal number should be extracted from EU Driver License
-     * 
-     *  
+     * Defines if personal number should be extracted from EU driver's license 
      */
     this.extractPersonalNumber = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -5692,20 +5055,17 @@ function GermanyCombinedRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
@@ -5715,17 +5075,17 @@ function GermanyCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -5760,8 +5120,7 @@ function GermanyCombinedRecognizerResult(nativeResult) {
     this.rawMrzString = nativeResult.rawMrzString;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -5771,7 +5130,7 @@ function GermanyCombinedRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -5788,166 +5147,118 @@ BlinkID.prototype.GermanyCombinedRecognizerResult = GermanyCombinedRecognizerRes
 
 /**
  * Recognizer which can scan front and back side of German national ID cards,
- *  front side of German old ID card and front side of German Passport.
+ *  * front side of German old ID card and front side of German Passport.
  */
 function GermanyCombinedRecognizer() {
     Recognizer.call(this, 'GermanyCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of German ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of German ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if issuing authority of German ID should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of German ID should be extracted. 
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if CAN number of Germany ID should be extracted.
-     * 
-     *  
+     * Defines if CAN number of Germany ID should be extracted. 
      */
     this.extractCanNumber = true;
     
     /** 
-     * Defines if colour of eyes of German ID owner should be extracted.
-     * 
-     *  
+     * Defines if colour of eyes of German ID owner should be extracted. 
      */
     this.extractColourOfEyes = true;
     
     /** 
-     * Defines if date of expiry of Germany ID should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Germany ID should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of German ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of German ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if document number of Germany ID should be extracted.
-     * 
-     *  
+     * Defines if document number of Germany ID should be extracted. 
      */
     this.extractDocumentNumber = true;
     
     /** 
-     * Defines if given name of German passport owner should be extracted.
-     * 
-     *  
+     * Defines if given name of German passport owner should be extracted. 
      */
     this.extractGivenName = true;
     
     /** 
-     * Defines if given names of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if given names of Germany ID owner should be extracted. 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if height of German ID owner should be extracted.
-     * 
-     *  
+     * Defines if height of German ID owner should be extracted. 
      */
     this.extractHeight = true;
     
     /** 
-     * Defines if nationality  of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if nationality  of Germany ID owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if place of birth of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Germany ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if surname of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Germany ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -5976,7 +5287,7 @@ function GermanyDlBackRecognizerResult(nativeResult) {
     this.dateOfIssueB10NotSpecified = nativeResult.dateOfIssueB10NotSpecified;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -5993,32 +5304,22 @@ function GermanyDlBackRecognizer() {
     Recognizer.call(this, 'GermanyDlBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -6052,7 +5353,7 @@ function GermanyDlFrontRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -6062,7 +5363,7 @@ function GermanyDlFrontRecognizerResult(nativeResult) {
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -6092,7 +5393,7 @@ function GermanyDlFrontRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -6109,118 +5410,82 @@ function GermanyDlFrontRecognizer() {
     Recognizer.call(this, 'GermanyDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Germany DL owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Germany DL owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Germany DL should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Germany DL should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Germany DL should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Germany DL should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if first name of Germany DL owner should be extracted.
-     * 
-     *  
+     * Defines if first name of Germany DL owner should be extracted. 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority of Germany DL should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Germany DL should be extracted. 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if last name of Germany DL owner should be extracted.
-     * 
-     *  
+     * Defines if last name of Germany DL owner should be extracted. 
      */
     this.extractLastName = true;
     
     /** 
-     * Defines if licence categories of Germany DL should be extracted.
-     * 
-     *  
+     * Defines if licence categories of Germany DL should be extracted. 
      */
     this.extractLicenceCategories = true;
     
     /** 
-     * Defines if place of birth of Germany DL owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Germany DL owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -6279,7 +5544,7 @@ function GermanyIdBackRecognizerResult(nativeResult) {
     this.fullAddress = nativeResult.fullAddress;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -6306,67 +5571,47 @@ function GermanyIdBackRecognizer() {
     Recognizer.call(this, 'GermanyIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of German ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of German ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if issuing authority of German ID should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of German ID should be extracted. 
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if colour of eyes of German ID owner should be extracted.
-     * 
-     *  
+     * Defines if colour of eyes of German ID owner should be extracted. 
      */
     this.extractColourOfEyes = true;
     
     /** 
-     * Defines if date of issue of German ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of German ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if height of German ID owner should be extracted.
-     * 
-     *  
+     * Defines if height of German ID owner should be extracted. 
      */
     this.extractHeight = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -6405,12 +5650,12 @@ function GermanyIdFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -6430,7 +5675,7 @@ function GermanyIdFrontRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -6452,111 +5697,77 @@ function GermanyIdFrontRecognizer() {
     Recognizer.call(this, 'GermanyIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if CAN number of Germany ID should be extracted.
-     * 
-     *  
+     * Defines if CAN number of Germany ID should be extracted. 
      */
     this.extractCanNumber = true;
     
     /** 
-     * Defines if date of expiry of Germany ID should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Germany ID should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if document number of Germany ID should be extracted.
-     * 
-     *  
+     * Defines if document number of Germany ID should be extracted. 
      */
     this.extractDocumentNumber = true;
     
     /** 
-     * Defines if given names of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if given names of Germany ID owner should be extracted. 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if nationality  of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if nationality  of Germany ID owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if place of birth of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Germany ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if surname of Germany ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Germany ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -6575,12 +5786,12 @@ function GermanyIdOldRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -6595,7 +5806,7 @@ function GermanyIdOldRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -6612,69 +5823,47 @@ function GermanyIdOldRecognizer() {
     Recognizer.call(this, 'GermanyIdOldRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if place of birth of old German ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of old German ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -6703,12 +5892,12 @@ function GermanyPassportRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -6733,7 +5922,7 @@ function GermanyPassportRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -6755,104 +5944,72 @@ function GermanyPassportRecognizer() {
     Recognizer.call(this, 'GermanyPassportRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if issuing authority of German passport should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of German passport should be extracted. 
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if date of issue of German passport should be extracted.
-     * 
-     *  
+     * Defines if date of issue of German passport should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if given name of German passport owner should be extracted.
-     * 
-     *  
+     * Defines if given name of German passport owner should be extracted. 
      */
     this.extractGivenName = true;
     
     /** 
-     * Defines if nationality of German passport owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of German passport owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if place of birth of German passport owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of German passport owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if surname of German passport owner should be extracted.
-     * 
-     *  
+     * Defines if surname of German passport owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -6871,47 +6028,47 @@ function HongKongIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The commerical Code of the Hong Kong ID. 
+     * The commercial code of Hong Kong ID owner 
      */
     this.commercialCode = nativeResult.commercialCode;
     
     /** 
-     * The date of birth of the Hong Kong ID ownder. 
+     * The date of birth of Hong Kong ID owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The issue date of the Hong Kong ID owner. 
+     * The date of issue of Hong Kong ID 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * The document number of the Hong Kong card. 
+     * The document number of Hong Kong ID 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The full name of the Hong Kong ID owner. 
+     * The full name of Hong Kong ID owner 
      */
     this.fullName = nativeResult.fullName;
     
     /** 
-     * The residential status of the Hong Kong ID. 
+     * The residential status of Hong Kong ID owner 
      */
     this.residentialStatus = nativeResult.residentialStatus;
     
     /** 
-     * The sex of the Hong Kong ID owner. 
+     * The sex of Hong Kong ID owner 
      */
     this.sex = nativeResult.sex;
     
@@ -6922,97 +6079,68 @@ HongKongIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.HongKongIdFrontRecognizerResult = HongKongIdFrontRecognizerResult;
 
 /**
- * Class for configuring Hong Kong ID Front Recognizer.
- * 
- * Hong Kong ID Front recognizer is used for scanning front side of Hong Kong ID.
+ * Recognizer which can scan front side of Hong Kong national ID cards.
  */
 function HongKongIdFrontRecognizer() {
     Recognizer.call(this, 'HongKongIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if commercial code should be extracted from Hong Kong ID
-     * 
-     *  
+     * Defines if commercial code of Hong Kong ID owner should be extracted 
      */
     this.extractCommercialCode = true;
     
     /** 
-     * Defines if owner's date of birth should be extracted from Hong Kong ID
-     * 
-     *  
+     * Defines if date of birth of Hong Kong ID owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if card's date of issue should be extracted from Hong Kong ID
-     * 
-     *  
+     * Defines if date of issue of Hong Kong ID should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if owner's full name should be extracted from Hong Kong ID
-     * 
-     *  
+     * Defines if full name of Hong Kong ID owner should be extracted 
      */
     this.extractFullName = true;
     
     /** 
-     * Defines if card's residential status should be extracted from Hong Kong ID
-     * 
-     *  
+     * Defines if residential status of Hong Kong ID owner should be extracted 
      */
     this.extractResidentialStatus = true;
     
     /** 
-     * Defines if owner's sex should be extracted from Hong Kong ID
-     * 
-     *  
+     * Defines if sex of Hong Kong ID owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -7031,112 +6159,112 @@ function IndonesiaIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the front side of the Indonesia Id owner. 
+     * The address of the Indonesian ID owner. 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The blood Type of the front side of the Indonesia Id owner. 
+     * The blood type of the Indonesian ID owner. 
      */
     this.bloodType = nativeResult.bloodType;
     
     /** 
-     * The citizenship of the front side of the Indonesia Id owner. 
+     * The citizenship of the Indonesian ID owner. 
      */
     this.citizenship = nativeResult.citizenship;
     
     /** 
-     * The city of the front side of the Indonesia Id owner. 
+     * The city of the Indonesian ID owner. 
      */
     this.city = nativeResult.city;
     
     /** 
-     * The date Of Birth of the front side of the Indonesia Id owner. 
+     * The date of birth of the Indonesian ID owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date Of Expiry of the front side of the Indonesia Id owner. 
+     * The date of expiry of the Indonesian ID card. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date Of Expiry Permanent of the front side of the Indonesia Id owner. 
+     * The date of expiry of the Indonesian ID card is permanent. 
      */
     this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
     
     /** 
-     * The district of the front side of the Indonesia Id owner. 
+     * The district of the Indonesian ID owner. 
      */
     this.district = nativeResult.district;
     
     /** 
-     * The document Number of the front side of the Indonesia Id owner. 
+     * The document number of Indonesian ID card. 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The kel Desa of the front side of the Indonesia Id owner. 
+     * The Kel/Desa of the Indonesian ID owner. 
      */
     this.kelDesa = nativeResult.kelDesa;
     
     /** 
-     * The marital Status of the front side of the Indonesia Id owner. 
+     * The marital status of the Indonesian ID owner. 
      */
     this.maritalStatus = nativeResult.maritalStatus;
     
     /** 
-     * The name of the front side of the Indonesia Id owner. 
+     * The name of the Indonesian ID owner. 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The occupation of the front side of the Indonesia Id owner. 
+     * The occupation of the Indonesian ID owner. 
      */
     this.occupation = nativeResult.occupation;
     
     /** 
-     * The place Of Birth of the front side of the Indonesia Id owner. 
+     * The place of birth of the Indonesian ID owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * The province of the front side of the Indonesia Id owner. 
+     * The province of the Indonesian ID owner. 
      */
     this.province = nativeResult.province;
     
     /** 
-     * The religion of the front side of the Indonesia Id owner. 
+     * The religion of the Indonesian ID owner. 
      */
     this.religion = nativeResult.religion;
     
     /** 
-     * The rt of the front side of the Indonesia Id owner. 
+     * The RT number of the Indonesian ID owner. 
      */
     this.rt = nativeResult.rt;
     
     /** 
-     * The rw of the front side of the Indonesia Id owner. 
+     * The RW number of the Indonesian ID owner. 
      */
     this.rw = nativeResult.rw;
     
     /** 
-     * The sex of the front side of the Indonesia Id owner. 
+     * The sex of the Indonesian ID owner. 
      */
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -7153,160 +6281,112 @@ function IndonesiaIdFrontRecognizer() {
     Recognizer.call(this, 'IndonesiaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Indonesian ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if blood type of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if blood type of Indonesian ID owner should be extracted. 
      */
     this.extractBloodType = true;
     
     /** 
-     * Defines if citizenship of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if citizenship of Indonesian ID owner should be extracted. 
      */
     this.extractCitizenship = true;
     
     /** 
-     * Defines if city of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if city of Indonesian ID owner should be extracted. 
      */
     this.extractCity = true;
     
     /** 
-     * Defines if date of expiry of Indonesian ID card should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Indonesian ID card should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if district of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if district of Indonesian ID owner should be extracted. 
      */
     this.extractDistrict = true;
     
     /** 
-     * Defines if Kel/Desa of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if Kel/Desa of Indonesian ID owner should be extracted. 
      */
     this.extractKelDesa = true;
     
     /** 
-     * Defines if marital status of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if marital status of Indonesian ID owner should be extracted. 
      */
     this.extractMaritalStatus = true;
     
     /** 
-     * Defines if name of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if name of Indonesian ID owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if occupation of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if occupation of Indonesian ID owner should be extracted. 
      */
     this.extractOccupation = true;
     
     /** 
-     * Defines if place of birth of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Indonesian ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if religion of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if religion of Indonesian ID owner should be extracted. 
      */
     this.extractReligion = true;
     
     /** 
-     * Defines if RT number of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if RT number of Indonesian ID owner should be extracted. 
      */
     this.extractRt = true;
     
     /** 
-     * Defines if RW number of Indonesian ID owner should be extracted.
-     * 
-     *  
+     * Defines if RW number of Indonesian ID owner should be extracted. 
      */
     this.extractRw = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -7325,72 +6405,72 @@ function IrelandDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the front side of the Ireland Dl owner. 
+     * The address of Ireland DL owner 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The date Of Birth of the front side of the Ireland Dl owner. 
+     * The date of birth of Ireland DL owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date Of Expiry of the front side of the Ireland Dl owner. 
+     * The date of expiry of Ireland DL 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date Of Issue of the front side of the Ireland Dl owner. 
+     * The date of issue of Ireland DL 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * The driver Number of the front side of the Ireland Dl owner. 
+     * The driver number of Ireland DL owner 
      */
     this.driverNumber = nativeResult.driverNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first Name of the front side of the Ireland Dl owner. 
+     * The first name of Ireland DL owner 
      */
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issued By of the front side of the Ireland Dl owner. 
+     * The issuing authority of Ireland DL 
      */
     this.issuedBy = nativeResult.issuedBy;
     
     /** 
-     * The licence Categories of the front side of the Ireland Dl owner. 
+     * The licence categories of Ireland DL 
      */
     this.licenceCategories = nativeResult.licenceCategories;
     
     /** 
-     * The licence Number of the front side of the Ireland Dl owner. 
+     * The licence number of Ireland DL 
      */
     this.licenceNumber = nativeResult.licenceNumber;
     
     /** 
-     * The place Of Birth of the front side of the Ireland Dl owner. 
+     * The place of birth of Ireland DL owner 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The surname of the front side of the Ireland Dl owner. 
+     * The surname of Ireland DL owner 
      */
     this.surname = nativeResult.surname;
     
@@ -7407,132 +6487,92 @@ function IrelandDlFrontRecognizer() {
     Recognizer.call(this, 'IrelandDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Ireland DL owner should be extracted.
-     * 
-     *  
+     * Defines if address of Ireland DL owner should be extracted 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of birth of Ireland DL owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Ireland DL owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Ireland DL should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Ireland DL should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Ireland DL should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Ireland DL should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if first name of Ireland DL owner should be extracted.
-     * 
-     *  
+     * Defines if first name of Ireland DL owner should be extracted 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority of Ireland DL should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Ireland DL should be extracted 
      */
     this.extractIssuedBy = true;
     
     /** 
-     * Defines if licence categories of Ireland DL should be extracted.
-     * 
-     *  
+     * Defines if licence categories of Ireland DL should be extracted 
      */
     this.extractLicenceCategories = true;
     
     /** 
-     * Defines if licence number of Ireland DL should be extracted.
-     * 
-     *  
+     * Defines if licence number of Ireland DL should be extracted 
      */
     this.extractLicenceNumber = true;
     
     /** 
-     * Defines if place of birth of Ireland DL owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Ireland DL owner should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if surname of Ireland DL owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Ireland DL owner should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -7551,67 +6591,67 @@ function ItalyDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the front side of the Italy Dl owner. 
+     * The address of the Italian DL owner. 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The date Of Birth of the front side of the Italy Dl owner. 
+     * The date of birth of the Italian DL owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date Of Expiry of the front side of the Italy Dl owner. 
+     * The date of expiry of the Italian DL card. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date Of Issue of the front side of the Italy Dl owner. 
+     * The date of issue of the Italian DL card. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The given Name of the front side of the Italy Dl owner. 
+     * The given name of the Italian DL owner. 
      */
     this.givenName = nativeResult.givenName;
     
     /** 
-     * The issuing Authority of the front side of the Italy Dl owner. 
+     * The issuing authority of the Italian DL card. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * The licence Categories of the front side of the Italy Dl owner. 
+     * The licence categories of the Italian DL owner. 
      */
     this.licenceCategories = nativeResult.licenceCategories;
     
     /** 
-     * The licence Number of the front side of the Italy Dl owner. 
+     * The licence number of the Italian DL owner. 
      */
     this.licenceNumber = nativeResult.licenceNumber;
     
     /** 
-     * The place Of Birth of the front side of the Italy Dl owner. 
+     * The place of birth of the Italian DL owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The surname of the front side of the Italy Dl owner. 
+     * The surname of the Italian DL owner. 
      */
     this.surname = nativeResult.surname;
     
@@ -7628,125 +6668,87 @@ function ItalyDlFrontRecognizer() {
     Recognizer.call(this, 'ItalyDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Italian DL owner should be extracted.
-     * 
-     *  
+     * Defines if address of Italian DL owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of birth of Italian DL owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Italian DL owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Italian DL card should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Italian DL card should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Italian DL card should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Italian DL card should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if given name of Italian DL owner should be extracted.
-     * 
-     *  
+     * Defines if given name of Italian DL owner should be extracted. 
      */
     this.extractGivenName = true;
     
     /** 
-     * Defines if issuing authority of Italian DL card should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Italian DL card should be extracted. 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if licence categories of Italian DL owner should be extracted.
-     * 
-     *  
+     * Defines if licence categories of Italian DL owner should be extracted. 
      */
     this.extractLicenceCategories = true;
     
     /** 
-     * Defines if place of birth of Italian DL owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Italian DL owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if surname of Italian DL owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Italian DL owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -7775,20 +6777,17 @@ function JordanCombinedRecognizerResult(nativeResult) {
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
@@ -7798,17 +6797,17 @@ function JordanCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -7838,8 +6837,7 @@ function JordanCombinedRecognizerResult(nativeResult) {
     this.nationality = nativeResult.nationality;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -7861,82 +6859,57 @@ function JordanCombinedRecognizer() {
     Recognizer.call(this, 'JordanCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Jordan ID owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if full name of the Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if full name of the Jordan ID owner should be extracted. 
      */
     this.extractFullName = true;
     
     /** 
-     * Defines if name of Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if name of Jordan ID owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if sex of Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Jordan ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
@@ -7955,7 +6928,7 @@ function JordanIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -7982,39 +6955,27 @@ function JordanIdBackRecognizer() {
     Recognizer.call(this, 'JordanIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if full name of the Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if full name of the Jordan ID owner should be extracted. 
      */
     this.extractFullName = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -8038,12 +6999,12 @@ function JordanIdFrontRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -8075,68 +7036,47 @@ function JordanIdFrontRecognizer() {
     Recognizer.call(this, 'JordanIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Jordan ID owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if name of Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if name of Jordan ID owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if sex of Jordan ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Jordan ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -8155,17 +7095,17 @@ function KuwaitIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The data extracted from the machine readable zone 
+     * The data extracted from the machine readable zone. 
      */
     this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * The serial number of Kuwait ID 
+     * The serial number of Kuwait ID. 
      */
     this.serialNo = nativeResult.serialNo;
     
@@ -8182,39 +7122,27 @@ function KuwaitIdBackRecognizer() {
     Recognizer.call(this, 'KuwaitIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if serial number of Kuwait ID should be extracted
-     * 
-     *  
+     * Defines if serial number of Kuwait ID should be extracted. 
      */
     this.extractSerialNo = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -8233,42 +7161,42 @@ function KuwaitIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The birth Date of the front side of the Kuroom wait Id owner. 
+     * The birth date of the Kuwait ID owner. 
      */
     this.birthDate = nativeResult.birthDate != null ? new Date(nativeResult.birthDate) : null;
     
     /** 
-     * The civil Id Number of the front side of the Kuwait Id owner. 
+     * The civil ID number of the Kuwait ID owner. 
      */
     this.civilIdNumber = nativeResult.civilIdNumber;
     
     /** 
-     * The expiry Date of the front side of the Kuwait Id owner. 
+     * The expiry date of the Kuwait ID. 
      */
     this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The name of the front side of the Kuwait Id owner. 
+     * The name of the Kuwait ID owner. 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The nationality of the front side of the Kuwait Id owner. 
+     * The nationality of the Kuwait ID owner. 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * The sex of the front side of the Kuwait Id owner. 
+     * The sex of the Kuwait ID owner. 
      */
     this.sex = nativeResult.sex;
     
@@ -8285,75 +7213,52 @@ function KuwaitIdFrontRecognizer() {
     Recognizer.call(this, 'KuwaitIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Kuwait ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Kuwait ID owner should be extracted. 
      */
     this.extractBirthDate = true;
     
     /** 
-     * Defines if name of Kuwait ID owner should be extracted.
-     * 
-     *  
+     * Defines if name of Kuwait ID owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if nationality of Kuwait ID owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of Kuwait ID owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if sex of Kuwait ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Kuwait ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -8372,67 +7277,67 @@ function MalaysiaDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The city of the front side of the Malaysia Dl owner. 
+     * The city of Malaysia DL owner 
      */
     this.city = nativeResult.city;
     
     /** 
-     * The dl Class of the front side of the Malaysia Dl owner. 
+     * The vehicle classes of Malaysia DL 
      */
     this.dlClass = nativeResult.dlClass;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The full Address of the front side of the Malaysia Dl owner. 
+     * The address of Malaysia DL owner 
      */
     this.fullAddress = nativeResult.fullAddress;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The identity Number of the front side of the Malaysia Dl owner. 
+     * The identity number of Malaysia DL owner 
      */
     this.identityNumber = nativeResult.identityNumber;
     
     /** 
-     * The name of the front side of the Malaysia Dl owner. 
+     * The name of Malaysia DL owner 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The nationality of the front side of the Malaysia Dl owner. 
+     * The nationality of Malaysia DL owner 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * The owner State of the front side of the Malaysia Dl owner. 
+     * The state of Malaysia DL owner 
      */
     this.ownerState = nativeResult.ownerState;
     
     /** 
-     * The street of the front side of the Malaysia Dl owner. 
+     * The street of Malaysia DL owner 
      */
     this.street = nativeResult.street;
     
     /** 
-     * The valid From of the front side of the Malaysia Dl owner. 
+     * The date of issue of Malaysia DL 
      */
     this.validFrom = nativeResult.validFrom != null ? new Date(nativeResult.validFrom) : null;
     
     /** 
-     * The valid Until of the front side of the Malaysia Dl owner. 
+     * The date of expiry of Malaysia DL 
      */
     this.validUntil = nativeResult.validUntil != null ? new Date(nativeResult.validUntil) : null;
     
     /** 
-     * The zipcode of the front side of the Malaysia Dl owner. 
+     * The zipocde of Malaysia DL owner 
      */
     this.zipcode = nativeResult.zipcode;
     
@@ -8443,95 +7348,68 @@ MalaysiaDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.MalaysiaDlFrontRecognizerResult = MalaysiaDlFrontRecognizerResult;
 
 /**
- * Recognizer which can scan front side of Malaysian DL cards.
+ * Recognizer which can scan front side of Malaysia DL cards.
  */
 function MalaysiaDlFrontRecognizer() {
     Recognizer.call(this, 'MalaysiaDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Malaysian DL owner should be extracted.
-     * 
-     *  
+     * Defines if address of Malaysia DL owner should be extracted 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if vehicle classes of Malaysian DL should be extracted.
-     * 
-     *  
+     * Defines if vehicle classes of Malaysia DL should be extracted 
      */
     this.extractClass = true;
     
     /** 
-     * Defines if name of Malaysian DL owner should be extracted.
-     * 
-     *  
+     * Defines if name of Malaysia DL owner should be extracted 
      */
     this.extractName = true;
     
     /** 
-     * Defines if nationality of Malaysian DL owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of Malaysia DL owner should be extracted 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if date of issue of Malaysian DL should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Malaysia DL should be extracted 
      */
     this.extractValidFrom = true;
     
     /** 
-     * Defines if date of expiry of Malaysian DL should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Malaysia DL should be extracted 
      */
     this.extractValidUntil = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -8570,7 +7448,7 @@ function MalaysiaIkadFrontRecognizerResult(nativeResult) {
     this.employer = nativeResult.employer;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -8580,7 +7458,7 @@ function MalaysiaIkadFrontRecognizerResult(nativeResult) {
     this.facultyAddress = nativeResult.facultyAddress;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -8622,110 +7500,77 @@ function MalaysiaIkadFrontRecognizer() {
     Recognizer.call(this, 'MalaysiaIkadFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Malaysian iKad owner should be extracted.
-     * 
-     *  
+     * Defines if address of Malaysian iKad owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of expiry of Malaysian iKad card should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Malaysian iKad card should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if employer of Malaysian iKad owner should be extracted.
-     * 
-     *  
+     * Defines if employer of Malaysian iKad owner should be extracted. 
      */
     this.extractEmployer = true;
     
     /** 
-     * Defines if address of faculty, in which Malaysian iKad owner currently studies, should be extracted.
-     * 
-     *  
+     * Defines if address of faculty, in which Malaysian iKad owner currently studies, should be extracted. 
      */
     this.extractFacultyAddress = true;
     
     /** 
-     * Defines if gender of Malaysian iKad owner should be extracted.
-     * 
-     *  
+     * Defines if gender of Malaysian iKad owner should be extracted. 
      */
     this.extractGender = true;
     
     /** 
-     * Defines if (full) name of Malaysian iKad owner should be extracted.
-     * 
-     *  
+     * Defines if (full) name of Malaysian iKad owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if nationality of Malaysian iKad owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of Malaysian iKad owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if passport number of Malaysian iKad owners passport should be extracted.
-     * 
-     *  
+     * Defines if passport number of Malaysian iKad owners passport should be extracted. 
      */
     this.extractPassportNumber = true;
     
     /** 
-     * Defines if sector in which  Malaysian iKad owner works should be extracted.
-     * 
-     *  
+     * Defines if sector in which  Malaysian iKad owner works should be extracted. 
      */
     this.extractSector = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -8744,27 +7589,27 @@ function MalaysiaMyKadBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The Date Of Birth of the MyKad owner. 
+     * Date of birth of MyKad owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The Extended NRIC of the MyKad owner. 
+     * Extended NRIC (National Registration Identity Card Number) of MyKad. 
      */
     this.extendedNric = nativeResult.extendedNric;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The NRIC of the MyKad owner. 
+     * NRIC (National Registration Identity Card Number) of MyKad. 
      */
     this.nric = nativeResult.nric;
     
     /** 
-     * The old NRIC of the MyKad owner. 
+     * Old NRIC (National Registration Identity Card Number) of MyKad. 
      */
     this.oldNric = nativeResult.oldNric;
     
@@ -8775,47 +7620,33 @@ MalaysiaMyKadBackRecognizerResult.prototype = new RecognizerResult(RecognizerRes
 BlinkID.prototype.MalaysiaMyKadBackRecognizerResult = MalaysiaMyKadBackRecognizerResult;
 
 /**
- * Class for configuring Kad Back Recognizer.
- * 
- * MyKadBack recognizer is used for scanning back side of MyKad.
+ * Recognizer for reading back side of Malaysian MyKad.
  */
 function MalaysiaMyKadBackRecognizer() {
     Recognizer.call(this, 'MalaysiaMyKadBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if old NRIC should be extracted from back side of the MyKad
-     * 
-     *  
+     * Defines if old NRIC (National Registration Identity Card Number) of MyKad 
      */
     this.extractOldNric = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -8844,7 +7675,7 @@ function MalaysiaMyKadFrontRecognizerResult(nativeResult) {
     this.city = nativeResult.city;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -8854,7 +7685,7 @@ function MalaysiaMyKadFrontRecognizerResult(nativeResult) {
     this.fullAddress = nativeResult.fullAddress;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -8906,68 +7737,47 @@ function MalaysiaMyKadFrontRecognizer() {
     Recognizer.call(this, 'MalaysiaMyKadFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if full name and address of Malaysian MyKad owner should be extracted.
-     * 
-     *  
+     * Defines if full name and address of Malaysian MyKad owner should be extracted. 
      */
     this.extractFullNameAndAddress = true;
     
     /** 
-     * Defines if religion of Malaysian MyKad owner should be extracted.
-     * 
-     *  
+     * Defines if religion of Malaysian MyKad owner should be extracted. 
      */
     this.extractReligion = true;
     
     /** 
-     * Defines if sex of Malaysian MyKad owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Malaysian MyKad owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -9001,7 +7811,7 @@ function MalaysiaMyKasFrontRecognizerResult(nativeResult) {
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -9011,7 +7821,7 @@ function MalaysiaMyKasFrontRecognizerResult(nativeResult) {
     this.fullAddress = nativeResult.fullAddress;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -9063,68 +7873,47 @@ function MalaysiaMyKasFrontRecognizer() {
     Recognizer.call(this, 'MalaysiaMyKasFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if full name and address of Malaysian MyKAS owner should be extracted.
-     * 
-     *  
+     * Defines if full name and address of Malaysian MyKAS owner should be extracted. 
      */
     this.extractFullNameAndAddress = true;
     
     /** 
-     * Defines if religion of Malaysian MyKAS owner should be extracted.
-     * 
-     *  
+     * Defines if religion of Malaysian MyKAS owner should be extracted. 
      */
     this.extractReligion = true;
     
     /** 
-     * Defines if sex of Malaysian MyKAS owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Malaysian MyKAS owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -9158,7 +7947,7 @@ function MalaysiaMyPrFrontRecognizerResult(nativeResult) {
     this.countryCode = nativeResult.countryCode;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -9168,7 +7957,7 @@ function MalaysiaMyPrFrontRecognizerResult(nativeResult) {
     this.fullAddress = nativeResult.fullAddress;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -9220,68 +8009,47 @@ function MalaysiaMyPrFrontRecognizer() {
     Recognizer.call(this, 'MalaysiaMyPrFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if full name and address of Malaysian MyPR owner should be extracted.
-     * 
-     *  
+     * Defines if full name and address of Malaysian MyPR owner should be extracted. 
      */
     this.extractFullNameAndAddress = true;
     
     /** 
-     * Defines if religion of Malaysian MyPR owner should be extracted.
-     * 
-     *  
+     * Defines if religion of Malaysian MyPR owner should be extracted. 
      */
     this.extractReligion = true;
     
     /** 
-     * Defines if sex of Malaysian MyPR owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Malaysian MyPR owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -9315,7 +8083,7 @@ function MalaysiaMyTenteraFrontRecognizerResult(nativeResult) {
     this.city = nativeResult.city;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -9325,7 +8093,7 @@ function MalaysiaMyTenteraFrontRecognizerResult(nativeResult) {
     this.fullAddress = nativeResult.fullAddress;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -9377,61 +8145,42 @@ function MalaysiaMyTenteraFrontRecognizer() {
     Recognizer.call(this, 'MalaysiaMyTenteraFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if full name and address of Malaysian MyTentera owner should be extracted.
-     * 
-     *  
+     * Defines if full name and address of Malaysian MyTentera owner should be extracted. 
      */
     this.extractFullNameAndAddress = true;
     
     /** 
-     * Defines if religion of Malaysian MyTentera owner should be extracted.
-     * 
-     *  
+     * Defines if religion of Malaysian MyTentera owner should be extracted. 
      */
     this.extractReligion = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -9470,12 +8219,12 @@ function MexicoVoterIdFrontRecognizerResult(nativeResult) {
     this.electorKey = nativeResult.electorKey;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -9490,7 +8239,7 @@ function MexicoVoterIdFrontRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -9507,83 +8256,57 @@ function MexicoVoterIdFrontRecognizer() {
     Recognizer.call(this, 'MexicoVoterIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Mexico Voter ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Mexico Voter ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if CURP of Mexico Voter ID owner should be extracted.
-     * 
-     *  
+     * Defines if CURP of Mexico Voter ID owner should be extracted. 
      */
     this.extractCurp = true;
     
     /** 
-     * Defines if full name of Mexico Voter ID owner should be extracted.
-     * 
-     *  
+     * Defines if full name of Mexico Voter ID owner should be extracted. 
      */
     this.extractFullName = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -9602,42 +8325,42 @@ function MoroccoIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the Morocco ID owner. 
+     * The address of the Moroccan ID owner 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The civil status number of the Morocco ID owner. 
+     * The civil status number of the Moroccan ID owner 
      */
     this.civilStatusNumber = nativeResult.civilStatusNumber;
     
     /** 
-     * The date of expiry of the Morocco ID. 
+     * The date of expiry of the Moroccan ID 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The document number of the Morocco ID. 
+     * The document number of the Moroccan ID 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * The father's name of the Morocco ID owner. 
+     * The father's name of the Moroccan ID owner 
      */
     this.fathersName = nativeResult.fathersName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The mother's name of the Morocco ID owner. 
+     * The mother's name of the Moroccan ID owner 
      */
     this.mothersName = nativeResult.mothersName;
     
     /** 
-     * The sex of the Morocco ID owner. 
+     * The sex of the Moroccan ID owner 
      */
     this.sex = nativeResult.sex;
     
@@ -9648,82 +8371,58 @@ MoroccoIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultS
 BlinkID.prototype.MoroccoIdBackRecognizerResult = MoroccoIdBackRecognizerResult;
 
 /**
- * Class for configuring Morocco ID Back Recognizer.
- * 
- * Morocco ID Back recognizer is used for scanning Back side of the Morocco ID.
+ * Recognizer which can scan back side of Moroccan national ID cards.
  */
 function MoroccoIdBackRecognizer() {
     Recognizer.call(this, 'MoroccoIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's address should be extracted from Back side of the Morocco ID
-     * 
-     *  
+     * Defines if address of the Moroccan ID owner should be extracted 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if owner's civil status number should be extracted from Back side of the Morocco ID
-     * 
-     *  
+     * Defines if civil status number of the Moroccan ID owner should be extracted 
      */
     this.extractCivilStatusNumber = true;
     
     /** 
-     * Defines if date of expiry should be extracted from Back side of the Morocco ID
-     * 
-     *  
+     * Defines if date of expiry of the Moroccan ID should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if father's name should be extracted from Back side of the Morocco ID
-     * 
-     *  
+     * Defines if father's name of the Moroccan ID owner should be extracted 
      */
     this.extractFathersName = true;
     
     /** 
-     * Defines if mother's name should be extracted from Back side of the Morocco ID
-     * 
-     *  
+     * Defines if mother's name of the Moroccan ID owner should be extracted 
      */
     this.extractMothersName = true;
     
     /** 
-     * Defines if owner's sex should be extracted from Back side of the Morocco ID
-     * 
-     *  
+     * Defines if sex of the Moroccan ID owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -9742,52 +8441,52 @@ function MoroccoIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date of birth of the Morocco ID owner. 
+     * The date of birth of the Moroccan ID owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date of expiry of the Morocco ID. 
+     * The date of expiry of the Moroccan ID 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The document number of the Morocco ID. 
+     * The document number of the Moroccan ID 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The name of the Morocco ID owner. 
+     * The name of the Moroccan ID owner 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The place of birth of the Morocco ID owner. 
+     * The place of birth of the Moroccan ID owner 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * The sex of the Morocco ID owner. 
+     * The sex of the Moroccan ID owner 
      */
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The surname of the Morocco ID owner. 
+     * The surname of the Moroccan ID owner 
      */
     this.surname = nativeResult.surname;
     
@@ -9798,112 +8497,78 @@ MoroccoIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResult
 BlinkID.prototype.MoroccoIdFrontRecognizerResult = MoroccoIdFrontRecognizerResult;
 
 /**
- * Class for configuring Morocco ID Front Recognizer.
- * 
- * Morocco ID Front recognizer is used for scanning front side of the Morocco ID.
+ * Recognizer which can scan front side of Moroccan national ID cards.
  */
 function MoroccoIdFrontRecognizer() {
     Recognizer.call(this, 'MoroccoIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's date of birth should be extracted from front side of the Morocco ID
-     * 
-     *  
+     * Defines if date of birth of the Moroccan ID owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry should be extracted from front side of the Morocco ID
-     * 
-     *  
+     * Defines if date of expiry of the Moroccan ID should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if owner's name should be extracted from front side of the Morocco ID
-     * 
-     *  
+     * Defines if name of the Moroccan ID owner should be extracted 
      */
     this.extractName = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted from front side of the Morocco ID
-     * 
-     *  
+     * Defines if place of birth of the Moroccan ID owner should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if owner's sex should be extracted from front side of the Morocco ID
-     * 
-     *  
+     * Defines if sex of the Moroccan ID owner should be extracted 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if owner's surname should be extracted from front side of the Morocco ID
-     * 
-     *  
+     * Defines if surname of the Moroccan ID owner should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -9922,46 +8587,42 @@ function MrtdCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /** 
-     * Returns the Data extracted from the machine readable zone. 
+     * The data extracted from the machine readable zone. 
      */
     this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -9972,94 +8633,64 @@ MrtdCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerResultSt
 BlinkID.prototype.MrtdCombinedRecognizerResult = MrtdCombinedRecognizerResult;
 
 /**
- * MRTD Combined recognizer
- * 
- * MRTD Combined recognizer is used for scanning both front and back side of generic IDs.
+ * Recognizer for combined reading of face from front side of documents  and MRZ from back side of
+ *  * Machine Readable Travel Document.
  */
 function MrtdCombinedRecognizer() {
     Recognizer.call(this, 'MrtdCombinedRecognizer');
     
     /** 
-     * Whether special characters are allowed
-     * 
-     *  
+     * Whether special characters are allowed. 
      */
     this.allowSpecialCharacters = false;
     
     /** 
-     * Whether returning of unparsed results is allowed
-     * 
-     *  
+     * Whether returning of unparsed results is allowed. 
      */
     this.allowUnparsedResults = false;
     
     /** 
-     * Whether returning of unverified results is allowed
-     * Unverified result is result that is parsed, but check digits are incorrect.
-     * 
-     *  
+     * Whether returning of unverified results is allowed. 
      */
     this.allowUnverifiedResults = false;
     
     /** 
-     * Type of document this recognizer will scan.
-     * 
-     *  
+     * Currently used detector type. 
      */
     this.detectorType = DocumentFaceDetectorType.TD1;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Defines how many times the same document should be detected before the detector
-     * returns this document as a result of the deteciton
-     * 
-     * Higher number means more reliable detection, but slower processing
-     * 
-     *  
+     * Minimum number of stable detections required for detection to be successful. 
      */
     this.numStableDetectionsThreshold = 6;
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
@@ -10078,12 +8709,12 @@ function MrtdRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * Returns the Data extracted from the machine readable zone. 
+     * The Data extracted from the machine readable zone. 
      */
     this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
@@ -10094,60 +8725,43 @@ MrtdRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empt
 BlinkID.prototype.MrtdRecognizerResult = MrtdRecognizerResult;
 
 /**
- * Recognizer that can recognizer Machine Readable Zone (MRZ) of the Machine Readable Travel Document (MRTD)
+ * Recognizer that can recognize Machine Readable Zone (MRZ) of the Machine Readable Travel Document (MRTD)
  */
 function MrtdRecognizer() {
     Recognizer.call(this, 'MrtdRecognizer');
     
     /** 
-     * Whether special characters are allowed
-     * 
-     *  
+     * Whether special characters are allowed. 
      */
     this.allowSpecialCharacters = false;
     
     /** 
-     * Whether returning of unparsed results is allowed
-     * 
-     *  
+     * Whether returning of unparsed results is allowed. 
      */
     this.allowUnparsedResults = false;
     
     /** 
-     * Whether returning of unverified results is allowed
-     * Unverified result is result that is parsed, but check digits are incorrect.
-     * 
-     *  
+     * Whether returning of unverified results is allowed. 
      */
     this.allowUnverifiedResults = false;
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -10166,62 +8780,62 @@ function NewZealandDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The last name of the New Zealand Driver License owner. 
+     * The address of the New Zealand DL owner 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The card version of the New Zealand Driver License. 
+     * The card version of the New Zealand DL 
      */
     this.cardVersion = nativeResult.cardVersion;
     
     /** 
-     * The last name of the New Zealand Driver License owner. 
+     * The date of birth of the New Zealand DL owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The last name of the New Zealand Driver License owner. 
+     * The date of expiry of the New Zealand DL 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The last name of the New Zealand Driver License owner. 
+     * The date of issue of the New Zealand DL 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * The last name of the New Zealand Driver License owner. 
+     * Donor indicator of the New Zealand DL owner. It's true if "DONOR" is printed on document, otherwise it's false 
      */
     this.donorIndicator = nativeResult.donorIndicator;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first name of the New Zealand Driver License owner. 
+     * The first names of the New Zealand DL owner 
      */
     this.firstNames = nativeResult.firstNames;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The license number of the New Zealand Driver License. 
+     * The license number of the New Zealand DL 
      */
     this.licenseNumber = nativeResult.licenseNumber;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The last name of the New Zealand Driver License owner. 
+     * The surname of the New Zealand DL owner 
      */
     this.surname = nativeResult.surname;
     
@@ -10232,119 +8846,83 @@ NewZealandDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerRes
 BlinkID.prototype.NewZealandDlFrontRecognizerResult = NewZealandDlFrontRecognizerResult;
 
 /**
- * Class for configuring New Zealand DL Front Recognizer.
- * 
- * New Zealand DL Front recognizer is used for scanning front side of New Zealand DL.
+ * Recognizer which can scan front side of New Zealand DL cards.
  */
 function NewZealandDlFrontRecognizer() {
     Recognizer.call(this, 'NewZealandDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's address should be extracted from New Zealand Driver License
-     * 
-     *  
+     * Defines if address of New Zealand DL owner should be extracted 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if owner's date of birth should be extracted from New Zealand Driver License
-     * 
-     *  
+     * Defines if date of birth of New Zealand DL owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if card's expiry date should be extracted from New Zealand Driver License
-     * 
-     *  
+     * Defines if date of expiry of New Zealand DL should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if card's issue date should be extracted from New Zealand Driver License
-     * 
-     *  
+     * Defines if date of issue of New Zealand DL should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if owner's donor indicator should be extracted from New Zealand Driver License
-     * 
-     *  
+     * Defines if donor indicator of New Zealand DL owner should be extracted 
      */
     this.extractDonorIndicator = true;
     
     /** 
-     * Defines if owner's first name should be extracted from New Zealand Driver License
-     * 
-     *  
+     * Defines if first names of New Zealand DL owner should be extracted 
      */
     this.extractFirstNames = true;
     
     /** 
-     * Defines if owner's last name should be extracted from New Zealand Driver License
-     * 
-     *  
+     * Defines if surname of New Zealand DL owner should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -10357,18 +8935,99 @@ NewZealandDlFrontRecognizer.prototype = new Recognizer('NewZealandDlFrontRecogni
 BlinkID.prototype.NewZealandDlFrontRecognizer = NewZealandDlFrontRecognizer;
 
 /**
+ * Result object for NigeriaVoterIdBackRecognizer.
+ */
+function NigeriaVoterIdBackRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * The address of Nigeria Voter ID owner. 
+     */
+    this.address = nativeResult.address;
+    
+    /** 
+     * The date of birth of Nigeria Voter ID owner. 
+     */
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
+    
+    /** 
+     * The first name of Nigeria Voter ID owner. 
+     */
+    this.firstName = nativeResult.firstName;
+    
+    /** 
+     * Image of the full document 
+     */
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
+    
+    /** 
+     * The raw barcode data of Nigeria Voter ID card. 
+     */
+    this.rawBarcodeData = nativeResult.rawBarcodeData;
+    
+    /** 
+     * The sex of Nigeria Voter ID owner. 
+     */
+    this.sex = nativeResult.sex;
+    
+    /** 
+     * The surname of Nigeria Voter ID owner. 
+     */
+    this.surname = nativeResult.surname;
+    
+}
+
+NigeriaVoterIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.NigeriaVoterIdBackRecognizerResult = NigeriaVoterIdBackRecognizerResult;
+
+/**
+ * Recognizer which can scan back side of Nigeria voter ID cards.
+ */
+function NigeriaVoterIdBackRecognizer() {
+    Recognizer.call(this, 'NigeriaVoterIdBackRecognizer');
+    
+    /** 
+     * Defines whether glare detector is enabled. 
+     */
+    this.detectGlare = true;
+    
+    /** 
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
+     */
+    this.fullDocumentImageDpi = 250;
+    
+    /** 
+     * The extension factors for full document image. 
+     */
+    this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /** 
+     * Defines whether full document image will be available in 
+     */
+    this.returnFullDocumentImage = false;
+    
+    this.createResultFromNative = function (nativeResult) { return new NigeriaVoterIdBackRecognizerResult(nativeResult); }
+
+}
+
+NigeriaVoterIdBackRecognizer.prototype = new Recognizer('NigeriaVoterIdBackRecognizer');
+
+BlinkID.prototype.NigeriaVoterIdBackRecognizer = NigeriaVoterIdBackRecognizer;
+
+/**
  * Result object for PassportRecognizer.
  */
 function PassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -10390,47 +9049,32 @@ function PassportRecognizer() {
     Recognizer.call(this, 'PassportRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -10449,25 +9093,22 @@ function Pdf417RecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Type of the barcode scanned
-     * 
-     *  @return Type of the barcode 
+     * The format of the scanned barcode. 
      */
     this.barcodeType = nativeResult.barcodeType;
     
     /** 
-     * Byte array with result of the scan 
+     * The raw bytes contained inside barcode. 
      */
     this.rawData = nativeResult.rawData;
     
     /** 
-     * Retrieves string content of scanned data 
+     * String representation of data inside barcode. 
      */
     this.stringData = nativeResult.stringData;
     
     /** 
-     * Flag indicating uncertain scanning data
-     * E.g obtained from damaged barcode. 
+     * True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
      */
     this.uncertain = nativeResult.uncertain;
     
@@ -10484,31 +9125,17 @@ function Pdf417Recognizer() {
     Recognizer.call(this, 'Pdf417Recognizer');
     
     /** 
-     * Set this to true to scan barcodes which don't have quiet zone (white area) around it
-     * 
-     * Use only if necessary because it slows down the recognition process
-     * 
-     *  
+     * Allow scanning PDF417 barcodes which don't have quiet zone 
      */
     this.nullQuietZoneAllowed = false;
     
     /** 
-     * Set this to true to allow scanning barcodes with inverted intensities
-     * (i.e. white barcodes on black background)
-     * 
-     * falseTE: this options doubles the frame processing time
-     * 
-     *  
+     * Enables scanning of barcodes with inverse intensity values (e.g. white barcode on black background) 
      */
     this.scanInverse = false;
     
     /** 
-     * Set this to true to scan even barcode not compliant with standards
-     * For example, malformed PDF417 barcodes which were incorrectly encoded
-     * 
-     * Use only if necessary because it slows down the recognition process
-     * 
-     *  
+     * Enable decoding of non-standard PDF417 barcodes, but without 
      */
     this.scanUncertain = true;
     
@@ -10537,20 +9164,17 @@ function PolandCombinedRecognizerResult(nativeResult) {
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
@@ -10560,7 +9184,7 @@ function PolandCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -10570,12 +9194,12 @@ function PolandCombinedRecognizerResult(nativeResult) {
     this.familyName = nativeResult.familyName;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -10610,8 +9234,7 @@ function PolandCombinedRecognizerResult(nativeResult) {
     this.personalNumber = nativeResult.personalNumber;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -10638,96 +9261,67 @@ function PolandCombinedRecognizer() {
     Recognizer.call(this, 'PolandCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Poland ID owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if family name of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if family name of Poland ID owner should be extracted. 
      */
     this.extractFamilyName = false;
     
     /** 
-     * Defines if given names of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if given names of Poland ID owner should be extracted. 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if parents given names of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if parents given names of Poland ID owner should be extracted. 
      */
     this.extractParentsGivenNames = false;
     
     /** 
-     * Defines if sex of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Poland ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Poland ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
@@ -10746,7 +9340,7 @@ function PolandIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -10768,32 +9362,22 @@ function PolandIdBackRecognizer() {
     Recognizer.call(this, 'PolandIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -10817,7 +9401,7 @@ function PolandIdFrontRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -10827,7 +9411,7 @@ function PolandIdFrontRecognizerResult(nativeResult) {
     this.familyName = nativeResult.familyName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -10864,89 +9448,62 @@ function PolandIdFrontRecognizer() {
     Recognizer.call(this, 'PolandIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Poland ID owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if family name of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if family name of Poland ID owner should be extracted. 
      */
     this.extractFamilyName = false;
     
     /** 
-     * Defines if given names of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if given names of Poland ID owner should be extracted. 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if parents given names of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if parents given names of Poland ID owner should be extracted. 
      */
     this.extractParentsGivenNames = false;
     
     /** 
-     * Defines if sex of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Poland ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Poland ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Poland ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -10970,6 +9527,11 @@ function RomaniaIdFrontRecognizerResult(nativeResult) {
     this.address = nativeResult.address;
     
     /** 
+     * The CNP number of Romania ID owner. 
+     */
+    this.cnpNumber = nativeResult.cnpNumber;
+    
+    /** 
      * The date of expiry of Romania ID. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
@@ -10980,7 +9542,7 @@ function RomaniaIdFrontRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -10990,7 +9552,7 @@ function RomaniaIdFrontRecognizerResult(nativeResult) {
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -11042,103 +9604,72 @@ function RomaniaIdFrontRecognizer() {
     Recognizer.call(this, 'RomaniaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Romania ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Romania ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of expiry of Romania ID should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Romania ID should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Romania ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Romania ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if first name of Romania ID owner should be extracted.
-     * 
-     *  
+     * Defines if first name of Romania ID owner should be extracted. 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority of Romania ID should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Romania ID should be extracted. 
      */
     this.extractIssuedBy = true;
     
     /** 
-     * Defines if place of birth of Romania ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Romania ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if sex of Romania ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Romania ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Romania ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Romania ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -11157,7 +9688,7 @@ function SimNumberRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Returns the recognized SIM number from barcode or empty string if recognition failed. 
+     * Recognized SIM number from barcode or empty string if recognition failed. 
      */
     this.simNumber = nativeResult.simNumber;
     
@@ -11188,32 +9719,32 @@ function SingaporeChangiEmployeeIdRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * TThe company name of the Singapore Changi employee ID owner. 
+     * The company name of the Singapore Changi employee ID owner 
      */
     this.companyName = nativeResult.companyName;
     
     /** 
-     * The date of expiry of Singapore Changi employee ID. 
+     * The date of expiry of Singapore Changi employee ID 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The document number of the Singapore Changi employee ID. 
+     * The document number of the Singapore Changi employee ID 
      */
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The name of the Singapore Changi employee ID owner. 
+     * The name of the Singapore Changi employee ID owner 
      */
     this.name = nativeResult.name;
     
@@ -11224,76 +9755,53 @@ SingaporeChangiEmployeeIdRecognizerResult.prototype = new RecognizerResult(Recog
 BlinkID.prototype.SingaporeChangiEmployeeIdRecognizerResult = SingaporeChangiEmployeeIdRecognizerResult;
 
 /**
- * Class for configuring Singapore Changi Employee Id Recognizer.
- * 
- * Singapore Changi Employee Id recognizer is used for scanning front side of the Singapore Driver's license..
+ * Recognizer which can scan front side of Singapore Changi employee ID cards.
  */
 function SingaporeChangiEmployeeIdRecognizer() {
     Recognizer.call(this, 'SingaporeChangiEmployeeIdRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if company name should be extracted from the Singapore Changi Employee Id
-     * 
-     *  
+     * Defines if company name of the Singapore Changi employee ID owner should be extracted 
      */
     this.extractCompanyName = true;
     
     /** 
-     * Defines if birth of expiry should be extracted from the Singapore Changi Employee Id
-     * 
-     *  
+     * Defines if date of expiry of the Singapore Changi employee ID should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if owner's name should be extracted from the Singapore Changi Employee Id
-     * 
-     *  
+     * Defines if name of the Singapore Changi employee ID owner should be extracted 
      */
     this.extractName = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -11312,17 +9820,17 @@ function SingaporeCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the back side of the Singapore Id owner. 
+     * The Singapore ID owner's address 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The address Change Date of the back side of the Singapore Id owner. 
+     * The Singapore ID owner's address change date, present if the address is on a sticker 
      */
     this.addressChangeDate = nativeResult.addressChangeDate != null ? new Date(nativeResult.addressChangeDate) : null;
     
     /** 
-     * The blood Type of the back side of the Singapore Id owner. 
+     * The Singapore ID owner's blood group 
      */
     this.bloodGroup = nativeResult.bloodGroup;
     
@@ -11337,40 +9845,37 @@ function SingaporeCombinedRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date Of Issue of the back side of the Singapore Id owner. 
+     * The Singapore ID's date of issue 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -11390,8 +9895,7 @@ function SingaporeCombinedRecognizerResult(nativeResult) {
     this.race = nativeResult.race;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -11407,125 +9911,88 @@ SingaporeCombinedRecognizerResult.prototype = new RecognizerResult(RecognizerRes
 BlinkID.prototype.SingaporeCombinedRecognizerResult = SingaporeCombinedRecognizerResult;
 
 /**
- * Singapore ID Combined Recognizer.
- * 
- * Singapore ID Combined recognizer is used for scanning both front and back side of Singapore ID.
+ * Recognizer for combined reading of both front and back side of Singapore ID.
  */
 function SingaporeCombinedRecognizer() {
     Recognizer.call(this, 'SingaporeCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's address should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if Singapore ID owner's address should be extracted 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if owner's address change date should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if Singapore ID owner's address change date on sticker should be extracted 
      */
     this.extractAddressChangeDate = false;
     
     /** 
-     * Defines if owner's blood type should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if Singapore ID owner's blood group should be extracted 
      */
     this.extractBloodGroup = true;
     
     /** 
-     *  Defines if country/place of birth of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if country of birth of Singaporean ID card owner should be extracted. 
      */
     this.extractCountryOfBirth = true;
     
     /** 
-     *  Defines if date of birth of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if date of birth of Singaporean ID card owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if owner's date of issue should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if Singapore ID's date of issue should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     *  Defines if name of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if name of Singaporean ID card owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     *  Defines if race of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if race of Singaporean ID card owner should be extracted. 
      */
     this.extractRace = true;
     
     /** 
-     *  Defines if sex of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if sex of Singaporean ID card owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
@@ -11544,37 +10011,37 @@ function SingaporeDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The birth Date of the Singapore DL owner. 
+     * The birth date of Singapore driver's owner. 
      */
     this.birthDate = nativeResult.birthDate != null ? new Date(nativeResult.birthDate) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issue date of the Singapore DL. 
+     * The issue date of Singapore driver's licence. 
      */
     this.issueDate = nativeResult.issueDate != null ? new Date(nativeResult.issueDate) : null;
     
     /** 
-     * The licence Number of the Singapore DL. 
+     * The licence number of Singapore driver's licence. 
      */
     this.licenceNumber = nativeResult.licenceNumber;
     
     /** 
-     * The name of the Singapore DL owner. 
+     * The (full) name of Singapore driver's licence owner. 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The valid till of the Singapore DL. 
+     * The valid till date of Singapore driver's licence. 
      */
     this.validTill = nativeResult.validTill != null ? new Date(nativeResult.validTill) : null;
     
@@ -11585,83 +10052,58 @@ SingaporeDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResu
 BlinkID.prototype.SingaporeDlFrontRecognizerResult = SingaporeDlFrontRecognizerResult;
 
 /**
- * Class for configuring Singapore Dl Front Recognizer.
- * 
- * Singapore Dl Front recognizer is used for scanning front side of the Singapore Driver's license..
+ * The Singapore Dl Front Recognizer is used for scanning front side of the Singapore Dl.
  */
 function SingaporeDlFrontRecognizer() {
     Recognizer.call(this, 'SingaporeDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's birth date should be extracted from front side of the Singapore DL
-     * 
-     *  
+     * Defines if birth date of Singapore driver's license owner should be extracted. 
      */
     this.extractBirthDate = true;
     
     /** 
-     * Defines if the issue date should be extracted from front side of the Singapore DL
-     * 
-     *  
+     * Defines if issue date of Singapore driver's license should be extracted. 
      */
     this.extractIssueDate = true;
     
     /** 
-     * Defines if owner's name should be extracted from front side of the Singapore DL
-     * 
-     *  
+     * Defines if name of Singapore driver's license owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if valid till should be extracted from front side of the Singapore DL
-     * 
-     *  
+     * Defines if valid till date of Singapore driver's license should be extracted. 
      */
     this.extractValidTill = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -11680,32 +10122,32 @@ function SingaporeIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The address of the back side of the Singapore Id owner. 
+     * The address of Singapore ID owner. 
      */
     this.address = nativeResult.address;
     
     /** 
-     * The address Change Date of the back side of the Singapore Id owner. 
+     * The address change date, present if the address is on a sticker, of Singapore ID owner. 
      */
     this.addressChangeDate = nativeResult.addressChangeDate != null ? new Date(nativeResult.addressChangeDate) : null;
     
     /** 
-     * The blood Type of the back side of the Singapore Id owner. 
+     * The blood group of Singapore ID owner. 
      */
     this.bloodGroup = nativeResult.bloodGroup;
     
     /** 
-     * The card Number of the back side of the Singapore Id owner. 
+     * The card number of Singapore ID. 
      */
     this.cardNumber = nativeResult.cardNumber;
     
     /** 
-     * The date Of Issue of the back side of the Singapore Id owner. 
+     * The date of issue of Singapore ID. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -11716,68 +10158,48 @@ SingaporeIdBackRecognizerResult.prototype = new RecognizerResult(RecognizerResul
 BlinkID.prototype.SingaporeIdBackRecognizerResult = SingaporeIdBackRecognizerResult;
 
 /**
- * Class for configuring Singapore Id Back Recognizer.
- * 
- * Singapore Id Back recognizer is used for scanning back side of the Singapore Id.
+ * Recognizer which can scan back side of Singapore national ID cards.
  */
 function SingaporeIdBackRecognizer() {
     Recognizer.call(this, 'SingaporeIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's address should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if address of Singapore ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if owner's address change date should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if adress change date, present on sticker, of Singapore ID owner should be extracted. 
      */
-    this.extractAddressChangeDate = false;
+    this.extractAddressChangeDate = true;
     
     /** 
-     * Defines if owner's blood type should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if blood group of Singapore ID owner should be extracted. 
      */
     this.extractBloodGroup = true;
     
     /** 
-     * Defines if owner's date of issue should be extracted from back side of the Singapore Id
-     * 
-     *  
+     * Defines if date of issue of Singapore ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -11806,12 +10228,12 @@ function SingaporeIdFrontRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -11842,90 +10264,63 @@ SingaporeIdFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResu
 BlinkID.prototype.SingaporeIdFrontRecognizerResult = SingaporeIdFrontRecognizerResult;
 
 /**
- * Class for configuring Singapore ID Front Recognizer.
- * 
- * Singapore ID Front recognizer is used for scanning front side of Singapore ID.
+ * Recognizer which can scan front side of Singaporean national ID card.
  */
 function SingaporeIdFrontRecognizer() {
     Recognizer.call(this, 'SingaporeIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     *  Defines if country/place of birth of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if country/place of birth of Singaporean ID card owner should be extracted. 
      */
     this.extractCountryOfBirth = true;
     
     /** 
-     *  Defines if date of birth of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if date of birth of Singaporean ID card owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     *  Defines if name of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if name of Singaporean ID card owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     *  Defines if race of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if race of Singaporean ID card owner should be extracted. 
      */
     this.extractRace = true;
     
     /** 
-     *  Defines if sex of Singaporean ID card owner should be extracted
-     * 
-     *   
+     * Defines if sex of Singaporean ID card owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -11964,20 +10359,17 @@ function SlovakiaCombinedRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
@@ -11987,7 +10379,7 @@ function SlovakiaCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -11997,12 +10389,12 @@ function SlovakiaCombinedRecognizerResult(nativeResult) {
     this.firstName = nativeResult.firstName;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -12037,8 +10429,7 @@ function SlovakiaCombinedRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -12048,7 +10439,7 @@ function SlovakiaCombinedRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -12075,160 +10466,112 @@ function SlovakiaCombinedRecognizer() {
     Recognizer.call(this, 'SlovakiaCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Slovak ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if date of birth of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Slovak ID owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Slovak ID should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Slovak ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if document number of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if document number of Slovak ID should be extracted. 
      */
     this.extractDocumentNumber = true;
     
     /** 
-     * Defines if first name of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if first name of Slovak ID owner should be extracted. 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Slovak ID should be extracted. 
      */
     this.extractIssuedBy = true;
     
     /** 
-     * Defines if last name of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if last name of Slovak ID owner should be extracted. 
      */
     this.extractLastName = true;
     
     /** 
-     * Defines if nationality of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of Slovak ID owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if place of birth of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Slovak ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if sex of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Slovak ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if special remarks of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if special remarks of Slovak ID owner should be extracted. 
      */
     this.extractSpecialRemarks = true;
     
     /** 
-     * Defines if surname at birth of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname at birth of Slovak ID owner should be extracted. 
      */
     this.extractSurnameAtBirth = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -12252,7 +10595,7 @@ function SlovakiaIdBackRecognizerResult(nativeResult) {
     this.address = nativeResult.address;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -12289,60 +10632,42 @@ function SlovakiaIdBackRecognizer() {
     Recognizer.call(this, 'SlovakiaIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Slovak ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if place of birth of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of birth of Slovak ID owner should be extracted. 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if special remarks of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if special remarks of Slovak ID owner should be extracted. 
      */
     this.extractSpecialRemarks = true;
     
     /** 
-     * Defines if surname at birth of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname at birth of Slovak ID owner should be extracted. 
      */
     this.extractSurnameAtBirth = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -12381,7 +10706,7 @@ function SlovakiaIdFrontRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -12391,7 +10716,7 @@ function SlovakiaIdFrontRecognizerResult(nativeResult) {
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -12421,7 +10746,7 @@ function SlovakiaIdFrontRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -12438,125 +10763,87 @@ function SlovakiaIdFrontRecognizer() {
     Recognizer.call(this, 'SlovakiaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Slovak ID owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Slovak ID should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Slovak ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if document number of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if document number of Slovak ID should be extracted. 
      */
     this.extractDocumentNumber = true;
     
     /** 
-     * Defines if first name of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if first name of Slovak ID owner should be extracted. 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority of Slovak ID should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Slovak ID should be extracted. 
      */
     this.extractIssuedBy = true;
     
     /** 
-     * Defines if last name of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if last name of Slovak ID owner should be extracted. 
      */
     this.extractLastName = true;
     
     /** 
-     * Defines if nationality of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of Slovak ID owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if sex of Slovak ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Slovak ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -12595,25 +10882,27 @@ function SloveniaCombinedRecognizerResult(nativeResult) {
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
+     * Determines if date of expiry of Slovenian ID card is permanent 
+     */
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
+    
+    /** 
      * The date of issue of the Slovenia ID card. 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     * Defines digital signature of recognition results. 
      */
     this.digitalSignature = nativeResult.digitalSignature;
     
     /** 
-     * Version of the digital signature. Available only if enabled with signResult property. 
+     * Defines digital signature version. 
      */
     this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /** 
-     * Returns true if data from scanned parts/sides of the document match,
-     * false otherwise. For example if date of expiry is scanned from the front and back side
-     * of the document and values do not match, this method will return false. Result will
-     * be true only if scanned values for all fields that are compared are the same. 
+     * Defines {true} if data from scanned parts/sides of the document match, 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
     
@@ -12623,17 +10912,17 @@ function SloveniaCombinedRecognizerResult(nativeResult) {
     this.documentNumber = nativeResult.documentNumber;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * back side image of the document if enabled with returnFullDocumentImage property. 
+     * Back side image of the document 
      */
     this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /** 
-     * front side image of the document if enabled with returnFullDocumentImage property. 
+     * Front side image of the document 
      */
     this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
@@ -12658,8 +10947,7 @@ function SloveniaCombinedRecognizerResult(nativeResult) {
     this.pin = nativeResult.pin;
     
     /** 
-     * Returns true if recognizer has finished scanning first side and is now scanning back side,
-     * false if it's still scanning first side. 
+     * {true} if recognizer has finished scanning first side and is now scanning back side, 
      */
     this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
@@ -12669,7 +10957,7 @@ function SloveniaCombinedRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -12691,125 +10979,87 @@ function SloveniaCombinedRecognizer() {
     Recognizer.call(this, 'SloveniaCombinedRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Slovenian ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if issuing administrative unit of Slovenian ID should be extracted.
-     * 
-     *  
+     * Defines if issuing administrative unit of Slovenian ID should be extracted. 
      */
     this.extractAdministrativeUnit = true;
     
     /** 
-     * Defines if date of expiry of Slovenian ID card should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Slovenian ID card should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Slovenian ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Slovenian ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if given names of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if given names of Slovenian ID owner should be extracted. 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if nationality of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of Slovenian ID owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if sex of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Slovenian ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Slovenian ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Whether or not recognition result should be signed.
-     * 
-     *  
+     * Defines whether or not recognition result should be signed. 
      */
     this.signResult = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -12843,7 +11093,7 @@ function SloveniaIdBackRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -12865,53 +11115,37 @@ function SloveniaIdBackRecognizer() {
     Recognizer.call(this, 'SloveniaIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if address of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if address of Slovenian ID owner should be extracted. 
      */
     this.extractAddress = true;
     
     /** 
-     * Defines if issuing administrative unit of Slovenian ID should be extracted.
-     * 
-     *  
+     * Defines if issuing administrative unit of Slovenian ID should be extracted. 
      */
     this.extractAdministrativeUnit = true;
     
     /** 
-     * Defines if date of issue of Slovenian ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Slovenian ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -12940,12 +11174,17 @@ function SloveniaIdFrontRecognizerResult(nativeResult) {
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Determines if date of expiry of Slovenian ID card is permanent 
+     */
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
+    
+    /** 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -12965,7 +11204,7 @@ function SloveniaIdFrontRecognizerResult(nativeResult) {
     this.sex = nativeResult.sex;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -12987,97 +11226,67 @@ function SloveniaIdFrontRecognizer() {
     Recognizer.call(this, 'SloveniaIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of expiry of Slovenian ID card should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Slovenian ID card should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if given names of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if given names of Slovenian ID owner should be extracted. 
      */
     this.extractGivenNames = true;
     
     /** 
-     * Defines if nationality of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if nationality of Slovenian ID owner should be extracted. 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if sex of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Slovenian ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Slovenian ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Slovenian ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -13101,7 +11310,7 @@ function SpainDlFrontRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
@@ -13111,7 +11320,7 @@ function SpainDlFrontRecognizerResult(nativeResult) {
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -13131,17 +11340,17 @@ function SpainDlFrontRecognizerResult(nativeResult) {
     this.number = nativeResult.number;
     
     /** 
-     * The place of birth of Spain DL owner 
+     * The date of birth of Spain DL owner 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The surname of the Spain DL owner 
+     * The surname of the Spain DL owner. 
      */
     this.surname = nativeResult.surname;
     
@@ -13162,126 +11371,88 @@ SpainDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerResultSt
 BlinkID.prototype.SpainDlFrontRecognizerResult = SpainDlFrontRecognizerResult;
 
 /**
- * Spain Driver's License Front Recognizer.
- * 
  * Recognizer which can scan front side of Spain national DL cards
  */
 function SpainDlFrontRecognizer() {
     Recognizer.call(this, 'SpainDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     *  Defines if date of birth of Spain DL owner should be extracted
-     * 
-     *   
+     * Defines if date of birth of Spain DL owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     *  Defines if first name of Spain DL owner should be extracted
-     * 
-     *   
+     * Defines if first name of Spain DL owner should be extracted 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority of Spain DL should be extracted
-     * 
-     *  
+     * Defines if issuing authority of Spain DL should be extracted 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if licence categories of Spain DL should be extracted
-     * 
-     *  
+     * Defines if licence categories of Spain DL should be extracted 
      */
     this.extractLicenceCategories = true;
     
     /** 
-     *  Defines if place of birth of Spain DL owner should be extracted
-     * 
-     *   
+     * Defines if place of birth of Spain DL owner should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     *  Defines if surname of Spain DL owner should be extracted
-     * 
-     *   
+     * Defines if surname of Spain DL owner should be extracted 
      */
     this.extractSurname = true;
     
     /** 
-     * Defines if date of issue of Spain DL should be extracted
-     * 
-     *  
+     * Defines if date of issue of Spain DL should be extracted 
      */
     this.extractValidFrom = true;
     
     /** 
-     * Defines if date of expiry of Spain DL should be extracted
-     * 
-     *  
+     * Defines if date of expiry of Spain DL should be extracted 
      */
     this.extractValidUntil = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -13315,12 +11486,12 @@ function SwedenDlFrontRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -13350,7 +11521,7 @@ function SwedenDlFrontRecognizerResult(nativeResult) {
     this.referenceNumber = nativeResult.referenceNumber;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -13372,118 +11543,82 @@ function SwedenDlFrontRecognizer() {
     Recognizer.call(this, 'SwedenDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of Sweden DL owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Sweden DL owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Sweden DL should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Sweden DL should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Sweden DL should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Sweden DL should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if issuing agency of Sweden DL should be extracted.
-     * 
-     *  
+     * Defines if issuing agency of Sweden DL should be extracted. 
      */
     this.extractIssuingAgency = true;
     
     /** 
-     * Defines if licence categories of Sweden DL should be extracted.
-     * 
-     *  
+     * Defines if licence categories of Sweden DL should be extracted. 
      */
     this.extractLicenceCategories = true;
     
     /** 
-     * Defines if name of Sweden DL owner should be extracted.
-     * 
-     *  
+     * Defines if name of Sweden DL owner should be extracted. 
      */
     this.extractName = true;
     
     /** 
-     * Defines if reference number of Sweden DL should be extracted.
-     * 
-     *  
+     * Defines if reference number of Sweden DL should be extracted. 
      */
     this.extractReferenceNumber = true;
     
     /** 
-     * Defines if surname of Sweden DL owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Sweden DL owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -13502,67 +11637,67 @@ function SwitzerlandDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date of birth of the Switzerland DL owner. 
+     * The date of birth 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The date of rxpiry of the Switzerland DL. 
+     * The date of expiry 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /** 
-     * The date of issue of the Switzerland DL. 
+     * The date of issue 
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * If true, then this Switzerland DL will never expire. 
+     * The expiry date permanent 
      */
     this.expiryDatePermanent = nativeResult.expiryDatePermanent;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * The first name of the Switzerland DL owner. 
+     * The first name 
      */
     this.firstName = nativeResult.firstName;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issuing authority of the Switzerland DL. 
+     * The issuing authority 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
     
     /** 
-     * The last name of the Switzerland DL owner. 
+     * The last name 
      */
     this.lastName = nativeResult.lastName;
     
     /** 
-     * The license number of the Switzerland DL. 
+     * The license number 
      */
     this.licenseNumber = nativeResult.licenseNumber;
     
     /** 
-     * The place of birth of the Switzerland DL owner. 
+     * The place of birth 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
     /** 
-     * The vehicle categories of the Switzerland DL. 
+     * The vehicle categories 
      */
     this.vehicleCategories = nativeResult.vehicleCategories;
     
@@ -13573,126 +11708,88 @@ SwitzerlandDlFrontRecognizerResult.prototype = new RecognizerResult(RecognizerRe
 BlinkID.prototype.SwitzerlandDlFrontRecognizerResult = SwitzerlandDlFrontRecognizerResult;
 
 /**
- * Class for configuring Switzerland DL Front Recognizer.
- * 
- * Switzerland DL Front recognizer is used for scanning front side of the Switzerland DL.
+ * The Switzerland DL Front Recognizer is used for scanning front side of the Switzerland DL.
  */
 function SwitzerlandDlFrontRecognizer() {
     Recognizer.call(this, 'SwitzerlandDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's date of birth should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether date of birth should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether date of expiry should be extracted 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether date of issue should be extracted 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if owner's first name should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether first name should be extracted 
      */
     this.extractFirstName = true;
     
     /** 
-     * Defines if issuing authority should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether issuing authority should be extracted 
      */
     this.extractIssuingAuthority = true;
     
     /** 
-     * Defines if owner's last name should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether last name should be extracted 
      */
     this.extractLastName = true;
     
     /** 
-     * Defines if owner's place of birth should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether place of birth should be extracted 
      */
     this.extractPlaceOfBirth = true;
     
     /** 
-     * Defines if vehicle categories should be extracted from front side of the Switzerland DL
-     * 
-     *  
+     * Defines whether vehicle categories should be extracted 
      */
     this.extractVehicleCategories = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -13726,7 +11823,7 @@ function SwitzerlandIdBackRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -13763,74 +11860,52 @@ function SwitzerlandIdBackRecognizer() {
     Recognizer.call(this, 'SwitzerlandIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if issuing authority of Switzerland ID should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Switzerland ID should be extracted. 
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if date of expiry of Switzerland ID should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Switzerland ID should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Switzerland ID should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Switzerland ID should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if height of Switzerland ID owner should be extracted.
-     * 
-     *  
+     * Defines if height of Switzerland ID owner should be extracted. 
      */
     this.extractHeight = true;
     
     /** 
-     * Defines if place of origin of Switzerland ID owner should be extracted.
-     * 
-     *  
+     * Defines if place of origin of Switzerland ID owner should be extracted. 
      */
     this.extractPlaceOfOrigin = true;
     
     /** 
-     * Defines if sex of Switzerland ID owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Switzerland ID owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -13854,12 +11929,12 @@ function SwitzerlandIdFrontRecognizerResult(nativeResult) {
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -13869,7 +11944,7 @@ function SwitzerlandIdFrontRecognizerResult(nativeResult) {
     this.givenName = nativeResult.givenName;
     
     /** 
-     * image of the signature if enabled with returnSignatureImage property. 
+     * Signature image from the document 
      */
     this.signatureImage = nativeResult.signatureImage;
     
@@ -13891,76 +11966,52 @@ function SwitzerlandIdFrontRecognizer() {
     Recognizer.call(this, 'SwitzerlandIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if given name of Switzerland ID owner should be extracted.
-     * 
-     *  
+     * Defines if given name of Switzerland ID owner should be extracted. 
      */
     this.extractGivenName = true;
     
     /** 
-     * Defines if surname of Switzerland ID owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Switzerland ID owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
     /** 
-     * Sets whether signature image from ID card should be extracted.
-     * 
-     *  
+     * Defines whether signature image will be available in result. 
      */
     this.returnSignatureImage = false;
     
     /** 
-     * Property for setting DPI for signature images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for signature image that should be returned. 
      */
     this.signatureImageDpi = 250;
     
@@ -13999,12 +12050,12 @@ function SwitzerlandPassportRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
@@ -14056,117 +12107,82 @@ function SwitzerlandPassportRecognizer() {
     Recognizer.call(this, 'SwitzerlandPassportRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if issuing authority of Switzerland passport should be extracted.
-     * 
-     *  
+     * Defines if issuing authority of Switzerland passport should be extracted. 
      */
     this.extractAuthority = true;
     
     /** 
-     * Defines if date of birth of Switzerland passport owner should be extracted.
-     * 
-     *  
+     * Defines if date of birth of Switzerland passport owner should be extracted. 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if date of expiry of Switzerland passport should be extracted.
-     * 
-     *  
+     * Defines if date of expiry of Switzerland passport should be extracted. 
      */
     this.extractDateOfExpiry = true;
     
     /** 
-     * Defines if date of issue of Switzerland passport should be extracted.
-     * 
-     *  
+     * Defines if date of issue of Switzerland passport should be extracted. 
      */
     this.extractDateOfIssue = true;
     
     /** 
-     * Defines if given name of Switzerland passport owner should be extracted.
-     * 
-     *  
+     * Defines if given name of Switzerland passport owner should be extracted. 
      */
     this.extractGivenName = true;
     
     /** 
-     * Defines if height of Switzerland passport owner should be extracted.
-     * 
-     *  
+     * Defines if height of Switzerland passport owner should be extracted. 
      */
     this.extractHeight = true;
     
     /** 
-     * Defines if passport number of Switzerland passport should be extracted.
-     * 
-     *  
+     * Defines if passport number of Switzerland passport should be extracted. 
      */
     this.extractPassportNumber = true;
     
     /** 
-     * Defines if place of origin of Switzerland passport owner should be extracted.
-     * 
-     *  
+     * Defines if place of origin of Switzerland passport owner should be extracted. 
      */
     this.extractPlaceOfOrigin = true;
     
     /** 
-     * Defines if sex of Switzerland passport owner should be extracted.
-     * 
-     *  
+     * Defines if sex of Switzerland passport owner should be extracted. 
      */
     this.extractSex = true;
     
     /** 
-     * Defines if surname of Switzerland passport owner should be extracted.
-     * 
-     *  
+     * Defines if surname of Switzerland passport owner should be extracted. 
      */
     this.extractSurname = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -14185,52 +12201,52 @@ function UnitedArabEmiratesDlFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * The date Of Birth of the front side of the United Arab Emirates Dl owner. 
+     * The date of birth of UAE DL owner 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /** 
-     * The expiry Date of the front side of the United Arab Emirates Dl owner. 
+     * The expiry date of UAE DL 
      */
     this.expiryDate = nativeResult.expiryDate != null ? new Date(nativeResult.expiryDate) : null;
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The issue Date of the front side of the United Arab Emirates Dl owner. 
+     * The issue date of UAE DL 
      */
     this.issueDate = nativeResult.issueDate != null ? new Date(nativeResult.issueDate) : null;
     
     /** 
-     * The license Number of the front side of the United Arab Emirates Dl owner. 
+     * The license number of UAE DL 
      */
     this.licenseNumber = nativeResult.licenseNumber;
     
     /** 
-     * The licensing Authority of the front side of the United Arab Emirates Dl owner. 
+     * The licensing authority code of UAE DL 
      */
     this.licensingAuthority = nativeResult.licensingAuthority;
     
     /** 
-     * The name of the front side of the United Arab Emirates Dl owner. 
+     * The name of UAE DL owner 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The nationality of the front side of the United Arab Emirates Dl owner. 
+     * The nationality of UAE DL owner 
      */
     this.nationality = nativeResult.nationality;
     
     /** 
-     * The place Of Issue of the front side of the United Arab Emirates Dl owner. 
+     * The place of issue of UAE DL 
      */
     this.placeOfIssue = nativeResult.placeOfIssue;
     
@@ -14247,96 +12263,67 @@ function UnitedArabEmiratesDlFrontRecognizer() {
     Recognizer.call(this, 'UnitedArabEmiratesDlFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if date of birth of UAE DL owner should be extracted
-     * 
-     *  
+     * Defines if date of birth of UAE DL owner should be extracted 
      */
     this.extractDateOfBirth = true;
     
     /** 
-     * Defines if issue date of UAE DL should be extracted
-     * 
-     *  
+     * Defines if issue date of UAE DL should be extracted 
      */
     this.extractIssueDate = true;
     
     /** 
-     * Defines if license number of UAE DL should be extracted
-     * 
-     *  
+     * Defines if license number of UAE DL should be extracted 
      */
     this.extractLicenseNumber = true;
     
     /** 
-     * Defines if licensing authority code of UAE DL should be extracted
-     * 
-     *  
+     * Defines if licensing authority code of UAE DL should be extracted 
      */
     this.extractLicensingAuthority = true;
     
     /** 
-     * Defines if name of UAE DL owner should be extracted
-     * 
-     *  
+     * Defines if name of UAE DL owner should be extracted 
      */
     this.extractName = true;
     
     /** 
-     * Defines if nationality of UAE DL owner should be extracted
-     * 
-     *  
+     * Defines if nationality of UAE DL owner should be extracted 
      */
     this.extractNationality = true;
     
     /** 
-     * Defines if place of issue of UAE DL should be extracted
-     * 
-     *  
+     * Defines if place of issue of UAE DL should be extracted 
      */
     this.extractPlaceOfIssue = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -14355,12 +12342,12 @@ function UnitedArabEmiratesIdBackRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The mrz of the back side of United Arab Emirates ID owner. 
+     * The data extracted from the machine readable zone. 
      */
     this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
@@ -14371,40 +12358,28 @@ UnitedArabEmiratesIdBackRecognizerResult.prototype = new RecognizerResult(Recogn
 BlinkID.prototype.UnitedArabEmiratesIdBackRecognizerResult = UnitedArabEmiratesIdBackRecognizerResult;
 
 /**
- * Class for configuring United Arab Emirates ID Back Recognizer.
- * 
- * United Arab Emirates ID Back recognizer is used for scanning back side of United Arab Emirates ID.
+ * Recognizer which can scan back side of United Arab Emirates national ID cards.
  */
 function UnitedArabEmiratesIdBackRecognizer() {
     Recognizer.call(this, 'UnitedArabEmiratesIdBackRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -14423,27 +12398,27 @@ function UnitedArabEmiratesIdFrontRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * face image from the document if enabled with returnFaceImage property. 
+     * Face image from the document 
      */
     this.faceImage = nativeResult.faceImage;
     
     /** 
-     * full document image if enabled with returnFullDocumentImage property. 
+     * Image of the full document 
      */
     this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /** 
-     * The id Number of the front side of United Arab Emirates ID owner. 
+     * The idNumber of the United Arab Emirates ID owner. 
      */
     this.idNumber = nativeResult.idNumber;
     
     /** 
-     * The name of the front side of United Arab Emirates ID owner. 
+     * The name of the United Arab Emirates ID owner. 
      */
     this.name = nativeResult.name;
     
     /** 
-     * The nationality of the front side of United Arab Emirates ID owner. 
+     * The nationality of the United Arab Emirates ID owner. 
      */
     this.nationality = nativeResult.nationality;
     
@@ -14454,69 +12429,48 @@ UnitedArabEmiratesIdFrontRecognizerResult.prototype = new RecognizerResult(Recog
 BlinkID.prototype.UnitedArabEmiratesIdFrontRecognizerResult = UnitedArabEmiratesIdFrontRecognizerResult;
 
 /**
- * Class for configuring United Arab Emirates ID Front Recognizer.
- * 
- * United Arab Emirates ID Front recognizer is used for scanning front side of United Arab Emirates ID.
+ * Recognizer which can scan front side of United Arab Emirates national ID cards.
  */
 function UnitedArabEmiratesIdFrontRecognizer() {
     Recognizer.call(this, 'UnitedArabEmiratesIdFrontRecognizer');
     
     /** 
-     * Defines if glare detection should be turned on/off.
-     * 
-     *  
+     * Defines whether glare detector is enabled. 
      */
     this.detectGlare = true;
     
     /** 
-     * Defines if owner's name should be extracted from front side of United Arab Emirates ID
-     * 
-     *  
+     * Defines if name of United Arab Emirates ID owner should be extracted 
      */
     this.extractName = true;
     
     /** 
-     * Defines if owner's nationality should be extracted from front side of United Arab Emirates ID
-     * 
-     *  
+     * Defines if nationality of United Arab Emirates ID owner should be extracted 
      */
     this.extractNationality = true;
     
     /** 
-     * Property for setting DPI for face images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for face image that should be returned. 
      */
     this.faceImageDpi = 250;
     
     /** 
-     * Property for setting DPI for full document images
-     * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-     * 
-     *  
+     * The DPI (Dots Per Inch) for full document image that should be returned. 
      */
     this.fullDocumentImageDpi = 250;
     
     /** 
-     * Image extension factors for full document image.
-     * 
-     * @see ImageExtensionFactors
-     *  
+     * The extension factors for full document image. 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
-     * Sets whether face image from ID card should be extracted
-     * 
-     *  
+     * Defines whether face image will be available in result. 
      */
     this.returnFaceImage = false;
     
     /** 
-     * Sets whether full document image of ID card should be extracted.
-     * 
-     *  
+     * Defines whether full document image will be available in 
      */
     this.returnFullDocumentImage = false;
     
@@ -14535,7 +12489,7 @@ function VinRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * Returns the recognized VIN or empty string if recognition failed. 
+     * Scanned VIN (Vehicle Identification Number). 
      */
     this.vin = nativeResult.vin;
     
@@ -14546,7 +12500,7 @@ VinRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty
 BlinkID.prototype.VinRecognizerResult = VinRecognizerResult;
 
 /**
- * Recognizer that can perform recognition of VINs (Vehicle Identification Number).
+ * Recognizer that can scan VIN (Vehicle Identification Number) barcode.
  */
 function VinRecognizer() {
     Recognizer.call(this, 'VinRecognizer');

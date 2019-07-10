@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class GermanyIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractCanNumber(jsonRecognizer.optBoolean("extractCanNumber", true));
@@ -30,7 +30,7 @@ public final class GermanyIdFrontRecognizerSerialization implements RecognizerSe
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.germany.GermanyIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

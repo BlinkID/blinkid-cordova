@@ -10,11 +10,11 @@ import org.json.JSONObject;
 
 public final class SuccessFrameGrabberRecognizerSerialization implements RecognizerSerialization {
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         try {
             // first obtain slave recognizer
             JSONObject jsonSlaveRecognizer = jsonRecognizer.getJSONObject("slaveRecognizer");
-            Recognizer<?,?> slaveRecognizer = RecognizerSerializers.INSTANCE.getRecognizerSerialization(jsonSlaveRecognizer).createRecognizer(jsonSlaveRecognizer);
+            Recognizer<?> slaveRecognizer = RecognizerSerializers.INSTANCE.getRecognizerSerialization(jsonSlaveRecognizer).createRecognizer(jsonSlaveRecognizer);
             return new SuccessFrameGrabberRecognizer(slaveRecognizer);
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
@@ -23,7 +23,7 @@ public final class SuccessFrameGrabberRecognizerSerialization implements Recogni
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         SuccessFrameGrabberRecognizer sfgr = (SuccessFrameGrabberRecognizer) recognizer;
         JSONObject jsonSlaveResult = RecognizerSerializers.INSTANCE.getRecognizerSerialization(sfgr.getSlaveRecognizer()).serializeResult(sfgr.getSlaveRecognizer());
 

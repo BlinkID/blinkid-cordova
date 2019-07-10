@@ -33,6 +33,8 @@ public enum RecognizerSerializers {
         registerMapping(new BarcodeRecognizerSerialization());
         registerMapping(new BlinkCardEliteRecognizerSerialization());
         registerMapping(new BlinkCardRecognizerSerialization());
+        registerMapping(new BlinkIdCombinedRecognizerSerialization());
+        registerMapping(new BlinkIdRecognizerSerialization());
         registerMapping(new BruneiIdBackRecognizerSerialization());
         registerMapping(new BruneiIdFrontRecognizerSerialization());
         registerMapping(new BruneiMilitaryIdBackRecognizerSerialization());
@@ -86,6 +88,7 @@ public enum RecognizerSerializers {
         registerMapping(new MrtdCombinedRecognizerSerialization());
         registerMapping(new MrtdRecognizerSerialization());
         registerMapping(new NewZealandDlFrontRecognizerSerialization());
+        registerMapping(new NigeriaVoterIdBackRecognizerSerialization());
         registerMapping(new PassportRecognizerSerialization());
         registerMapping(new Pdf417RecognizerSerialization());
         registerMapping(new PolandCombinedRecognizerSerialization());
@@ -123,7 +126,7 @@ public enum RecognizerSerializers {
         return mByJSONName.get(jsonRecognizer.getString("recognizerType"));
     }
 
-    public RecognizerSerialization getRecognizerSerialization(Recognizer<?,?> recognizer) {
+    public RecognizerSerialization getRecognizerSerialization(Recognizer<?> recognizer) {
         return mByClass.get(recognizer.getClass());
     }
 
@@ -131,7 +134,7 @@ public enum RecognizerSerializers {
         try {
             JSONArray recognizerArray = jsonRecognizerCollection.getJSONArray("recognizerArray");
             int numRecognizers = recognizerArray.length();
-            Recognizer<?,?>[] recognizers = new Recognizer[numRecognizers];
+            Recognizer<?>[] recognizers = new Recognizer[numRecognizers];
             for (int i = 0; i < numRecognizers; ++i) {
                 recognizers[ i ] = getRecognizerSerialization(recognizerArray.getJSONObject(i)).createRecognizer(recognizerArray.getJSONObject(i));
             }
@@ -145,10 +148,10 @@ public enum RecognizerSerializers {
         }
     }
 
-    public JSONArray serializeRecognizerResults(Recognizer<?,?>[] recognizers) {
+    public JSONArray serializeRecognizerResults(Recognizer<?>[] recognizers) {
         JSONArray jsonArray = new JSONArray();
 
-        for (Recognizer<?, ?> recognizer : recognizers) {
+        for (Recognizer<?> recognizer : recognizers) {
             jsonArray.put(getRecognizerSerialization(recognizer).serializeResult(recognizer));
         }
 

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class MalaysiaMyKasFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractFullNameAndAddress(jsonRecognizer.optBoolean("extractFullNameAndAddress", true));
@@ -24,7 +24,7 @@ public final class MalaysiaMyKasFrontRecognizerSerialization implements Recogniz
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKasFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
