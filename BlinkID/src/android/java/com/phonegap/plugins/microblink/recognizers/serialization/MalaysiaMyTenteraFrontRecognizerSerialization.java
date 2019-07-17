@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class MalaysiaMyTenteraFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractFullNameAndAddress(jsonRecognizer.optBoolean("extractFullNameAndAddress", true));
@@ -23,7 +23,7 @@ public final class MalaysiaMyTenteraFrontRecognizerSerialization implements Reco
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyTenteraFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class CyprusIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
@@ -23,7 +23,7 @@ public final class CyprusIdFrontRecognizerSerialization implements RecognizerSer
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.cyprus.CyprusIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -138,7 +138,7 @@ cp  -f -r <blinkID_plugin_path>/www/js ./www/
 
 Add Android platform support to the project:
 
-    cordova platform add android@7
+    cordova platform add android@8
     
 ### iOS
 

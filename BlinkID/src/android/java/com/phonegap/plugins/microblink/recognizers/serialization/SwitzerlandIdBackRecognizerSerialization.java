@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class SwitzerlandIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAuthority(jsonRecognizer.optBoolean("extractAuthority", true));
@@ -25,7 +25,7 @@ public final class SwitzerlandIdBackRecognizerSerialization implements Recognize
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

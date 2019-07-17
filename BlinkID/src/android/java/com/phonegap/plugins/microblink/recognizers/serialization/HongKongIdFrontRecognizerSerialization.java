@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class HongKongIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractCommercialCode(jsonRecognizer.optBoolean("extractCommercialCode", true));
@@ -27,7 +27,7 @@ public final class HongKongIdFrontRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.hongkong.HongKongIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

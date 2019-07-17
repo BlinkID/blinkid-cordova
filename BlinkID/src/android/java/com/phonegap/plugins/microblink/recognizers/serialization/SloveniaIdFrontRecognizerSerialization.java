@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class SloveniaIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
@@ -28,13 +28,14 @@ public final class SloveniaIdFrontRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.slovenia.SloveniaIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
+            jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("givenNames", result.getGivenNames());

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class SingaporeChangiEmployeeIdRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractCompanyName(jsonRecognizer.optBoolean("extractCompanyName", true));
@@ -24,7 +24,7 @@ public final class SingaporeChangiEmployeeIdRecognizerSerialization implements R
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.singapore.SingaporeChangiEmployeeIdRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

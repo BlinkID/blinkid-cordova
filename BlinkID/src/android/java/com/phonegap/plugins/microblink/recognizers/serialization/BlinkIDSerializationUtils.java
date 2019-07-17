@@ -2,6 +2,7 @@ package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.blinkid.mrtd.MrzResult;
 import com.microblink.entities.recognizers.blinkid.imageoptions.extension.ImageExtensionFactors;
+import com.microblink.entities.recognizers.blinkid.generic.DriverLicenseDetailedInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,14 @@ public abstract class BlinkIDSerializationUtils {
         jsonMrz.put("mrzParsed", mrzResult.isMrzParsed());
         jsonMrz.put("mrzVerified", mrzResult.isMrzVerified());
         return jsonMrz;
+    }
+
+    public static JSONObject serializeDriverLicenseDetailedInfo(DriverLicenseDetailedInfo dlDetailedInfo) throws JSONException {
+        JSONObject jsonDriverLicenseDetailedInfo = new JSONObject();
+        jsonDriverLicenseDetailedInfo.put("restrictions", dlDetailedInfo.getRestrictions());
+        jsonDriverLicenseDetailedInfo.put("endorsements", dlDetailedInfo.getEndorsements());
+        jsonDriverLicenseDetailedInfo.put("vehicleClass", dlDetailedInfo.getVehicleClass());
+        return jsonDriverLicenseDetailedInfo;
     }
 
     public static ImageExtensionFactors deserializeExtensionFactors(JSONObject jsonExtensionFactors) {

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class GermanyDlBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
@@ -19,7 +19,7 @@ public final class GermanyDlBackRecognizerSerialization implements RecognizerSer
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.germany.GermanyDlBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

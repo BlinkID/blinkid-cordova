@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class CyprusOldIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.cyprus.CyprusOldIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.cyprus.CyprusOldIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractExpiresOn(jsonRecognizer.optBoolean("extractExpiresOn", true));
@@ -21,7 +21,7 @@ public final class CyprusOldIdBackRecognizerSerialization implements RecognizerS
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.cyprus.CyprusOldIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.cyprus.CyprusOldIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class CzechiaIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAuthority(jsonRecognizer.optBoolean("extractAuthority", true));
@@ -22,7 +22,7 @@ public final class CzechiaIdBackRecognizerSerialization implements RecognizerSer
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.czechia.CzechiaIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class MoroccoIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfBirth(jsonRecognizer.optBoolean("extractDateOfBirth", true));
@@ -29,7 +29,7 @@ public final class MoroccoIdFrontRecognizerSerialization implements RecognizerSe
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.morocco.MoroccoIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

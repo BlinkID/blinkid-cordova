@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class ColombiaIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
@@ -21,7 +21,7 @@ public final class ColombiaIdBackRecognizerSerialization implements RecognizerSe
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.colombia.ColombiaIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

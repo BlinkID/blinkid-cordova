@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class SloveniaCombinedRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.slovenia.SloveniaCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.slovenia.SloveniaCombinedRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
@@ -32,7 +32,7 @@ public final class SloveniaCombinedRecognizerSerialization implements Recognizer
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.slovenia.SloveniaCombinedRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.slovenia.SloveniaCombinedRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
@@ -41,6 +41,7 @@ public final class SloveniaCombinedRecognizerSerialization implements Recognizer
             jsonResult.put("administrativeUnit", result.getAdministrativeUnit());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
+            jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());

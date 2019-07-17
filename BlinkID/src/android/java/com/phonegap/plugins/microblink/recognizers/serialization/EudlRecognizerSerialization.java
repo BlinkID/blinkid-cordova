@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class EudlRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.eudl.EudlRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.eudl.EudlRecognizer();
         recognizer.setCountry(com.microblink.entities.recognizers.blinkid.eudl.EudlCountry.values()[jsonRecognizer.optInt("country", 4) - 1]);
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
@@ -26,7 +26,7 @@ public final class EudlRecognizerSerialization implements RecognizerSerializatio
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.eudl.EudlRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.eudl.EudlRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

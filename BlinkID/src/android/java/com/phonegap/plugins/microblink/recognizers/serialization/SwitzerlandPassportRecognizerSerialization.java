@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class SwitzerlandPassportRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandPassportRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandPassportRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAuthority(jsonRecognizer.optBoolean("extractAuthority", true));
@@ -31,7 +31,7 @@ public final class SwitzerlandPassportRecognizerSerialization implements Recogni
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandPassportRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.switzerland.SwitzerlandPassportRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class MexicoVoterIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
@@ -26,7 +26,7 @@ public final class MexicoVoterIdFrontRecognizerSerialization implements Recogniz
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.mexico.MexicoVoterIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

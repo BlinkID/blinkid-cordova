@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class BruneiMilitaryIdBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.brunei.BruneiMilitaryIdBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.brunei.BruneiMilitaryIdBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractDateOfExpiry(jsonRecognizer.optBoolean("extractDateOfExpiry", true));
@@ -23,7 +23,7 @@ public final class BruneiMilitaryIdBackRecognizerSerialization implements Recogn
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.brunei.BruneiMilitaryIdBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.brunei.BruneiMilitaryIdBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

@@ -9,13 +9,13 @@ import org.json.JSONObject;
 public final class VinRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkbarcode.vin.VinRecognizer recognizer = new com.microblink.entities.recognizers.blinkbarcode.vin.VinRecognizer();
         return recognizer;
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkbarcode.vin.VinRecognizer.Result result = ((com.microblink.entities.recognizers.blinkbarcode.vin.VinRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

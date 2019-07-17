@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class RomaniaIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
@@ -29,12 +29,13 @@ public final class RomaniaIdFrontRecognizerSerialization implements RecognizerSe
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("address", result.getAddress());
+            jsonResult.put("cnpNumber", result.getCnpNumber());
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));

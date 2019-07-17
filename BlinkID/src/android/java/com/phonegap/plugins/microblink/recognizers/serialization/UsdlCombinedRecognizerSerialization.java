@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public final class UsdlCombinedRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         UsdlCombinedRecognizer recognizer = new UsdlCombinedRecognizer();
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
@@ -25,7 +25,7 @@ public final class UsdlCombinedRecognizerSerialization implements RecognizerSeri
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         UsdlCombinedRecognizer.Result result = ((UsdlCombinedRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

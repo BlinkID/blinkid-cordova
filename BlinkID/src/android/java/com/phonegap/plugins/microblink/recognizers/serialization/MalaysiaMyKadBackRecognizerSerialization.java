@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class MalaysiaMyKadBackRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractOldNric(jsonRecognizer.optBoolean("extractOldNric", true));
@@ -20,7 +20,7 @@ public final class MalaysiaMyKadBackRecognizerSerialization implements Recognize
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.malaysia.MalaysiaMyKadBackRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {

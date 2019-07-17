@@ -9,7 +9,7 @@ import org.json.JSONObject;
 public final class ItalyDlFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?, ?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.italy.ItalyDlFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.italy.ItalyDlFrontRecognizer();
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setExtractAddress(jsonRecognizer.optBoolean("extractAddress", true));
@@ -32,7 +32,7 @@ public final class ItalyDlFrontRecognizerSerialization implements RecognizerSeri
     }
 
     @Override
-    public JSONObject serializeResult(Recognizer<?, ?> recognizer) {
+    public JSONObject serializeResult(Recognizer<?> recognizer) {
         com.microblink.entities.recognizers.blinkid.italy.ItalyDlFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.italy.ItalyDlFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
