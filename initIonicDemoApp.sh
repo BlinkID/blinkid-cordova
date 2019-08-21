@@ -7,8 +7,7 @@ APP_ID="com.microblink.blinkid"
 rm -rf $APP_NAME
 
 # create a sample application
-ionic start $APP_NAME blank --no-link
-
+ionic start $APP_NAME blank --type=ionic1
 # enter into demo project folder
 cd $APP_NAME
 
@@ -27,8 +26,8 @@ sed -i "" "s/io.ionic.starter/$APP_ID/" config.xml
 sed -i "" "s/MyApp/$APP_NAME/" config.xml
 
 # copy content of the www folder
-cp  -f -r ../www/index.html ./src/
-cp  -f -r ../www/js ./www/
+cp -f -r ../www/index.html ./www/
+cp -f -r ../www/js ./www/
 
 # how to run
 echo "To run iOS demo application open Xcode project $APP_NAME.xcodeproj"
