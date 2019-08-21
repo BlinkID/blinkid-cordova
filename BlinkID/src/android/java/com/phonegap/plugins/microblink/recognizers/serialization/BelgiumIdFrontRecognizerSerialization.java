@@ -6,16 +6,15 @@ import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public final class DocumentFaceRecognizerSerialization implements RecognizerSerialization {
+public final class BelgiumIdFrontRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer();
-        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonRecognizer.optInt("detectorType", 1) - 1]);
+        com.microblink.entities.recognizers.blinkid.belgium.BelgiumIdFrontRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.belgium.BelgiumIdFrontRecognizer();
+        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
-        recognizer.setNumStableDetectionsThreshold(jsonRecognizer.optInt("numStableDetectionsThreshold", 6));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
@@ -23,13 +22,12 @@ public final class DocumentFaceRecognizerSerialization implements RecognizerSeri
 
     @Override
     public JSONObject serializeResult(Recognizer<?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer)recognizer).getResult();
+        com.microblink.entities.recognizers.blinkid.belgium.BelgiumIdFrontRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.belgium.BelgiumIdFrontRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonResultData(jsonResult, result);
-            jsonResult.put("documentLocation", SerializationUtils.serializeQuad(result.getDocumentLocation()));
+            jsonResult.put("cardNumber", result.getCardNumber());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
-            jsonResult.put("faceLocation", SerializationUtils.serializeQuad(result.getFaceLocation()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
@@ -40,11 +38,11 @@ public final class DocumentFaceRecognizerSerialization implements RecognizerSeri
 
     @Override
     public String getJsonName() {
-        return "DocumentFaceRecognizer";
+        return "BelgiumIdFrontRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer.class;
+        return com.microblink.entities.recognizers.blinkid.belgium.BelgiumIdFrontRecognizer.class;
     }
 }

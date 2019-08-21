@@ -165,7 +165,7 @@ cd testcordova
 cordova plugin add ../blinkid-phonegap/BlinkID # or just 'blinkid-cordova' if you don't have blinkid-phonegap locally
 
 # add android support to the project
-cordova platform add android@7
+cordova platform add android@8
 
 # build the project, the binary will appear in the bin/ folder
 cordova build android
