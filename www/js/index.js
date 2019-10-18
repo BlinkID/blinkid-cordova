@@ -51,38 +51,29 @@ var app = {
         documentImageDiv.style.visibility = "hidden"
         faceImageDiv.style.visibility = "hidden"
 
-        // to scan EU driver's licences, use EudlRecognizer
-        var eudlRecognizer = new cordova.plugins.BlinkID.EudlRecognizer();
-        eudlRecognizer.returnFaceImage = true;
-        eudlRecognizer.returnFullDocumentImage = true;
-
-        // if you also want to obtain camera frame on which specific recognizer has
-        // finished its recognition, wrap it with SuccessFrameGrabberRecognizer and use
-        // the wrapper instead of original for building RecognizerCollection
-        var eudlSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(eudlRecognizer);
-
-        // to scan US driver's licenses, use UsdlRecognizer
-        var usdlRecognizer = new cordova.plugins.BlinkID.UsdlRecognizer();
-
-        var usdlSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(usdlRecognizer);
-        
         // to scan any machine readable travel document (passports, visa's and IDs with 
         // machine readable zone), use MrtdRecognizer
-        var mrtdRecognizer = new cordova.plugins.BlinkID.MrtdRecognizer();
-        mrtdRecognizer.returnFullDocumentImage = true;
+//        var mrtdRecognizer = new cordova.plugins.BlinkID.MrtdRecognizer();
+//        mrtdRecognizer.returnFullDocumentImage = true;
+        // wrap recognizer with SuccessFrameGrabberRecognizer to obtain camera frame from the successful scan
+//        var mrtdSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(mrtdRecognizer);
 
-        var mrtdSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(mrtdRecognizer);
+        // to scan any machine readable travel document (passports, visa's and IDs with 
+        // machine readable zone), use MrtdRecognizer
+        var blinkIdRecognizer = new cordova.plugins.BlinkID.BlinkIdRecognizer();
+        blinkIdRecognizer.returnFullDocumentImage = true;
+        blinkIdRecognizer.returnFaceImage = true;
 
         // there are lots of Recognizer objects in BlinkID - check blinkIdScanner.js for full reference
 
-        var documentOverlaySettings = new cordova.plugins.BlinkID.DocumentOverlaySettings();
+        var blinkidOverlaySettings = new cordova.plugins.BlinkID.BlinkIdOverlaySettings();
 
         // create RecognizerCollection from any number of recognizers that should perform recognition
-        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([eudlSuccessFrameGrabber, usdlSuccessFrameGrabber, mrtdSuccessFrameGrabber]);
+        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([blinkIdRecognizer /*, mrtdSuccessFrameGrabber */]);
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
-            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/ux5PdQApJLUPzlGZQQniC8pjz/86XhMJztb5SZMedvP2uWZiyPE3zStafCO++dkPZAyb511hRVtSC3FJ5bGH/CQaXQLXpkMElVJRqO54iThgexIWWow3SVUWRySCSj8My/IpnXgmRUg9XrNUzy2475z8XR6omoX+pe0jfdmqeuV/2u5/WnjfOgx+W6Z83e80BfcX1k/1DixHlKAstcJl+D6vH4cRde+WAcTADiR0StcG0sN8EM3EO8',
+            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/uxZPHEBpL6LHXqPogMlETCNKjFP9T0z4TWTOJHROqlTx/kfMKYmpqvZN7v3J6f3+/kQflgDR0tvDECMzG1iXlfUJWnQXpABOO6F8sLzJmbJO7TjJv1DAjuv+2D1uez1LjErzyqCy7jFrtjpza9uUCLMrFopL9KuQ1/N+jxW/byQl6BtUeaj1IYBZzAhrUDBofLSlv6WC9GUrCqmO+TdgQvjUiSfx/60kU7bmBZX/T6A2hAfGvRWpfKo12NYs3a',
             ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++ptboR69ypRSJvTVDmZZWdCfGEKT2PSYI2e6goCTXvROwYexCNWL3Ew5HzJwdKs0ugrPpKvGqOG4iiF+yrTCplrislVppjfV6v1NFN3y3b053kMcZwZFnL2dVTg5cfF2nkep2LoCsBF+eSG1u6c0uWITOTv96UzBZljFNLsokRGLtMQoN0V4WsrXCIzzhDgt0xbBHQWSW1QDFKAT9CiJ9qbljtk5UwjqLvDUMW372IPybPYco7D2zR'
         };
 
@@ -104,113 +95,67 @@ var app = {
                     documentImageDiv.style.visibility = "hidden"
                     faceImageDiv.style.visibility = "hidden"
 
-                    if (eudlRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
-                        // Document image is returned as Base64 encoded JPEG
-                        var resultDocumentImage = eudlRecognizer.result.fullDocumentImage;
-                        if (resultDocumentImage) {
-                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
-                            documentImageDiv.style.visibility = "visible";
-                        } else {
-                            documentImageDiv.style.visibility = "hidden";
-                        }
-                        
-                        // Face image is returned as Base64 encoded JPEG
-                        var resultFaceImage = eudlRecognizer.result.faceImage;
-                        if (resultFaceImage) {
-                            faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
-                            faceImageDiv.style.visibility = "visible";
-                        } else {
-                            faceImageDiv.style.visibility = "hidden";
-                        }
-
-                        // success frame is available in eudlRecognizer's successFrameGrabber wrapper's result as Base64 encoded JPEG
-                        var successFrame = eudlSuccessFrameGrabber.result.successFrame;
-                        if (successFrame) {
-                            successfulImage.src = "data:image/jpg;base64, " + successFrame;
-                            successfulImageDiv.style.visibility = "visible";
-                        } else {
-                            successfulImageDiv.style.visibility = "hidden";
-                        }
-
-                        // fill data
-                        resultDiv.innerHTML = /** Personal information */
-                            "First name: " + eudlRecognizer.result.firstName + "<br>" +
-                            "Last name: " + eudlRecognizer.result.lastName + "<br>" +
-                            "Address: " + eudlRecognizer.result.address + "<br>" +
-                            "Personal number: " + eudlRecognizer.result.personalNumber + "<br>" +
-                            "Driver number: " + eudlRecognizer.result.driverNumber + "<br>";
-                    } else if (mrtdRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
+                    /*if (mrtdRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
                         // Document image is returned as Base64 encoded JPEG
                         var resultDocumentImage = mrtdRecognizer.result.fullDocumentImage;
                         if (resultDocumentImage) {
                             documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
                             documentImageDiv.style.visibility = "visible";
-                        } else {
-                            documentImageDiv.style.visibility = "hidden";
                         }
-
-                        // MrtdRecognizer does not support face image extraction
-                        faceImageDiv.style.visibility = "hidden";
 
                         // success frame is available in mrtdRecognizer's successFrameGrabber wrapper's result as Base64 encoded JPEG
                         var successFrame = mrtdSuccessFrameGrabber.result.successFrame;
                         if (successFrame) {
                             successfulImage.src = "data:image/jpg;base64, " + successFrame;
                             successfulImageDiv.style.visibility = "visible";
-                        } else {
-                            successfulImageDiv.style.visibility = "hidden";
                         }
 
                         // fill data
-                        resultDiv.innerHTML = /** Personal information */
+                        resultDiv.innerHTML = // Personal information
                             "First name: " + mrtdRecognizer.result.mrzResult.secondaryId + "<br>" +
                             "Last name: " + mrtdRecognizer.result.mrzResult.primaryId + "<br>" +
                             "Nationality: " + mrtdRecognizer.result.mrzResult.nationality + "<br>" +
                             "Gender: " + mrtdRecognizer.result.mrzResult.gender + "<br>" +
                             "Date of birth: " +
-                            mrtdRecognizer.result.mrzResult.dateOfBirth.day + "." +
-                            mrtdRecognizer.result.mrzResult.dateOfBirth.month + "." +
-                            mrtdRecognizer.result.mrzResult.dateOfBirth.year + ". <br>";
-                    } else if (usdlRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
-                        // UsdlRecognizer does not support face image extraction
-                        faceImageDiv.style.visibility = "hidden";
-                        // UsdlRecognizer does not support full document image extraction
-                        faceImageDiv.style.visibility = "hidden";
-
-                        // success frame is available in usdlRecognizer's successFrameGrabber wrapper's result as Base64 encoded JPEG
-                        var successFrame = usdlSuccessFrameGrabber.result.successFrame;
-                        if (successFrame) {
-                            successfulImage.src = "data:image/jpg;base64, " + successFrame;
-                            successfulImageDiv.style.visibility = "visible";
-                        } else {
-                            successfulImageDiv.style.visibility = "hidden";
+                                mrtdRecognizer.result.mrzResult.dateOfBirth.day + "." +
+                                mrtdRecognizer.result.mrzResult.dateOfBirth.month + "." +
+                                mrtdRecognizer.result.mrzResult.dateOfBirth.year + ". <br>";
+                            // there are other fields to extract - check blinkIdScanner.js for full reference
+                    } else */
+                    if (blinkIdRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
+                        var resultDocumentImage = blinkIdRecognizer.result.fullDocumentImage;
+                        if (resultDocumentImage) {
+                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
+                            documentImageDiv.style.visibility = "visible";
+                        }
+                        var resultFaceImage = blinkIdRecognizer.result.faceImage;
+                        if (resultFaceImage) {
+                            faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
+                            faceImageDiv.style.visibility = "visible";
                         }
 
                         var fieldDelim = "<br>";
-                        var usdlResult = usdlRecognizer.result;
+                        var blinkIdResult = blinkIdRecognizer.result;
 
                         resultDiv.innerHTML = /** Personal information */
-                             "First name: " + usdlResult.firstName + fieldDelim +
-                             "Last name: " + usdlResult.lastName + fieldDelim +
-                             "Full name: " + usdlResult.fullName + fieldDelim +
-                             "Address: " + usdlResult.address + fieldDelim +
-                             "Document number: " + usdlResult.documentNumber + fieldDelim +
-                             "Sex: " + usdlResult.sex + fieldDelim +
-                             "Restrictions: " + usdlResult.restrictions + fieldDelim +
-                             "Endorsments: " + usdlResult.endorsements + fieldDelim +
-                             "Vehicle class: " + usdlResult.vehicleClass + fieldDelim +
+                             "First name: " + blinkIdResult.firstName + fieldDelim +
+                             "Last name: " + blinkIdResult.lastName + fieldDelim +
+                             "Address: " + blinkIdResult.address + fieldDelim +
+                             "Document number: " + blinkIdResult.documentNumber + fieldDelim +
+                             "Sex: " + blinkIdResult.sex + fieldDelim +
                              "Date of birth: " +
-                                  usdlResult.dateOfBirth.day + "." +
-                                  usdlResult.dateOfBirth.month + "." +
-                                  usdlResult.dateOfBirth.year + "." + fieldDelim + 
+                                  blinkIdResult.dateOfBirth.day + "." +
+                                  blinkIdResult.dateOfBirth.month + "." +
+                                  blinkIdResult.dateOfBirth.year + "." + fieldDelim +
                              "Date of issue: " +
-                                  usdlResult.dateOfIssue.day + "." +
-                                  usdlResult.dateOfIssue.month + "." +
-                                  usdlResult.dateOfIssue.year + "." + fieldDelim +
+                                  blinkIdResult.dateOfIssue.day + "." +
+                                  blinkIdResult.dateOfIssue.month + "." +
+                                  blinkIdResult.dateOfIssue.year + "." + fieldDelim +
                              "Date of expiry: " +
-                                  usdlResult.dateOfExpiry.day + "." +
-                                  usdlResult.dateOfExpiry.month + "." +
-                                  usdlResult.dateOfExpiry.year + "." + fieldDelim;
+                                  blinkIdResult.dateOfExpiry.day + "." +
+                                  blinkIdResult.dateOfExpiry.month + "." +
+                                  blinkIdResult.dateOfExpiry.year + "." + fieldDelim;
+                             // there are other fields to extract - check blinkIdScanner.js for full reference
                     } else {
                         resultDiv.innerHTML = "Result is empty!";
                     }
@@ -221,7 +166,7 @@ var app = {
                     alert('Error: ' + err);
                 },
 
-                documentOverlaySettings, recognizerCollection, licenseKeys
+                blinkidOverlaySettings, recognizerCollection, licenseKeys
             );
         });
 
