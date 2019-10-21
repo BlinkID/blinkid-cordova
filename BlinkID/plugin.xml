@@ -57,7 +57,6 @@
         <!-- ANDROID SOURCE FILES BEGIN -->
         <source-file src="src/android/java/com/phonegap/plugins/microblink/MicroblinkScanner.java" target-dir="src/com/phonegap/plugins/microblink" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/FakeR.java" target-dir="src/com/phonegap/plugins/microblink" />
-        <source-file src="src/android/java/com/phonegap/plugins/microblink/RecognizerType.java" target-dir="src/com/phonegap/plugins/microblink" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/OverlaySettingsSerialization.java" target-dir="src/com/phonegap/plugins/microblink/overlays" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/OverlaySettingsSerializers.java" target-dir="src/com/phonegap/plugins/microblink/overlays" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/overlays/serialization/DocumentVerificationOverlaySettingsSerialization.java" target-dir="src/com/phonegap/plugins/microblink/overlays/serialization" />
