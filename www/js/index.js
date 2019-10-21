@@ -58,8 +58,8 @@ var app = {
         // wrap recognizer with SuccessFrameGrabberRecognizer to obtain camera frame from the successful scan
 //        var mrtdSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(mrtdRecognizer);
 
-        // to scan any machine readable travel document (passports, visa's and IDs with 
-        // machine readable zone), use MrtdRecognizer
+        // BlinkIDRecognizer automatically classifies different document types and scans the data from
+        // the supported document
         var blinkIdRecognizer = new cordova.plugins.BlinkID.BlinkIdRecognizer();
         blinkIdRecognizer.returnFullDocumentImage = true;
         blinkIdRecognizer.returnFaceImage = true;
@@ -95,33 +95,6 @@ var app = {
                     documentImageDiv.style.visibility = "hidden"
                     faceImageDiv.style.visibility = "hidden"
 
-                    /*if (mrtdRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
-                        // Document image is returned as Base64 encoded JPEG
-                        var resultDocumentImage = mrtdRecognizer.result.fullDocumentImage;
-                        if (resultDocumentImage) {
-                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
-                            documentImageDiv.style.visibility = "visible";
-                        }
-
-                        // success frame is available in mrtdRecognizer's successFrameGrabber wrapper's result as Base64 encoded JPEG
-                        var successFrame = mrtdSuccessFrameGrabber.result.successFrame;
-                        if (successFrame) {
-                            successfulImage.src = "data:image/jpg;base64, " + successFrame;
-                            successfulImageDiv.style.visibility = "visible";
-                        }
-
-                        // fill data
-                        resultDiv.innerHTML = // Personal information
-                            "First name: " + mrtdRecognizer.result.mrzResult.secondaryId + "<br>" +
-                            "Last name: " + mrtdRecognizer.result.mrzResult.primaryId + "<br>" +
-                            "Nationality: " + mrtdRecognizer.result.mrzResult.nationality + "<br>" +
-                            "Gender: " + mrtdRecognizer.result.mrzResult.gender + "<br>" +
-                            "Date of birth: " +
-                                mrtdRecognizer.result.mrzResult.dateOfBirth.day + "." +
-                                mrtdRecognizer.result.mrzResult.dateOfBirth.month + "." +
-                                mrtdRecognizer.result.mrzResult.dateOfBirth.year + ". <br>";
-                            // there are other fields to extract - check blinkIdScanner.js for full reference
-                    } else */
                     if (blinkIdRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
                         var resultDocumentImage = blinkIdRecognizer.result.fullDocumentImage;
                         if (resultDocumentImage) {
