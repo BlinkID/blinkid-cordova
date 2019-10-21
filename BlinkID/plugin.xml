@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkid-cordova" 
-        version="4.11.1">
+        version="5.0.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -12,7 +12,7 @@
 
     <engines>
         <engine name="cordova" version=">=7.0.0" />
-        <engine name="cordova-android" version=">=7.0.0" />
+        <engine name="cordova-android" version=">=8.0.0" />
     </engines>   
 
     <js-module src="www/blinkIdScanner.js" name="BlinkIDScanner">
