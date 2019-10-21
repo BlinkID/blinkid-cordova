@@ -1,7 +1,6 @@
 package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
 import android.util.Base64;
 
 import com.microblink.entities.recognizers.Recognizer;
@@ -11,12 +10,14 @@ import com.microblink.image.Image;
 import com.microblink.results.date.Date;
 import com.microblink.results.date.DateResult;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import androidx.annotation.Nullable;
 
 public abstract class SerializationUtils {
     private static final int COMPRESSED_IMAGE_QUALITY = 90;

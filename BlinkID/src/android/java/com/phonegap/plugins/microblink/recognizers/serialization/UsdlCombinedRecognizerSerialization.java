@@ -32,7 +32,7 @@ public final class UsdlCombinedRecognizerSerialization implements RecognizerSeri
             SerializationUtils.addCommonResultData(jsonResult, result);
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", result.getDigitalSignatureVersion());
-            jsonResult.put("documentDataMatch", result.isDocumentDataMatch());
+            jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
