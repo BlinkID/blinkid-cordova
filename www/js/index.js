@@ -82,6 +82,8 @@ var app = {
             
                 // Register the callback handler
                 function callback(cancelled) {
+
+                    resultDiv.innerHTML = "";
                     
                     // handle cancelled scanning
                     if (cancelled) {
@@ -110,25 +112,35 @@ var app = {
                         var fieldDelim = "<br>";
                         var blinkIdResult = blinkIdRecognizer.result;
 
-                        resultDiv.innerHTML = /** Personal information */
-                             "First name: " + blinkIdResult.firstName + fieldDelim +
-                             "Last name: " + blinkIdResult.lastName + fieldDelim +
-                             "Address: " + blinkIdResult.address + fieldDelim +
-                             "Document number: " + blinkIdResult.documentNumber + fieldDelim +
-                             "Sex: " + blinkIdResult.sex + fieldDelim +
-                             "Date of birth: " +
-                                  blinkIdResult.dateOfBirth.day + "." +
-                                  blinkIdResult.dateOfBirth.month + "." +
-                                  blinkIdResult.dateOfBirth.year + "." + fieldDelim +
-                             "Date of issue: " +
-                                  blinkIdResult.dateOfIssue.day + "." +
-                                  blinkIdResult.dateOfIssue.month + "." +
-                                  blinkIdResult.dateOfIssue.year + "." + fieldDelim +
-                             "Date of expiry: " +
-                                  blinkIdResult.dateOfExpiry.day + "." +
-                                  blinkIdResult.dateOfExpiry.month + "." +
-                                  blinkIdResult.dateOfExpiry.year + "." + fieldDelim;
-                             // there are other fields to extract - check blinkIdScanner.js for full reference
+                        var resultString =
+                            "First name: " + blinkIdResult.firstName + fieldDelim +
+                            "Last name: " + blinkIdResult.lastName + fieldDelim +
+                            "Address: " + blinkIdResult.address + fieldDelim +
+                            "Document number: " + blinkIdResult.documentNumber + fieldDelim +
+                            "Sex: " + blinkIdResult.sex + fieldDelim;
+                        if (blinkIdResult.dateOfBirth) {
+                            resultString +=
+                                "Date of birth: " +
+                                    blinkIdResult.dateOfBirth.day + "." +
+                                    blinkIdResult.dateOfBirth.month + "." +
+                                    blinkIdResult.dateOfBirth.year + "." + fieldDelim;
+                        }
+                        if (blinkIdResult.dateOfIssue) {
+                            resultString +=
+                                "Date of issue: " +
+                                    blinkIdResult.dateOfIssue.day + "." +
+                                    blinkIdResult.dateOfIssue.month + "." +
+                                    blinkIdResult.dateOfIssue.year + "." + fieldDelim;
+                        }
+                        if (blinkIdResult.dateOfExpiry) {
+                            resultString +=
+                                "Date of expiry: " +
+                                    blinkIdResult.dateOfExpiry.day + "." +
+                                    blinkIdResult.dateOfExpiry.month + "." +
+                                    blinkIdResult.dateOfExpiry.year + "." + fieldDelim;
+                        }
+                        // there are other fields to extract - check blinkIdScanner.js for full reference
+                        resultDiv.innerHTML = resultString;
                     } else {
                         resultDiv.innerHTML = "Result is empty!";
                     }
