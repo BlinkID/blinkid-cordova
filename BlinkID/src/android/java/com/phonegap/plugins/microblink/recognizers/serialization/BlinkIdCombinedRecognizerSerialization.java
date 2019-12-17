@@ -11,6 +11,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.generic.BlinkIdCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.generic.BlinkIdCombinedRecognizer();
+        recognizer.setAllowBlurFilter(jsonRecognizer.optBoolean("allowBlurFilter", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
