@@ -41,14 +41,18 @@ var app = {
         var successfulImageDiv = document.getElementById('successfulImageDiv');
         var successfulImage = document.getElementById('successfulImage');
 
-        var documentImageDiv = document.getElementById('documentImageDiv');
-        var documentImage = document.getElementById('documentImage');
+        var documentFrontImageDiv = document.getElementById('documentFrontImageDiv');
+        var documentFrontImage = document.getElementById('documentFrontImage');
+
+        var documentBackImageDiv = document.getElementById('documentBackImageDiv');
+        var documentBackImage = document.getElementById('documentBackImage');
 
         var faceImageDiv = document.getElementById('faceImageDiv');
         var faceImage = document.getElementById('faceImage');
 
         successfulImageDiv.style.visibility = "hidden"
-        documentImageDiv.style.visibility = "hidden"
+        documentFrontImageDiv.style.visibility = "hidden"
+        documentBackImageDiv.style.visibility = "hidden"
         faceImageDiv.style.visibility = "hidden"
 
         // to scan any machine readable travel document (passports, visa's and IDs with 
@@ -94,19 +98,25 @@ var app = {
                     // if not cancelled, every recognizer will have its result property updated
 
                     successfulImageDiv.style.visibility = "hidden"
-                    documentImageDiv.style.visibility = "hidden"
+                    documentFrontImageDiv.style.visibility = "hidden"
+                    documentBackImageDiv.style.visibility = "hidden"
                     faceImageDiv.style.visibility = "hidden"
 
                     if (blinkIdCombinedRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
-                        var resultDocumentImage = blinkIdCombinedRecognizer.result.fullDocumentImage;
-                        if (resultDocumentImage) {
-                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
-                            documentImageDiv.style.visibility = "visible";
+                        var resultDocumentFrontImage = blinkIdCombinedRecognizer.result.fullDocumentFrontImage;
+                        if (resultDocumentFrontImage) {
+                            resultDocumentFrontImage.src = "data:image/jpg;base64, " + resultDocumentFrontImage;
+                            documentFrontImageDiv.style.visibility = "visible";
                         }
                         var resultFaceImage = blinkIdCombinedRecognizer.result.faceImage;
                         if (resultFaceImage) {
                             faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
                             faceImageDiv.style.visibility = "visible";
+                        }
+                        var resultDocumentBackImage = blinkIdCombinedRecognizer.result.resultDocumentBackImage;
+                        if (resultDocumentBackImage) {
+                            resultDocumentBackImage.src = "data:image/jpg;base64, " + resultDocumentBackImage;
+                            documentBackImageDiv.style.visibility = "visible";
                         }
 
                         var fieldDelim = "<br>";
