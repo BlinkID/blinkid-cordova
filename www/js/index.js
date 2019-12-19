@@ -41,14 +41,18 @@ var app = {
         var successfulImageDiv = document.getElementById('successfulImageDiv');
         var successfulImage = document.getElementById('successfulImage');
 
-        var documentImageDiv = document.getElementById('documentImageDiv');
-        var documentImage = document.getElementById('documentImage');
+        var documentFrontImageDiv = document.getElementById('documentFrontImageDiv');
+        var documentFrontImage = document.getElementById('documentFrontImage');
+
+        var documentBackImageDiv = document.getElementById('documentBackImageDiv');
+        var documentBackImage = document.getElementById('documentBackImage');
 
         var faceImageDiv = document.getElementById('faceImageDiv');
         var faceImage = document.getElementById('faceImage');
 
         successfulImageDiv.style.visibility = "hidden"
-        documentImageDiv.style.visibility = "hidden"
+        documentFrontImageDiv.style.visibility = "hidden"
+        documentBackImageDiv.style.visibility = "hidden"
         faceImageDiv.style.visibility = "hidden"
 
         // to scan any machine readable travel document (passports, visa's and IDs with 
@@ -58,23 +62,23 @@ var app = {
         // wrap recognizer with SuccessFrameGrabberRecognizer to obtain camera frame from the successful scan
 //        var mrtdSuccessFrameGrabber = new cordova.plugins.BlinkID.SuccessFrameGrabberRecognizer(mrtdRecognizer);
 
-        // BlinkIDRecognizer automatically classifies different document types and scans the data from
+        // BlinkIDCombinedRecognizer automatically classifies different document types and scans the data from
         // the supported document
-        var blinkIdRecognizer = new cordova.plugins.BlinkID.BlinkIdRecognizer();
-        blinkIdRecognizer.returnFullDocumentImage = true;
-        blinkIdRecognizer.returnFaceImage = true;
+        var blinkIdCombinedRecognizer = new cordova.plugins.BlinkID.BlinkIdCombinedRecognizer();
+        blinkIdCombinedRecognizer.returnFullDocumentImage = true;
+        blinkIdCombinedRecognizer.returnFaceImage = true;
 
         // there are lots of Recognizer objects in BlinkID - check blinkIdScanner.js for full reference
 
         var blinkidOverlaySettings = new cordova.plugins.BlinkID.BlinkIdOverlaySettings();
 
         // create RecognizerCollection from any number of recognizers that should perform recognition
-        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([blinkIdRecognizer /*, mrtdSuccessFrameGrabber */]);
+        var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([blinkIdCombinedRecognizer /*, mrtdSuccessFrameGrabber */]);
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
-            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/uxZPHEBpL6LHXqPogMlETCNKjFP9T0z4TWTOJHROqlTx/kfMKYmpqvZN7v3J6f3+/kQflgDR0tvDECMzG1iXlfUJWnQXpABOO6F8sLzJmbJO7TjJv1DAjuv+2D1uez1LjErzyqCy7jFrtjpza9uUCLMrFopL9KuQ1/N+jxW/byQl6BtUeaj1IYBZzAhrUDBofLSlv6WC9GUrCqmO+TdgQvjUiSfx/60kU7bmBZX/T6A2hAfGvRWpfKo12NYs3a',
-            ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++pNbzF7dz9sUsKWf1O171v7p1KOz04YJKGXS2t3YVBp5x38oTYfdsfXwga2Ki4o9RYh+wdvBZ9bAE08ZydNo4qTKZjU/oLXyLApN6fUTtpRfiLZylZNy/lUIq54jhl630DoQxMvx4FahFrhvpXvr97k+s+W1S/+recESxqIr4wn096VTnymYygiS3QUzv8NZRmSYzfk6QBQ1Lz61UjTBgGHI45atU1HU9FMzjullnPrW3pU6lQYDlx3h7Jcn59'
+            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/uxZPXcApL6+YU0qR1SNvPfKyc5E00is1auAGGbyzPE6yLmrUG5ceNJjfJE7ihlZKLIl0orBS45M/k6U8LXcRyIxr/MXp8rnfn9vzGJg64yQYrIT/FdNK10BPq6Lcrf9dzbxXwiZQyUn9fMJTQdmkPwtm9HWllLfKMNFXGYOEgyg6NmbpmXn1Vbb9GGACKkJeO1zIaNqxCOkRmRITslkbIZrbjvKrBEqWs3LWFdxcQbhzLINYzNlGOW0TlgrQVE1YzLxw==',
+            ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++pNbi97tyK509NZKKdrPKO7LUkgQ3Y08FFOY/IuFiDmjbTswsq/T80cjYEmEZBKY/ksAAR2mtdd4SycKJTKAttKgg1yzeImVi6ueb/Vt5iH4LiL+ZKVDapJsGU2e5vvCfkMpd4cPbtRBS3+PBxR3RSPHKVprHZ0aDTwVoKu5bw2thcFyoZGbvQuSDtAA4eUyuPk/QT5CHe+IUfCpJ2NqHWxRRLkDWEbSsTCzdbz9eRFPUk0DvR5Glk7KCOXHMdFZfm4A=='
         };
 
         scanButton.addEventListener('click', function() {
@@ -94,23 +98,29 @@ var app = {
                     // if not cancelled, every recognizer will have its result property updated
 
                     successfulImageDiv.style.visibility = "hidden"
-                    documentImageDiv.style.visibility = "hidden"
+                    documentFrontImageDiv.style.visibility = "hidden"
+                    documentBackImageDiv.style.visibility = "hidden"
                     faceImageDiv.style.visibility = "hidden"
 
-                    if (blinkIdRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
-                        var resultDocumentImage = blinkIdRecognizer.result.fullDocumentImage;
-                        if (resultDocumentImage) {
-                            documentImage.src = "data:image/jpg;base64, " + resultDocumentImage;
-                            documentImageDiv.style.visibility = "visible";
+                    if (blinkIdCombinedRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
+                        var resultDocumentFrontImage = blinkIdCombinedRecognizer.result.fullDocumentFrontImage;
+                        if (resultDocumentFrontImage) {
+                            documentFrontImage.src = "data:image/jpg;base64, " + resultDocumentFrontImage;
+                            documentFrontImageDiv.style.visibility = "visible";
                         }
-                        var resultFaceImage = blinkIdRecognizer.result.faceImage;
+                        var resultDocumentBackImage = blinkIdCombinedRecognizer.result.fullDocumentBackImage;
+                        if (resultDocumentBackImage) {
+                            documentBackImage.src = "data:image/jpg;base64, " + resultDocumentBackImage;
+                            documentBackImageDiv.style.visibility = "visible";
+                        }
+                        var resultFaceImage = blinkIdCombinedRecognizer.result.faceImage;
                         if (resultFaceImage) {
                             faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
                             faceImageDiv.style.visibility = "visible";
                         }
 
                         var fieldDelim = "<br>";
-                        var blinkIdResult = blinkIdRecognizer.result;
+                        var blinkIdResult = blinkIdCombinedRecognizer.result;
 
                         var resultString =
                             "First name: " + blinkIdResult.firstName + fieldDelim +
