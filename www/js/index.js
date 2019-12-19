@@ -64,7 +64,7 @@ var app = {
 
         // BlinkIDCombinedRecognizer automatically classifies different document types and scans the data from
         // the supported document
-        var blinkIdCombinedRecognizer = new cordova.plugins.BlinkID.BlinkIDCombinedRecognizer();
+        var blinkIdCombinedRecognizer = new cordova.plugins.BlinkID.BlinkIdCombinedRecognizer();
         blinkIdCombinedRecognizer.returnFullDocumentImage = true;
         blinkIdCombinedRecognizer.returnFaceImage = true;
 
@@ -105,18 +105,18 @@ var app = {
                     if (blinkIdCombinedRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
                         var resultDocumentFrontImage = blinkIdCombinedRecognizer.result.fullDocumentFrontImage;
                         if (resultDocumentFrontImage) {
-                            resultDocumentFrontImage.src = "data:image/jpg;base64, " + resultDocumentFrontImage;
+                            documentFrontImage.src = "data:image/jpg;base64, " + resultDocumentFrontImage;
                             documentFrontImageDiv.style.visibility = "visible";
+                        }
+                        var resultDocumentBackImage = blinkIdCombinedRecognizer.result.fullDocumentBackImage;
+                        if (resultDocumentBackImage) {
+                            documentBackImage.src = "data:image/jpg;base64, " + resultDocumentBackImage;
+                            documentBackImageDiv.style.visibility = "visible";
                         }
                         var resultFaceImage = blinkIdCombinedRecognizer.result.faceImage;
                         if (resultFaceImage) {
                             faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
                             faceImageDiv.style.visibility = "visible";
-                        }
-                        var resultDocumentBackImage = blinkIdCombinedRecognizer.result.resultDocumentBackImage;
-                        if (resultDocumentBackImage) {
-                            resultDocumentBackImage.src = "data:image/jpg;base64, " + resultDocumentBackImage;
-                            documentBackImageDiv.style.visibility = "visible";
                         }
 
                         var fieldDelim = "<br>";
