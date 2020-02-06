@@ -17,6 +17,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
+        recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
         return recognizer;
     }
 
@@ -33,6 +34,8 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
+            jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
+            jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentAdditionalNumber", result.getDocumentAdditionalNumber());
             jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
@@ -45,6 +48,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("fullName", result.getFullName());
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());
             jsonResult.put("lastName", result.getLastName());
+            jsonResult.put("localizedName", result.getLocalizedName());
             jsonResult.put("maritalStatus", result.getMaritalStatus());
             jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
             jsonResult.put("nationality", result.getNationality());

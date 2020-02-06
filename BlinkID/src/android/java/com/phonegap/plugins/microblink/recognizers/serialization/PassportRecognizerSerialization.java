@@ -11,6 +11,7 @@ public final class PassportRecognizerSerialization implements RecognizerSerializ
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
         com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer();
+        recognizer.setAnonymizeNetherlandsMrz(jsonRecognizer.optBoolean("anonymizeNetherlandsMrz", true));
         recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));

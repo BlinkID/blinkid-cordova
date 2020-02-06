@@ -541,6 +541,16 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /** 
+     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     */
+    this.digitalSignature = nativeResult.digitalSignature;
+    
+    /** 
+     * Version of the digital signature. Available only if enabled with signResult property. 
+     */
+    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
+    
+    /** 
      * The additional number of the document. 
      */
     this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;
@@ -602,6 +612,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * The last name of the document owner. 
      */
     this.lastName = nativeResult.lastName;
+    
+    /** 
+     * The localized name of the document owner. 
+     */
+    this.localizedName = nativeResult.localizedName;
     
     /** 
      * The marital status of the document owner. 
@@ -679,6 +694,16 @@ function BlinkIdCombinedRecognizer() {
     this.allowBlurFilter = true;
     
     /** 
+     * Document not supported classifier delegate 
+     */
+    this.classifierDelegate = null;
+    
+    /** 
+     * Full document dewarped imagedelegate 
+     */
+    this.dewarpedImageDelegate = null;
+    
+    /** 
      * Property for setting DPI for face images
      * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
      * 
@@ -715,6 +740,13 @@ function BlinkIdCombinedRecognizer() {
      *  
      */
     this.returnFullDocumentImage = false;
+    
+    /** 
+     * Whether or not recognition result should be signed.
+     * 
+     *  
+     */
+    this.signResult = false;
     
     this.createResultFromNative = function (nativeResult) { return new BlinkIdCombinedRecognizerResult(nativeResult); }
 
@@ -816,6 +848,11 @@ function BlinkIdRecognizerResult(nativeResult) {
     this.lastName = nativeResult.lastName;
     
     /** 
+     * The localized name of the document owner. 
+     */
+    this.localizedName = nativeResult.localizedName;
+    
+    /** 
      * The marital status of the document owner. 
      */
     this.maritalStatus = nativeResult.maritalStatus;
@@ -883,6 +920,16 @@ function BlinkIdRecognizer() {
      *  
      */
     this.allowBlurFilter = true;
+    
+    /** 
+     * Document not supported classifier delegate 
+     */
+    this.classifierDelegate = null;
+    
+    /** 
+     * Full document dewarped imagedelegate 
+     */
+    this.dewarpedImageDelegate = null;
     
     /** 
      * Property for setting DPI for face images
@@ -1151,6 +1198,12 @@ function MrtdCombinedRecognizer() {
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
+     * Filter for MRTDs (Machine Readable Travel Documents) that is used to determine which documents
+     * will be processed. If document is filtered out by this filter, its data cannot be returned as recognition result. 
+     */
+    this.mrzCombinedFilterDelegate = null;
+    
+    /** 
      * Defines how many times the same document should be detected before the detector
      * returns this document as a result of the deteciton
      * 
@@ -1263,6 +1316,12 @@ function MrtdRecognizer() {
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
     
     /** 
+     * Filter for MRTDs (Machine Readable Travel Documents) that is used to determine which documents
+     * will be processed. If document is filtered out by this filter, its data cannot be returned as recognition result. 
+     */
+    this.mrzFilterDelegate = null;
+    
+    /** 
      * Sets whether full document image of ID card should be extracted.
      * 
      *  
@@ -1309,6 +1368,13 @@ BlinkID.prototype.PassportRecognizerResult = PassportRecognizerResult;
  */
 function PassportRecognizer() {
     Recognizer.call(this, 'PassportRecognizer');
+    
+    /** 
+     * Defines whether to anonymize Netherlands MRZ
+     * 
+     *  
+     */
+    this.anonymizeNetherlandsMrz = true;
     
     /** 
      * Defines if glare detection should be turned on/off.
