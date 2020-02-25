@@ -1,4 +1,5 @@
 # BlinkID SDK wrapper for PhoneGap
+# Remove camera permission so it will be compatible with other camera plugins
 
 This repository contains example wrapper for BlinkID native SDKs ([iOS](https://github.com/BlinkID/blinkid-ios) and [Android](https://github.com/BlinkID/blinkid-android)). Not all features of native SDKs are available in PhoneGap wrapper. However, the wrapper is open source, so you can easily add features that you need. For 100% of features and maximum control, consider using native SDKs.
 
