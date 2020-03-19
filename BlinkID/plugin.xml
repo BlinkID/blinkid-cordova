@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkid-cordova" 
-        version="5.2.0">
+        version="5.3.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -68,6 +68,7 @@
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/SuccessFrameGrabberRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MrtdRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/MrtdCombinedRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
+        <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/IdBarcodeRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BlinkIdRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/BlinkIDSerializationUtils.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
         <source-file src="src/android/java/com/phonegap/plugins/microblink/recognizers/serialization/UsdlRecognizerSerialization.java" target-dir="src/com/phonegap/plugins/microblink/recognizers/serialization" />
@@ -117,6 +118,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMrtdCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlCombinedRecognizerWrapper.m" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBIdBarcodeRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkIdRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBVisaRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBDocumentFaceRecognizerWrapper.h" />
@@ -126,6 +128,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSuccessFrameGrabberRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMrtdRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkIdRecognizerWrapper.m" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBIdBarcodeRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlCombinedRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.h" />
         <!-- IOS SOURCE FILES END -->

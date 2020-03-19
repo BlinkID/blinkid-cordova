@@ -216,6 +216,34 @@ BlinkID.prototype.MrtdDocumentType = Object.freeze(
 );
 
 /**
+ * Possible types of documents scanned with IdBarcodeRecognizer.
+ */
+BlinkID.prototype.IdBarcodeDocumentType = Object.freeze(
+    {
+        /** No document was scanned */
+        None: 1,
+        /** AAMVACompliant document was scanned */
+        AAMVACompliant: 2,
+        /** Argentina ID document was scanned */
+        ArgentinaID: 3,
+        /** Argentina driver license document was scanned */
+        ArgentinaDL: 4,
+        /** Colombia ID document was scanned */
+        ColombiaID: 5,
+        /** Colombia driver license document was scanned */
+        ColombiaDL: 6,
+        /** NigeriaVoter ID document was scanned */
+        NigeriaVoterID: 7,
+        /** Nigeria driver license document was scanned */
+        NigeriaDL: 8,
+        /** Panama ID document was scanned */
+        PanamaID: 9,
+        /** SouthAfrica ID document was scanned */
+        SouthAfricaID: 10
+    }
+);
+
+/**
  * Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
  */
 function MrzResult(nativeMRZResult) {
@@ -455,6 +483,82 @@ BlinkID.prototype.DocumentVerificationOverlaySettings = DocumentVerificationOver
  */
 function BlinkIdOverlaySettings() {
     OverlaySettings.call(this, 'BlinkIdOverlaySettings');
+    /**
+    * String: message that is shown while scanning first side of the document.
+    * If null, default value will be used.
+    */
+    this.firstSideInstructionsText = null;
+    /**
+    * String: instructions to flip document, shown when scanning of the first side is done, before scanning the second
+    * side of the document.
+    * If null, default value will be used.
+    */
+    this.flipInstructions = null;
+    /**
+    * String: instructions for the user to move the document closer.
+    * If null, default value will be used.
+    */
+    this.errorMoveCloser = null;
+    /**
+    * String: instructions for the user to move the document farther.
+    * If null, default value will be used.
+    */
+    this.errorMoveFarther = null;
+    /**
+    * String: title of the dialog, which is shown when scanned document sides are not from the same document.
+    * If null, default value will be used.
+    */
+    this.sidesNotMatchingTitle = null;
+    /**
+    * String: message inside dialog, which is shown when scanned document sides are not from the same document.
+    * If null, default value will be used.
+    */
+    this.sidesNotMatchingMessage = null;
+    /**
+    * String: title of the dialog, which is shown when unsupported document is scanned.
+    * If null, default value will be used.
+    */
+    this.unsupportedDocumentTitle = null;
+    /**
+    * String: message inside dialog, which is shown when unsupported document is scanned.
+    * If null, default value will be used.
+    */
+    this.unsupportedDocumentMessage = null;
+    /**
+    * String: title of the dialog, which is shown on timeout when scanning is stuck on the back document side.
+    * If null, default value will be used.
+    */
+    this.recognitionTimeoutTitle = null;
+    /**
+    * String: message inside dialog, which is shown on timeout when scanning is stuck on the back document side.
+    * If null, default value will be used.
+    */
+    this.recognitionTimeoutMessage = null;
+    /**
+    * String: text of the "retry" button inside dialog, which is shown on timeout when scanning is stuck on the back
+    * document side.
+    */
+    this.retryButtonText = null;
+
+    /**
+     * If true, BlinkIdCombinedRecognizer will check if sides do match when scanning is finished
+     * Default: true
+     */
+    this.requireDocumentSidesDataMatch = true;
+
+    /**
+     * Defines whether Document Not Supported dialog will be displayed in UI.
+     *
+     * Default: true
+    */
+    this.showNotSupportedDialog = true;
+
+    /**
+     * Option to configure back side scanning timeout.
+     *
+     * Default: 17000
+    */
+    this.backSideScanningTimeoutMilliseconds = 17000;
 }
 BlinkIdOverlaySettings.prototype = new OverlaySettings();
 
@@ -534,6 +638,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * The date of expiry of the document. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
+    
+    /** 
+     * Determines if date of expiry is permanent. 
+     */
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
     
     /** 
      * The date of issue of the document. 
@@ -694,6 +803,21 @@ function BlinkIdCombinedRecognizer() {
     this.allowBlurFilter = true;
     
     /** 
+     * Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
+     * 
+     *  
+     */
+    this.allowUnparsedMrzResults = false;
+    
+    /** 
+     * Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed
+     * Unverified MRZ is parsed, but check digits are incorrect
+     * 
+     *  
+     */
+    this.allowUnverifiedMrzResults = true;
+    
+    /** 
      * Document not supported classifier delegate 
      */
     this.classifierDelegate = null;
@@ -791,6 +915,11 @@ function BlinkIdRecognizerResult(nativeResult) {
      * The date of expiry of the document. 
      */
     this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
+    
+    /** 
+     * Determines if date of expiry is permanent. 
+     */
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
     
     /** 
      * The date of issue of the document. 
@@ -920,6 +1049,21 @@ function BlinkIdRecognizer() {
      *  
      */
     this.allowBlurFilter = true;
+    
+    /** 
+     * Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
+     * 
+     *  
+     */
+    this.allowUnparsedMrzResults = false;
+    
+    /** 
+     * Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed
+     * Unverified MRZ is parsed, but check digits are incorrect
+     * 
+     *  
+     */
+    this.allowUnverifiedMrzResults = true;
     
     /** 
      * Document not supported classifier delegate 
@@ -1079,6 +1223,172 @@ function DocumentFaceRecognizer() {
 DocumentFaceRecognizer.prototype = new Recognizer('DocumentFaceRecognizer');
 
 BlinkID.prototype.DocumentFaceRecognizer = DocumentFaceRecognizer;
+
+/**
+ * Result object for IdBarcodeRecognizer.
+ */
+function IdBarcodeRecognizerResult(nativeResult) {
+    RecognizerResult.call(this, nativeResult.resultState);
+    
+    /** 
+     * THe additional address information of the document owner. 
+     */
+    this.additionalAddressInformation = nativeResult.additionalAddressInformation;
+    
+    /** 
+     * The additional name information of the document owner. 
+     */
+    this.additionalNameInformation = nativeResult.additionalNameInformation;
+    
+    /** 
+     * The address of the document owner. 
+     */
+    this.address = nativeResult.address;
+    
+    /** 
+     * Type of the barcode scanned
+     * 
+     *  @return Type of the barcode 
+     */
+    this.barcodeType = nativeResult.barcodeType;
+    
+    /** 
+     * The date of birth of the document owner. 
+     */
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
+    
+    /** 
+     * The date of expiry of the document. 
+     */
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
+    
+    /** 
+     * The date of issue of the document. 
+     */
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    
+    /** 
+     * The additional number of the document. 
+     */
+    this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;
+    
+    /** 
+     * The document number. 
+     */
+    this.documentNumber = nativeResult.documentNumber;
+    
+    /** 
+     * The document type deduced from the recognized barcode
+     * 
+     *  @return Type of the document 
+     */
+    this.documentType = nativeResult.documentType;
+    
+    /** 
+     * The employer of the document owner. 
+     */
+    this.employer = nativeResult.employer;
+    
+    /** 
+     * The first name of the document owner. 
+     */
+    this.firstName = nativeResult.firstName;
+    
+    /** 
+     * The full name of the document owner. 
+     */
+    this.fullName = nativeResult.fullName;
+    
+    /** 
+     * The issuing authority of the document. 
+     */
+    this.issuingAuthority = nativeResult.issuingAuthority;
+    
+    /** 
+     * The last name of the document owner. 
+     */
+    this.lastName = nativeResult.lastName;
+    
+    /** 
+     * The marital status of the document owner. 
+     */
+    this.maritalStatus = nativeResult.maritalStatus;
+    
+    /** 
+     * The nationality of the documet owner. 
+     */
+    this.nationality = nativeResult.nationality;
+    
+    /** 
+     * The personal identification number. 
+     */
+    this.personalIdNumber = nativeResult.personalIdNumber;
+    
+    /** 
+     * The place of birth of the document owner. 
+     */
+    this.placeOfBirth = nativeResult.placeOfBirth;
+    
+    /** 
+     * The profession of the document owner. 
+     */
+    this.profession = nativeResult.profession;
+    
+    /** 
+     * The race of the document owner. 
+     */
+    this.race = nativeResult.race;
+    
+    /** 
+     * Byte array with result of the scan 
+     */
+    this.rawData = nativeResult.rawData;
+    
+    /** 
+     * The religion of the document owner. 
+     */
+    this.religion = nativeResult.religion;
+    
+    /** 
+     * The residential stauts of the document owner. 
+     */
+    this.residentialStatus = nativeResult.residentialStatus;
+    
+    /** 
+     * The sex of the document owner. 
+     */
+    this.sex = nativeResult.sex;
+    
+    /** 
+     * Retrieves string content of scanned data 
+     */
+    this.stringData = nativeResult.stringData;
+    
+    /** 
+     * Flag indicating uncertain scanning data
+     * E.g obtained from damaged barcode. 
+     */
+    this.uncertain = nativeResult.uncertain;
+    
+}
+
+IdBarcodeRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
+
+BlinkID.prototype.IdBarcodeRecognizerResult = IdBarcodeRecognizerResult;
+
+/**
+ * The ID Barcode Recognizer is used for scanning ID Barcode.
+ */
+function IdBarcodeRecognizer() {
+    Recognizer.call(this, 'IdBarcodeRecognizer');
+    
+    this.createResultFromNative = function (nativeResult) { return new IdBarcodeRecognizerResult(nativeResult); }
+
+}
+
+IdBarcodeRecognizer.prototype = new Recognizer('IdBarcodeRecognizer');
+
+BlinkID.prototype.IdBarcodeRecognizer = IdBarcodeRecognizer;
 
 /**
  * Result object for MrtdCombinedRecognizer.

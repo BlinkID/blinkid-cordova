@@ -100,4 +100,12 @@ public abstract class SerializationUtils {
         jsonQuad.put("lowerRight", serializePoint(quad.getLowerRight()));
         return jsonQuad;
     }
+
+    public static String getStringFromJSONObject(JSONObject map, String key) {
+        String value = map.optString(key, null);
+        if ("null".equals(value)) {
+            value = null;
+        }
+        return value;
+    }
 }

@@ -10,6 +10,8 @@ import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerialization;
 
 import org.json.JSONObject;
 
+import static com.phonegap.plugins.microblink.recognizers.serialization.SerializationUtils.getStringFromJSONObject;
+
 public final class DocumentVerificationOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
@@ -39,14 +41,6 @@ public final class DocumentVerificationOverlaySettingsSerialization implements O
         settings.setStrings(overlasStringsBuilder.build());
 
         return settings;
-    }
-
-    private String getStringFromJSONObject(JSONObject map, String key) {
-        String value = map.optString(key, null);
-        if ("null".equals(value)) {
-            value = null;
-        }
-        return value;
     }
 
     @Override
