@@ -23,8 +23,8 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         boolean showNotSupportedDialog = jsonUISettings.optBoolean("showNotSupportedDialog", true);
         settings.setShowNotSupportedDialog(showNotSupportedDialog);
 
-        long backSideScanningTimeoutMiliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17_00);
-        settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMiliseconds);
+        long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
+        settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
 
         ReticleOverlayStrings.Builder overlasStringsBuilder = new ReticleOverlayStrings.Builder(context);
 
