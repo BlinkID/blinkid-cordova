@@ -118,6 +118,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBMrtdCombinedRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.m" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlCombinedRecognizerWrapper.m" />
+        <source-file src="src/ios/sources/Recognizers/Wrappers/MBIdBarcodeRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkIdRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBVisaRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBDocumentFaceRecognizerWrapper.h" />
@@ -127,6 +128,7 @@
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBSuccessFrameGrabberRecognizerWrapper.m" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBMrtdRecognizerWrapper.h" />
         <source-file src="src/ios/sources/Recognizers/Wrappers/MBBlinkIdRecognizerWrapper.m" />
+        <header-file src="src/ios/sources/Recognizers/Wrappers/MBIdBarcodeRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBUsdlCombinedRecognizerWrapper.h" />
         <header-file src="src/ios/sources/Recognizers/Wrappers/MBPassportRecognizerWrapper.h" />
         <!-- IOS SOURCE FILES END -->
