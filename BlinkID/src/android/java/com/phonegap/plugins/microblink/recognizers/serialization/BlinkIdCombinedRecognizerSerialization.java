@@ -17,9 +17,11 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
+        recognizer.setPaddingEdge((float)jsonRecognizer.optDouble("paddingEdge", 0.0));
         recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
+        recognizer.setSkipUnsupportedBack(jsonRecognizer.optBoolean("skipUnsupportedBack", false));
         return recognizer;
     }
 
@@ -32,6 +34,8 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("additionalAddressInformation", result.getAdditionalAddressInformation());
             jsonResult.put("additionalNameInformation", result.getAdditionalNameInformation());
             jsonResult.put("address", result.getAddress());
+            jsonResult.put("age", result.getAge());
+            jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
             jsonResult.put("conditions", result.getConditions());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
@@ -40,7 +44,9 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentAdditionalNumber", result.getDocumentAdditionalNumber());
+            jsonResult.put("documentBackImageColorStatus", SerializationUtils.serializeEnum(result.getDocumentBackImageColorStatus()));
             jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
+            jsonResult.put("documentFrontImageColorStatus", SerializationUtils.serializeEnum(result.getDocumentFrontImageColorStatus()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
             jsonResult.put("employer", result.getEmployer());
