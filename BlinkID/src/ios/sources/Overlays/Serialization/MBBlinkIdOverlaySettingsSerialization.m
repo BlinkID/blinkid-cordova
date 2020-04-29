@@ -127,6 +127,20 @@
             sett.backSideScanningTimeout = [backSideScanningTimeoutMilliseconds doubleValue] / 1000.0;
         }
     }
+    
+    {
+        id scanBarcodeText = [jsonOverlaySettings valueForKey:@"scanBarcodeText"];
+        if (scanBarcodeText != nil) {
+            sett.scanBarcodeText = (NSString *)scanBarcodeText;
+        }
+    }
+    
+    {
+        id errorDocumentTooCloseToEdge = [jsonOverlaySettings valueForKey:@"errorDocumentTooCloseToEdge"];
+        if (errorDocumentTooCloseToEdge != nil) {
+            sett.errorDocumentTooCloseToEdge = (NSString *)errorDocumentTooCloseToEdge;
+        }
+    }
 
     return [[MBBlinkIdOverlayViewController alloc] initWithSettings:sett recognizerCollection:recognizerCollection delegate:self];
 }

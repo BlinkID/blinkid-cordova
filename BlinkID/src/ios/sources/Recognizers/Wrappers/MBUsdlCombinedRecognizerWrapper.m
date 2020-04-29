@@ -77,6 +77,7 @@
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.faceImage] forKey:@"faceImage"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentImage] forKey:@"fullDocumentImage"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.scanningFirstSideDone] forKey:@"scanningFirstSideDone"];
+    [jsonResult setValue:[NSNumber numberWithInteger:self.result.age] forKey:@"age"];
     
     [jsonResult setValue:self.result.firstName forKey:@"firstName"];
     [jsonResult setValue:self.result.lastName forKey:@"lastName"];
