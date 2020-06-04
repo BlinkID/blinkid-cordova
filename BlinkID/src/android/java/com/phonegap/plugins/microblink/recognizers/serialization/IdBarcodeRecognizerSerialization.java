@@ -2,6 +2,7 @@ package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
+import com.phonegap.plugins.microblink.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +10,7 @@ import org.json.JSONObject;
 public final class IdBarcodeRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer();
         return recognizer;
     }
@@ -19,7 +20,7 @@ public final class IdBarcodeRecognizerSerialization implements RecognizerSeriali
         com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
-            SerializationUtils.addCommonResultData(jsonResult, result);
+            SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
             jsonResult.put("additionalAddressInformation", result.getAdditionalAddressInformation());
             jsonResult.put("additionalNameInformation", result.getAdditionalNameInformation());
             jsonResult.put("address", result.getAddress());
@@ -32,6 +33,7 @@ public final class IdBarcodeRecognizerSerialization implements RecognizerSeriali
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("documentType", SerializationUtils.serializeEnum(result.getDocumentType()));
             jsonResult.put("employer", result.getEmployer());
+            jsonResult.put("endorsements", result.getEndorsements());
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullName", result.getFullName());
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());
@@ -45,9 +47,11 @@ public final class IdBarcodeRecognizerSerialization implements RecognizerSeriali
             jsonResult.put("rawData", SerializationUtils.encodeByteArrayToBase64(result.getRawData()));
             jsonResult.put("religion", result.getReligion());
             jsonResult.put("residentialStatus", result.getResidentialStatus());
+            jsonResult.put("restrictions", result.getRestrictions());
             jsonResult.put("sex", result.getSex());
             jsonResult.put("stringData", result.getStringData());
             jsonResult.put("uncertain", result.isUncertain());
+            jsonResult.put("vehicleClass", result.getVehicleClass());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);

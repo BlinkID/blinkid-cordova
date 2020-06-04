@@ -4,6 +4,7 @@ import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.successframe.SuccessFrameGrabberRecognizer;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerializers;
+import com.phonegap.plugins.microblink.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +33,7 @@ public final class SuccessFrameGrabberRecognizerSerialization implements Recogni
         JSONObject jsonResult = new JSONObject();
 
         try {
-            SerializationUtils.addCommonResultData(jsonResult, result);
+            SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
             jsonResult.put("slaveRecognizerResult", jsonSlaveResult);
             jsonResult.put("successFrame", SerializationUtils.encodeImageBase64(result.getSuccessFrame()));
         } catch (JSONException e) {

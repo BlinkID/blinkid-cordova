@@ -2,6 +2,7 @@ package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
+import com.phonegap.plugins.microblink.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,15 +10,15 @@ import org.json.JSONObject;
 public final class MrtdRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.entities.recognizers.blinkid.mrtd.MrtdRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.mrtd.MrtdRecognizer();
-        recognizer.setAllowSpecialCharacters(jsonRecognizer.optBoolean("allowSpecialCharacters", false));
-        recognizer.setAllowUnparsedResults(jsonRecognizer.optBoolean("allowUnparsedResults", false));
-        recognizer.setAllowUnverifiedResults(jsonRecognizer.optBoolean("allowUnverifiedResults", false));
-        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
-        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
-        recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
+        recognizer.setAllowSpecialCharacters(jsonObject.optBoolean("allowSpecialCharacters", false));
+        recognizer.setAllowUnparsedResults(jsonObject.optBoolean("allowUnparsedResults", false));
+        recognizer.setAllowUnverifiedResults(jsonObject.optBoolean("allowUnverifiedResults", false));
+        recognizer.setDetectGlare(jsonObject.optBoolean("detectGlare", true));
+        recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
+        recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
         return recognizer;
     }
 
@@ -26,7 +27,7 @@ public final class MrtdRecognizerSerialization implements RecognizerSerializatio
         com.microblink.entities.recognizers.blinkid.mrtd.MrtdRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.mrtd.MrtdRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
-            SerializationUtils.addCommonResultData(jsonResult, result);
+            SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
         } catch (JSONException e) {

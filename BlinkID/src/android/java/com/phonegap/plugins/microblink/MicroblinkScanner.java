@@ -18,7 +18,6 @@ import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.uisettings.UISettings;
 import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerializers;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerializers;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -34,8 +33,8 @@ public class MicroblinkScanner extends CordovaPlugin {
 
     private static final String RESULT_LIST = "resultList";
 
-    private CallbackContext mCallbackContext;
     private RecognizerBundle mRecognizerBundle;
+    private CallbackContext mCallbackContext;
 
     /**
      * Constructor.
@@ -124,36 +123,37 @@ public class MicroblinkScanner extends CordovaPlugin {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK) {
 
-            if (resultCode == Activity.RESULT_OK) {
-                // load bundle
+            JSONObject result = new JSONObject();
+            try {
+                result.put(CANCELLED, false);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+
+            if (requestCode == REQUEST_CODE) {
                 mRecognizerBundle.loadFromIntent(data);
-
-                JSONObject result = new JSONObject();
                 try {
-                    result.put(CANCELLED, false);
-
                     JSONArray resultList = RecognizerSerializers.INSTANCE.serializeRecognizerResults(mRecognizerBundle.getRecognizers());
                     result.put(RESULT_LIST, resultList);
                 } catch(JSONException e) {
                     throw new RuntimeException(e);
                 }
-
-                mCallbackContext.success(result);
-
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put(CANCELLED, true);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                mCallbackContext.success(obj);
-
-            } else {
-                mCallbackContext.error("Unexpected error");
             }
+            mCallbackContext.success(result);
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            JSONObject obj = new JSONObject();
+            try {
+                obj.put(CANCELLED, true);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            mCallbackContext.success(obj);
+
+        } else {
+            mCallbackContext.error("Unexpected error");
         }
+
     }
 }

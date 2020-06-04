@@ -2,6 +2,7 @@ package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
+import com.phonegap.plugins.microblink.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,19 +10,21 @@ import org.json.JSONObject;
 public final class BlinkIdCombinedRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.entities.recognizers.blinkid.generic.BlinkIdCombinedRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.generic.BlinkIdCombinedRecognizer();
-        recognizer.setAllowBlurFilter(jsonRecognizer.optBoolean("allowBlurFilter", true));
-        recognizer.setAllowUnparsedMrzResults(jsonRecognizer.optBoolean("allowUnparsedMrzResults", false));
-        recognizer.setAllowUnverifiedMrzResults(jsonRecognizer.optBoolean("allowUnverifiedMrzResults", true));
-        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
-        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
-        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
-        recognizer.setPaddingEdge((float)jsonRecognizer.optDouble("paddingEdge", 0.0));
-        recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
-        recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
-        recognizer.setSignResult(jsonRecognizer.optBoolean("signResult", false));
-        recognizer.setSkipUnsupportedBack(jsonRecognizer.optBoolean("skipUnsupportedBack", false));
+        recognizer.setAllowBlurFilter(jsonObject.optBoolean("allowBlurFilter", true));
+        recognizer.setAllowUnparsedMrzResults(jsonObject.optBoolean("allowUnparsedMrzResults", false));
+        recognizer.setAllowUnverifiedMrzResults(jsonObject.optBoolean("allowUnverifiedMrzResults", true));
+        recognizer.setAnonymizeImage(jsonObject.optBoolean("anonymizeImage", true));
+        recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
+        recognizer.setPaddingEdge((float)jsonObject.optDouble("paddingEdge", 0.0));
+        recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
+        recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
+        recognizer.setSignResult(jsonObject.optBoolean("signResult", false));
+        recognizer.setSkipUnsupportedBack(jsonObject.optBoolean("skipUnsupportedBack", false));
+        recognizer.setValidateResultCharacters(jsonObject.optBoolean("validateResultCharacters", true));
         return recognizer;
     }
 
@@ -30,7 +33,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         com.microblink.entities.recognizers.blinkid.generic.BlinkIdCombinedRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.generic.BlinkIdCombinedRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
-            SerializationUtils.addCommonResultData(jsonResult, result);
+            SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
             jsonResult.put("additionalAddressInformation", result.getAdditionalAddressInformation());
             jsonResult.put("additionalNameInformation", result.getAdditionalNameInformation());
             jsonResult.put("address", result.getAddress());
@@ -45,8 +48,10 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentAdditionalNumber", result.getDocumentAdditionalNumber());
             jsonResult.put("documentBackImageColorStatus", SerializationUtils.serializeEnum(result.getDocumentBackImageColorStatus()));
+            jsonResult.put("documentBackImageMoireStatus", SerializationUtils.serializeEnum(result.getDocumentBackImageMoireStatus()));
             jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
             jsonResult.put("documentFrontImageColorStatus", SerializationUtils.serializeEnum(result.getDocumentFrontImageColorStatus()));
+            jsonResult.put("documentFrontImageMoireStatus", SerializationUtils.serializeEnum(result.getDocumentFrontImageMoireStatus()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
             jsonResult.put("employer", result.getEmployer());

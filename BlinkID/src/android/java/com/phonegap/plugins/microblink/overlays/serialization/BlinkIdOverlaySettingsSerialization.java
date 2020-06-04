@@ -7,10 +7,11 @@ import com.microblink.fragment.overlay.blinkid.reticleui.ReticleOverlayStrings;
 import com.microblink.uisettings.BlinkIdUISettings;
 import com.microblink.uisettings.UISettings;
 import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerialization;
+import com.phonegap.plugins.microblink.SerializationUtils;
 
 import org.json.JSONObject;
 
-import static com.phonegap.plugins.microblink.recognizers.serialization.SerializationUtils.getStringFromJSONObject;
+import static com.phonegap.plugins.microblink.SerializationUtils.getStringFromJSONObject;
 
 public final class BlinkIdOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override

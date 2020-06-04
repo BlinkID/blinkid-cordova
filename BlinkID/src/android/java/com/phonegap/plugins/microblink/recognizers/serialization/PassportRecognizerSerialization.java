@@ -2,6 +2,7 @@ package com.phonegap.plugins.microblink.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
+import com.phonegap.plugins.microblink.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,15 +10,16 @@ import org.json.JSONObject;
 public final class PassportRecognizerSerialization implements RecognizerSerialization {
 
     @Override
-    public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
+    public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer();
-        recognizer.setAnonymizeNetherlandsMrz(jsonRecognizer.optBoolean("anonymizeNetherlandsMrz", true));
-        recognizer.setDetectGlare(jsonRecognizer.optBoolean("detectGlare", true));
-        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
-        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
-        recognizer.setFullDocumentImageExtensionFactors(BlinkIDSerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
-        recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
-        recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
+        recognizer.setAnonymizeNetherlandsMrz(jsonObject.optBoolean("anonymizeNetherlandsMrz", true));
+        recognizer.setDetectGlare(jsonObject.optBoolean("detectGlare", true));
+        recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
+        recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
+        recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
+        recognizer.setSignResult(jsonObject.optBoolean("signResult", false));
         return recognizer;
     }
 
@@ -26,7 +28,9 @@ public final class PassportRecognizerSerialization implements RecognizerSerializ
         com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
-            SerializationUtils.addCommonResultData(jsonResult, result);
+            SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
+            jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
+            jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
