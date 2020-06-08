@@ -21,7 +21,6 @@
  * Starts the scanning process
  */
 - (void)scanWithCamera:(CDVInvokedUrlCommand *)command;
-
 /**
  * Returns successful recognition
  */

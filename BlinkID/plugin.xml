@@ -90,9 +90,11 @@
     <platform name="ios">
         <!-- IOS SOURCE FILES BEGIN -->
         <source-file src="src/ios/sources/MBBlinkIDSerializationUtils.m" />
+        <source-file src="src/ios/sources/MBCommonSerializationUtils.m" />
         <source-file src="src/ios/sources/CDVMicroblinkScanner.m" />
         <source-file src="src/ios/sources/MBSerializationUtils.m" />
         <header-file src="src/ios/sources/MBBlinkIDSerializationUtils.h" />
+        <header-file src="src/ios/sources/MBCommonSerializationUtils.h" />
         <header-file src="src/ios/sources/CDVMicroblinkScanner.h" />
         <header-file src="src/ios/sources/MBSerializationUtils.h" />
         <header-file src="src/ios/sources/Overlays/MBOverlayVCCreator.h" />
