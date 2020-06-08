@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.phonegap.plugins.microblink.SerializationUtils;
+
 public final class UsdlRecognizerSerialization implements RecognizerSerialization {
 
     @Override
@@ -24,7 +26,7 @@ public final class UsdlRecognizerSerialization implements RecognizerSerializatio
         UsdlRecognizer.Result result = ((UsdlRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
-            SerializationUtils.addCommonResultData(jsonResult, result);
+            SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
             jsonResult.put("optionalElements", SerializationUtils.serializeStringArray(result.getOptionalElements()));
             jsonResult.put("rawData", SerializationUtils.encodeByteArrayToBase64(result.getRawData()));
             jsonResult.put("rawStringData", result.getRawStringData());

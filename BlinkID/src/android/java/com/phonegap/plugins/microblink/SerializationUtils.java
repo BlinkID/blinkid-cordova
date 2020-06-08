@@ -1,14 +1,17 @@
-package com.phonegap.plugins.microblink.recognizers.serialization;
+package com.phonegap.plugins.microblink;
 
 import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.microblink.entities.recognizers.Recognizer;
+//import com.microblink.entities.parsers.Parser;
 import com.microblink.geometry.Point;
 import com.microblink.geometry.Quadrilateral;
 import com.microblink.image.Image;
 import com.microblink.results.date.Date;
 import com.microblink.results.date.DateResult;
+import com.microblink.entities.Entity;
+import com.microblink.entities.recognizers.blinkid.imageoptions.extension.ImageExtensionFactors;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,9 +25,13 @@ import androidx.annotation.Nullable;
 public abstract class SerializationUtils {
     private static final int COMPRESSED_IMAGE_QUALITY = 90;
 
-    public static <T extends Recognizer.Result> void addCommonResultData(JSONObject jsonObject, T result) throws JSONException {
+    public static <T extends Recognizer.Result> void addCommonRecognizerResultData(JSONObject jsonObject, T result) throws JSONException {
         jsonObject.put("resultState", serializeEnum(result.getResultState()));
     }
+
+    /*public static <T extends Parser.Result> void addCommonParserResultData(JSONObject jsonObject, T result) throws JSONException {
+        jsonObject.put("resultState", serializeEnum(result.getResultState()));
+    }*/
 
     public static JSONObject serializeDate( @Nullable  Date date ) throws JSONException {
         if (date != null ) {
@@ -108,4 +115,17 @@ public abstract class SerializationUtils {
         }
         return value;
     }
+
+    public static ImageExtensionFactors deserializeExtensionFactors(JSONObject jsonExtensionFactors) {
+        if (jsonExtensionFactors == null) {
+            return new ImageExtensionFactors(0.f, 0.f, 0.f, 0.f);
+        } else {
+            float up = (float)jsonExtensionFactors.optDouble("upFactor", 0.0);
+            float right = (float)jsonExtensionFactors.optDouble("rightFactor", 0.0);
+            float down = (float)jsonExtensionFactors.optDouble("downFactor", 0.0);
+            float left = (float)jsonExtensionFactors.optDouble("leftFactor", 0.0);
+            return new ImageExtensionFactors(up, down, left, right);
+        }
+    }
+
 }

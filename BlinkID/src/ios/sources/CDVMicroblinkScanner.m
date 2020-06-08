@@ -23,6 +23,7 @@
 #import "MBRecognizerSerializers.h"
 #import "MBOverlaySettingsSerializers.h"
 #import "MBRecognizerWrapper.h"
+#import "MBSerializationUtils.h"
 
 #import <MicroBlink/MicroBlink.h>
 
@@ -43,7 +44,6 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
 
 @property (nonatomic, strong) MBRecognizerCollection *recognizerCollection;
 @property (nonatomic) id<MBRecognizerRunnerViewController> scanningViewController;
-
 @end
 
 @implementation CDVMicroblinkScanner
@@ -109,15 +109,17 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
     if (state != MBRecognizerResultStateEmpty) {
         [overlayViewController.recognizerRunnerViewController pauseScanning];
         // recognizers within self.recognizerCollection now have their results filled
+
         NSMutableArray *jsonResults = [[NSMutableArray alloc] initWithCapacity:self.recognizerCollection.recognizerList.count];
         for (NSUInteger i = 0; i < self.recognizerCollection.recognizerList.count; ++i) {
             [jsonResults addObject:[[self.recognizerCollection.recognizerList objectAtIndex:i] serializeResult]];
         }
 
-        NSDictionary *resultDict = @{
-            CANCELLED: [NSNumber numberWithBool:NO],
-            RESULT_LIST: jsonResults
-        };
+        NSDictionary *resultDict;
+            resultDict = @{
+                CANCELLED: [NSNumber numberWithBool:NO],
+                RESULT_LIST: jsonResults
+            };
 
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
         [self.commandDelegate sendPluginResult:result callbackId:self.lastCommand.callbackId];
@@ -141,5 +143,4 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
     [self.commandDelegate sendPluginResult:result callbackId:self.lastCommand.callbackId];
 }
-
 @end

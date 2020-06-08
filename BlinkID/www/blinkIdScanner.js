@@ -260,6 +260,22 @@ BlinkID.prototype.DocumentImageColorStatus = Object.freeze(
 );
 
 /**
+ * Defines possible states of Moire pattern detection.
+ */
+BlinkID.prototype.DocumentImageMoireStatus = Object.freeze(
+    {
+        /** Detection of Moire patterns was not performed. */
+        NotAvailable: 1,
+
+        /** Moire pattern not detected on input image. */
+        NotDetected: 2,
+
+        /** Moire pattern detected on input image. */
+        Detected: 3
+    }
+);
+
+/**
  * Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
  */
 BlinkID.prototype.Country = Object.freeze(
@@ -347,7 +363,10 @@ BlinkID.prototype.Country = Object.freeze(
         UK: 81,
         Ukraine: 82,
         Usa: 83,
-        Vietnam: 84
+        Vietnam: 84,
+        Brazil: 85,
+        Norway: 86,
+        Oman: 87
     }
 );
 
@@ -453,7 +472,10 @@ BlinkID.prototype.Type = Object.freeze(
         TemporaryResidencePermit: 18,
         VoterId: 19,
         WorkPermit: 20,
-        iKad: 21
+        iKad: 21,
+        MilitaryId: 22,
+        MyKas: 23,
+        SocialSecurityCard: 24
     }
 );
 
@@ -915,6 +937,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.documentBackImageColorStatus = nativeResult.documentBackImageColorStatus;
     
     /** 
+     * Defines possible moire statuses determined from scanned image. 
+     */
+    this.documentBackImageMoireStatus = nativeResult.documentBackImageMoireStatus;
+    
+    /** 
      * Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
      * DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
      * of the document and values do not match, this method will return DataMatchResultFailed. Result will
@@ -926,6 +953,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * Defines possible color statuses determined from scanned image. 
      */
     this.documentFrontImageColorStatus = nativeResult.documentFrontImageColorStatus;
+    
+    /** 
+     * Defines possible moire statuses determined from scanned image. 
+     */
+    this.documentFrontImageMoireStatus = nativeResult.documentFrontImageMoireStatus;
     
     /** 
      * The document number. 
@@ -1073,6 +1105,14 @@ function BlinkIdCombinedRecognizer() {
     this.allowUnverifiedMrzResults = true;
     
     /** 
+     * Defines whether sensitive data should be anonymized in full document image result.
+     * The setting only applies to certain documents
+     * 
+     *  
+     */
+    this.anonymizeImage = true;
+    
+    /** 
      * Property for setting DPI for face images
      * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
      * 
@@ -1132,6 +1172,14 @@ function BlinkIdCombinedRecognizer() {
      *  
      */
     this.skipUnsupportedBack = false;
+    
+    /** 
+     * Defines whether result characters validatation is performed.
+     * If a result member contains invalid character, the result state cannot be valid
+     * 
+     *  
+     */
+    this.validateResultCharacters = true;
     
     this.createResultFromNative = function (nativeResult) { return new BlinkIdCombinedRecognizerResult(nativeResult); }
 
@@ -1208,6 +1256,11 @@ function BlinkIdRecognizerResult(nativeResult) {
      * Defines possible color statuses determined from scanned image. 
      */
     this.documentImageColorStatus = nativeResult.documentImageColorStatus;
+    
+    /** 
+     * Defines possible moire statuses determined from scanned image. 
+     */
+    this.documentImageMoireStatus = nativeResult.documentImageMoireStatus;
     
     /** 
      * The document number. 
@@ -1344,6 +1397,14 @@ function BlinkIdRecognizer() {
     this.allowUnverifiedMrzResults = true;
     
     /** 
+     * Defines whether sensitive data should be anonymized in full document image result.
+     * The setting only applies to certain documents
+     * 
+     *  
+     */
+    this.anonymizeImage = true;
+    
+    /** 
      * Property for setting DPI for face images
      * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
      * 
@@ -1389,6 +1450,14 @@ function BlinkIdRecognizer() {
      *  
      */
     this.returnFullDocumentImage = false;
+    
+    /** 
+     * Defines whether result characters validatation is performed.
+     * If a result member contains invalid character, the result state cannot be valid
+     * 
+     *  
+     */
+    this.validateResultCharacters = true;
     
     this.createResultFromNative = function (nativeResult) { return new BlinkIdRecognizerResult(nativeResult); }
 
@@ -1574,6 +1643,11 @@ function IdBarcodeRecognizerResult(nativeResult) {
     this.employer = nativeResult.employer;
     
     /** 
+     * The additional privileges granted to the driver license owner. 
+     */
+    this.endorsements = nativeResult.endorsements;
+    
+    /** 
      * The first name of the document owner. 
      */
     this.firstName = nativeResult.firstName;
@@ -1639,6 +1713,11 @@ function IdBarcodeRecognizerResult(nativeResult) {
     this.residentialStatus = nativeResult.residentialStatus;
     
     /** 
+     * The restrictions to driving privileges for the driver license owner. 
+     */
+    this.restrictions = nativeResult.restrictions;
+    
+    /** 
      * The sex of the document owner. 
      */
     this.sex = nativeResult.sex;
@@ -1653,6 +1732,11 @@ function IdBarcodeRecognizerResult(nativeResult) {
      * E.g obtained from damaged barcode. 
      */
     this.uncertain = nativeResult.uncertain;
+    
+    /** 
+     * The type of vehicle the driver license owner has privilege to drive. 
+     */
+    this.vehicleClass = nativeResult.vehicleClass;
     
 }
 
@@ -1925,6 +2009,16 @@ function PassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
+     * Digital signature of the recognition result. Available only if enabled with signResult property. 
+     */
+    this.digitalSignature = nativeResult.digitalSignature;
+    
+    /** 
+     * Version of the digital signature. Available only if enabled with signResult property. 
+     */
+    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
+    
+    /** 
      * face image from the document if enabled with returnFaceImage property. 
      */
     this.faceImage = nativeResult.faceImage;
@@ -2002,6 +2096,13 @@ function PassportRecognizer() {
      *  
      */
     this.returnFullDocumentImage = false;
+    
+    /** 
+     * Whether or not recognition result should be signed.
+     * 
+     *  
+     */
+    this.signResult = false;
     
     this.createResultFromNative = function (nativeResult) { return new PassportRecognizerResult(nativeResult); }
 
@@ -2097,6 +2198,8 @@ VisaRecognizer.prototype = new Recognizer('VisaRecognizer');
 
 BlinkID.prototype.VisaRecognizer = VisaRecognizer;
 
+
+//
 BlinkID.prototype.UsdlKeys = Object.freeze(
     {
         //==============================================================/

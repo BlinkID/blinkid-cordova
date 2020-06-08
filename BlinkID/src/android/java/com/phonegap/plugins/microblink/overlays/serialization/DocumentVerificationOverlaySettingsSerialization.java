@@ -10,7 +10,7 @@ import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerialization;
 
 import org.json.JSONObject;
 
-import static com.phonegap.plugins.microblink.recognizers.serialization.SerializationUtils.getStringFromJSONObject;
+import static com.phonegap.plugins.microblink.SerializationUtils.getStringFromJSONObject;
 
 public final class DocumentVerificationOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
