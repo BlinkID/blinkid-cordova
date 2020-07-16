@@ -403,8 +403,9 @@ BlinkID.prototype.Country = Object.freeze(
         Brazil: 85,
         Norway: 86,
         Oman: 87,
-        ElSalvador: 88,
-        SriLanka: 89
+        Ecuador: 88,
+        ElSalvador: 89,
+        SriLanka: 90
     }
 );
 
