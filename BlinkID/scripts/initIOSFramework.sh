@@ -4,7 +4,7 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd "${HERE}/../src/ios/" > /dev/null
 
-LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v5.5.0/blinkid-ios_v5.5.0.zip'
+LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v5.6.0/blinkid-ios_v5.6.0.zip'
 FILENAME='blinkid-ios.zip'
 
 # check if Microblink framework and bundle already exist
@@ -26,8 +26,6 @@ fi
 cd blinkid-ios || exit 1
 
 mv -f Microblink.framework ../Microblink.framework
-mv -f Microblink.bundle ../Microblink.bundle
-
 cd ..
 
 echo "Removing unnecessary files"

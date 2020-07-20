@@ -276,6 +276,42 @@ BlinkID.prototype.DocumentImageMoireStatus = Object.freeze(
 );
 
 /**
+ * Define level of anonymization performed on recognizer result.
+ */
+var AnonymizationMode = Object.freeze(
+    {
+        /** Anonymization will not be performed. */
+        None: 1,
+
+        /** FullDocumentImage is anonymized with black boxes covering sensitive data. */
+        ImageOnly: 2,
+
+        /** Result fields containing sensitive data are removed from result. */
+        ResultFieldsOnly: 3,
+
+        /** This mode is combination of ImageOnly and ResultFieldsOnly modes. */
+        FullResult: 4
+    }
+);
+
+/**
+ * Define level of anonymization performed on recognizer result.
+ */
+BlinkID.prototype.AnonymizationMode = AnonymizationMode;
+
+/**
+ * Defines possible color and moire statuses determined from scanned image.
+ */
+function ImageAnalysisResult(nativeImageAnalysisResult) {
+    /**  Whether the image is blurred. */
+    this.blurred = nativeImageAnalysisResult.blurred;
+    /** he color status determined from scanned image. */
+    this.documentImageColorStatus = nativeImageAnalysisResult.documentImageColorStatus;
+    /** The Moire pattern detection status determined from the scanned image. */
+    this.documentImageMoireStatus = nativeImageAnalysisResult.documentImageMoireStatus;  
+}
+
+/**
  * Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
  */
 BlinkID.prototype.Country = Object.freeze(
@@ -366,7 +402,10 @@ BlinkID.prototype.Country = Object.freeze(
         Vietnam: 84,
         Brazil: 85,
         Norway: 86,
-        Oman: 87
+        Oman: 87,
+        Ecuador: 88,
+        ElSalvador: 89,
+        SriLanka: 90
     }
 );
 
@@ -475,9 +514,192 @@ BlinkID.prototype.Type = Object.freeze(
         iKad: 21,
         MilitaryId: 22,
         MyKas: 23,
-        SocialSecurityCard: 24
+        SocialSecurityCard: 24,
+        HealthInsuranceCard: 25
     }
 );
+
+/** Defines the data extracted from the barcode. */
+function BarcodeResult(nativeBarcodeResult) {
+
+    /** Type of the barcode scanned */
+    this.barcodeType = nativeBarcodeResult.barcodeType;
+    
+    /** Byte array with result of the scan */
+    this.rawData = nativeBarcodeResult.rawData;
+
+    /** Retrieves string content of scanned data */
+    this.stringData = nativeBarcodeResult.stringData;
+
+    /** Flag indicating uncertain scanning data */
+    this.uncertain = nativeBarcodeResult.uncertain;
+
+    /** The first name of the document owner. */
+    this.firstName = nativeBarcodeResult.firstName;
+
+    /** The last name of the document owner. */
+    this.lastName = nativeBarcodeResult.lastName;
+
+    /** The full name of the document owner. */
+    this.fullName = nativeBarcodeResult.fullName;
+
+    /** The additional name information of the document owner. */
+    this.additionalNameInformation = nativeBarcodeResult.additionalNameInformation;
+
+    /** The address of the document owner. */
+    this.address = nativeBarcodeResult.address;
+
+    /** The place of birth of the document owner. */
+    this.placeOfBirth = nativeBarcodeResult.placeOfBirth;
+
+    /** The nationality of the documet owner. */
+    this.nationality = nativeBarcodeResult.nationality;
+
+    /** The race of the document owner. */
+    this.race = nativeBarcodeResult.race;
+
+    /** The religion of the document owner. */
+    this.religion = nativeBarcodeResult.religion;
+
+    /** The profession of the document owner. */
+    this.profession = nativeBarcodeResult.profession;
+
+    /** The marital status of the document owner. */
+    this.maritalStatus = nativeBarcodeResult.maritalStatus;
+
+    /** The residential stauts of the document owner. */
+    this.residentialStatus = nativeBarcodeResult.residentialStatus;
+
+    /** The employer of the document owner. */
+    this.employer = nativeBarcodeResult.employer;
+
+    /** The sex of the document owner. */
+    this.sex = nativeBarcodeResult.sex;
+
+    /** The date of birth of the document owner. */
+    this.dateOfBirth = nativeBarcodeResult.dateOfBirth != null ? new Date(nativeBarcodeResult.dateOfBirth) : null;
+
+    /** The date of issue of the document. */
+    this.dateOfIssue = nativeBarcodeResult.dateOfIssue.Date != null ? new Date(nativeBarcodeResult.dateOfIssue) : null;
+
+    /** The date of expiry of the document. */
+    this.dateOfExpiry = nativeBarcodeResult.dateOfExpiry.Date != null ? new Date(nativeBarcodeResult.dateOfExpiry) : null;
+
+    /** The document number. */
+    this.documentNumber = nativeBarcodeResult.documentNumber;
+
+    /**  The personal identification number. */
+    this.personalIdNumber = nativeBarcodeResult.personalIdNumber;
+
+    /** The additional number of the document. */
+    this.documentAdditionalNumber = nativeBarcodeResult.documentAdditionalNumber;
+
+    /** The issuing authority of the document. */
+    this.issuingAuthority = nativeBarcodeResult.issuingAuthority;
+
+    /** The street address portion of the document owner. */
+    this.street = nativeBarcodeResult.street;
+
+    /** The postal code address portion of the document owner. */
+    this.postalCode = nativeBarcodeResult.postalCode;
+
+    /** The city address portion of the document owner. */
+    this.city = nativeBarcodeResult.city;
+
+    /** The jurisdiction code address portion of the document owner. */
+    this.jurisdiction = nativeBarcodeResult.jurisdiction;
+
+    /** The driver license detailed info. */
+    this.driverLicenseDetailedInfo = nativeBarcodeResult.driverLicenseDetailedInfo != null ? new DriverLicenseDetailedInfo(nativeBarcodeResult.driverLicenseDetailedInfo) : null;
+
+    /** Flag that indicates if barcode result is empty */
+    this.empty = nativeBarcodeResult.empty;
+}
+
+
+function VizResult(nativeVizResult) {
+
+    /** The first name of the document owner. */
+    this.firstName = nativeVizResult.firstName;
+
+    /** The last name of the document owner. */
+    this.lastName = nativeVizResult.lastName;
+
+    /** The full name of the document owner. */
+    this.fullName = nativeVizResult.fullName;
+
+    /** The additional name information of the document owner. */
+    this.additionalNameInformation = nativeVizResult.additionalNameInformation;
+
+    /** The localized name of the document owner. */
+    this.localizedName = nativeVizResult.localizedName;
+
+    /** The address of the document owner. */
+    this.address = nativeVizResult.address;
+
+    /** The additional address information of the document owner. */
+    this.additionalAddressInformation = nativeVizResult.additionalAddressInformation;
+
+    /** The place of birth of the document owner. */
+    this.placeOfBirth = nativeVizResult.placeOfBirth;
+
+    /** The nationality of the documet owner. */
+    this.nationality = nativeVizResult.nationality;
+
+    /** The race of the document owner. */
+    this.race = nativeVizResult.race;
+
+    /** The religion of the document owner. */
+    this.religion = nativeVizResult.religion;
+
+    /** The profession of the document owner. */
+    this.profession = nativeVizResult.profession;
+
+    /** The marital status of the document owner. */
+    this.maritalStatus = nativeVizResult.maritalStatus;
+
+    /** The residential stauts of the document owner. */
+    this.residentialStatus = nativeVizResult.residentialStatus;
+
+    /** The employer of the document owner. */
+    this.employer = nativeVizResult.employer;
+
+    /** The sex of the document owner. */
+    this.sex = nativeVizResult.sex;
+
+    /** The date of birth of the document owner. */
+    this.dateOfBirth = nativeVizResult.dateOfBirth.Date != null ? new Date(nativeVizResult.dateOfBirth) : null;
+
+    /** The date of issue of the document. */
+    this.dateOfIssue = nativeVizResult.dateOfIssue.Date != null ? new Date(nativeVizResult.dateOfIssue) : null;
+
+    /** The date of expiry of the document. */
+    this.dateOfExpiry = nativeVizResult.dateOfExpiry.Date != null ? new Date(nativeVizResult.dateOfExpiry) : null;
+
+    /** The document number. */
+    this.documentNumber = nativeVizResult.documentNumber;
+
+    /** The personal identification number. */
+    this.personalIdNumber = nativeVizResult.personalIdNumber;
+
+    /** The additional number of the document. */
+    this.documentAdditionalNumber = nativeVizResult.documentAdditionalNumber;
+
+    /** The additional personal identification number. */
+    this.additionalPersonalIdNumber = nativeVizResult.additionalPersonalIdNumber;
+
+    /** The issuing authority of the document. */
+    this.issuingAuthority = nativeVizResult.issuingAuthority;
+
+    /** The driver license detailed info. */
+    this.driverLicenseDetailedInfo = nativeVizResult.driverLicenseDetailedInfo != null ? new DriverLicenseDetailedInfo(nativeVizResult.driverLicenseDetailedInfo) : null;
+
+    /** The driver license conditions. */
+    this.conditions = nativeVizResult.conditions;
+
+    /** Flag that indicates if barcode result is empty */
+    this.empty = nativeVizResult.empty;
+}
 
 /**
  * Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -887,6 +1109,21 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.age = nativeResult.age;
     
     /** 
+     * Defines possible color and moire statuses determined from scanned back image. 
+     */
+    this.backImageAnalysisResult = nativeResult.backImageAnalysisResult;
+    
+    /** 
+     * Defines the data extracted from the back side visual inspection zone. 
+     */
+    this.backVizResult = nativeResult.backVizResult;
+    
+    /** 
+     * Defines the data extracted from the barcode. 
+     */
+    this.barcodeResult = nativeResult.barcodeResult;
+    
+    /** 
      * The classification information. 
      */
     this.classInfo = nativeResult.classInfo;
@@ -932,32 +1169,12 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;
     
     /** 
-     * Defines possible color statuses determined from scanned image. 
-     */
-    this.documentBackImageColorStatus = nativeResult.documentBackImageColorStatus;
-    
-    /** 
-     * Defines possible moire statuses determined from scanned image. 
-     */
-    this.documentBackImageMoireStatus = nativeResult.documentBackImageMoireStatus;
-    
-    /** 
      * Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
      * DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
      * of the document and values do not match, this method will return DataMatchResultFailed. Result will
      * be DataMatchResultSuccess only if scanned values for all fields that are compared are the same. 
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
-    
-    /** 
-     * Defines possible color statuses determined from scanned image. 
-     */
-    this.documentFrontImageColorStatus = nativeResult.documentFrontImageColorStatus;
-    
-    /** 
-     * Defines possible moire statuses determined from scanned image. 
-     */
-    this.documentFrontImageMoireStatus = nativeResult.documentFrontImageMoireStatus;
     
     /** 
      * The document number. 
@@ -975,6 +1192,17 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.employer = nativeResult.employer;
     
     /** 
+     * Checks whether the document has expired or not by comparing the current
+     * time on the device with the date of expiry.
+     * 
+     * @return true if the document has expired, false in following cases:
+     * document does not expire (date of expiry is permanent)
+     * date of expiry has passed
+     * date of expiry is unknown and it is not permanent 
+     */
+    this.expired = nativeResult.expired;
+    
+    /** 
      * face image from the document if enabled with returnFaceImage property. 
      */
     this.faceImage = nativeResult.faceImage;
@@ -983,6 +1211,16 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * The first name of the document owner. 
      */
     this.firstName = nativeResult.firstName;
+    
+    /** 
+     * Defines possible color and moire statuses determined from scanned front image. 
+     */
+    this.frontImageAnalysisResult = nativeResult.frontImageAnalysisResult;
+    
+    /** 
+     * Defines the data extracted from the front side visual inspection zone. 
+     */
+    this.frontVizResult = nativeResult.frontVizResult;
     
     /** 
      * back side image of the document if enabled with returnFullDocumentImage property. 
@@ -1105,12 +1343,12 @@ function BlinkIdCombinedRecognizer() {
     this.allowUnverifiedMrzResults = true;
     
     /** 
-     * Defines whether sensitive data should be anonymized in full document image result.
+     * Defines whether sensitive data should be removed from images, result fields or both.
      * The setting only applies to certain documents
      * 
      *  
      */
-    this.anonymizeImage = true;
+    this.anonymizationMode = AnonymizationMode.FullResult;
     
     /** 
      * Property for setting DPI for face images
@@ -1218,6 +1456,11 @@ function BlinkIdRecognizerResult(nativeResult) {
     this.age = nativeResult.age;
     
     /** 
+     * Defines the data extracted from the barcode. 
+     */
+    this.barcodeResult = nativeResult.barcodeResult;
+    
+    /** 
      * The classification information. 
      */
     this.classInfo = nativeResult.classInfo;
@@ -1253,16 +1496,6 @@ function BlinkIdRecognizerResult(nativeResult) {
     this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;
     
     /** 
-     * Defines possible color statuses determined from scanned image. 
-     */
-    this.documentImageColorStatus = nativeResult.documentImageColorStatus;
-    
-    /** 
-     * Defines possible moire statuses determined from scanned image. 
-     */
-    this.documentImageMoireStatus = nativeResult.documentImageMoireStatus;
-    
-    /** 
      * The document number. 
      */
     this.documentNumber = nativeResult.documentNumber;
@@ -1276,6 +1509,17 @@ function BlinkIdRecognizerResult(nativeResult) {
      * The employer of the document owner. 
      */
     this.employer = nativeResult.employer;
+    
+    /** 
+     * Checks whether the document has expired or not by comparing the current
+     * time on the device with the date of expiry.
+     * 
+     * @return true if the document has expired, false in following cases:
+     * document does not expire (date of expiry is permanent)
+     * date of expiry has passed
+     * date of expiry is unknown and it is not permanent 
+     */
+    this.expired = nativeResult.expired;
     
     /** 
      * face image from the document if enabled with returnFaceImage property. 
@@ -1296,6 +1540,11 @@ function BlinkIdRecognizerResult(nativeResult) {
      * The full name of the document owner. 
      */
     this.fullName = nativeResult.fullName;
+    
+    /** 
+     * Defines possible color and moire statuses determined from scanned image. 
+     */
+    this.imageAnalysisResult = nativeResult.imageAnalysisResult;
     
     /** 
      * The issuing authority of the document. 
@@ -1362,6 +1611,11 @@ function BlinkIdRecognizerResult(nativeResult) {
      */
     this.sex = nativeResult.sex;
     
+    /** 
+     * Defines the data extracted from the visual inspection zone 
+     */
+    this.vizResult = nativeResult.vizResult;
+    
 }
 
 BlinkIdRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -1397,12 +1651,12 @@ function BlinkIdRecognizer() {
     this.allowUnverifiedMrzResults = true;
     
     /** 
-     * Defines whether sensitive data should be anonymized in full document image result.
+     * Defines whether sensitive data should be removed from images, result fields or both.
      * The setting only applies to certain documents
      * 
      *  
      */
-    this.anonymizeImage = true;
+    this.anonymizationMode = AnonymizationMode.FullResult;
     
     /** 
      * Property for setting DPI for face images
@@ -1577,11 +1831,6 @@ function IdBarcodeRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /** 
-     * THe additional address information of the document owner. 
-     */
-    this.additionalAddressInformation = nativeResult.additionalAddressInformation;
-    
-    /** 
      * The additional name information of the document owner. 
      */
     this.additionalNameInformation = nativeResult.additionalNameInformation;
@@ -1604,6 +1853,11 @@ function IdBarcodeRecognizerResult(nativeResult) {
      *  @return Type of the barcode 
      */
     this.barcodeType = nativeResult.barcodeType;
+    
+    /** 
+     * The city address portion of the document owner. 
+     */
+    this.city = nativeResult.city;
     
     /** 
      * The date of birth of the document owner. 
@@ -1648,6 +1902,17 @@ function IdBarcodeRecognizerResult(nativeResult) {
     this.endorsements = nativeResult.endorsements;
     
     /** 
+     * Checks whether the document has expired or not by comparing the current
+     * time on the device with the date of expiry.
+     * 
+     * @return true if the document has expired, false in following cases:
+     * document does not expire (date of expiry is permanent)
+     * date of expiry has passed
+     * date of expiry is unknown and it is not permanent 
+     */
+    this.expired = nativeResult.expired;
+    
+    /** 
      * The first name of the document owner. 
      */
     this.firstName = nativeResult.firstName;
@@ -1661,6 +1926,11 @@ function IdBarcodeRecognizerResult(nativeResult) {
      * The issuing authority of the document. 
      */
     this.issuingAuthority = nativeResult.issuingAuthority;
+    
+    /** 
+     * The jurisdiction code address portion of the document owner. 
+     */
+    this.jurisdiction = nativeResult.jurisdiction;
     
     /** 
      * The last name of the document owner. 
@@ -1686,6 +1956,11 @@ function IdBarcodeRecognizerResult(nativeResult) {
      * The place of birth of the document owner. 
      */
     this.placeOfBirth = nativeResult.placeOfBirth;
+    
+    /** 
+     * The postal code address portion of the document owner. 
+     */
+    this.postalCode = nativeResult.postalCode;
     
     /** 
      * The profession of the document owner. 
@@ -1721,6 +1996,11 @@ function IdBarcodeRecognizerResult(nativeResult) {
      * The sex of the document owner. 
      */
     this.sex = nativeResult.sex;
+    
+    /** 
+     * The street address portion of the document owner. 
+     */
+    this.street = nativeResult.street;
     
     /** 
      * Retrieves string content of scanned data 
@@ -3164,6 +3444,18 @@ function UsdlRecognizerResult(nativeResult) {
      * @return current age of the document owner in years or -1 if date of birth is unknown.
     */
    this.age = nativeResult.age;
+
+    /** The street address portion of the United States driver license owner. */
+    this.street = nativeResult.street;
+
+    /** The postal code address portion of the United States driver license owner. */
+    this.postalCode = nativeResult.postalCode;
+
+    /** The city address portion of the United States driver license owner. */
+    this.city = nativeResult.city;
+
+    /** The jurisdiction code address portion of the United States driver license owner. */
+    this.jurisdiction = nativeResult.jurisdiction;
 }
 
 UsdlRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -3181,6 +3473,9 @@ function UsdlRecognizer() {
     
     /** Enable decoding of non-standard PDF417 barcodes, but without */
     this.uncertainDecoding = true;
+
+    /** Enables parsing of compact barcode encoding format */
+    this.enableCompactParser = false;
     
     this.createResultFromNative = function (nativeResult) { return new UsdlRecognizerResult(nativeResult); }
     
