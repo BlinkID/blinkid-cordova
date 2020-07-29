@@ -1,3 +1,6 @@
+## 5.6.1
+- Fixed `MBBarcodeResult rawData` serialization which caused crashes on iOS.
+
 ## 5.6.0
 - Updated to [Android SDK v5.6.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.6.0) and [iOS SDK v5.6.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.6.0)
 
