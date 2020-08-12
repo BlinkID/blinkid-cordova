@@ -58,6 +58,7 @@
              @"restrictions" : driverLicenseDetailedInfo.restrictions,
              @"endorsements" : driverLicenseDetailedInfo.endorsements,
              @"vehicleClass" : driverLicenseDetailedInfo.vehicleClass,
+             @"conditions" : driverLicenseDetailedInfo.conditions
              };
 }
 
@@ -65,7 +66,7 @@
     return @{
              @"country" : [NSNumber numberWithInteger:(classInfo.country + 1)],
              @"region" : [NSNumber numberWithInteger:(classInfo.region + 1)],
-             @"type" : [NSNumber numberWithInteger:(classInfo.type + 1)],
+             @"type" : [NSNumber numberWithInteger:(classInfo.type + 1)]
              };
 }
 
@@ -96,7 +97,6 @@
         @"additionalPersonalIdNumber" : vizResult.additionalPersonalIdNumber,
         @"issuingAuthority" : vizResult.issuingAuthority,
         @"driverLicenseDetailedInfo" : [MBBlinkIDSerializationUtils serializeDriverLicenseDetailedInfo:vizResult.driverLicenseDetailedInfo],
-        @"conditions" : vizResult.conditions,
         @"empty" : [NSNumber numberWithBool:vizResult.empty]
     };
 }
@@ -141,8 +141,25 @@
     return @{
              @"blurred" : [NSNumber numberWithBool:imageAnalysisResult.blurred],
              @"documentImageColorStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageColorStatus + 1)],
-             @"documentImageMoireStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageMoireStatus + 1)]
+             @"faceDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.faceDetectionStatus + 1)],
+             @"mrzDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.mrzDetectionStatus + 1)],
+             @"barcodeDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.barcodeDetectionStatus + 1)]
         };
+}
+
++(MBRecognitionModeFilter) deserializeMBRecognitionModeFilter:(NSDictionary *)jsonRecognitionModeFilter {
+    if (jsonRecognitionModeFilter == nil) {
+        return [[MBRecognitionModeFilter alloc] init];
+    } else {
+        MBRecognitionModeFilter *recognitionModeFilter = [[MBRecognitionModeFilter alloc] init];
+        recognitionModeFilter.enableMrzId = [[jsonExtensionFactors valueForKey:@"enableMrzId"] boolValue];
+        recognitionModeFilter.enableMrzVisa = [[jsonExtensionFactors valueForKey:@"enableMrzVisa"] boolValue];
+        recognitionModeFilter.enableMrzPassport = [[jsonExtensionFactors valueForKey:@"enableMrzPassport"] boolValue];
+        recognitionModeFilter.enablePhotoId = [[jsonExtensionFactors valueForKey:@"enablePhotoId"] boolValue];
+        recognitionModeFilter.enableFullDocumentRecognition = [[jsonExtensionFactors valueForKey:@"enableFullDocumentRecognition"] boolValue];
+
+        return recognitionModeFilter;
+    }
 }
 
 @end
