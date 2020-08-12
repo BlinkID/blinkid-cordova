@@ -77,24 +77,40 @@ var app = {
 
         // package name/bundleID com.microblink.blinkid
         var licenseKeys = {
-            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/uxZPK8BpbMTHpBbubSQGwXhdZB0bbW9oA+KbDejmS08785pxGDiEj00Q5If5uizePtCU04Zn4VL9cLoxtJKiBMj0tCXDqup0+n06DUO0b8RM2g18EXpXCU5/ui+5Os8AWL4tFUV35A3ucbh4Dx5FTUqGs9DZhn+7BW8PnnX9FNn5+lU/3mUSqRy7pZtZKJXyTgkmJIBN3UEyfy1S4T1vt7XYy6qeA7/hQTVW5CGq3+qUAElkrI4eRKLM5JpsH6UA==',
+            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/uxZPZ8A5a5B2aj+W3OiNeY7fQhH/Zf2sdnn3GUv37/g7C/1VZwTj2Pbt38LXwkJGY1NoAbZzWlIDzraeoSkLCtLPh86WJ0SHXYWq+lGKZck+0oeAJoFWPiTHU28S4JOf2e2rvFvJ2N7C+DD8Zqfly9Pi8bfMMk00W2zf2Ts6w9raFVCDDn/7PI2Xe1mmX590aw7bGrdrg8AjPRVD/aOP0l3rrQGcZ1BvNbfu/P3HF/tZ8X2SYWEWOwmpFhJhc=',
             ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++pNb8FbtsnxnrGfOQTjR/L2UXyBqIsnCGi0ED5N6JKAt4FNnhmNTQrwPbzlh8rNWlI0fDvP/ekdJ7/jOx7ZC7zmpmKNOLUy6Ebf9vCFu7QKfT6sPH8LqsGQK0o3XSUASf61XxOuoUcGtBdN00fyYo9lmV9uTYlOh2ksplMUM4NNZKoMo2++7yDe4waw3F9qI1xHW+Rx2m2wmx9WP8geG7YbI4+KL7Bysf01mXwryuk5qNcsXQhL621jjh8uufRsg=='
         };
 
+        function buildResult(result, key) {
+            if (result && result != -1) {
+                return key + ": " + result + "<br>";
+            }
+            return ""
+        }
+
+        function buildDateResult(result, key) {
+            if (result) {
+                return key + ": " +
+                    result.day + "." + result.month + "." + result.year + "."
+                    + "<br>";
+            }
+            return ""
+        }
+
         scanButton.addEventListener('click', function() {
             cordova.plugins.BlinkID.scanWithCamera(
-            
+
                 // Register the callback handler
                 function callback(cancelled) {
 
                     resultDiv.innerHTML = "";
-                    
+
                     // handle cancelled scanning
                     if (cancelled) {
                         resultDiv.innerHTML = "Cancelled!";
                         return;
                     }
-                    
+
                     // if not cancelled, every recognizer will have its result property updated
 
                     successfulImageDiv.style.visibility = "hidden"
@@ -103,6 +119,49 @@ var app = {
                     faceImageDiv.style.visibility = "hidden"
 
                     if (blinkIdCombinedRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
+
+                        var blinkIdResult = blinkIdCombinedRecognizer.result;
+                        var resultString =
+                            buildResult(blinkIdResult.firstName, "First name") +
+                            buildResult(blinkIdResult.lastName, "Last name") +
+                            buildResult(blinkIdResult.fullName, "Full name") +
+                            buildResult(blinkIdResult.localizedName, "Localized name") +
+                            buildResult(blinkIdResult.additionalNameInformation, "Additional name info") +
+                            buildResult(blinkIdResult.address, "Address") +
+                            buildResult(blinkIdResult.additionalAddressInformation, "Additional address info") +
+                            buildResult(blinkIdResult.documentNumber, "Document number") +
+                            buildResult(blinkIdResult.documentAdditionalNumber, "Additional document number") +
+                            buildResult(blinkIdResult.sex, "Sex") +
+                            buildResult(blinkIdResult.issuingAuthority, "Issuing authority") +
+                            buildResult(blinkIdResult.nationality, "Nationality") +
+                            buildDateResult(blinkIdResult.dateOfBirth, "Date of birth") +
+                            buildResult(blinkIdResult.age, "Age") +
+                            buildDateResult(blinkIdResult.dateOfIssue, "Date of issue") +
+                            buildDateResult(blinkIdResult.dateOfExpiry, "Date of expiry") +
+                            buildResult(blinkIdResult.dateOfExpiryPermanent, "Date of expiry permanent") +
+                            buildResult(blinkIdResult.expired, "Expired") +
+                            buildResult(blinkIdResult.maritalStatus, "Martial status") +
+                            buildResult(blinkIdResult.personalIdNumber, "Personal id number") +
+                            buildResult(blinkIdResult.profession, "Profession") +
+                            buildResult(blinkIdResult.race, "Race") +
+                            buildResult(blinkIdResult.religion, "Religion") +
+                            buildResult(blinkIdResult.residentialStatus, "Residential status") +
+                            buildResult(blinkIdResult.processingStatus, "Processing status") +
+                            buildResult(blinkIdResult.recognitionMode, "Recognition mode")
+                            ;
+
+                        var licenceInfo = blinkIdResult.driverLicenseDetailedInfo;
+                        if (licenceInfo) {
+                            resultString +=
+                                buildResult(licenceInfo.restrictions, "Restrictions") +
+                                buildResult(licenceInfo.endorsements, "Endorsements") +
+                                buildResult(licenceInfo.vehicleClass, "Vehicle class") +
+                                buildResult(licenceInfo.conditions, "Conditions");
+                        }
+
+                        // there are other fields to extract - check blinkIdScanner.js for full reference
+                        resultDiv.innerHTML = resultString;
+
                         var resultDocumentFrontImage = blinkIdCombinedRecognizer.result.fullDocumentFrontImage;
                         if (resultDocumentFrontImage) {
                             documentFrontImage.src = "data:image/jpg;base64, " + resultDocumentFrontImage;
@@ -118,44 +177,11 @@ var app = {
                             faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
                             faceImageDiv.style.visibility = "visible";
                         }
-
-                        var fieldDelim = "<br>";
-                        var blinkIdResult = blinkIdCombinedRecognizer.result;
-
-                        var resultString =
-                            "First name: " + blinkIdResult.firstName + fieldDelim +
-                            "Last name: " + blinkIdResult.lastName + fieldDelim +
-                            "Address: " + blinkIdResult.address + fieldDelim +
-                            "Document number: " + blinkIdResult.documentNumber + fieldDelim +
-                            "Sex: " + blinkIdResult.sex + fieldDelim;
-                        if (blinkIdResult.dateOfBirth) {
-                            resultString +=
-                                "Date of birth: " +
-                                    blinkIdResult.dateOfBirth.day + "." +
-                                    blinkIdResult.dateOfBirth.month + "." +
-                                    blinkIdResult.dateOfBirth.year + "." + fieldDelim;
-                        }
-                        if (blinkIdResult.dateOfIssue) {
-                            resultString +=
-                                "Date of issue: " +
-                                    blinkIdResult.dateOfIssue.day + "." +
-                                    blinkIdResult.dateOfIssue.month + "." +
-                                    blinkIdResult.dateOfIssue.year + "." + fieldDelim;
-                        }
-                        if (blinkIdResult.dateOfExpiry) {
-                            resultString +=
-                                "Date of expiry: " +
-                                    blinkIdResult.dateOfExpiry.day + "." +
-                                    blinkIdResult.dateOfExpiry.month + "." +
-                                    blinkIdResult.dateOfExpiry.year + "." + fieldDelim;
-                        }
-                        // there are other fields to extract - check blinkIdScanner.js for full reference
-                        resultDiv.innerHTML = resultString;
                     } else {
                         resultDiv.innerHTML = "Result is empty!";
                     }
                 },
-                
+
                 // Register the error callback
                 function errorHandler(err) {
                     alert('Error: ' + err);
@@ -170,4 +196,5 @@ var app = {
     receivedEvent: function(id) {
         console.log('Received Event: ' + id);
     }
+
 };
