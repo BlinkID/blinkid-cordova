@@ -1,11 +1,12 @@
 repositories {
     jcenter()
     mavenCentral()
+    //mavenLocal()
     maven { url 'http://maven.microblink.com' }
 }
 
 dependencies {
-    implementation('com.microblink:blinkid:5.6.0@aar') {
+    implementation('com.microblink:blinkid:5.7.0@aar') {
         transitive = true
     }
 }
