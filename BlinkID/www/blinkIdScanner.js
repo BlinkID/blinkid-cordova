@@ -262,7 +262,7 @@ BlinkID.prototype.DocumentImageColorStatus = Object.freeze(
 /**
  * Defines possible states of Moire pattern detection.
  */
-BlinkID.prototype.DocumentImageMoireStatus = Object.freeze(
+BlinkID.prototype.ImageAnalysisDetectionStatus = Object.freeze(
     {
         /** Detection of Moire patterns was not performed. */
         NotAvailable: 1,
@@ -300,15 +300,92 @@ var AnonymizationMode = Object.freeze(
 BlinkID.prototype.AnonymizationMode = AnonymizationMode;
 
 /**
+ * Detailed information about the recognition process.
+ */
+BlinkID.prototype.ProcessingStatus = Object.freeze(
+    {
+    /** Recognition was successful. */
+    Success: 1,
+
+    /** Detection of the document failed. */
+    DetectionFailed: 2,
+
+    /** Preprocessing of the input image has failed. */
+    ImagePreprocessingFailed: 3,
+
+    /** Recognizer has inconsistent results. */
+    StabilityTestFailed: 4,
+
+    /** Wrong side of the document has been scanned. */
+    ScanningWrongSide: 5,
+
+    /** Identification of the fields present on the document has failed. */
+    FieldIdentificationFailed: 6,
+
+    /** Mandatory field for the specific document is missing. */
+    MandatoryFieldMissing: 7,
+
+    /** Result contains invalid characters in some of the fields. */
+    InvalidCharactersFound: 8,
+
+    /** Failed to return a requested image. */
+    ImageReturnFailed: 9,
+
+    /** Reading or parsing of the barcode has failed. */
+    BarcodeRecognitionFailed: 10,
+
+    /** Parsing of the MRZ has failed. */
+    MrzParsingFailed: 11,
+
+    /** Document class has been filtered out. */
+    ClassFiltered: 12,
+
+    /** Document currently not supported by the recognizer. */
+    UnsupportedClass: 13,
+
+    /** License for the detected document is missing. */
+    UnsupportedByLicense: 14
+    }
+);
+
+BlinkID.prototype.RecognitionMode = Object.freeze(
+    {
+    /** No recognition performed. */
+    None: 1,
+
+    /** Recognition of mrz document (does not include visa and passport) */
+    MrzId: 2,
+
+    /** Recognition of visa mrz. */
+    MrzVisa: 3,
+
+    /** Recognition of passport mrz. */
+    MrzPassport: 4,
+
+    /** Recognition of documents that have face photo on the front. */
+    PhotoId: 5,
+
+    /** Detailed document recognition. */
+    FullRecognition: 6
+    }
+);
+
+/**
  * Defines possible color and moire statuses determined from scanned image.
  */
 function ImageAnalysisResult(nativeImageAnalysisResult) {
     /**  Whether the image is blurred. */
     this.blurred = nativeImageAnalysisResult.blurred;
-    /** he color status determined from scanned image. */
+    /** The color status determined from scanned image. */
     this.documentImageColorStatus = nativeImageAnalysisResult.documentImageColorStatus;
     /** The Moire pattern detection status determined from the scanned image. */
-    this.documentImageMoireStatus = nativeImageAnalysisResult.documentImageMoireStatus;  
+    this.documentImageMoireStatus = nativeImageAnalysisResult.documentImageMoireStatus;
+    /** Face detection status determined from the scanned image. */
+    this.faceDetectionStatus = nativeImageAnalysisResult.faceDetectionStatus;
+    /** Mrz detection status determined from the scanned image.  */
+    this.mrzDetectionStatus = nativeImageAnalysisResult.mrzDetectionStatus;
+    /** Barcode detection status determined from the scanned image. */
+    this.barcodeDetectionStatus = nativeImageAnalysisResult.barcodeDetectionStatus;
 }
 
 /**
@@ -878,6 +955,24 @@ function ImageExtensionFactors() {
 }
 
 BlinkID.prototype.ImageExtensionFactors = ImageExtensionFactors;
+/**
+ * RecognitionModeFilter is used to enable/disable recognition of specific document groups.
+ * Setting is taken into account only if the right for that document is purchased.
+ */
+function RecognitionModeFilter() {
+    /** Enable scanning of MRZ IDs. Setting is taken into account only if the mrz_id right is purchased. */
+    this.enableMrzId = true;
+    /** Enable scanning of visa MRZ. Setting is taken into account only if the visa right is purchased. */
+    this.enableMrzVisa = true;
+    /** Enable scanning of Passport MRZ. Setting is taken into account only if the passport right is purchased. */
+    this.enableMrzPassport = true;
+    /** Enable scanning of Photo ID. Setting is taken into account only if the photo_id right is purchased. */
+    this.enablePhotoId = true;
+    /** Enable full document recognition. Setting is taken into account only if the document right to scan that document is purchased. */
+    this.enableFullDocumentRecognition = true;
+}
+
+BlinkID.prototype.RecognitionModeFilter = RecognitionModeFilter;
 
 // COMMON CLASSES
 
@@ -1129,11 +1224,6 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.classInfo = nativeResult.classInfo;
     
     /** 
-     * The driver license conditions. 
-     */
-    this.conditions = nativeResult.conditions;
-    
-    /** 
      * The date of birth of the document owner. 
      */
     this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
@@ -1278,6 +1368,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
+     * Defines status of the last recognition process. 
+     */
+    this.processingStatus = nativeResult.processingStatus;
+    
+    /** 
      * The profession of the document owner. 
      */
     this.profession = nativeResult.profession;
@@ -1286,6 +1381,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * The race of the document owner. 
      */
     this.race = nativeResult.race;
+    
+    /** 
+     * Recognition mode used to scan current document. 
+     */
+    this.recognitionMode = nativeResult.recognitionMode;
     
     /** 
      * The religion of the document owner. 
@@ -1384,6 +1484,13 @@ function BlinkIdCombinedRecognizer() {
     this.paddingEdge = 0.0;
     
     /** 
+     * Enable or disable recognition of specific document groups supported by the current license.
+     * 
+     *  
+     */
+    this.recognitionModeFilter = new RecognitionModeFilter();
+    
+    /** 
      * Sets whether face image from ID card should be extracted
      * 
      *  
@@ -1464,11 +1571,6 @@ function BlinkIdRecognizerResult(nativeResult) {
      * The classification information. 
      */
     this.classInfo = nativeResult.classInfo;
-    
-    /** 
-     * The driver license conditions. 
-     */
-    this.conditions = nativeResult.conditions;
     
     /** 
      * The date of birth of the document owner. 
@@ -1587,6 +1689,11 @@ function BlinkIdRecognizerResult(nativeResult) {
     this.placeOfBirth = nativeResult.placeOfBirth;
     
     /** 
+     * Defines status of the last recognition process. 
+     */
+    this.processingStatus = nativeResult.processingStatus;
+    
+    /** 
      * The profession of the document owner. 
      */
     this.profession = nativeResult.profession;
@@ -1595,6 +1702,11 @@ function BlinkIdRecognizerResult(nativeResult) {
      * The race of the document owner. 
      */
     this.race = nativeResult.race;
+    
+    /** 
+     * Recognition mode used to scan current document. 
+     */
+    this.recognitionMode = nativeResult.recognitionMode;
     
     /** 
      * The religion of the document owner. 
@@ -1690,6 +1802,13 @@ function BlinkIdRecognizer() {
      *  
      */
     this.paddingEdge = 0.0;
+    
+    /** 
+     * Enable or disable recognition of specific document groups supported by the current license.
+     * 
+     *  
+     */
+    this.recognitionModeFilter = new RecognitionModeFilter();
     
     /** 
      * Sets whether face image from ID card should be extracted
