@@ -376,15 +376,15 @@ BlinkID.prototype.RecognitionMode = Object.freeze(
 function ImageAnalysisResult(nativeImageAnalysisResult) {
     /**  Whether the image is blurred. */
     this.blurred = nativeImageAnalysisResult.blurred;
-    /** he color status determined from scanned image. */
+    /** The color status determined from scanned image. */
     this.documentImageColorStatus = nativeImageAnalysisResult.documentImageColorStatus;
     /** The Moire pattern detection status determined from the scanned image. */
     this.documentImageMoireStatus = nativeImageAnalysisResult.documentImageMoireStatus;
-    /** The Moire pattern detection status determined from the scanned image. */
+    /** Face detection status determined from the scanned image. */
     this.faceDetectionStatus = nativeImageAnalysisResult.faceDetectionStatus;
-    /** The Moire pattern detection status determined from the scanned image. */
+    /** Mrz detection status determined from the scanned image.  */
     this.mrzDetectionStatus = nativeImageAnalysisResult.mrzDetectionStatus;
-    /** The Moire pattern detection status determined from the scanned image. */
+    /** Barcode detection status determined from the scanned image. */
     this.barcodeDetectionStatus = nativeImageAnalysisResult.barcodeDetectionStatus;
 }
 

@@ -147,16 +147,16 @@
         };
 }
 
-+(MBRecognitionModeFilter) deserializeMBRecognitionModeFilter:(NSDictionary *)jsonRecognitionModeFilter {
++(MBRecognitionModeFilter *) deserializeMBRecognitionModeFilter:(NSDictionary *)jsonRecognitionModeFilter {
     if (jsonRecognitionModeFilter == nil) {
         return [[MBRecognitionModeFilter alloc] init];
     } else {
         MBRecognitionModeFilter *recognitionModeFilter = [[MBRecognitionModeFilter alloc] init];
-        recognitionModeFilter.enableMrzId = [[jsonExtensionFactors valueForKey:@"enableMrzId"] boolValue];
-        recognitionModeFilter.enableMrzVisa = [[jsonExtensionFactors valueForKey:@"enableMrzVisa"] boolValue];
-        recognitionModeFilter.enableMrzPassport = [[jsonExtensionFactors valueForKey:@"enableMrzPassport"] boolValue];
-        recognitionModeFilter.enablePhotoId = [[jsonExtensionFactors valueForKey:@"enablePhotoId"] boolValue];
-        recognitionModeFilter.enableFullDocumentRecognition = [[jsonExtensionFactors valueForKey:@"enableFullDocumentRecognition"] boolValue];
+        recognitionModeFilter.enableMrzId = [[jsonRecognitionModeFilter valueForKey:@"enableMrzId"] boolValue];
+        recognitionModeFilter.enableMrzVisa = [[jsonRecognitionModeFilter valueForKey:@"enableMrzVisa"] boolValue];
+        recognitionModeFilter.enableMrzPassport = [[jsonRecognitionModeFilter valueForKey:@"enableMrzPassport"] boolValue];
+        recognitionModeFilter.enablePhotoId = [[jsonRecognitionModeFilter valueForKey:@"enablePhotoId"] boolValue];
+        recognitionModeFilter.enableFullDocumentRecognition = [[jsonRecognitionModeFilter valueForKey:@"enableFullDocumentRecognition"] boolValue];
 
         return recognitionModeFilter;
     }
