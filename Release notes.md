@@ -1,4 +1,7 @@
 ## 5.7.0
+- Updated to [iOS SDK v5.7.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.7.1)
+
+## 5.7.0
 - Updated to [Android SDK v5.7.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.7.0) and [iOS SDK v5.7.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.7.0)
 
 ## 5.6.1
