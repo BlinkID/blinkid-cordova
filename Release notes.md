@@ -1,4 +1,4 @@
-## 5.7.0
+## 5.7.1
 - Updated to [iOS SDK v5.7.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.7.1)
 
 ## 5.7.0
