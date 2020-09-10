@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME="BlinkIDDemo"
+APP_NAME="BlinkIDSampleApp"
 APP_ID="com.microblink.blinkid"
 
 # remove any existing code
@@ -26,9 +26,9 @@ sed -i "" "s/io.ionic.starter/$APP_ID/" config.xml
 sed -i "" "s/MyApp/$APP_NAME/" config.xml
 
 # copy content of the www folder
-cp -f -r ../www/index.html ./www/
-cp -f -r ../www/js ./www/
+cp -f -r ../SampleFiles/www/index.html ./www/
+cp -f -r ../SampleFiles/www/js ./www/
 
 # how to run
-echo "To run iOS demo application open Xcode project $APP_NAME.xcodeproj"
+echo "To run iOS demo application open Xcode project $APP_NAME/platforms/ios/$APP_NAME.xcodeproj and set your development team."
 echo "To run Android demo application, position to $APP_NAME folder and type: ionic cordova run android"
