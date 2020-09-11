@@ -75,10 +75,10 @@ var app = {
         // create RecognizerCollection from any number of recognizers that should perform recognition
         var recognizerCollection = new cordova.plugins.BlinkID.RecognizerCollection([blinkIdCombinedRecognizer /*, mrtdSuccessFrameGrabber */]);
 
-        // package name/bundleID com.microblink.blinkid
+        // package name/bundleID com.microblink.sample
         var licenseKeys = {
-            android: 'sRwAAAAWY29tLm1pY3JvYmxpbmsuYmxpbmtpZJ9ew00uWSf86/uxZPZ8A5a5B2aj+W3OiNeY7fQhH/Zf2sdnn3GUv37/g7C/1VZwTj2Pbt38LXwkJGY1NoAbZzWlIDzraeoSkLCtLPh86WJ0SHXYWq+lGKZck+0oeAJoFWPiTHU28S4JOf2e2rvFvJ2N7C+DD8Zqfly9Pi8bfMMk00W2zf2Ts6w9raFVCDDn/7PI2Xe1mmX590aw7bGrdrg8AjPRVD/aOP0l3rrQGcZ1BvNbfu/P3HF/tZ8X2SYWEWOwmpFhJhc=',
-            ios: 'sRwAAAEWY29tLm1pY3JvYmxpbmsuYmxpbmtpZFG2rW9X4lA0y++pNbv9atu9irJYOi+iPHK1fawmb6/G91+VXgF9Pq6xqzuzt29EhfrMQdfdCac1IY8WLxbH9On3jNvAyvZiRx326/r2BhHKZ1mIYJsb+pvt87coWcpWKV3gL0tlp1JCvnSyog7GtF7ge/Y1qcSdwe815m6Ahu6Q6L6UZkcuZ03cL8eVzhVt/+P9yWKxWSmFiKd8hBaM5X1tDKXxV0kAF/4eiaqDOWdQbJuUUn0YsXz/8gMMSD0MB6JZyyXpiLk='
+            android: 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdf5ZkGlTu9W3OPtHZuoNGKKjVJCtgeTniIreKYHlm+vSvgCWTIaeV3b/8PTI1MaUdu55ajYYbb1bNxTKMsPqTbYuXP3HyEjcZqoPC6g4fGVkCtqhecMtUG9FOSsPTWEXIrF8nHVYFmHZcMcasXB6h5u5YwXeIEh1IxrFkq3DFizEuuTWPsRs5iXdxPtTFUFR+1k2J64h88wGuTYLW696bYgSqBmH5p0v36roZC+U+VcKfmWm9Y5+mJvoHyi3fRn/DtK9lMkK',
+            ios: 'sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP+dpSuS/38LVOOaNNacdy5kvOjARlS+ZYUJequcG+Hqo27AnV1Dsb+chCYtaeZSdPijWBCYJ51tohlnyZoEVBy/6a1OH/bRSNy8cPbh6GEjWK5XsLOJGggpwhNMoId3hXJpEJisHYvwiArC5tvWBUZzgr5rmupFObXTd67RaHytuIBa1ENEiLqT9RRHho05ftVuEcfE0Qk/eKv1vbL+LyowK80VS2pZNoOCd/g8K7iHW5XhGdeCqu0C7izVQ+kROfheTZf8I'
         };
 
         function buildResult(result, key) {
