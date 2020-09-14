@@ -50,10 +50,10 @@ var app = {
         var faceImageDiv = document.getElementById('faceImageDiv');
         var faceImage = document.getElementById('faceImage');
 
-        successfulImageDiv.style.visibility = "hidden"
-        documentFrontImageDiv.style.visibility = "hidden"
-        documentBackImageDiv.style.visibility = "hidden"
-        faceImageDiv.style.visibility = "hidden"
+        successfulImageDiv.style.visibility = "hidden";
+        documentFrontImageDiv.style.visibility = "hidden";
+        documentBackImageDiv.style.visibility = "hidden";
+        faceImageDiv.style.visibility = "hidden";
 
         // to scan any machine readable travel document (passports, visa's and IDs with 
         // machine readable zone), use MrtdRecognizer
@@ -78,7 +78,7 @@ var app = {
         // package name/bundleID com.microblink.sample
         var licenseKeys = {
             android: 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdf5ZkGlTu9W3OPtHZuoNGKKjVJCtgeTniIreKYHlm+vSvgCWTIaeV3b/8PTI1MaUdu55ajYYbb1bNxTKMsPqTbYuXP3HyEjcZqoPC6g4fGVkCtqhecMtUG9FOSsPTWEXIrF8nHVYFmHZcMcasXB6h5u5YwXeIEh1IxrFkq3DFizEuuTWPsRs5iXdxPtTFUFR+1k2J64h88wGuTYLW696bYgSqBmH5p0v36roZC+U+VcKfmWm9Y5+mJvoHyi3fRn/DtK9lMkK',
-            ios: 'sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP+dpSuS/38LVOOaNNacdy5kvOjARlS+ZYUJequcG+Hqo27AnV1Dsb+chCYtaeZSdPijWBCYJ51tohlnyZoEVBy/6a1OH/bRSNy8cPbh6GEjWK5XsLOJGggpwhNMoId3hXJpEJisHYvwiArC5tvWBUZzgr5rmupFObXTd67RaHytuIBa1ENEiLqT9RRHho05ftVuEcfE0Qk/eKv1vbL+LyowK80VS2pZNoOCd/g8K7iHW5XhGdeCqu0C7izVQ+kROfheTZf8I'
+            ios: 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdf5ZkGlTu9W3OMtlz473rOYXXInzJ8snv7nxCLN17zjcm+suA4KjMpE2dFZXWX8BduxrLbWtOYVI7H3P3lFjc30uqRa8ikxwUJM+6JuKs1dLFNQw80KBHE3OymtkC0tpOKtNbEZzzlpJSjZn8AfP2PofMEuJvM3tohOnYAtGIY6tNG4k4pMivgzZF4C6FfhlV/h5PJKcwxlYWUEIUUc5yzzsYyNApK/dvRHpdPHaup1XJML8nTQjvXTAkiuiIjMRdQ/9Uew='
         };
 
         function buildResult(result, key) {
@@ -105,6 +105,11 @@ var app = {
 
                     resultDiv.innerHTML = "";
 
+                    successfulImageDiv.style.visibility = "hidden";
+                    documentFrontImageDiv.style.visibility = "hidden";
+                    documentBackImageDiv.style.visibility = "hidden";
+                    faceImageDiv.style.visibility = "hidden";
+
                     // handle cancelled scanning
                     if (cancelled) {
                         resultDiv.innerHTML = "Cancelled!";
@@ -112,11 +117,6 @@ var app = {
                     }
 
                     // if not cancelled, every recognizer will have its result property updated
-
-                    successfulImageDiv.style.visibility = "hidden"
-                    documentFrontImageDiv.style.visibility = "hidden"
-                    documentBackImageDiv.style.visibility = "hidden"
-                    faceImageDiv.style.visibility = "hidden"
 
                     if (blinkIdCombinedRecognizer.result.resultState == cordova.plugins.BlinkID.RecognizerResultState.valid) {
 
