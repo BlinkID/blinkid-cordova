@@ -42,7 +42,7 @@ Sample Cordova app is generated with a script
 ./initCordovaSampleApp.sh
 ```
 
-To run iOS sample application open Xcode project found in `BlinkIDSampleApp/platforms/ios/BlinkIDSampleApp.xcodeproj` and set your signing team.
+To run iOS sample application open Xcode project found in `sample/platforms/ios/sample.xcodeproj` and set your signing team.
 
 To run Android sample application type
 
@@ -60,7 +60,7 @@ Sample Ionic app is generated with a script
 
 When Ionic asks the following question **Would you like to integrate your new app with Cordova to target native iOS and Android?** answer with **y**.
 
-To run iOS sample application open Xcode project found in `BlinkIDSampleApp/platforms/ios/BlinkIDSampleApp.xcodeproj` and set your signing team.
+To run iOS sample application open Xcode project found in `sample/platforms/ios/sample.xcodeproj` and set your signing team.
 
 To run Android sample application type
 
@@ -180,7 +180,7 @@ cordova build ios
 
 In **phonegap** CLI instead of `platform add` just request a build for the platform using `build android` or `build ios`. You will have to do the manual steps described above to be able to do a successfull build.
 
-You can also use provided `initSampleApp.sh` script that will generate a sample app that uses the plugin:
+You can also use provided `initCordovaSampleApp.sh` script that will generate a sample app that uses the plugin:
 
 ```shell
 ./initCordovaSampleApp.sh
