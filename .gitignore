@@ -5,9 +5,7 @@
 BlinkID/src/ios/blinkid-ios
 
 # demo app
-BlinkIdDemo
+sample
 
 # res
 resources/signing
-
-BlinkIdDevDemo

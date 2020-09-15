@@ -39,12 +39,12 @@ To clone repository:
 Sample Cordova app is generated with a script
 
 ```shell
-./initCordovaDemoApp.sh
+./initCordovaSampleApp.sh
 ```
 
-To run iOS demo application open Xcode project `BlinkIdDemo.xcodeproj`
+To run iOS sample application open Xcode project found in `sample/platforms/ios/sample.xcodeproj` and set your signing team.
 
-To run Android demo application type
+To run Android sample application type
 
 ```shell
 cordova run android
@@ -55,14 +55,14 @@ cordova run android
 Sample Ionic app is generated with a script
 
 ```shell
-./initIonicDemoApp.sh
+./initIonicSampleApp.sh
 ```
 
 When Ionic asks the following question **Would you like to integrate your new app with Cordova to target native iOS and Android?** answer with **y**.
 
-To run iOS demo application open Xcode project `BlinkIdDemo.xcodeproj`
+To run iOS sample application open Xcode project found in `sample/platforms/ios/sample.xcodeproj` and set your signing team.
 
-To run Android demo application type
+To run Android sample application type
 
 ```shell
 ionic run android
@@ -78,7 +78,7 @@ ionic run android
 
 ### Cordova
 
-Step by step guide how to start blinkid-phonegap using Cordova. A tutorial flows from cloning repository via git clone to successfully deployed demo application on Android and iOS device with real-time screen mirroring. Application demo contains simple use of USDL recognizer with Ontario drivers license card.
+Step by step guide how to start blinkid-phonegap using Cordova. A tutorial flows from cloning repository via git clone to successfully deployed sample application on Android and iOS device with real-time screen mirroring. Application sample contains simple use of USDL recognizer with Ontario drivers license card.
 
 <p align="center" >
   <a href="https://vimeo.com/278694990" target="_blank">
@@ -180,10 +180,10 @@ cordova build ios
 
 In **phonegap** CLI instead of `platform add` just request a build for the platform using `build android` or `build ios`. You will have to do the manual steps described above to be able to do a successfull build.
 
-You can also use provided `initDemoApp.sh` script that will generate a demo app that uses the plugin:
+You can also use provided `initCordovaSampleApp.sh` script that will generate a sample app that uses the plugin:
 
 ```shell
-./initCordovaDemoApp.sh
+./initCordovaSampleApp.sh
 ```
 
 To run the script, you'll need BASH environment on Windows (Linux and MacOS use BASH by default).
@@ -191,7 +191,7 @@ To run the script, you'll need BASH environment on Windows (Linux and MacOS use 
 
 ## Usage
 
-To use the plugin you call it in your Javascript code like the [demo application](www/js/index.js).
+To use the plugin you call it in your Javascript code like the [sample application](www/js/index.js).
 
 Documentation for all features and JS API is available in [blinkIdScanner.js JS API file](BlinkID/www/blinkIdScanner.js).
 
