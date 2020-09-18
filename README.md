@@ -1,6 +1,10 @@
 # BlinkID SDK wrapper for Cordova
 
-This repository contains example wrapper for BlinkID native SDKs ([iOS](https://github.com/BlinkID/blinkid-ios) and [Android](https://github.com/BlinkID/blinkid-android)). Not all features of native SDKs are available in Cordova wrapper. However, the wrapper is open source, so you can easily add features that you need. For 100% of features and maximum control, consider using native SDKs.
+Enhance your Cordova cross-platform apps with an AI-driven mobile ID scanner.
+
+We made it quick and easy for you to create a sample application or install the plugin into your existing iOS or Android project.
+
+For a full access to all features and functionalities, it’s best to go with one of our native SDKs (for [iOS](https://github.com/BlinkID/blinkid-ios) or [Android](https://github.com/BlinkID/blinkid-android)).
 
 ## Cordova version
 BlinkID Cordova requires Cordova **v7.0.0 or later** and cordova-android plugin **v8.0.0 or later**.
