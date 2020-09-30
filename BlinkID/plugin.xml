@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkid-cordova" 
-        version="5.7.1">
+        version="5.8.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -97,8 +97,10 @@
         <header-file src="src/ios/sources/MBCommonSerializationUtils.h" />
         <header-file src="src/ios/sources/CDVMicroblinkScanner.h" />
         <header-file src="src/ios/sources/MBSerializationUtils.h" />
+        <source-file src="src/ios/sources/Overlays/MBOverlaySerializationUtils.m" />
         <header-file src="src/ios/sources/Overlays/MBOverlayVCCreator.h" />
         <source-file src="src/ios/sources/Overlays/MBOverlaySettingsSerializers.m" />
+        <header-file src="src/ios/sources/Overlays/MBOverlaySerializationUtils.h" />
         <header-file src="src/ios/sources/Overlays/MBOverlayViewControllerDelegate.h" />
         <header-file src="src/ios/sources/Overlays/MBOverlaySettingsSerializers.h" />
         <header-file src="src/ios/sources/Overlays/Serialization/MBDocumentOverlaySettingsSerialization.h" />
