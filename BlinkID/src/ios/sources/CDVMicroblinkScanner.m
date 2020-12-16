@@ -98,11 +98,16 @@ const int COMPRESSED_IMAGE_QUALITY = 90;
     NSString* iosLicense = [jsonLicense objectForKey:@"ios"];
     if ([jsonLicense objectForKey:@"licensee"] != nil) {
         NSString *licensee = [jsonLicense objectForKey:@"licensee"];
-        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback: nil];
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback:^(MBLicenseError licenseError) {
+
+        }];
     }
     else {
-        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback: nil];
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback:^(MBLicenseError licenseError) {
+
+        }];
     }
+
 }
 
 - (void)overlayViewControllerDidFinishScanning:(MBOverlayViewController *)overlayViewController state:(MBRecognizerResultState)state {

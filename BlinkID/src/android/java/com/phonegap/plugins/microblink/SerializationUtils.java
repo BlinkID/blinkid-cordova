@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.util.Base64;
 
 import com.microblink.entities.recognizers.Recognizer;
-//import com.microblink.entities.parsers.Parser;
 import com.microblink.geometry.Point;
 import com.microblink.geometry.Quadrilateral;
 import com.microblink.image.Image;
@@ -29,10 +28,6 @@ public abstract class SerializationUtils {
     public static <T extends Recognizer.Result> void addCommonRecognizerResultData(JSONObject jsonObject, T result) throws JSONException {
         jsonObject.put("resultState", serializeEnum(result.getResultState()));
     }
-
-    /*public static <T extends Parser.Result> void addCommonParserResultData(JSONObject jsonObject, T result) throws JSONException {
-        jsonObject.put("resultState", serializeEnum(result.getResultState()));
-    }*/
 
     public static JSONObject serializeDate( @Nullable  Date date ) throws JSONException {
         if (date != null ) {
