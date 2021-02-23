@@ -1,4 +1,4 @@
-package com.phonegap.plugins.microblink;
+package com.microblink.plugins.cordova;
 
 import android.graphics.Bitmap;
 import android.util.Base64;

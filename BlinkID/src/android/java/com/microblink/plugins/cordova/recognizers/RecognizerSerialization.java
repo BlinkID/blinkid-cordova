@@ -1,4 +1,4 @@
-package com.phonegap.plugins.microblink.recognizers;
+package com.microblink.plugins.cordova.recognizers;
 
 import com.microblink.entities.recognizers.Recognizer;
 

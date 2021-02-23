@@ -1,4 +1,4 @@
-package com.phonegap.plugins.microblink.overlays.serialization;
+package com.microblink.plugins.cordova.overlays.serialization;
 
 import android.content.Context;
 
@@ -6,11 +6,11 @@ import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.fragment.overlay.blinkid.documentverification.DocumentVerificationOverlayStrings;
 import com.microblink.uisettings.DocumentVerificationUISettings;
 import com.microblink.uisettings.UISettings;
-import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerialization;
+import com.microblink.plugins.cordova.overlays.OverlaySettingsSerialization;
 
 import org.json.JSONObject;
 
-import static com.phonegap.plugins.microblink.SerializationUtils.getStringFromJSONObject;
+import static com.microblink.plugins.cordova.SerializationUtils.getStringFromJSONObject;
 
 public final class DocumentVerificationOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
