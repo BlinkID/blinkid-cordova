@@ -1,11 +1,11 @@
-package com.phonegap.plugins.microblink.overlays.serialization;
+package com.microblink.plugins.cordova.overlays.serialization;
 
 import android.content.Context;
 
 import com.microblink.entities.recognizers.RecognizerBundle;;
 import com.microblink.uisettings.DocumentUISettings;
 import com.microblink.uisettings.UISettings;
-import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerialization;
+import com.microblink.plugins.cordova.overlays.OverlaySettingsSerialization;
 
 import org.json.JSONObject;
 

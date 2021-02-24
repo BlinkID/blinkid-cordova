@@ -6,7 +6,7 @@
  * Copyright (c) 2011, IBM Corporation
  * Copyright (c) 2013, Maciej Nux Jaros
  */
-package com.phonegap.plugins.microblink;
+package com.microblink.plugins.cordova;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,8 +16,8 @@ import com.microblink.MicroblinkSDK;
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.uisettings.UISettings;
-import com.phonegap.plugins.microblink.overlays.OverlaySettingsSerializers;
-import com.phonegap.plugins.microblink.recognizers.RecognizerSerializers;
+import com.microblink.plugins.cordova.overlays.OverlaySettingsSerializers;
+import com.microblink.plugins.cordova.recognizers.RecognizerSerializers;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -92,8 +92,8 @@ public class MicroblinkScanner extends CordovaPlugin {
     }
 
     private void setLicense( JSONObject jsonLicense ) throws JSONException {
-        MicroblinkSDK.setShowTimeLimitedLicenseWarning(
-                jsonLicense.optBoolean("showTimeLimitedLicenseKeyWarning", true)
+        MicroblinkSDK.setShowTrialLicenseWarning(
+                jsonLicense.optBoolean("showTrialLicenseKeyWarning", true)
         );
         String androidLicense = jsonLicense.getString("android");
         String licensee = jsonLicense.optString("licensee", null);

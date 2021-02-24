@@ -4,16 +4,12 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd "${HERE}/../src/ios/" > /dev/null
 
-LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v5.9.0/blinkid-ios_v5.9.0.zip'
-FILENAME='blinkid-ios.zip'
+LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v5.10.0/Microblink.framework.zip'
+FILENAME='Microblink.framework.zip'
 
 # check if Microblink framework and bundle already exist
 wget --version > /dev/null 2>&1 || { echo "ERROR: couldn't download Microblink framework, install wget" &&  exit 1; }
 wget -O "${FILENAME}" "${LINK}" -nv --show-progress || ( echo "ERROR: couldn't download Microblink framework, Something went wrong while downloading framework from ${LINK}" && exit 1 )
-
-echo "Unzipping ${FILENAME}"
-unzip -v > /dev/null 2>&1 || { echo "ERROR: couldn't unzip Microblink framework, install unzip" && exit 1; }
-unzip -o "${FILENAME}" > /dev/null 2>&1 && echo "Unzipped ${FILENAME}"
 
 if [ -d 'Microblink.bundle' ] ; then
     rm -rf Microblink.bundle && echo "Removing Microblink.bundle"
@@ -23,14 +19,22 @@ if [ -d 'Microblink.framework' ] ; then
     rm -rf Microblink.framework && echo "Removing Microblink.framework"
 fi 
 
-cd blinkid-ios || exit 1
+if [ -d 'Microblink.xcframework' ] ; then
+    rm -rf Microblink.xcframework && echo "Removing Microblink.xcframework"
+fi 
 
-mv -f Microblink.framework ../Microblink.framework
-cd ..
+echo "Unzipping ${FILENAME}"
+unzip -v > /dev/null 2>&1 || { echo "ERROR: couldn't unzip Microblink framework, install unzip" && exit 1; }
+unzip -o "${FILENAME}" > /dev/null 2>&1 && echo "Unzipped ${FILENAME}"
+
+# cd blinkid-ios || exit 1
+
+# mv -f Microblink.xcframework ../Microblink.xcframework
+# cd ..
 
 echo "Removing unnecessary files"
 
-rm -rfv blinkid-ios >/dev/null 2>&1
+rm -rfv Microblink.xcframework.zip >/dev/null 2>&1
 rm "${FILENAME}" >/dev/null 2>&1
 
 popd

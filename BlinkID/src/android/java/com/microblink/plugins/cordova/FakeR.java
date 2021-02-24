@@ -1,4 +1,4 @@
-package com.phonegap.plugins.microblink;
+package com.microblink.plugins.cordova;
 
 import android.app.Activity;
 import android.content.Context;

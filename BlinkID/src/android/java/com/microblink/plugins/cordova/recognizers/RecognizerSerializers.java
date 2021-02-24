@@ -1,8 +1,8 @@
-package com.phonegap.plugins.microblink.recognizers;
+package com.microblink.plugins.cordova.recognizers;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.RecognizerBundle;
-import com.phonegap.plugins.microblink.recognizers.serialization.*;
+import com.microblink.plugins.cordova.recognizers.serialization.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;

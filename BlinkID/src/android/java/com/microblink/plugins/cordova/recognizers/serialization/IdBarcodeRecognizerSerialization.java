@@ -1,8 +1,8 @@
-package com.phonegap.plugins.microblink.recognizers.serialization;
+package com.microblink.plugins.cordova.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
-import com.phonegap.plugins.microblink.recognizers.RecognizerSerialization;
-import com.phonegap.plugins.microblink.SerializationUtils;
+import com.microblink.plugins.cordova.recognizers.RecognizerSerialization;
+import com.microblink.plugins.cordova.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +35,7 @@ public final class IdBarcodeRecognizerSerialization implements RecognizerSeriali
             jsonResult.put("employer", result.getEmployer());
             jsonResult.put("endorsements", result.getEndorsements());
             jsonResult.put("expired", result.isExpired());
+            jsonResult.put("extendedElements", BlinkIDSerializationUtils.serializeBarcodeElements(result.getExtendedElements()));
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullName", result.getFullName());
             jsonResult.put("issuingAuthority", result.getIssuingAuthority());

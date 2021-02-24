@@ -1,4 +1,4 @@
-package com.phonegap.plugins.microblink.overlays;
+package com.microblink.plugins.cordova.overlays;
 
 import android.content.Context;
 
