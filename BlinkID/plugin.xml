@@ -59,6 +59,7 @@
         <source-file src="src/android/java/com/microblink/plugins/cordova/MicroblinkScanner.java" target-dir="src/com/microblink/plugins/cordova" />
         <source-file src="src/android/java/com/microblink/plugins/cordova/FakeR.java" target-dir="src/com/microblink/plugins/cordova" />
         <source-file src="src/android/java/com/microblink/plugins/cordova/overlays/OverlaySettingsSerialization.java" target-dir="src/com/microblink/plugins/cordova/overlays" />
+        <source-file src="src/android/java/com/microblink/plugins/cordova/overlays/OverlaySerializationUtils.java" target-dir="src/com/microblink/plugins/cordova/overlays" />
         <source-file src="src/android/java/com/microblink/plugins/cordova/overlays/OverlaySettingsSerializers.java" target-dir="src/com/microblink/plugins/cordova/overlays" />
         <source-file src="src/android/java/com/microblink/plugins/cordova/overlays/serialization/DocumentVerificationOverlaySettingsSerialization.java" target-dir="src/com/microblink/plugins/cordova/overlays/serialization" />
         <source-file src="src/android/java/com/microblink/plugins/cordova/overlays/serialization/BlinkIdOverlaySettingsSerialization.java" target-dir="src/com/microblink/plugins/cordova/overlays/serialization" />

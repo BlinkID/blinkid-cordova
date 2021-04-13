@@ -7,6 +7,7 @@ import com.microblink.fragment.overlay.blinkid.documentverification.DocumentVeri
 import com.microblink.uisettings.DocumentVerificationUISettings;
 import com.microblink.uisettings.UISettings;
 import com.microblink.plugins.cordova.overlays.OverlaySettingsSerialization;
+import com.microblink.plugins.cordova.overlays.OverlaySerializationUtils;
 
 import org.json.JSONObject;
 
@@ -16,6 +17,8 @@ public final class DocumentVerificationOverlaySettingsSerialization implements O
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         DocumentVerificationUISettings settings = new DocumentVerificationUISettings(recognizerBundle);
+
+        OverlaySerializationUtils.prepareCommonUiSettings(context, jsonUISettings, settings);
 
         DocumentVerificationOverlayStrings.Builder overlasStringsBuilder = new DocumentVerificationOverlayStrings.Builder(context);
         String firstSideSplashMessage = getStringFromJSONObject(jsonUISettings, "firstSideSplashMessage");
