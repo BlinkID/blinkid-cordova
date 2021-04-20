@@ -369,7 +369,10 @@ BlinkID.prototype.RecognitionMode = Object.freeze(
     PhotoId: 5,
 
     /** Detailed document recognition. */
-    FullRecognition: 6
+    FullRecognition: 6,
+
+    /** Recognition of barcode document. */
+    BarcodeId: 7
     }
 );
 
@@ -740,7 +743,34 @@ BlinkID.prototype.Region = Object.freeze(
         Michoacan: 79,
         NewYorkCity: 80,
         Tamaulipas: 81,
-        Veracruz: 82
+        Veracruz: 82,
+        Chiapas: 83,
+        Coahuila: 84,
+        Durango: 85,
+        GuerreroCocula: 86,
+        GuerreroJuchitan: 87,
+        GuerreroTepecoacuilco: 88,
+        GuerreroTlacoapa: 89,
+        Gujarat: 90,
+        Hidalgo: 91,
+        Karnataka: 92,
+        Kerala: 93,
+        KhyberPakhtunkhwa: 94,
+        MadhyaPradesh: 95,
+        Maharashtra: 96,
+        Morelos: 97,
+        Nayarit: 98,
+        Oaxaca: 99,
+        Puebla: 100,
+        Punjab: 101,
+        Queretaro: 102,
+        SanLuisPotosi: 103,
+        Sinaloa: 104,
+        Sonora: 105,
+        Tabasco: 106,
+        TamilNadu: 107,
+        Yucatan: 108,
+        Zacatecas: 109
     }
 );
 
@@ -785,7 +815,17 @@ BlinkID.prototype.Type = Object.freeze(
         ProfessionalDl: 34,
         TaxId: 35,
         WeaponPermit: 36,
-        Visa: 37
+        Visa: 37,
+        BorderCrossingCard: 38,
+        DriverCard: 39,
+        GlobalEntryCard: 40,
+        Mypolis: 41,
+        NexusCard: 42,
+        PassportCard: 43,
+        ProofOfAgeCard: 44,
+        RefugeeId: 45,
+        TribalId: 46,
+        VeteranId: 47
     }
 );
 
@@ -2083,6 +2123,8 @@ function RecognitionModeFilter() {
     this.enableMrzPassport = true;
     /** Enable scanning of Photo ID. Setting is taken into account only if the photo_id right is purchased. */
     this.enablePhotoId = true;
+    /** Enable scanning of barcode IDs. Setting is taken into account only if the barcode right to scan that barcode is purchased. */
+    this.enableBarcodeId = true;
     /** Enable full document recognition. Setting is taken into account only if the document right to scan that document is purchased. */
     this.enableFullDocumentRecognition = true;
 }
@@ -2097,6 +2139,15 @@ BlinkID.prototype.RecognitionModeFilter = RecognitionModeFilter;
 function OverlaySettings(overlaySettingsType) {
     /** type of the overlay settings object */
     this.overlaySettingsType = overlaySettingsType;
+
+    /**
+     * Whether beep sound will be played on successful scan.
+     */
+    this.enableBeep = false;
+    /**
+     * Whether front camera should be used instead of the default camera.
+     */
+    this.useFrontCamera = false;
 }
 /**
  * Class for setting up document overlay.

@@ -8,6 +8,7 @@ import com.microblink.uisettings.BlinkIdUISettings;
 import com.microblink.uisettings.UISettings;
 import com.microblink.plugins.cordova.overlays.OverlaySettingsSerialization;
 import com.microblink.plugins.cordova.SerializationUtils;
+import com.microblink.plugins.cordova.overlays.OverlaySerializationUtils;
 
 import org.json.JSONObject;
 
@@ -17,6 +18,8 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         BlinkIdUISettings settings = new BlinkIdUISettings(recognizerBundle);
+
+        OverlaySerializationUtils.prepareCommonUiSettings(context, jsonUISettings, settings);
 
         boolean requireDocumentSidesDataMatch = jsonUISettings.optBoolean("requireDocumentSidesDataMatch", true);
         settings.setDocumentDataMatchRequired(requireDocumentSidesDataMatch);

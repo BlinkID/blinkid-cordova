@@ -25,7 +25,7 @@
 #import "MBRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 
-#import <MicroBlink/MicroBlink.h>
+#import <Microblink/Microblink.h>
 
 const NSString *RESULT_LIST = @"resultList";
 
