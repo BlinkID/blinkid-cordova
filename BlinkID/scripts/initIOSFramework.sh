@@ -4,7 +4,7 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd "${HERE}/../src/ios/" > /dev/null
 
-LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v5.11.0/Microblink.xcframework.zip'
+LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v5.12.0/Microblink.xcframework.zip'
 FILENAME='Microblink.xcframework.zip'
 
 # check if Microblink framework and bundle already exist

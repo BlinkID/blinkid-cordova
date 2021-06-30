@@ -347,7 +347,10 @@ BlinkID.prototype.ProcessingStatus = Object.freeze(
     UnsupportedByLicense: 14,
 
     /** Front side recognition has completed successfully, and recognizer is waiting for the other side to be scanned. */
-    AwaitingOtherSide: 15
+    AwaitingOtherSide: 15,
+
+    /** Side not scanned. */
+    NotScanned: 16
     }
 );
 
@@ -770,7 +773,12 @@ BlinkID.prototype.Region = Object.freeze(
         Tabasco: 106,
         TamilNadu: 107,
         Yucatan: 108,
-        Zacatecas: 109
+        Zacatecas: 109,
+        Aguascalientes: 110,
+        BajaCaliforniaSur: 111,
+        Campeche: 112,
+        Colima: 113,
+        QuintanaRooBenitoJuarez: 114
     }
 );
 
@@ -825,7 +833,8 @@ BlinkID.prototype.Type = Object.freeze(
         ProofOfAgeCard: 44,
         RefugeeId: 45,
         TribalId: 46,
-        VeteranId: 47
+        VeteranId: 47,
+        CitizenshipCertificate: 48
     }
 );
 
@@ -2055,25 +2064,6 @@ function BarcodeElements(nativeBarcodeElements) {
     this.values = nativeBarcodeElements.values;
 }
 
-/**
- * Result of the data matching algorithm for scanned parts/sides of the document.
- */
-var DataMatchResult = Object.freeze(
-    {
-        /** Data matching has not been performed. */
-        NotPerformed : 1,
-        /** Data does not match. */
-        Failed : 2,
-        /** Data match. */
-        Success : 3
-    }
-);
-
-/**
- * Possible values for Document Data Match Result field.
- */
-BlinkID.prototype.DataMatchResult = DataMatchResult
-
 /** Possible supported detectors for documents containing face image */
 var DocumentFaceDetectorType = Object.freeze(
     {
@@ -2090,25 +2080,6 @@ var DocumentFaceDetectorType = Object.freeze(
  * Possible values for DocumentFaceDetectorType field.
  */
 BlinkID.prototype.DocumentFaceDetectorType = DocumentFaceDetectorType;
-
-/**
- * Extension factors relative to corresponding dimension of the full image. For example,
- * upFactor and downFactor define extensions relative to image height, e.g.
- * when upFactor is 0.5, upper image boundary will be extended for half of image's full
- * height.
- */
-function ImageExtensionFactors() {
-    /** image extension factor relative to full image height in UP direction. */
-    this.upFactor = 0.0;
-    /** image extension factor relative to full image height in RIGHT direction. */
-    this.rightFactor = 0.0;
-    /** image extension factor relative to full image height in DOWN direction. */
-    this.downFactor = 0.0;
-    /** image extension factor relative to full image height in LEFT direction. */
-    this.leftFactor = 0.0;
-}
-
-BlinkID.prototype.ImageExtensionFactors = ImageExtensionFactors;
 
 /**
  * RecognitionModeFilter is used to enable/disable recognition of specific document groups.
@@ -2130,6 +2101,43 @@ function RecognitionModeFilter() {
 }
 
 BlinkID.prototype.RecognitionModeFilter = RecognitionModeFilter;
+/**
+ * Result of the data matching algorithm for scanned parts/sides of the document.
+ */
+var DataMatchResult = Object.freeze(
+    {
+        /** Data matching has not been performed. */
+        NotPerformed : 1,
+        /** Data does not match. */
+        Failed : 2,
+        /** Data match. */
+        Success : 3
+    }
+);
+
+/**
+ * Possible values for Document Data Match Result field.
+ */
+BlinkID.prototype.DataMatchResult = DataMatchResult
+
+/**
+ * Extension factors relative to corresponding dimension of the full image. For example,
+ * upFactor and downFactor define extensions relative to image height, e.g.
+ * when upFactor is 0.5, upper image boundary will be extended for half of image's full
+ * height.
+ */
+function ImageExtensionFactors() {
+    /** image extension factor relative to full image height in UP direction. */
+    this.upFactor = 0.0;
+    /** image extension factor relative to full image height in RIGHT direction. */
+    this.rightFactor = 0.0;
+    /** image extension factor relative to full image height in DOWN direction. */
+    this.downFactor = 0.0;
+    /** image extension factor relative to full image height in LEFT direction. */
+    this.leftFactor = 0.0;
+}
+
+BlinkID.prototype.ImageExtensionFactors = ImageExtensionFactors;
 
 // COMMON CLASSES
 
@@ -2382,6 +2390,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.backImageAnalysisResult = nativeResult.backImageAnalysisResult;
     
     /**
+     * Status of the last back side recognition process.
+     */
+    this.backProcessingStatus = nativeResult.backProcessingStatus;
+    
+    /**
      * Defines the data extracted from the back side visual inspection zone.
      */
     this.backVizResult = nativeResult.backVizResult;
@@ -2484,6 +2497,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * Defines possible color and moire statuses determined from scanned front image.
      */
     this.frontImageAnalysisResult = nativeResult.frontImageAnalysisResult;
+    
+    /**
+     * Status of the last front side recognition process.
+     */
+    this.frontProcessingStatus = nativeResult.frontProcessingStatus;
     
     /**
      * Defines the data extracted from the front side visual inspection zone.
@@ -2611,6 +2629,14 @@ function BlinkIdCombinedRecognizer() {
     this.allowBlurFilter = true;
     
     /**
+     * Proceed with scanning the back side even if the front side result is uncertain.
+     * This only works for still images - video feeds will ignore this setting.
+     * 
+     * 
+     */
+    this.allowUncertainFrontSideScan = false;
+    
+    /**
      * Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
      * 
      * 
@@ -2656,6 +2682,13 @@ function BlinkIdCombinedRecognizer() {
      * 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /**
+     * Configure the number of characters per field that are allowed to be inconsistent in data match.
+     * 
+     * 
+     */
+    this.maxAllowedMismatchesPerField = 0;
     
     /**
      * Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
