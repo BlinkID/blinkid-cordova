@@ -51,6 +51,10 @@
                     android:configChanges="orientation|screenSize"
                     android:screenOrientation="portrait" >
             </activity>
+
+            <activity android:name="com.microblink.activity.DocumentScanActivity" android:noHistory="true" />
+            <activity android:name="com.microblink.activity.DocumentVerificationActivity" android:noHistory="true" />
+            <activity android:name="com.microblink.activity.BlinkIdActivity" android:noHistory="true" />
         </config-file>
 
 
