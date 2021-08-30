@@ -12,7 +12,7 @@
 #import <Cordova/CDV.h>
 
 /**
- * pdf417 plugin class.
+ * BlinkID plugin class.
  * Responds to JS calls
  */
 @interface CDVMicroblinkScanner : CDVPlugin

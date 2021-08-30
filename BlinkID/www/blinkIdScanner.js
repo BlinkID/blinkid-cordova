@@ -634,7 +634,7 @@ BlinkID.prototype.Country = Object.freeze(
         Sudan: 230,
         Suriname: 231,
         SvalbardAndJanMayen: 232,
-        Swaziland: 233,
+        Eswatini: 233,
         Syria: 234,
         Tajikistan: 235,
         Tanzania: 236,
