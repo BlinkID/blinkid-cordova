@@ -17,7 +17,7 @@
  * REVERSE ENGINEER, DECOMPILE, OR DISASSEMBLE IT.
  */
 
-#import "CDVMicroblinkScanner.h"
+#import "CDVBlinkIDScanner.h"
 
 #import "MBOverlayViewControllerDelegate.h"
 #import "MBRecognizerSerializers.h"

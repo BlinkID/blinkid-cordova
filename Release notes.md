@@ -1,3 +1,7 @@
+## 5.13.1
+
+- Fixed problem with building the iOS plugin
+
 ## 5.13.0
 - Updated to [Android SDK v5.13.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.13.0) and [iOS SDK v5.13.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.13.0)
 
