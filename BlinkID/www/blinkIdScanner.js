@@ -211,7 +211,9 @@ BlinkID.prototype.MrtdDocumentType = Object.freeze(
         /** US Green Card */
         GreenCard : 5,
         /** Malaysian PASS type IMM13P */
-        MalaysianPassIMM13P : 6
+        MalaysianPassIMM13P : 6,
+        /** Border Crossing Card */
+        BorderCrossingCard: 7
     }
 );
 
@@ -2489,6 +2491,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.faceImage = nativeResult.faceImage;
     
     /**
+     * The father's name of the document owner.
+     */
+    this.fathersName = nativeResult.fathersName;
+    
+    /**
      * The first name of the document owner.
      */
     this.firstName = nativeResult.firstName;
@@ -2542,6 +2549,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * The marital status of the document owner.
      */
     this.maritalStatus = nativeResult.maritalStatus;
+    
+    /**
+     * The mother's name of the document owner.
+     */
+    this.mothersName = nativeResult.mothersName;
     
     /**
      * The data extracted from the machine readable zone
@@ -2873,6 +2885,11 @@ function BlinkIdRecognizerResult(nativeResult) {
     this.faceImage = nativeResult.faceImage;
     
     /**
+     * The father's name of the document owner.
+     */
+    this.fathersName = nativeResult.fathersName;
+    
+    /**
      * The first name of the document owner.
      */
     this.firstName = nativeResult.firstName;
@@ -2911,6 +2928,11 @@ function BlinkIdRecognizerResult(nativeResult) {
      * The marital status of the document owner.
      */
     this.maritalStatus = nativeResult.maritalStatus;
+    
+    /**
+     * The mother's name of the document owner.
+     */
+    this.mothersName = nativeResult.mothersName;
     
     /**
      * The data extracted from the machine readable zone
