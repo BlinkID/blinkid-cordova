@@ -3,8 +3,8 @@ package com.microblink.plugins.cordova.overlays.serialization;
 import android.content.Context;
 
 import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.fragment.overlay.blinkid.documentverification.DocumentVerificationOverlayStrings;
-import com.microblink.uisettings.DocumentVerificationUISettings;
+import com.microblink.fragment.overlay.blinkid.legacy.documentverification.LegacyDocumentVerificationOverlayStrings;
+import com.microblink.uisettings.LegacyDocumentVerificationUISettings;
 import com.microblink.uisettings.UISettings;
 import com.microblink.plugins.cordova.overlays.OverlaySettingsSerialization;
 import com.microblink.plugins.cordova.overlays.OverlaySerializationUtils;
@@ -16,11 +16,11 @@ import static com.microblink.plugins.cordova.SerializationUtils.getStringFromJSO
 public final class DocumentVerificationOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
-        DocumentVerificationUISettings settings = new DocumentVerificationUISettings(recognizerBundle);
+        LegacyDocumentVerificationUISettings settings = new LegacyDocumentVerificationUISettings(recognizerBundle);
 
         OverlaySerializationUtils.prepareCommonUiSettings(context, jsonUISettings, settings);
 
-        DocumentVerificationOverlayStrings.Builder overlasStringsBuilder = new DocumentVerificationOverlayStrings.Builder(context);
+        LegacyDocumentVerificationOverlayStrings.Builder overlasStringsBuilder = new LegacyDocumentVerificationOverlayStrings.Builder(context);
         String firstSideSplashMessage = getStringFromJSONObject(jsonUISettings, "firstSideSplashMessage");
         if (firstSideSplashMessage != null) {
             overlasStringsBuilder.setFrontSideSplashText(firstSideSplashMessage);
