@@ -4696,16 +4696,6 @@ function UsdlCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
 
     /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
-
-    /**
      * Returns the result of the data matching algorithm for scanned parts/sides of the document.
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
