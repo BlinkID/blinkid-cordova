@@ -782,7 +782,10 @@ BlinkID.prototype.Region = Object.freeze(
         BajaCaliforniaSur: 111,
         Campeche: 112,
         Colima: 113,
-        QuintanaRooBenitoJuarez: 114
+        QuintanaRooBenitoJuarez: 114,
+        QuintanaRoo: 115,
+        QuintanaRooSolidaridad: 116,
+        Tlaxcala: 117
     }
 );
 
@@ -838,7 +841,8 @@ BlinkID.prototype.Type = Object.freeze(
         RefugeeId: 45,
         TribalId: 46,
         VeteranId: 47,
-        CitizenshipCertificate: 48
+        CitizenshipCertificate: 48,
+        MyNumberCard: 49
     }
 );
 
@@ -2377,6 +2381,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
     this.additionalNameInformation = nativeResult.additionalNameInformation;
     
     /**
+     * The one more additional address information of the document owner.
+     */
+    this.additionalOptionalAddressInformation = nativeResult.additionalOptionalAddressInformation;
+    
+    /**
      * The address of the document owner.
      */
     this.address = nativeResult.address;
@@ -2387,6 +2396,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * @return current age of the document owner in years or -1 if date of birth is unknown.
      */
     this.age = nativeResult.age;
+    
+    /**
+     * The back raw camera frame.
+     */
+    this.backCameraFrame = nativeResult.backCameraFrame;
     
     /**
      * Defines possible color and moire statuses determined from scanned back image.
@@ -2402,6 +2416,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * Defines the data extracted from the back side visual inspection zone.
      */
     this.backVizResult = nativeResult.backVizResult;
+    
+    /**
+     * The barcode raw camera frame.
+     */
+    this.barcodeCameraFrame = nativeResult.barcodeCameraFrame;
     
     /**
      * Defines the data extracted from the barcode.
@@ -2432,16 +2451,6 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * The date of issue of the document.
      */
     this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
-    
-    /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-    
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
     
     /**
      * The additional number of the document.
@@ -2501,6 +2510,11 @@ function BlinkIdCombinedRecognizerResult(nativeResult) {
      * The first name of the document owner.
      */
     this.firstName = nativeResult.firstName;
+    
+    /**
+     * The front raw camera frame.
+     */
+    this.frontCameraFrame = nativeResult.frontCameraFrame;
     
     /**
      * Defines possible color and moire statuses determined from scanned front image.
@@ -2742,19 +2756,20 @@ function BlinkIdCombinedRecognizer() {
     this.returnSignatureImage = false;
     
     /**
+     * Configure the recognizer to save the raw camera frames.
+     * This significantly increases memory consumption.
+     * 
+     * 
+     */
+    this.saveCameraFrames = false;
+    
+    /**
      * Configure the recognizer to only work on already cropped and dewarped images.
      * This only works for still images - video feeds will ignore this setting.
      * 
      * 
      */
     this.scanCroppedDocumentImage = false;
-    
-    /**
-     * Whether or not recognition result should be signed.
-     * 
-     * 
-     */
-    this.signResult = false;
     
     /**
      * Property for setting DPI for signature images
@@ -2804,6 +2819,11 @@ function BlinkIdRecognizerResult(nativeResult) {
     this.additionalNameInformation = nativeResult.additionalNameInformation;
     
     /**
+     * The one more additional address information of the document owner.
+     */
+    this.additionalOptionalAddressInformation = nativeResult.additionalOptionalAddressInformation;
+    
+    /**
      * The address of the document owner.
      */
     this.address = nativeResult.address;
@@ -2816,9 +2836,19 @@ function BlinkIdRecognizerResult(nativeResult) {
     this.age = nativeResult.age;
     
     /**
+     * The barcode raw camera frame.
+     */
+    this.barcodeCameraFrame = nativeResult.barcodeCameraFrame;
+    
+    /**
      * Defines the data extracted from the barcode.
      */
     this.barcodeResult = nativeResult.barcodeResult;
+    
+    /**
+     * The raw camera frame.
+     */
+    this.cameraFrame = nativeResult.cameraFrame;
     
     /**
      * The classification information.
@@ -3103,6 +3133,14 @@ function BlinkIdRecognizer() {
      * 
      */
     this.returnSignatureImage = false;
+    
+    /**
+     * Configure the recognizer to save the raw camera frames.
+     * This significantly increases memory consumption.
+     * 
+     * 
+     */
+    this.saveCameraFrames = false;
     
     /**
      * Configure the recognizer to only work on already cropped and dewarped images.
@@ -3472,16 +3510,6 @@ function MrtdCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-    
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
-    
-    /**
      * Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
      * DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
      * of the document and values do not match, this method will return DataMatchResultFailed. Result will
@@ -3606,13 +3634,6 @@ function MrtdCombinedRecognizer() {
      */
     this.returnFullDocumentImage = false;
     
-    /**
-     * Whether or not recognition result should be signed.
-     * 
-     * 
-     */
-    this.signResult = false;
-    
     this.createResultFromNative = function (nativeResult) { return new MrtdCombinedRecognizerResult(nativeResult); }
 
 }
@@ -3716,16 +3737,6 @@ function PassportRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
     
     /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-    
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
-    
-    /**
      * face image from the document if enabled with returnFaceImage property.
      */
     this.faceImage = nativeResult.faceImage;
@@ -3803,13 +3814,6 @@ function PassportRecognizer() {
      * 
      */
     this.returnFullDocumentImage = false;
-    
-    /**
-     * Whether or not recognition result should be signed.
-     * 
-     * 
-     */
-    this.signResult = false;
     
     this.createResultFromNative = function (nativeResult) { return new PassportRecognizerResult(nativeResult); }
 
@@ -4923,16 +4927,6 @@ function UsdlCombinedRecognizerResult(nativeResult) {
     RecognizerResult.call(this, nativeResult.resultState);
 
     /**
-     * Digital signature of the recognition result. Available only if enabled with signResult property.
-     */
-    this.digitalSignature = nativeResult.digitalSignature;
-
-    /**
-     * Version of the digital signature. Available only if enabled with signResult property.
-     */
-    this.digitalSignatureVersion = nativeResult.digitalSignatureVersion;
-
-    /**
      * Returns the result of the data matching algorithm for scanned parts/sides of the document.
      */
     this.documentDataMatch = nativeResult.documentDataMatch;
@@ -5066,12 +5060,6 @@ function UsdlCombinedRecognizer() {
      * Minimum number of stable detections required for detection to be successful.
      */
     this.numStableDetectionsThreshold = 6;
-
-    /**
-     * Whether or not recognition result should be signed.
-     *
-     */
-    this.signResult = false;
 
     this.createResultFromNative = function (nativeResult) { return new UsdlCombinedRecognizerResult(nativeResult); }
 
