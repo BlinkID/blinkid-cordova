@@ -4,6 +4,7 @@ import com.microblink.plugins.cordova.SerializationUtils;
 
 import com.microblink.entities.recognizers.blinkid.mrtd.MrzResult;
 import com.microblink.entities.recognizers.blinkid.generic.DriverLicenseDetailedInfo;
+import com.microblink.entities.recognizers.blinkid.generic.DataMatchDetailedInfo;
 import com.microblink.entities.recognizers.blinkid.generic.VehicleClassInfo;
 import com.microblink.entities.recognizers.blinkid.generic.classinfo.ClassInfo;
 import com.microblink.entities.recognizers.blinkid.generic.imageanalysis.ImageAnalysisResult;
@@ -68,6 +69,15 @@ public abstract class BlinkIDSerializationUtils {
         jsonVehicleClassInfo.put("effectiveDate", SerializationUtils.serializeDate(vehicleClassInfo.getEffectiveDate().getDate()));
         jsonVehicleClassInfo.put("expiryDate", SerializationUtils.serializeDate(vehicleClassInfo.getExpiryDate().getDate()));
         return jsonVehicleClassInfo;
+    }
+
+    public static JSONObject serializeDataMatchDetailedInfo(DataMatchDetailedInfo dataMatchDetailedInfo) throws JSONException {
+        JSONObject jsonDataMatch = new JSONObject();
+        jsonDataMatch.put("dateOfBirth", SerializationUtils.serializeEnum(dataMatchDetailedInfo.getDateOfBirth()));
+        jsonDataMatch.put("dateOfExpiry", SerializationUtils.serializeEnum(dataMatchDetailedInfo.getDateOfExpiry()));
+        jsonDataMatch.put("documentNumber", SerializationUtils.serializeEnum(dataMatchDetailedInfo.getDocumentNumber()));
+        jsonDataMatch.put("dataMatchResult", SerializationUtils.serializeEnum(dataMatchDetailedInfo.getDataMatchResult()));
+        return jsonDataMatch;
     }
 
     public static JSONObject serializeClassInfo(ClassInfo classInfo) throws JSONException {

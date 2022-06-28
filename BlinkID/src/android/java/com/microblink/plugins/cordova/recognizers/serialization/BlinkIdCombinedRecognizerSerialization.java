@@ -52,6 +52,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("barcodeCameraFrame", SerializationUtils.encodeImageBase64(result.getBarcodeCameraFrame()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
+            jsonResult.put("dataMatchDetailedInfo", BlinkIDSerializationUtils.serializeDataMatchDetailedInfo(result.getDataMatchDetailedInfo()));
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
