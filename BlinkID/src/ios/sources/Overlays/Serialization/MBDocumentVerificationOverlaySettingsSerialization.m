@@ -6,6 +6,7 @@
 //
 
 #import "MBDocumentVerificationOverlaySettingsSerialization.h"
+#import "MBOverlaySerializationUtils.h"
 
 @interface MBDocumentVerificationOverlaySettingsSerialization ()
 
@@ -29,6 +30,7 @@
     // no settings deserialized at the moment
     MBLegacyDocumentVerificationOverlaySettings*sett = [[MBLegacyDocumentVerificationOverlaySettings alloc] init];
     self.delegate = delegate;
+    [MBOverlaySerializationUtils extractCommonOverlaySettings:jsonOverlaySettings overlaySettings:sett];
     
     {
         id firstSideSplashMessage = [jsonOverlaySettings valueForKey:@"firstSideSplashMessage"];

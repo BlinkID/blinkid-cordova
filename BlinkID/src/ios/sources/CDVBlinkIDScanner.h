@@ -15,7 +15,7 @@
  * BlinkID plugin class.
  * Responds to JS calls
  */
-@interface CDVMicroblinkScanner : CDVPlugin
+@interface CDVBlinkIDScanner : CDVPlugin
 
 /**
  * Starts the scanning process

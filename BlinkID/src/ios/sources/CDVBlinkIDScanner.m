@@ -25,7 +25,7 @@
 #import "MBRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 
-#import <Microblink/Microblink.h>
+#import <BlinkID/BlinkID.h>
 
 @interface CDVPlugin () <MBOverlayViewControllerDelegate>
 
@@ -33,7 +33,7 @@
 
 @end
 
-@interface CDVMicroblinkScanner ()
+@interface CDVBlinkIDScanner ()
 
 @property (nonatomic, strong) MBRecognizerCollection *recognizerCollection;
 @property (nonatomic) id<MBRecognizerRunnerViewController> scanningViewController;
@@ -44,7 +44,7 @@
 
 @end
 
-@implementation CDVMicroblinkScanner
+@implementation CDVBlinkIDScanner
 
 @synthesize lastCommand;
 
@@ -120,8 +120,8 @@
 
         NSDictionary *resultDict;
             resultDict = @{
-                CDVMicroblinkScanner.CANCELLED: [NSNumber numberWithBool:NO],
-                CDVMicroblinkScanner.RESULT_LIST: jsonResults
+                CDVBlinkIDScanner.CANCELLED: [NSNumber numberWithBool:NO],
+                CDVBlinkIDScanner.RESULT_LIST: jsonResults
             };
 
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
@@ -141,7 +141,7 @@
     self.recognizerCollection = nil;
     self.scanningViewController = nil;
     NSDictionary *resultDict = @{
-        CDVMicroblinkScanner.CANCELLED : [NSNumber numberWithBool:YES]
+        CDVBlinkIDScanner.CANCELLED : [NSNumber numberWithBool:YES]
     };
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
     [self.commandDelegate sendPluginResult:result callbackId:self.lastCommand.callbackId];
