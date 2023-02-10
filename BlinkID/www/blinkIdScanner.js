@@ -248,7 +248,7 @@ BlinkID.prototype.IdBarcodeDocumentType = Object.freeze(
 );
 
 /**
- * Defines possible color statuses determined from scanned image scanned with BlinkID or BlinkID Combined Recognizer
+ * Defines possible color statuses determined from scanned image scanned with BlinkID or BlinkID MultiSide Recognizer
  */
 BlinkID.prototype.DocumentImageColorStatus = Object.freeze(
     {
@@ -399,10 +399,42 @@ function ImageAnalysisResult(nativeImageAnalysisResult) {
     this.mrzDetectionStatus = nativeImageAnalysisResult.mrzDetectionStatus;
     /** Barcode detection status determined from the scanned image. */
     this.barcodeDetectionStatus = nativeImageAnalysisResult.barcodeDetectionStatus;
+    /** Orientation determined from the scanned image. */
+    this.cardOrientation = nativeImageAnalysisResult.cardOrientation;
 }
 
 /**
- * Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
+ * Represents data extracted from the Driver's license.
+ */
+function DriverLicenseDetailedInfo(nativeDriverLicenseDetailedInfo) {
+    /**  Restrictions to driving privileges for the driver license owner. */
+    this.restrictions = nativeDriverLicenseDetailedInfo.restrictions;
+    /** Additional privileges granted to the driver license owner. */
+    this.endorsements = nativeDriverLicenseDetailedInfo.endorsements;
+    /** The type of vehicle the driver license owner has privilege to drive. */
+    this.vehicleClass = nativeDriverLicenseDetailedInfo.vehicleClass;
+    /** The driver license conditions. */
+    this.conditions = nativeDriverLicenseDetailedInfo.conditions;
+    /** The additional information on vehicle class. */
+    this.vehicleClassesInfo = nativeDriverLicenseDetailedInfo.vehicleClassesInfo != null  ? new DriverLicenseDetailedInfo(nativeBarcodeResult.driverLicenseDetailedInfo) : null;
+}
+
+/**
+ * The additional information on vehicle class.
+ */
+function VehicleClassInfo(nativeVehicleClassesInfo) {
+    /**  The type of vehicle the driver license owner has privilege to drive. */
+    this.vehicleClass = nativeVehicleClassesInfo.vehicleClass;
+    /** The type of driver licence. */
+    this.licenceType = nativeVehicleClassesInfo.licenceType;
+    /** The date since licence is effective. */
+    this.effectiveDate = nativeVehicleClassesInfo.effectiveDate;
+    /** The date of expiry of licence. */
+    this.expiryDate = nativeVehicleClassesInfo.expiryDate;
+}
+
+/**
+ * Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
  */
 BlinkID.prototype.Country = Object.freeze(
     {
@@ -665,7 +697,7 @@ BlinkID.prototype.Country = Object.freeze(
 );
 
 /**
- * Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
+ * Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
  */
 BlinkID.prototype.Region = Object.freeze(
     {
@@ -785,12 +817,16 @@ BlinkID.prototype.Region = Object.freeze(
         QuintanaRooBenitoJuarez: 113,
         QuintanaRoo: 114,
         QuintanaRooSolidaridad: 115,
-        Tlaxcala: 116
+        Tlaxcala: 116,
+        QuintanaRooCozumel: 117,
+        SaoPaolo: 118,
+        RioDeJaneiro: 119,
+        RioGrandeDoSul: 120,
     }
 );
 
 /**
- * Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
+ * Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
  */
 BlinkID.prototype.Type = Object.freeze(
     {
@@ -842,7 +878,11 @@ BlinkID.prototype.Type = Object.freeze(
         TribalId: 45,
         VeteranId: 46,
         CitizenshipCertificate: 47,
-        MyNumberCard: 48
+        MyNumberCard: 48,
+        ConsularPassport: 49,
+        MinorsPassport: 50,
+        MinorsPublicServicesCard: 51,
+        DrivingPrivilegeCard: 52,
     }
 );
 
@@ -1841,7 +1881,7 @@ function BarcodeResult(nativeBarcodeResult) {
     this.jurisdiction = nativeBarcodeResult.jurisdiction;
 
     /** The driver license detailed info. */
-    this.driverLicenseDetailedInfo = nativeBarcodeResult.driverLicenseDetailedInfo != null ? new DriverLicenseDetailedInfo(nativeBarcodeResult.driverLicenseDetailedInfo) : null;
+    this.driverLicenseDetailedInfo = nativeBarcodeResult.driverLicenseDetailedInfo != null ? new BarcodeDriverLicenseDetailedInfo(nativeBarcodeResult.driverLicenseDetailedInfo) : null;
 
     /** Flag that indicates if barcode result is empty */
     this.empty = nativeBarcodeResult.empty;
@@ -2283,7 +2323,7 @@ function BlinkIdOverlaySettings() {
     this.retryButtonText = null;
 
     /**
-     * If true, BlinkIdCombinedRecognizer will check if sides do match when scanning is finished
+     * If true, BlinkIdMultiSideRecognizer will check if sides do match when scanning is finished
      * Default: true
      */
     this.requireDocumentSidesDataMatch = true;
