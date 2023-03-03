@@ -89,6 +89,8 @@
 }
 
 - (void)setLicense:(NSDictionary*) jsonLicense {
+    __weak CDVBlinkIDScanner *weakSelf = self;
+    
     if ([jsonLicense objectForKey:@"showTrialLicenseWarning"] != nil) {
         BOOL showTrialLicenseWarning = [[jsonLicense objectForKey:@"showTrialLicenseWarning"] boolValue];
         [MBMicroblinkSDK sharedInstance].showTrialLicenseWarning = showTrialLicenseWarning;
@@ -97,12 +99,14 @@
     if ([jsonLicense objectForKey:@"licensee"] != nil) {
         NSString *licensee = [jsonLicense objectForKey:@"licensee"];
         [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback:^(MBLicenseError licenseError) {
-
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[CDVBlinkIDScanner licenseErrorToString:licenseError]];
+            [weakSelf.commandDelegate sendPluginResult:result callbackId:weakSelf.lastCommand.callbackId];
         }];
     }
     else {
         [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback:^(MBLicenseError licenseError) {
-
+            CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[CDVBlinkIDScanner licenseErrorToString:licenseError]];
+            [weakSelf.commandDelegate sendPluginResult:result callbackId:weakSelf.lastCommand.callbackId];
         }];
     }
 
@@ -157,6 +161,38 @@
 
 + (int)COMPRESSED_IMAGE_QUALITY {
     return 90;
+}
+    
++ (NSString *)licenseErrorToString:(MBLicenseError)licenseError {
+    switch(licenseError) {
+        case MBLicenseErrorNetworkRequired:
+            return @"License error network required";
+            break;
+        case MBLicenseErrorUnableToDoRemoteLicenceCheck:
+            return @"License error unable to do remote licence check";
+            break;
+        case MBLicenseErrorLicenseIsLocked:
+            return @"License error license is locked";
+            break;
+        case MBLicenseErrorLicenseCheckFailed:
+            return @"License error license check failed";
+            break;
+        case MBLicenseErrorInvalidLicense:
+            return @"License error invalid license";
+            break;
+        case MBLicenseErrorPermissionExpired:
+            return @"License error permission expired";
+            break;
+        case MBLicenseErrorPayloadCorrupted:
+            return @"License error payload corrupted";
+            break;
+        case MBLicenseErrorPayloadSignatureVerificationFailed:
+            return @"License error payload signature verification failed";
+            break;
+        case MBLicenseErrorIncorrectTokenState:
+            return @"License error incorrect token state";
+            break;
+    }
 }
 
 @end
