@@ -90,9 +90,11 @@ var app = {
 
         function buildDateResult(result, key) {
             if (result) {
-                return key + ": " +
-                    result.day + "." + result.month + "." + result.year + "."
-                    + "<br>";
+                if (result.year != undefined) {
+                    return key + ": " +
+                        result.day + "." + result.month + "." + result.year + "."
+                        + "<br>";
+                    }
             }
             return ""
         }
@@ -153,10 +155,10 @@ var app = {
 
                         let dataMatchResult = blinkIdResult.dataMatchResult;
                         resultString +=
-                        buildResult(dataMatchResult.stateForWholeDocument, "State for the whole document") + 
-                        buildResult(dataMatchResult.states[0].state, "dateOfBirth") +
-                        buildResult(dataMatchResult.states[1].state, "dateOfExpiry") +
-                        buildResult(dataMatchResult.states[2].state, "documentNumber");
+                        buildResult(dataMatchResult.stateForWholeDocument, "State for the whole document") +
+                        buildResult(dataMatchResult.states[0].state, "Date of birth") +
+                        buildResult(dataMatchResult.states[1].state, "Date of expiry") +
+                        buildResult(dataMatchResult.states[2].state, "Document number");
 
                         var licenceInfo = blinkIdResult.driverLicenseDetailedInfo;
                         if (licenceInfo) {
