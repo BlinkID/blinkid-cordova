@@ -162,7 +162,7 @@
 + (int)COMPRESSED_IMAGE_QUALITY {
     return 90;
 }
-    
+
 + (NSString *)licenseErrorToString:(MBLicenseError)licenseError {
     switch(licenseError) {
         case MBLicenseErrorNetworkRequired:

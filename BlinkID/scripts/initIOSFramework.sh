@@ -4,7 +4,7 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd "${HERE}/../src/ios/" > /dev/null
 
-LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v6.1.0/BlinkID.xcframework.zip'
+LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v6.1.2/BlinkID.xcframework.zip'
 FILENAME='BlinkID.xcframework.zip'
 
 # check if BlinkID framework and bundle already exist

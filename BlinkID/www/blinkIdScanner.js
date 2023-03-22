@@ -2692,6 +2692,11 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
      */
     this.signatureImage = nativeResult.signatureImage;
     
+    /**
+     * The version of result.
+     */
+    this.version = nativeResult.version;
+    
 }
 
 BlinkIdMultiSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -3375,17 +3380,17 @@ function IdBarcodeRecognizerResult(nativeResult) {
     /**
      * The date of birth of the document owner.
      */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
+    this.dateOfBirth = nativeResult.dateOfBirth;
     
     /**
      * The date of expiry of the document.
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
+    this.dateOfExpiry = nativeResult.dateOfExpiry;
     
     /**
      * The date of issue of the document.
      */
-    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
+    this.dateOfIssue = nativeResult.dateOfIssue;
     
     /**
      * The additional number of the document.
