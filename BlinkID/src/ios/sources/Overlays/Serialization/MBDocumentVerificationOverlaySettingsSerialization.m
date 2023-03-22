@@ -6,6 +6,7 @@
 //
 
 #import "MBDocumentVerificationOverlaySettingsSerialization.h"
+#import "MBOverlaySerializationUtils.h"
 
 @interface MBDocumentVerificationOverlaySettingsSerialization ()
 
@@ -29,6 +30,7 @@
     // no settings deserialized at the moment
     MBLegacyDocumentVerificationOverlaySettings*sett = [[MBLegacyDocumentVerificationOverlaySettings alloc] init];
     self.delegate = delegate;
+    [MBOverlaySerializationUtils extractCommonOverlaySettings:jsonOverlaySettings overlaySettings:sett];
     
     {
         id firstSideSplashMessage = [jsonOverlaySettings valueForKey:@"firstSideSplashMessage"];
@@ -76,11 +78,11 @@
 }
 
 
-- (void)documentVerificationOverlayViewControllerDidFinishScanning:(nonnull MBLegacyDocumentVerificationOverlayViewController *)documentVerificationOverlayViewController state:(MBRecognizerResultState)state {
+- (void)legacyDocumentVerificationOverlayViewControllerDidFinishScanning:(nonnull MBLegacyDocumentVerificationOverlayViewController *)documentVerificationOverlayViewController state:(MBRecognizerResultState)state {
     [self.delegate overlayViewControllerDidFinishScanning:documentVerificationOverlayViewController state:state];
 }
 
-- (void)documentVerificationOverlayViewControllerDidTapClose:(nonnull MBLegacyDocumentVerificationOverlayViewController *)documentVerificationOverlayViewController {
+- (void)legacyDocumentVerificationOverlayViewControllerDidTapClose:(nonnull MBLegacyDocumentVerificationOverlayViewController *)documentVerificationOverlayViewController {
     [self.delegate overlayDidTapClose:documentVerificationOverlayViewController];
 }
 
