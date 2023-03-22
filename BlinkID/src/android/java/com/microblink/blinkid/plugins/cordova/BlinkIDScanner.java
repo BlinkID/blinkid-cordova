@@ -24,7 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MicroblinkScanner extends CordovaPlugin {
+public class BlinkIDScanner extends CordovaPlugin {
 
     private static final int REQUEST_CODE = 1337;
 
@@ -39,7 +39,7 @@ public class MicroblinkScanner extends CordovaPlugin {
     /**
      * Constructor.
      */
-    public MicroblinkScanner() {
+    public BlinkIDScanner() {
     }
 
     /**

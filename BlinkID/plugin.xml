@@ -24,7 +24,7 @@
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="BlinkIDScanner">
-                <param name="android-package" value="com.microblink.blinkid.plugins.cordova.MicroblinkScanner" />
+                <param name="android-package" value="com.microblink.blinkid.plugins.cordova.BlinkIDScanner" />
             </feature>
         </config-file>
 
@@ -60,8 +60,8 @@
 
         <!-- ANDROID SOURCE FILES BEGIN -->
         <source-file src="src/android/java/com/microblink/blinkid/plugins/cordova/SerializationUtils.java" target-dir="src/com/microblink/blinkid/plugins/cordova" />
-        <source-file src="src/android/java/com/microblink/blinkid/plugins/cordova/MicroblinkScanner.java" target-dir="src/com/microblink/blinkid/plugins/cordova" />
         <source-file src="src/android/java/com/microblink/blinkid/plugins/cordova/FakeR.java" target-dir="src/com/microblink/blinkid/plugins/cordova" />
+        <source-file src="src/android/java/com/microblink/blinkid/plugins/cordova/BlinkIDScanner.java" target-dir="src/com/microblink/blinkid/plugins/cordova" />
         <source-file src="src/android/java/com/microblink/blinkid/plugins/cordova/overlays/OverlaySettingsSerialization.java" target-dir="src/com/microblink/blinkid/plugins/cordova/overlays" />
         <source-file src="src/android/java/com/microblink/blinkid/plugins/cordova/overlays/OverlaySerializationUtils.java" target-dir="src/com/microblink/blinkid/plugins/cordova/overlays" />
         <source-file src="src/android/java/com/microblink/blinkid/plugins/cordova/overlays/OverlaySettingsSerializers.java" target-dir="src/com/microblink/blinkid/plugins/cordova/overlays" />
