@@ -2321,6 +2321,86 @@ function BlinkIdOverlaySettings() {
     * document side.
     */
     this.retryButtonText = null;
+    /**
+      * Message that is shown while scanning the barcode.
+      * If null, default value will be used.
+     */
+    this.scanBarcodeText = null;
+     /**
+      * Instructions for the user to move the document from the edge.
+      * If null, default value will be used.
+     */
+    this.errorDocumentTooCloseToEdge = null;
+    /**
+    * String: title of the dialog which is shown when the data on the document is not matching.
+    * If null, default value will be used.
+    */
+    this.dataMismatchTitle = null;
+    /**
+    * String: message of the dialog which is shown when the data on the document is not matching.
+    * If null, default value will be used.
+    */
+    this.dataMismatchMessage = null;
+    /**
+    * String: message that is shown while scanning first side of the document with barcode.
+    * If null, default value will be used.
+    */
+    this.backSideBarcodeInstructions = null;
+    /**
+    * String: message that is shown while scanning back side of the document.
+    * If null, default value will be used.
+    */
+    this.backSideInstructions = null;
+    /**
+    * String: text shown when the document is not fully visible.
+    * If null, default value will be used.
+    */
+    this.errorDocumentNotFullyVisible = null;
+    /**
+    * String: text shown for the help tooltip which activates when scanning takes a while.
+    * If null, default value will be used.
+    */
+    this.helpTooltip = null;
+    /**
+    * String: text shown for the snackbar warning shown when flashlight is turned on.
+    * If null, default value will be used.
+    */
+    this.flashlightWarning = null;
+    /**
+    * String: text shown for the 'skip' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingSkipButtonText = null;
+    /**
+    * String: text shown for the 'back' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingBackButtonText = null;
+    /**
+    * String: text shown for the 'next' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingNextButtonText = null;
+    /**
+    * String: text shown for the 'done' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingDoneButtonText = null;
+    /**
+    * String: title of the introduction dialog.
+    * If null, default value will be used.
+    */
+    this.introductionDialogTitle = null;
+    /**
+    * String: message of the introduction dialog.
+    * If null, default value will be used.
+    */
+    this.introductionDialogMessage = null;
+    /**
+    * String: text shown for the 'done' button on the introduction screen.
+    * If null, default value will be used.
+    */
+    this.introductionDoneButton = null;
 
     /**
      * If true, BlinkIdMultiSideRecognizer will check if sides do match when scanning is finished
@@ -2349,17 +2429,6 @@ function BlinkIdOverlaySettings() {
     */
     this.backSideScanningTimeoutMilliseconds = 17000;
 
-    /**
-      * Message that is shown while scanning the barcode.
-      * If null, default value will be used.
-     */
-    this.scanBarcodeText = null;
-
-     /**
-      * Instructions for the user to move the document from the edge.
-      * If null, default value will be used.
-     */
-     this.errorDocumentTooCloseToEdge = null;
 }
 BlinkIdOverlaySettings.prototype = new OverlaySettings();
 
