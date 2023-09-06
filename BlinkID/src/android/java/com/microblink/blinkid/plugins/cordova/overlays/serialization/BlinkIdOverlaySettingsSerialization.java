@@ -108,9 +108,41 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         if (errorDocumentNotFullyVisible != null) {
             overlasStringsBuilder.setErrorDocumentNotFullyVisible(errorDocumentNotFullyVisible);
         }
+        String helpTooltip = getStringFromJSONObject(jsonUISettings, "helpTooltip");
+        if (helpTooltip != null) {
+            overlasStringsBuilder.setHelpTooltip(helpTooltip);
+        }
+        String flashlightWarning = getStringFromJSONObject(jsonUISettings, "flashlightWarning");
+        if (flashlightWarning != null) {
+            overlasStringsBuilder.setFlashlightWarningMessage(flashlightWarning);
+        }
+        String onboardingSkipButtonText = getStringFromJSONObject(jsonUISettings, "onboardingSkipButtonText");
+        if (onboardingSkipButtonText != null) {
+            overlasStringsBuilder.setOnboardingSkipButtonText(onboardingSkipButtonText);
+        }
+        String onboardingBackButtonText = getStringFromJSONObject(jsonUISettings, "onboardingBackButtonText");
+        if (onboardingBackButtonText != null) {
+            overlasStringsBuilder.setOnboardingBackButtonText(onboardingBackButtonText);
+        }
+        String onboardingNextButtonText = getStringFromJSONObject(jsonUISettings, "onboardingNextButtonText");
+        if (onboardingNextButtonText != null) {
+            overlasStringsBuilder.setOnboardingNextButtonText(onboardingNextButtonText);
+        }
         String onboardingDoneButtonText = getStringFromJSONObject(jsonUISettings, "onboardingDoneButtonText");
         if (onboardingDoneButtonText != null) {
             overlasStringsBuilder.setOnboardingDoneButtonText(onboardingDoneButtonText);
+        }
+        String introductionDialogTitle = getStringFromJSONObject(jsonUISettings, "introductionDialogTitle");
+        if (introductionDialogTitle != null) {
+            overlasStringsBuilder.setIntroductionDialogTitle(introductionDialogTitle);
+        }
+        String introductionDialogMessage = getStringFromJSONObject(jsonUISettings, "introductionDialogMessage");
+        if (introductionDialogMessage != null) {
+            overlasStringsBuilder.setIntroductionDialogMessage(introductionDialogMessage);
+        }
+        String introductionDoneButtonText = getStringFromJSONObject(jsonUISettings, "introductionDoneButtonText");
+        if (introductionDoneButtonText != null) {
+            overlasStringsBuilder.setIntroductionDoneButtonText(introductionDoneButtonText);
         }
 
         String language = getStringFromJSONObject(jsonUISettings, "language");
