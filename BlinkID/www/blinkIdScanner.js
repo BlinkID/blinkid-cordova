@@ -2401,6 +2401,36 @@ function BlinkIdOverlaySettings() {
     * If null, default value will be used.
     */
     this.introductionDoneButton = null;
+    /**
+    * String: title of the first onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingTitlePageOne = null;
+    /**
+    * String: title of the second onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingTitlePageTwo = null;
+    /**
+    * String: title of the third onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingTitlePageThree = null;
+    /**
+    * String: message of the first onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingMessagePageOne = null;
+    /**
+    * String: message of the second onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingMessagePageTwo = null;
+    /**
+    * String: message of the third onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingMessagePageThree = null;
 
     /**
      * If true, BlinkIdMultiSideRecognizer will check if sides do match when scanning is finished
