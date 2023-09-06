@@ -88,6 +88,30 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         if (errorDocumentTooCloseToEdge != null) {
             overlasStringsBuilder.setErrorDocumentTooCloseToEdge(errorDocumentTooCloseToEdge);
         }
+        String dataMismatchTitle = getStringFromJSONObject(jsonUISettings, "dataMismatchTitle");
+        if (dataMismatchTitle != null) {
+            overlasStringsBuilder.setDataMismatchTitle(dataMismatchTitle);
+        }
+        String dataMismatchMessage = getStringFromJSONObject(jsonUISettings, "dataMismatchMessage");
+        if (dataMismatchMessage != null) {
+            overlasStringsBuilder.setDataMismatchMessage(dataMismatchMessage);
+        }
+        String backSideInstructions = getStringFromJSONObject(jsonUISettings, "backSideInstructions");
+        if (backSideInstructions != null) {
+            overlasStringsBuilder.setBackSideInstructions(backSideInstructions);
+        }
+        String backSideBarcodeInstructions = getStringFromJSONObject(jsonUISettings, "backSideBarcodeInstructions");
+        if (backSideBarcodeInstructions != null) {
+            overlasStringsBuilder.setBackSideBarcodeInstructions(backSideBarcodeInstructions);
+        }
+        String errorDocumentNotFullyVisible = getStringFromJSONObject(jsonUISettings, "errorDocumentNotFullyVisible");
+        if (errorDocumentNotFullyVisible != null) {
+            overlasStringsBuilder.setErrorDocumentNotFullyVisible(errorDocumentNotFullyVisible);
+        }
+        String onboardingDoneButtonText = getStringFromJSONObject(jsonUISettings, "onboardingDoneButtonText");
+        if (onboardingDoneButtonText != null) {
+            overlasStringsBuilder.setOnboardingDoneButtonText(onboardingDoneButtonText);
+        }
 
         String language = getStringFromJSONObject(jsonUISettings, "language");
         if (language != null) {

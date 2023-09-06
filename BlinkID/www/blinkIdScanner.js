@@ -2360,6 +2360,43 @@ function BlinkIdOverlaySettings() {
       * If null, default value will be used.
      */
      this.errorDocumentTooCloseToEdge = null;
+
+    /**
+    * String: text shown for the 'done' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.onboardingDoneButtonText = null;
+
+    /**
+    * String: text shown for the 'done' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.dataMismatchTitle = null;
+
+    /**
+    * String: text shown for the 'done' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.dataMismatchMessage = null;
+
+    /**
+    * String: text shown for the 'done' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.backSideBarcodeInstructions = null;
+
+    /**
+    * String: text shown for the 'done' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.backSideInstructions = null;
+
+    /**
+    * String: text shown for the 'done' button on the onboarding screen.
+    * If null, default value will be used.
+    */
+    this.errorDocumentNotFullyVisible = null;
+
 }
 BlinkIdOverlaySettings.prototype = new OverlaySettings();
 
