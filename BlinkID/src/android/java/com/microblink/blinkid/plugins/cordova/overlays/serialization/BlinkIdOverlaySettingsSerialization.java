@@ -142,7 +142,23 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         }
         String introductionDoneButtonText = getStringFromJSONObject(jsonUISettings, "introductionDoneButtonText");
         if (introductionDoneButtonText != null) {
-            overlasStringsBuilder.setIntroductionDoneButtonText(introductionDoneButtonText);
+            overlasStringsBuilder.setIntroductionDialogDoneButtonText(introductionDoneButtonText);
+        }
+
+        String onboardingTitlePageOne = getStringFromJSONObject(jsonUISettings, "onboardingTitlePageOne");
+        String onboardingTitlePageTwo = getStringFromJSONObject(jsonUISettings, "onboardingTitlePageTwo");
+        String onboardingTitlePageThree = getStringFromJSONObject(jsonUISettings, "onboardingTitlePageThree");
+
+        if (onboardingTitlePageOne != null && onboardingTitlePageTwo != null && onboardingTitlePageThree != null) {
+            overlasStringsBuilder.setOnboardingTitles(new String[] {onboardingTitlePageOne, onboardingTitlePageTwo, onboardingTitlePageThree});
+        }
+
+        String onboardingMessagePageOne = getStringFromJSONObject(jsonUISettings, "onboardingMessagePageOne");
+        String onboardingMessagePageTwo = getStringFromJSONObject(jsonUISettings, "onboardingMessagePageTwo");
+        String onboardingMessagePageThree = getStringFromJSONObject(jsonUISettings, "onboardingMessagePageThree");
+
+        if (onboardingMessagePageOne != null && onboardingMessagePageTwo != null && onboardingMessagePageThree != null) {
+            overlasStringsBuilder.setOnboardingMessages(new String[] {onboardingMessagePageOne, onboardingMessagePageTwo, onboardingMessagePageThree});
         }
 
         String language = getStringFromJSONObject(jsonUISettings, "language");
