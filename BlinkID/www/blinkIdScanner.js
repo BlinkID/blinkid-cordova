@@ -2400,7 +2400,7 @@ function BlinkIdOverlaySettings() {
     * String: text shown for the 'done' button on the introduction screen.
     * If null, default value will be used.
     */
-    this.introductionDoneButton = null;
+    this.introductionDoneButtonText = null;
     /**
     * String: title of the first onboarding screen.
     * If null, default value will be used.
@@ -2458,6 +2458,27 @@ function BlinkIdOverlaySettings() {
      * Default: 16999
     */
     this.backSideScanningTimeoutMilliseconds = 17000;
+
+    /**
+     * Defines whether onboarding is turned on by default.
+     *
+     * Default: true
+    */
+    this.showOnboardingInfo = true;
+
+    /**
+     * Defines whether introduction dialog is turned on by default.
+     *
+     * Default: false
+    */
+    this.showIntroductionDialog = false;
+
+    /**
+     * Option to configure onboarding button tooltip delay time.
+     *
+     * Default: 12000
+    */
+    this.onboardingButtonTooltipDelay = 12000;
 
 }
 BlinkIdOverlaySettings.prototype = new OverlaySettings();

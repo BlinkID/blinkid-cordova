@@ -34,6 +34,15 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
         settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
 
+        boolean showOnboardingInfo = jsonUISettings.optBoolean("showOnboardingInfo", true);
+        settings.setShowOnboardingInfo(showOnboardingInfo);
+
+        boolean showIntroductionDialog = jsonUISettings.optBoolean("showIntroductionDialog", false);
+        settings.setShowIntroductionDialog(showIntroductionDialog);
+
+        long onboardingButtonTooltipDelay = jsonUISettings.optLong("onboardingButtonTooltipDelay", 12000);
+        settings.setShowTooltipTimeIntervalMs(onboardingButtonTooltipDelay);
+
         ReticleOverlayStrings.Builder overlasStringsBuilder = new ReticleOverlayStrings.Builder(context);
 
         String firstSideInstructionsText = getStringFromJSONObject(jsonUISettings, "firstSideInstructionsText");
