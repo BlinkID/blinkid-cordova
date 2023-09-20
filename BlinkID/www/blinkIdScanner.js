@@ -2400,7 +2400,7 @@ function BlinkIdOverlaySettings() {
     * String: text shown for the 'done' button on the introduction screen.
     * If null, default value will be used.
     */
-    this.introductionDoneButtonText = null;
+    this.introductionDoneButton = null;
     /**
     * String: title of the first onboarding screen.
     * If null, default value will be used.

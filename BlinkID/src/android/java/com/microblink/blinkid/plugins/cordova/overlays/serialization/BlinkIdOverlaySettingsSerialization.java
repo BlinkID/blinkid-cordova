@@ -149,9 +149,9 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         if (introductionDialogMessage != null) {
             overlasStringsBuilder.setIntroductionDialogMessage(introductionDialogMessage);
         }
-        String introductionDoneButtonText = getStringFromJSONObject(jsonUISettings, "introductionDoneButtonText");
-        if (introductionDoneButtonText != null) {
-            overlasStringsBuilder.setIntroductionDialogDoneButtonText(introductionDoneButtonText);
+        String introductionDoneButton = getStringFromJSONObject(jsonUISettings, "introductionDoneButton");
+        if (introductionDoneButton != null) {
+            overlasStringsBuilder.setIntroductionDialogDoneButtonText(introductionDoneButton);
         }
 
         String onboardingTitlePageOne = getStringFromJSONObject(jsonUISettings, "onboardingTitlePageOne");
