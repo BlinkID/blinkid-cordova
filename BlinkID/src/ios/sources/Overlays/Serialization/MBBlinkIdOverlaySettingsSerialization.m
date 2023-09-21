@@ -171,6 +171,27 @@
             sett.errorMandatoryFieldMissing = (NSString *)errorMandatoryFieldMissing;
         }
     }
+    
+    {
+        id showOnboardingInfo = [jsonOverlaySettings valueForKey:@"showOnboardingInfo"];
+        if (showOnboardingInfo != nil) {
+            sett.showOnboardingInfo = [showOnboardingInfo boolValue];
+        }
+    }
+    
+    {
+        id showIntroductionDialog = [jsonOverlaySettings valueForKey:@"showIntroductionDialog"];
+        if (showIntroductionDialog != nil) {
+            sett.showIntroductionDialog = [showIntroductionDialog boolValue];
+        }
+    }
+    
+    {
+        id onboardingButtonTooltipDelay = [jsonOverlaySettings valueForKey:@"onboardingButtonTooltipDelay"];
+        if (onboardingButtonTooltipDelay != nil) {
+            sett.onboardingButtonTooltipDelay = [onboardingButtonTooltipDelay doubleValue] / 10000.0;
+        }
+    }
 
     return [[MBBlinkIdOverlayViewController alloc] initWithSettings:sett recognizerCollection:recognizerCollection delegate:self];
 }
