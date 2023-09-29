@@ -1,3 +1,6 @@
+## 6.1.2
+- Fixed UI customization and added new settings
+
 ## 6.1.1
 - Updated to [Android SDK v6.1.2](https://github.com/BlinkID/blinkid-android/releases/tag/v6.1.2)
 
