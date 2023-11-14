@@ -77,8 +77,8 @@ var app = {
 
         // package name/bundleID com.microblink.sample
         var licenseKeys = {
-            android: 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9W3Oc1qzWWfUUuFAtgyxguvo8rtYSMtVGxqt3WAkPBbK9k8DerVvHFxGa5VRVFGGCavaV3CEqCVo+ntBtgbyweSpYwSnYTwQssdoraJg2wtZn3EmNFGI5/J+mXrbsXgW5Qpy+48bAVnLYKpRD5EoSWezPOBrcSalvFklg451RJlVcy0Ijii2dzLdwb4JJ2gLXEuzu8Q1/ayWaMRoUH7OmWKJDyMCMm+NOI+nxmzhKoPGVy4jrR2ZkdkYmzUj1YHfvTf5tYP0LEbwZTAs24ukTOYDuYbKGBYHmNmGUhEljRn86I2v3d3UgHdBPtok72J6LU=',
-            ios: 'sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38LVO6iNNLvwTdq8BXiJ5UonUGzXseoV2n66Da5wNIZLr1ZBRlnFt2rbdnzzt/qU/fcwoCOqO8Zs2aUb2Psx4KutvE2SPyDiBo2Ko6yiA/P54/B8Jh8sEVWrLT341QghRicpTDbfiuJLtQ6HyCUrQOd28fxlwulwrZhqdyHmVJVQ6S4Gu2Dxd5dxt3LiIcZ0JeOjNKaPtc4Qnz7BYI2nQ5VfW2V2gYRIsvTzjgvT1AM2OibUXY0HeY4CTZ0BHwPVKTkQVnE39cOJST5k9JtZoZV086L2elpxizJueRIh4J8IzopUIFEFwq70cBj17Qr5gtc='
+            android: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUyT1RrNU5qSXdNelkxTnpVc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PR/xSZGfWMnKChCewgMM+aZNwdmuX3jYYQm7fny/fpCzBCXoRHTBmD/mqcRBPYlNovoa5DWNPLunVTjyq9kUxxGqQh3MmSxisksojMz7YZPtphYUmjqQRbrJOBDTUDIoC2+ZqdK4KkQgfaBYwtL8zDOqoRv0AcIUYDsEriFgNb91',
+            ios: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUyT1RrNU5qSXdPRE15TmpFc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PQ9q+vkq3TBpv3FH3lRotnl1YFD6n+Yy6ROfIFampMtAZME7BqLdjz42Bj5JvidAEUNtrvlQOgOdpwprPNecbQ6MmBUehXu70S6ugWeyIksYTFhwPYaHIDcbebeCjEJGN7+s+7TpMXD5iM/IlnDYc5s5fVvSeWZQ0qggG82OLn8z'
         };
 
         function buildResult(result, key) {
@@ -153,7 +153,7 @@ var app = {
                             buildResult(blinkIdResult.recognitionMode.description, "Recognition mode")
                             ;
 
-                        let dataMatchResult = blinkIdResult.dataMatchResult;
+                        let dataMatchResult = blinkIdResult.dataMatch;
                         resultString +=
                         buildResult(dataMatchResult.stateForWholeDocument, "State for the whole document") +
                         buildResult(dataMatchResult.states[0].state, "Date of birth") +
