@@ -2593,7 +2593,7 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     /**
      * Detailed info on data match.
      */
-    this.dataMatchResult = nativeResult.dataMatchResult;
+    this.dataMatch = nativeResult.dataMatch;
     
     /**
      * The date of birth of the document owner.

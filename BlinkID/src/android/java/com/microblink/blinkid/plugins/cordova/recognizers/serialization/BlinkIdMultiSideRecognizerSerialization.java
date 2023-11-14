@@ -67,7 +67,9 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
             jsonResult.put("expired", result.isExpired());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("faceImageLocation", SerializationUtils.serializeRectangle(result.getFaceImageLocation()));
-            jsonResult.put("faceImageSide", SerializationUtils.serializeEnum(result.getFaceImageSide()));
+            if (result.getFaceImageSide() != null) {
+                jsonResult.put("faceImageSide", SerializationUtils.serializeEnum(result.getFaceImageSide()));
+            }
             jsonResult.put("fathersName", BlinkIDSerializationUtils.serializeStringResult(result.getFathersName()));
             jsonResult.put("firstName", BlinkIDSerializationUtils.serializeStringResult(result.getFirstName()));
             jsonResult.put("frontAdditionalProcessingInfo", BlinkIDSerializationUtils.serializeAdditionalProcessingInfo(result.getFrontAdditionalProcessingInfo()));
