@@ -31,7 +31,7 @@
     MBBlinkIdOverlaySettings *sett = [[MBBlinkIdOverlaySettings alloc] init];
     self.delegate = delegate;
     [MBOverlaySerializationUtils extractCommonOverlaySettings:jsonOverlaySettings overlaySettings:sett];
-    
+
     {
         id requireDocumentSidesDataMatch = [jsonOverlaySettings valueForKey:@"requireDocumentSidesDataMatch"];
         if (requireDocumentSidesDataMatch != nil) {
@@ -59,7 +59,7 @@
             sett.backSideScanningTimeout = [backSideScanningTimeoutMilliseconds doubleValue] / 1000.0;
         }
     }
-
+    
     {
         id firstSideInstructionsText = [jsonOverlaySettings valueForKey:@"firstSideInstructionsText"];
         if (firstSideInstructionsText != nil) {
@@ -157,14 +157,14 @@
             sett.errorDocumentTooCloseToEdge = (NSString *)errorDocumentTooCloseToEdge;
         }
     }
-
+    
     {
         id scanBarcodeText = [jsonOverlaySettings valueForKey:@"scanBarcodeText"];
         if (scanBarcodeText != nil) {
             sett.scanBarcodeText = (NSString *)scanBarcodeText;
         }
     }
-
+    
     {
         id errorMandatoryFieldMissing = [jsonOverlaySettings valueForKey:@"errorDocumentNotFullyVisible"];
         if (errorMandatoryFieldMissing != nil) {
@@ -190,6 +190,14 @@
         id onboardingButtonTooltipDelay = [jsonOverlaySettings valueForKey:@"onboardingButtonTooltipDelay"];
         if (onboardingButtonTooltipDelay != nil) {
             sett.onboardingButtonTooltipDelay = [onboardingButtonTooltipDelay doubleValue] / 10000.0;
+        }
+    }
+    
+    {
+        
+        id showMandatoryFieldsMissing = [jsonOverlaySettings valueForKey: @"showMandatoryFieldsMissing"];
+        if (showMandatoryFieldsMissing != nil) {
+            sett.defineSpecificMissingMandatoryFields = [showMandatoryFieldsMissing boolValue];
         }
     }
 

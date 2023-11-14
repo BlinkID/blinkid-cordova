@@ -12,6 +12,7 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.blinkid.entities.recognizers.blinkid.generic.BlinkIdMultiSideRecognizer recognizer = new com.microblink.blinkid.entities.recognizers.blinkid.generic.BlinkIdMultiSideRecognizer();
+        recognizer.setAdditionalAnonymization(BlinkIDSerializationUtils.deserializeClassAnonymizationSettings(jsonObject.optJSONArray("additionalAnonymization")));
         recognizer.setAllowBlurFilter(jsonObject.optBoolean("allowBlurFilter", true));
         recognizer.setAllowUncertainFrontSideScan(jsonObject.optBoolean("allowUncertainFrontSideScan", false));
         recognizer.setAllowUnparsedMrzResults(jsonObject.optBoolean("allowUnparsedMrzResults", false));
@@ -53,19 +54,20 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
             jsonResult.put("barcodeCameraFrame", SerializationUtils.encodeImageBase64(result.getBarcodeCameraFrame()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
-            jsonResult.put("dataMatchResult", BlinkIDSerializationUtils.serializeDataMatchResult(result.getDataMatch()));
+            jsonResult.put("dataMatch", BlinkIDSerializationUtils.serializeDataMatchResult(result.getDataMatch()));
             jsonResult.put("dateOfBirth", BlinkIDSerializationUtils.serializeDateResult(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", BlinkIDSerializationUtils.serializeDateResult(result.getDateOfExpiry()));
             jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
             jsonResult.put("dateOfIssue", BlinkIDSerializationUtils.serializeDateResult(result.getDateOfIssue()));
             jsonResult.put("documentAdditionalNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentAdditionalNumber()));
-//            jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
             jsonResult.put("documentNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentNumber()));
             jsonResult.put("documentOptionalAdditionalNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentOptionalAdditionalNumber()));
             jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
             jsonResult.put("employer", BlinkIDSerializationUtils.serializeStringResult(result.getEmployer()));
             jsonResult.put("expired", result.isExpired());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("faceImageLocation", SerializationUtils.serializeRectangle(result.getFaceImageLocation()));
+            jsonResult.put("faceImageSide", SerializationUtils.serializeEnum(result.getFaceImageSide()));
             jsonResult.put("fathersName", BlinkIDSerializationUtils.serializeStringResult(result.getFathersName()));
             jsonResult.put("firstName", BlinkIDSerializationUtils.serializeStringResult(result.getFirstName()));
             jsonResult.put("frontAdditionalProcessingInfo", BlinkIDSerializationUtils.serializeAdditionalProcessingInfo(result.getFrontAdditionalProcessingInfo()));
@@ -94,7 +96,6 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("sex", BlinkIDSerializationUtils.serializeStringResult(result.getSex()));
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
-            jsonResult.put("version", (int)result.getVersion());
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
