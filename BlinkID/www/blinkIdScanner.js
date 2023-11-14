@@ -164,6 +164,10 @@ function Date(nativeDate) {
     this.month = nativeDate.month;
     /** year */
     this.year = nativeDate.year;
+    /** original date string */
+    this.originalDateStringResult = nativeDate.originalDateStringResult;
+    /** isFilledByDomainKnowledge */
+    this.isFilledByDomainKnowledge = nativeDate.isFilledByDomainKnowledge;
 }
 
 BlinkID.prototype.Date = Date;
@@ -692,7 +696,8 @@ BlinkID.prototype.Country = Object.freeze(
         Yemen: 251,
         Yugoslavia: 252,
         Zambia: 253,
-        Zimbabwe: 254
+        Zimbabwe: 254,
+        SchengenArea: 255,
     }
 );
 
@@ -822,6 +827,9 @@ BlinkID.prototype.Region = Object.freeze(
         SaoPaolo: 118,
         RioDeJaneiro: 119,
         RioGrandeDoSul: 120,
+        NorthwestTerritories: 121,
+        Nunavut: 122,
+        PrinceEdwardIsland: 123,
     }
 );
 
@@ -883,6 +891,59 @@ BlinkID.prototype.Type = Object.freeze(
         MinorsPassport: 50,
         MinorsPublicServicesCard: 51,
         DrivingPrivilegeCard: 52,
+        AsylumRequest: 53,
+        DriverQualificationCard: 54,
+        ProvisionalDl: 55,
+        RefugeePassport: 56,
+        SpecialId: 57,
+        UniformedServicesId: 58,
+        ImmigrantVisa: 59,
+    }
+);
+
+/**
+ * Defines possible the document field type with BlinkID or BlinkID MultiSide Recognizer
+ */
+BlinkID.prototype.FieldType = Object.freeze (
+    {
+    AdditionalAddressInformation: 0,
+    AdditionalNameInformation: 1,
+    AdditionalOptionalAddressInformation: 2,
+    AdditionalPersonalIdNumber: 3,
+    Address: 4,
+    ClassEffectiveDate: 5,
+    ClassExpiryDate: 6,
+    Conditions: 7,
+    DateOfBirth: 8,
+    DateOfExpiry: 9,
+    DateOfIssue: 10,
+    DocumentAdditionalNumber: 11,
+    DocumentOptionalAdditionalNumber: 12,
+    DocumentNumber: 13,
+    Employer: 14,
+    Endorsements: 15,
+    FathersName: 16,
+    FirstName: 17,
+    FullName: 18,
+    IssuingAuthority: 19,
+    LastName: 20,
+    LicenceType: 21,
+    LocalizedName: 22,
+    MaritalStatus: 23,
+    MothersName: 24,
+    Mrz: 25,
+    Nationality: 26,
+    PersonalIdNumber: 27,
+    PlaceOfBirth: 28,
+    Profession: 29,
+    Race: 30,
+    Religion: 31,
+    ResidentialStatus: 32,
+    Restrictions: 33,
+    Sex: 34,
+    VehicleClass: 35,
+    BloodType: 36,
+    Sponsor: 37,
     }
 );
 
@@ -2149,6 +2210,24 @@ function RecognitionModeFilter() {
 }
 
 BlinkID.prototype.RecognitionModeFilter = RecognitionModeFilter;
+
+/**
+ * ClassAnonymizationSettings is used to anonymize specific documents and fields.
+ * It can be modified with countries, regions, document types and document fields. 
+ * See Country, Region, Type and FieldType objects to get more information which fields can be anonymized.
+ * Setting is taken into account if AnonymizationMode is set to ImageOnly,ResultFieldsOnly or FullResult.
+ */
+function ClassAnonymizationSettings() {
+    this.country = null;
+
+    this.region = null;
+
+    this.type = null;
+
+    this.fields = [];
+}
+
+BlinkID.prototype.ClassAnonymizationSettings = ClassAnonymizationSettings;
 /**
  * Result of the data matching algorithm for scanned parts/sides of the document.
  */
@@ -2321,122 +2400,17 @@ function BlinkIdOverlaySettings() {
     * document side.
     */
     this.retryButtonText = null;
-    /**
-      * Message that is shown while scanning the barcode.
-      * If null, default value will be used.
-     */
-    this.scanBarcodeText = null;
-     /**
-      * Instructions for the user to move the document from the edge.
-      * If null, default value will be used.
-     */
-    this.errorDocumentTooCloseToEdge = null;
-    /**
-    * String: title of the dialog which is shown when the data on the document is not matching.
-    * If null, default value will be used.
-    */
-    this.dataMismatchTitle = null;
-    /**
-    * String: message of the dialog which is shown when the data on the document is not matching.
-    * If null, default value will be used.
-    */
-    this.dataMismatchMessage = null;
-    /**
-    * String: message that is shown while scanning first side of the document with barcode.
-    * If null, default value will be used.
-    */
-    this.backSideBarcodeInstructions = null;
-    /**
-    * String: message that is shown while scanning back side of the document.
-    * If null, default value will be used.
-    */
-    this.backSideInstructions = null;
-    /**
-    * String: text shown when the document is not fully visible.
-    * If null, default value will be used.
-    */
-    this.errorDocumentNotFullyVisible = null;
-    /**
-    * String: text shown for the help tooltip which activates when scanning takes a while.
-    * If null, default value will be used.
-    */
-    this.helpTooltip = null;
-    /**
-    * String: text shown for the snackbar warning shown when flashlight is turned on.
-    * If null, default value will be used.
-    */
-    this.flashlightWarning = null;
-    /**
-    * String: text shown for the 'skip' button on the onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingSkipButtonText = null;
-    /**
-    * String: text shown for the 'back' button on the onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingBackButtonText = null;
-    /**
-    * String: text shown for the 'next' button on the onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingNextButtonText = null;
-    /**
-    * String: text shown for the 'done' button on the onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingDoneButtonText = null;
-    /**
-    * String: title of the introduction dialog.
-    * If null, default value will be used.
-    */
-    this.introductionDialogTitle = null;
-    /**
-    * String: message of the introduction dialog.
-    * If null, default value will be used.
-    */
-    this.introductionDialogMessage = null;
-    /**
-    * String: text shown for the 'done' button on the introduction screen.
-    * If null, default value will be used.
-    */
-    this.introductionDoneButton = null;
-    /**
-    * String: title of the first onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingTitlePageOne = null;
-    /**
-    * String: title of the second onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingTitlePageTwo = null;
-    /**
-    * String: title of the third onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingTitlePageThree = null;
-    /**
-    * String: message of the first onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingMessagePageOne = null;
-    /**
-    * String: message of the second onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingMessagePageTwo = null;
-    /**
-    * String: message of the third onboarding screen.
-    * If null, default value will be used.
-    */
-    this.onboardingMessagePageThree = null;
 
     /**
      * If true, BlinkIdMultiSideRecognizer will check if sides do match when scanning is finished
      * Default: true
      */
     this.requireDocumentSidesDataMatch = true;
+
+    /**
+     * Language of UI.
+     */
+    this.language = null;
 
     /**
      * Defines whether Document Not Supported dialog will be displayed in UI.
@@ -2453,6 +2427,13 @@ function BlinkIdOverlaySettings() {
     this.showFlashlightWarning = true;
 
     /**
+     * Option to configure missing mandatory fields feedback during scanning. If disabled, general message is presented.
+     *
+     * Default: true
+    */
+    this.showMandatoryFieldsMissing = true;
+
+    /**
      * Option to configure back side scanning timeout.
      *
      * Default: 16999
@@ -2460,9 +2441,20 @@ function BlinkIdOverlaySettings() {
     this.backSideScanningTimeoutMilliseconds = 17000;
 
     /**
-     * Defines whether onboarding is turned on by default.
-     *
-     * Default: true
+      * Message that is shown while scanning the barcode.
+      * If null, default value will be used.
+     */
+    this.scanBarcodeText = null;
+
+     /**
+      * Instructions for the user to move the document from the edge.
+      * If null, default value will be used.
+     */
+    this.errorDocumentTooCloseToEdge = null;
+    
+    /**
+     * String: title of the dialog which is shown when the data on the document is not matching.
+     * If null, default value will be used.
     */
     this.showOnboardingInfo = true;
 
@@ -2481,6 +2473,7 @@ function BlinkIdOverlaySettings() {
     this.onboardingButtonTooltipDelay = 12000;
 
 }
+
 BlinkIdOverlaySettings.prototype = new OverlaySettings();
 
 BlinkID.prototype.BlinkIdOverlaySettings = BlinkIdOverlaySettings;
@@ -2672,6 +2665,16 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     this.faceImage = nativeResult.faceImage;
     
     /**
+     * face image location from the document if enabled with returnFaceImage property.
+     */
+    this.faceImageLocation = nativeResult.faceImageLocation;
+    
+    /**
+     * side of document that face image is located on if enabled with returnFaceImage property.
+     */
+    this.faceImageSide = nativeResult.faceImageSide;
+    
+    /**
      * The father's name of the document owner.
      */
     this.fathersName = nativeResult.fathersName;
@@ -2812,11 +2815,6 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
      */
     this.signatureImage = nativeResult.signatureImage;
     
-    /**
-     * The version of result.
-     */
-    this.version = nativeResult.version;
-    
 }
 
 BlinkIdMultiSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -2828,6 +2826,11 @@ BlinkID.prototype.BlinkIdMultiSideRecognizerResult = BlinkIdMultiSideRecognizerR
  */
 function BlinkIdMultiSideRecognizer() {
     Recognizer.call(this, 'BlinkIdMultiSideRecognizer');
+    
+    /**
+     * Additional anonymization settings.
+     */
+    this.additionalAnonymization = [];
     
     /**
      * Defines whether blured frames filtering is allowed
@@ -3102,6 +3105,16 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
     this.faceImage = nativeResult.faceImage;
     
     /**
+     * face image location from the document if enabled with returnFaceImage property.
+     */
+    this.faceImageLocation = nativeResult.faceImageLocation;
+    
+    /**
+     * side of document that face image is located on if enabled with returnFaceImage property.
+     */
+    this.faceImageSide = nativeResult.faceImageSide;
+    
+    /**
      * The father's name of the document owner.
      */
     this.fathersName = nativeResult.fathersName;
@@ -3227,6 +3240,11 @@ BlinkID.prototype.BlinkIdSingleSideRecognizerResult = BlinkIdSingleSideRecognize
  */
 function BlinkIdSingleSideRecognizer() {
     Recognizer.call(this, 'BlinkIdSingleSideRecognizer');
+    
+    /**
+     * Additional anonymization settings.
+     */
+    this.additionalAnonymization = [];
     
     /**
      * Defines whether blured frames filtering is allowed
@@ -3500,17 +3518,17 @@ function IdBarcodeRecognizerResult(nativeResult) {
     /**
      * The date of birth of the document owner.
      */
-    this.dateOfBirth = nativeResult.dateOfBirth;
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /**
      * The date of expiry of the document.
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry;
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /**
      * The date of issue of the document.
      */
-    this.dateOfIssue = nativeResult.dateOfIssue;
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /**
      * The additional number of the document.

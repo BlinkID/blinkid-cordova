@@ -31,17 +31,20 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         boolean showFlashlightWarning = jsonUISettings.optBoolean("showFlashlightWarning", true);
         settings.setShowFlashlightWarning(showFlashlightWarning);
 
-        long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
-        settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
+        boolean showMandatoryFieldsMissing = jsonUISettings.optBoolean("showMandatoryFieldsMissing", true);
+        settings.setShowMandatoryFieldsMissing(showMandatoryFieldsMissing);
 
         boolean showOnboardingInfo = jsonUISettings.optBoolean("showOnboardingInfo", true);
         settings.setShowOnboardingInfo(showOnboardingInfo);
-
+        
         boolean showIntroductionDialog = jsonUISettings.optBoolean("showIntroductionDialog", false);
         settings.setShowIntroductionDialog(showIntroductionDialog);
-
+        
         long onboardingButtonTooltipDelay = jsonUISettings.optLong("onboardingButtonTooltipDelay", 12000);
         settings.setShowTooltipTimeIntervalMs(onboardingButtonTooltipDelay);
+
+        long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
+        settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
 
         ReticleOverlayStrings.Builder overlasStringsBuilder = new ReticleOverlayStrings.Builder(context);
 
@@ -96,78 +99,6 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         String errorDocumentTooCloseToEdge = getStringFromJSONObject(jsonUISettings, "errorDocumentTooCloseToEdge");
         if (errorDocumentTooCloseToEdge != null) {
             overlasStringsBuilder.setErrorDocumentTooCloseToEdge(errorDocumentTooCloseToEdge);
-        }
-        String dataMismatchTitle = getStringFromJSONObject(jsonUISettings, "dataMismatchTitle");
-        if (dataMismatchTitle != null) {
-            overlasStringsBuilder.setDataMismatchTitle(dataMismatchTitle);
-        }
-        String dataMismatchMessage = getStringFromJSONObject(jsonUISettings, "dataMismatchMessage");
-        if (dataMismatchMessage != null) {
-            overlasStringsBuilder.setDataMismatchMessage(dataMismatchMessage);
-        }
-        String backSideInstructions = getStringFromJSONObject(jsonUISettings, "backSideInstructions");
-        if (backSideInstructions != null) {
-            overlasStringsBuilder.setBackSideInstructions(backSideInstructions);
-        }
-        String backSideBarcodeInstructions = getStringFromJSONObject(jsonUISettings, "backSideBarcodeInstructions");
-        if (backSideBarcodeInstructions != null) {
-            overlasStringsBuilder.setBackSideBarcodeInstructions(backSideBarcodeInstructions);
-        }
-        String errorDocumentNotFullyVisible = getStringFromJSONObject(jsonUISettings, "errorDocumentNotFullyVisible");
-        if (errorDocumentNotFullyVisible != null) {
-            overlasStringsBuilder.setErrorDocumentNotFullyVisible(errorDocumentNotFullyVisible);
-        }
-        String helpTooltip = getStringFromJSONObject(jsonUISettings, "helpTooltip");
-        if (helpTooltip != null) {
-            overlasStringsBuilder.setHelpTooltip(helpTooltip);
-        }
-        String flashlightWarning = getStringFromJSONObject(jsonUISettings, "flashlightWarning");
-        if (flashlightWarning != null) {
-            overlasStringsBuilder.setFlashlightWarningMessage(flashlightWarning);
-        }
-        String onboardingSkipButtonText = getStringFromJSONObject(jsonUISettings, "onboardingSkipButtonText");
-        if (onboardingSkipButtonText != null) {
-            overlasStringsBuilder.setOnboardingSkipButtonText(onboardingSkipButtonText);
-        }
-        String onboardingBackButtonText = getStringFromJSONObject(jsonUISettings, "onboardingBackButtonText");
-        if (onboardingBackButtonText != null) {
-            overlasStringsBuilder.setOnboardingBackButtonText(onboardingBackButtonText);
-        }
-        String onboardingNextButtonText = getStringFromJSONObject(jsonUISettings, "onboardingNextButtonText");
-        if (onboardingNextButtonText != null) {
-            overlasStringsBuilder.setOnboardingNextButtonText(onboardingNextButtonText);
-        }
-        String onboardingDoneButtonText = getStringFromJSONObject(jsonUISettings, "onboardingDoneButtonText");
-        if (onboardingDoneButtonText != null) {
-            overlasStringsBuilder.setOnboardingDoneButtonText(onboardingDoneButtonText);
-        }
-        String introductionDialogTitle = getStringFromJSONObject(jsonUISettings, "introductionDialogTitle");
-        if (introductionDialogTitle != null) {
-            overlasStringsBuilder.setIntroductionDialogTitle(introductionDialogTitle);
-        }
-        String introductionDialogMessage = getStringFromJSONObject(jsonUISettings, "introductionDialogMessage");
-        if (introductionDialogMessage != null) {
-            overlasStringsBuilder.setIntroductionDialogMessage(introductionDialogMessage);
-        }
-        String introductionDoneButton = getStringFromJSONObject(jsonUISettings, "introductionDoneButton");
-        if (introductionDoneButton != null) {
-            overlasStringsBuilder.setIntroductionDialogDoneButtonText(introductionDoneButton);
-        }
-
-        String onboardingTitlePageOne = getStringFromJSONObject(jsonUISettings, "onboardingTitlePageOne");
-        String onboardingTitlePageTwo = getStringFromJSONObject(jsonUISettings, "onboardingTitlePageTwo");
-        String onboardingTitlePageThree = getStringFromJSONObject(jsonUISettings, "onboardingTitlePageThree");
-
-        if (onboardingTitlePageOne != null && onboardingTitlePageTwo != null && onboardingTitlePageThree != null) {
-            overlasStringsBuilder.setOnboardingTitles(new String[] {onboardingTitlePageOne, onboardingTitlePageTwo, onboardingTitlePageThree});
-        }
-
-        String onboardingMessagePageOne = getStringFromJSONObject(jsonUISettings, "onboardingMessagePageOne");
-        String onboardingMessagePageTwo = getStringFromJSONObject(jsonUISettings, "onboardingMessagePageTwo");
-        String onboardingMessagePageThree = getStringFromJSONObject(jsonUISettings, "onboardingMessagePageThree");
-
-        if (onboardingMessagePageOne != null && onboardingMessagePageTwo != null && onboardingMessagePageThree != null) {
-            overlasStringsBuilder.setOnboardingMessages(new String[] {onboardingMessagePageOne, onboardingMessagePageTwo, onboardingMessagePageThree});
         }
 
         String language = getStringFromJSONObject(jsonUISettings, "language");

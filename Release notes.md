@@ -1,3 +1,6 @@
+## 6.3.0
+- Updated to [Android SDK v6.3.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.3.0) and [iOS SDK v6.3.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.3.0)
+
 ## 6.1.2
 - Fixed UI customization and added new settings
 
