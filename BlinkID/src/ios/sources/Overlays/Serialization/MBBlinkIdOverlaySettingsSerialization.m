@@ -189,12 +189,11 @@
     {
         id onboardingButtonTooltipDelay = [jsonOverlaySettings valueForKey:@"onboardingButtonTooltipDelay"];
         if (onboardingButtonTooltipDelay != nil) {
-            sett.onboardingButtonTooltipDelay = [onboardingButtonTooltipDelay doubleValue] / 10000.0;
+            sett.onboardingButtonTooltipDelay = [onboardingButtonTooltipDelay doubleValue] / 1000.0;
         }
     }
     
     {
-        
         id showMandatoryFieldsMissing = [jsonOverlaySettings valueForKey: @"showMandatoryFieldsMissing"];
         if (showMandatoryFieldsMissing != nil) {
             sett.defineSpecificMissingMandatoryFields = [showMandatoryFieldsMissing boolValue];

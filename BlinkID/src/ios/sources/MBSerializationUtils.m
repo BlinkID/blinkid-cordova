@@ -44,9 +44,9 @@
     [dict setValue:location forKey:@"location"];
     
     NSMutableDictionary *side = [NSMutableDictionary dictionary];
-    [side setValue:[MBSerializationUtils serializeMBSide:[value sideForAlphabetType:MBAlphabetTypeLatin]] forKey:@"latin"];
-    [side setValue:[MBSerializationUtils serializeMBSide:[value sideForAlphabetType:MBAlphabetTypeLatin]] forKey:@"arabic"];
-    [side setValue:[MBSerializationUtils serializeMBSide:[value sideForAlphabetType:MBAlphabetTypeLatin]] forKey:@"cyrillic"];
+    [side setValue:[NSNumber numberWithInteger:[value sideForAlphabetType:MBAlphabetTypeLatin]] forKey:@"latin"];
+    [side setValue:[NSNumber numberWithInteger:[value sideForAlphabetType:MBAlphabetTypeArabic]] forKey:@"arabic"];
+    [side setValue:[NSNumber numberWithInteger:[value sideForAlphabetType:MBAlphabetTypeCyrillic]] forKey:@"cyrillic"];
     [dict setValue:side forKey:@"side"];
     
     return dict;
