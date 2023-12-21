@@ -27,6 +27,8 @@ import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Cou
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Region;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Type;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.AlphabetType;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.Side;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.imageanalysis.CardRotation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,6 +122,7 @@ public abstract class BlinkIDSerializationUtils {
         jsonImageAnalysis.put("faceDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getFaceDetectionStatus()));
         jsonImageAnalysis.put("mrzDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getMrzDetectionStatus()));
         jsonImageAnalysis.put("barcodeDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getBarcodeDetectionStatus()));
+        jsonImageAnalysis.put("cardRotation", BlinkIDSerializationUtils.serializeCardRotation(imageAnalysisResult.getCardRotation()));
         return jsonImageAnalysis;
     }
 
@@ -274,15 +277,9 @@ public abstract class BlinkIDSerializationUtils {
             jsonStringResult.put("location", jsonFieldLocations);
 
             JSONObject jsonDocumentSides = new JSONObject();
-            if (stringResult.side(AlphabetType.Latin) != null) {
-                jsonDocumentSides.put("latin",stringResult.side(AlphabetType.Latin).ordinal());
-            }
-            if (stringResult.side(AlphabetType.Arabic) != null) {
-                jsonDocumentSides.put("arabic",stringResult.side(AlphabetType.Arabic).ordinal());
-            }
-            if (stringResult.side(AlphabetType.Cyrillic) != null) {
-                jsonDocumentSides.put("cyrillic",stringResult.side(AlphabetType.Cyrillic).ordinal());
-            }
+            jsonDocumentSides.put("latin",serializeSide(stringResult.side(AlphabetType.Latin)));
+            jsonDocumentSides.put("arabic",serializeSide(stringResult.side(AlphabetType.Arabic)));
+            jsonDocumentSides.put("cyrillic",serializeSide(stringResult.side(AlphabetType.Cyrillic)));
             jsonStringResult.put("side", jsonDocumentSides);
         }
         return jsonStringResult;
@@ -306,6 +303,20 @@ public abstract class BlinkIDSerializationUtils {
         jsonAdditionalProcessingInfo.put("invalidCharacterFields", invalidCharacterFieldsArr);
         jsonAdditionalProcessingInfo.put("extraPresentFields", extraPresentFieldsArr);
         return jsonAdditionalProcessingInfo;
+    }
+
+    public static int serializeSide(Side side) {
+        if (side != null) {
+            return side.ordinal() + 1;
+        }
+        return 0;
+    }
+
+    public static int serializeCardRotation(CardRotation rotation) {
+        if (rotation != null) {
+            return rotation.ordinal();
+        }
+        return 4;
     }
 
     public static ClassAnonymizationSettings[] deserializeClassAnonymizationSettings (JSONArray jsonArray) {

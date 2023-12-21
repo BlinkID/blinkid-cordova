@@ -388,6 +388,28 @@ BlinkID.prototype.RecognitionMode = Object.freeze(
 );
 
 /**
+ * Defines possible document card rotation positions
+ */
+ BlinkID.prototype.CardRotation = Object.freeze(
+    {
+    /** Zero degrees */
+    Zero: 0,
+
+    /** Clockwise 90 degrees */
+    Clockwise90: 1,
+
+    /** Counter clockwise 90 degrees */
+    CounterClockwise90: 2,
+
+    /** Upside down */
+    UpsideDown: 3,
+
+    /** Card rotation was not performed */
+    None: 4
+    }
+);
+
+/**
  * Defines possible color and moire statuses determined from scanned image.
  */
 function ImageAnalysisResult(nativeImageAnalysisResult) {
@@ -405,6 +427,8 @@ function ImageAnalysisResult(nativeImageAnalysisResult) {
     this.barcodeDetectionStatus = nativeImageAnalysisResult.barcodeDetectionStatus;
     /** Orientation determined from the scanned image. */
     this.cardOrientation = nativeImageAnalysisResult.cardOrientation;
+    /** Document card rotation positions */
+    this.cardRotation = nativeImageAnalysisResult.cardRotation;
 }
 
 /**
@@ -830,6 +854,14 @@ BlinkID.prototype.Region = Object.freeze(
         NorthwestTerritories: 121,
         Nunavut: 122,
         PrinceEdwardIsland: 123,
+        DistritoFederal: 124,
+        Maranhao: 125,
+        MatoGrosso: 126,
+        MinasGerais: 127,
+        Para: 128,
+        Parana: 129,
+        Pernambuco: 130,
+        SantaCatarina: 131,
     }
 );
 
@@ -898,6 +930,8 @@ BlinkID.prototype.Type = Object.freeze(
         SpecialId: 57,
         UniformedServicesId: 58,
         ImmigrantVisa: 59,
+        ConsularVoterId: 60,
+        TwicCard: 61,
     }
 );
 
