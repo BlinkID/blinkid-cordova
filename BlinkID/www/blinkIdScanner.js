@@ -82,6 +82,73 @@ BlinkID.prototype.scanWithCamera = function (successCallback, errorCallback, ove
         errorCallback, 'BlinkIDScanner', 'scanWithCamera', [overlaySettings, recognizerCollection, licenses]);
 };
 
+/**
+ * successCallback: callback that will be invoked on successful scan
+ * errorCallback: callback that will be invoked on error
+ * recognizerCollection: {RecognizerCollection} containing recognizers to use for scanning
+ * frontImage: the front image of the document that will be used for processing with DirectAPI in base64 format
+ * backImage: the back image of the document that will be used for processing with DirectAPI in base64 format. 
+ * This parameter is optional for the BlinkIdSingleSideRecognizer. Pass an empty string for this parameter.
+ * licenses: object containing:
+ *               - base64 license keys for iOS and Android
+ *               - optioanl parameter 'licensee' when license for multiple apps is used
+ *               - optional flag 'showTrialLicenseKeyWarning' which indicates
+ *                  whether warning for trial license key will be shown, in format
+ *  {
+ *      ios: 'base64iOSLicense',
+ *      android: 'base64AndroidLicense',
+ *      licensee: String,
+ *      showTrialLicenseKeyWarning: Boolean
+ *  }
+ */
+
+BlinkID.prototype.scanWithDirectApi = function (successCallback, errorCallback, recognizerCollection, frontImage, backImage, licenses) {
+    if (errorCallback == null) {
+        errorCallback = function () {
+        };
+    }
+
+    if (typeof errorCallback != "function") {
+        console.log("BlinkIDScanner.scanWithDirectApi failure: failure parameter not a function");
+        throw new Error("BlinkIDScanner.scanWithDirectApi failure: failure parameter not a function");
+        return;
+    }
+
+    if (typeof successCallback != "function") {
+        console.log("BlinkIDScanner.scanWithDirectApi failure: success callback parameter must be a function");
+        throw new Error("BlinkIDScanner.scanWithDirectApi failure: success callback parameter must be a function");
+        return;
+    }
+
+    // first invalidate old results
+    for (var i = 0; i < recognizerCollection.recognizerArray[i].length; ++i ) {
+        recognizerCollection.recognizerArray[i].result = null;
+    }
+
+    exec(
+        function internalCallback(scanningResult) {
+            var cancelled = scanningResult.cancelled;
+
+            if (cancelled) {
+                successCallback(true);
+            } else {
+                var results = scanningResult.resultList;
+                if (results.length != recognizerCollection.recognizerArray.length) {
+                    console.log("INTERNAL ERROR: native plugin returned wrong number of results!");
+                    throw new Error("INTERNAL ERROR: native plugin returned wrong number of results!");
+                    errorCallback(new Error("INTERNAL ERROR: native plugin returned wrong number of results!"));
+                } else {
+                    for (var i = 0; i < results.length; ++i) {
+                        // native plugin must ensure types match
+                        recognizerCollection.recognizerArray[i].result = recognizerCollection.recognizerArray[i].createResultFromNative(results[i]);
+                    }
+                    successCallback(false);
+                }
+            }
+        },
+        errorCallback, 'BlinkIDScanner', 'scanWithDirectApi', [recognizerCollection, frontImage, backImage, licenses]);
+};
+
 // COMMON CLASSES
 
 /**
@@ -878,6 +945,12 @@ BlinkID.prototype.Region = Object.freeze(
         Parana: 129,
         Pernambuco: 130,
         SantaCatarina: 131,
+        AndhraPradesh: 132,
+        Ceara: 133,
+        Goias: 134,
+        GuerreroAcapulcoDeJuarez: 135,
+        Haryana: 136,
+        Sergipe: 137,
     }
 );
 
@@ -948,6 +1021,11 @@ BlinkID.prototype.Type = Object.freeze(
         ImmigrantVisa: 59,
         ConsularVoterId: 60,
         TwicCard: 61,
+        ExitEntryPermit: 62,
+        MainlandTravelPermitTaiwan: 63,
+        NbiClearance: 64,
+        ProofOfRegistration: 65,
+        TemporaryProtectionPermit: 66,
     }
 );
 
@@ -956,44 +1034,44 @@ BlinkID.prototype.Type = Object.freeze(
  */
 BlinkID.prototype.FieldType = Object.freeze (
     {
-    AdditionalAddressInformation: 0,
-    AdditionalNameInformation: 1,
-    AdditionalOptionalAddressInformation: 2,
-    AdditionalPersonalIdNumber: 3,
-    Address: 4,
-    ClassEffectiveDate: 5,
-    ClassExpiryDate: 6,
-    Conditions: 7,
-    DateOfBirth: 8,
-    DateOfExpiry: 9,
-    DateOfIssue: 10,
-    DocumentAdditionalNumber: 11,
-    DocumentOptionalAdditionalNumber: 12,
-    DocumentNumber: 13,
-    Employer: 14,
-    Endorsements: 15,
-    FathersName: 16,
-    FirstName: 17,
-    FullName: 18,
-    IssuingAuthority: 19,
-    LastName: 20,
-    LicenceType: 21,
-    LocalizedName: 22,
-    MaritalStatus: 23,
-    MothersName: 24,
-    Mrz: 25,
-    Nationality: 26,
-    PersonalIdNumber: 27,
-    PlaceOfBirth: 28,
-    Profession: 29,
-    Race: 30,
-    Religion: 31,
-    ResidentialStatus: 32,
-    Restrictions: 33,
-    Sex: 34,
-    VehicleClass: 35,
-    BloodType: 36,
-    Sponsor: 37,
+        AdditionalAddressInformation: 0,
+        AdditionalNameInformation: 1,
+        AdditionalOptionalAddressInformation: 2,
+        AdditionalPersonalIdNumber: 3,
+        Address: 4,
+        ClassEffectiveDate: 5,
+        ClassExpiryDate: 6,
+        Conditions: 7,
+        DateOfBirth: 8,
+        DateOfExpiry: 9,
+        DateOfIssue: 10,
+        DocumentAdditionalNumber: 11,
+        DocumentOptionalAdditionalNumber: 12,
+        DocumentNumber: 13,
+        Employer: 14,
+        Endorsements: 15,
+        FathersName: 16,
+        FirstName: 17,
+        FullName: 18,
+        IssuingAuthority: 19,
+        LastName: 20,
+        LicenceType: 21,
+        LocalizedName: 22,
+        MaritalStatus: 23,
+        MothersName: 24,
+        Mrz: 25,
+        Nationality: 26,
+        PersonalIdNumber: 27,
+        PlaceOfBirth: 28,
+        Profession: 29,
+        Race: 30,
+        Religion: 31,
+        ResidentialStatus: 32,
+        Restrictions: 33,
+        Sex: 34,
+        VehicleClass: 35,
+        BloodType: 36,
+        Sponsor: 37,
     }
 );
 
@@ -2457,10 +2535,19 @@ function BlinkIdOverlaySettings() {
      */
     this.requireDocumentSidesDataMatch = true;
 
-    /**
-     * Language of UI.
-     */
+    /** 
+    * If default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used
+    *
+    * example: "en" 
+    */
     this.language = null;
+
+    /**
+    * Used with language variable, it defines the country locale 
+    * 
+    * example: "US" to use "en_US" on Android and en-US on iOS 
+    */
+    this.country = null;
 
     /**
      * Defines whether Document Not Supported dialog will be displayed in UI.
@@ -2522,6 +2609,19 @@ function BlinkIdOverlaySettings() {
     */
     this.onboardingButtonTooltipDelay = 12000;
 
+    /**
+     * Defines whether torch button used for turning the flashlight on and off is shown on the screen during the scanning session.
+     *
+     * Default: true
+    */
+    this.showTorchButton = true;
+
+    /**
+     * Defines whether exit (cancel) button used for cancelling the scan is shown on the screen during the scanning session.
+     *
+     * Default: true
+    */
+    this.showCancelButton = true;
 }
 
 BlinkIdOverlaySettings.prototype = new OverlaySettings();
@@ -2576,99 +2676,104 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     /**
      * The additional address information of the document owner.
      */
-    this.additionalAddressInformation = nativeResult.additionalAddressInformation;    
+    this.additionalAddressInformation = nativeResult.additionalAddressInformation;
     
     /**
      * The additional name information of the document owner.
      */
-    this.additionalNameInformation = nativeResult.additionalNameInformation;    
+    this.additionalNameInformation = nativeResult.additionalNameInformation;
     
     /**
      * The one more additional address information of the document owner.
      */
-    this.additionalOptionalAddressInformation = nativeResult.additionalOptionalAddressInformation;    
+    this.additionalOptionalAddressInformation = nativeResult.additionalOptionalAddressInformation;
     
     /**
      * The address of the document owner.
      */
-    this.address = nativeResult.address;    
+    this.address = nativeResult.address;
     
     /**
      * The current age of the document owner in years. It is calculated difference
      * between now and date of birth. Now is current time on the device.
      * @return current age of the document owner in years or -1 if date of birth is unknown.
      */
-    this.age = nativeResult.age;    
+    this.age = nativeResult.age;
     
     /**
      * Additional info on processing of the back side.
      */
-    this.backAdditionalProcessingInfo = nativeResult.backAdditionalProcessingInfo;    
+    this.backAdditionalProcessingInfo = nativeResult.backAdditionalProcessingInfo;
     
     /**
      * The back raw camera frame.
      */
-    this.backCameraFrame = nativeResult.backCameraFrame;    
+    this.backCameraFrame = nativeResult.backCameraFrame;
     
     /**
      * Defines possible color and moire statuses determined from scanned back image.
      */
-    this.backImageAnalysisResult = nativeResult.backImageAnalysisResult;    
+    this.backImageAnalysisResult = nativeResult.backImageAnalysisResult;
     
     /**
      * Status of the last back side recognition process.
      */
-    this.backProcessingStatus = nativeResult.backProcessingStatus;    
+    this.backProcessingStatus = nativeResult.backProcessingStatus;
     
     /**
      * Defines the data extracted from the back side visual inspection zone.
      */
-    this.backVizResult = nativeResult.backVizResult;    
+    this.backVizResult = nativeResult.backVizResult;
     
     /**
      * The barcode raw camera frame.
      */
-    this.barcodeCameraFrame = nativeResult.barcodeCameraFrame;    
+    this.barcodeCameraFrame = nativeResult.barcodeCameraFrame;
     
     /**
      * Defines the data extracted from the barcode.
      */
-    this.barcodeResult = nativeResult.barcodeResult;    
+    this.barcodeResult = nativeResult.barcodeResult;
+    
+    /**
+     * The blood type of the document owner.
+     */
+    this.bloodType = nativeResult.bloodType;
     
     /**
      * The classification information.
      */
-    this.classInfo = nativeResult.classInfo;    
+    this.classInfo = nativeResult.classInfo;
     
     /**
      * Detailed info on data match.
      */
-    this.dataMatch = nativeResult.dataMatch;    
+    this.dataMatch = nativeResult.dataMatch;
     
     /**
      * The date of birth of the document owner.
      */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;    
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /**
      * The date of expiry of the document.
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;    
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /**
      * Determines if date of expiry is permanent.
      */
-    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;    
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
     
     /**
      * The date of issue of the document.
      */
-    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;    
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /**
      * The additional number of the document.
      */
-    this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;    
+    this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;
     
     /**
      * Returns DataMatchStateSuccess if data from scanned parts/sides of the document match,
@@ -2676,27 +2781,27 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
      * of the document and values do not match, this method will return DataMatchStateFailed. Result will
      * be DataMatchStateSuccess only if scanned values for all fields that are compared are the same.
      */
-    this.documentDataMatch = nativeResult.documentDataMatch;    
+    this.documentDataMatch = nativeResult.documentDataMatch;
     
     /**
      * The document number.
      */
-    this.documentNumber = nativeResult.documentNumber;    
+    this.documentNumber = nativeResult.documentNumber;
     
     /**
      * The one more additional number of the document.
      */
-    this.documentOptionalAdditionalNumber = nativeResult.documentOptionalAdditionalNumber;    
+    this.documentOptionalAdditionalNumber = nativeResult.documentOptionalAdditionalNumber;
     
     /**
      * The driver license detailed info.
      */
-    this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;    
+    this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
     
     /**
      * The employer of the document owner.
      */
-    this.employer = nativeResult.employer;    
+    this.employer = nativeResult.employer;
     
     /**
      * Checks whether the document has expired or not by comparing the current
@@ -2707,163 +2812,168 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
      * date of expiry has passed
      * date of expiry is unknown and it is not permanent
      */
-    this.expired = nativeResult.expired;    
+    this.expired = nativeResult.expired;
     
     /**
      * face image from the document if enabled with returnFaceImage property.
      */
-    this.faceImage = nativeResult.faceImage;    
+    this.faceImage = nativeResult.faceImage;
     
     /**
      * face image location from the document if enabled with returnFaceImage property.
      */
-    this.faceImageLocation = nativeResult.faceImageLocation;    
+    this.faceImageLocation = nativeResult.faceImageLocation;
     
     /**
      * side of document that face image is located on if enabled with returnFaceImage property.
      */
-    this.faceImageSide = nativeResult.faceImageSide;    
+    this.faceImageSide = nativeResult.faceImageSide;
     
     /**
      * The father's name of the document owner.
      */
-    this.fathersName = nativeResult.fathersName;    
+    this.fathersName = nativeResult.fathersName;
     
     /**
      * The first name of the document owner.
      */
-    this.firstName = nativeResult.firstName;    
+    this.firstName = nativeResult.firstName;
     
     /**
      * Additional info on processing of the front side.
      */
-    this.frontAdditionalProcessingInfo = nativeResult.frontAdditionalProcessingInfo;    
+    this.frontAdditionalProcessingInfo = nativeResult.frontAdditionalProcessingInfo;
     
     /**
      * The front raw camera frame.
      */
-    this.frontCameraFrame = nativeResult.frontCameraFrame;    
+    this.frontCameraFrame = nativeResult.frontCameraFrame;
     
     /**
      * Defines possible color and moire statuses determined from scanned front image.
      */
-    this.frontImageAnalysisResult = nativeResult.frontImageAnalysisResult;    
+    this.frontImageAnalysisResult = nativeResult.frontImageAnalysisResult;
     
     /**
      * Status of the last front side recognition process.
      */
-    this.frontProcessingStatus = nativeResult.frontProcessingStatus;    
+    this.frontProcessingStatus = nativeResult.frontProcessingStatus;
     
     /**
      * Defines the data extracted from the front side visual inspection zone.
      */
-    this.frontVizResult = nativeResult.frontVizResult;    
+    this.frontVizResult = nativeResult.frontVizResult;
     
     /**
      * back side image of the document if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;    
+    this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /**
      * front side image of the document if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;    
+    this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /**
      * The full name of the document owner.
      */
-    this.fullName = nativeResult.fullName;    
+    this.fullName = nativeResult.fullName;
     
     /**
      * The issuing authority of the document.
      */
-    this.issuingAuthority = nativeResult.issuingAuthority;    
+    this.issuingAuthority = nativeResult.issuingAuthority;
     
     /**
      * The last name of the document owner.
      */
-    this.lastName = nativeResult.lastName;    
+    this.lastName = nativeResult.lastName;
     
     /**
      * The localized name of the document owner.
      */
-    this.localizedName = nativeResult.localizedName;    
+    this.localizedName = nativeResult.localizedName;
     
     /**
      * The marital status of the document owner.
      */
-    this.maritalStatus = nativeResult.maritalStatus;    
+    this.maritalStatus = nativeResult.maritalStatus;
     
     /**
      * The mother's name of the document owner.
      */
-    this.mothersName = nativeResult.mothersName;    
+    this.mothersName = nativeResult.mothersName;
     
     /**
      * The data extracted from the machine readable zone
      */
-    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;    
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /**
      * The nationality of the documet owner.
      */
-    this.nationality = nativeResult.nationality;    
+    this.nationality = nativeResult.nationality;
     
     /**
      * The personal identification number.
      */
-    this.personalIdNumber = nativeResult.personalIdNumber;    
+    this.personalIdNumber = nativeResult.personalIdNumber;
     
     /**
      * The place of birth of the document owner.
      */
-    this.placeOfBirth = nativeResult.placeOfBirth;    
+    this.placeOfBirth = nativeResult.placeOfBirth;
     
     /**
      * Defines status of the last recognition process.
      */
-    this.processingStatus = nativeResult.processingStatus;    
+    this.processingStatus = nativeResult.processingStatus;
     
     /**
      * The profession of the document owner.
      */
-    this.profession = nativeResult.profession;    
+    this.profession = nativeResult.profession;
     
     /**
      * The race of the document owner.
      */
-    this.race = nativeResult.race;    
+    this.race = nativeResult.race;
     
     /**
      * Recognition mode used to scan current document.
      */
-    this.recognitionMode = nativeResult.recognitionMode;    
+    this.recognitionMode = nativeResult.recognitionMode;
     
     /**
      * The religion of the document owner.
      */
-    this.religion = nativeResult.religion;    
+    this.religion = nativeResult.religion;
     
     /**
      * The residential stauts of the document owner.
      */
-    this.residentialStatus = nativeResult.residentialStatus;    
+    this.residentialStatus = nativeResult.residentialStatus;
     
     /**
      * Returns true if recognizer has finished scanning first side and is now scanning back side,
      * false if it's still scanning first side.
      */
-    this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;    
+    this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
     /**
      * The sex of the document owner.
      */
-    this.sex = nativeResult.sex;    
+    this.sex = nativeResult.sex;
     
     /**
      * image of the signature if enabled with returnSignatureImage property.
      */
-    this.signatureImage = nativeResult.signatureImage;    
+    this.signatureImage = nativeResult.signatureImage;
+    
+    /**
+     * The sponsor of the document owner.
+     */
+    this.sponsor = nativeResult.sponsor;
     
 }
 
@@ -3044,99 +3154,104 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
     /**
      * The additional address information of the document owner.
      */
-    this.additionalAddressInformation = nativeResult.additionalAddressInformation;    
+    this.additionalAddressInformation = nativeResult.additionalAddressInformation;
     
     /**
      * The additional name information of the document owner.
      */
-    this.additionalNameInformation = nativeResult.additionalNameInformation;    
+    this.additionalNameInformation = nativeResult.additionalNameInformation;
     
     /**
      * The one more additional address information of the document owner.
      */
-    this.additionalOptionalAddressInformation = nativeResult.additionalOptionalAddressInformation;    
+    this.additionalOptionalAddressInformation = nativeResult.additionalOptionalAddressInformation;
     
     /**
      * Additional info on processing.
      */
-    this.additionalProcessingInfo = nativeResult.additionalProcessingInfo;    
+    this.additionalProcessingInfo = nativeResult.additionalProcessingInfo;
     
     /**
      * The address of the document owner.
      */
-    this.address = nativeResult.address;    
+    this.address = nativeResult.address;
     
     /**
      * The current age of the document owner in years. It is calculated difference
      * between now and date of birth. Now is current time on the device.
      * @return current age of the document owner in years or -1 if date of birth is unknown.
      */
-    this.age = nativeResult.age;    
+    this.age = nativeResult.age;
     
     /**
      * The barcode raw camera frame.
      */
-    this.barcodeCameraFrame = nativeResult.barcodeCameraFrame;    
+    this.barcodeCameraFrame = nativeResult.barcodeCameraFrame;
     
     /**
      * Defines the data extracted from the barcode.
      */
-    this.barcodeResult = nativeResult.barcodeResult;    
+    this.barcodeResult = nativeResult.barcodeResult;
+    
+    /**
+     * The blood type of the document owner.
+     */
+    this.bloodType = nativeResult.bloodType;
     
     /**
      * The raw camera frame.
      */
-    this.cameraFrame = nativeResult.cameraFrame;    
+    this.cameraFrame = nativeResult.cameraFrame;
     
     /**
      * The classification information.
      */
-    this.classInfo = nativeResult.classInfo;    
+    this.classInfo = nativeResult.classInfo;
     
     /**
      * The date of birth of the document owner.
      */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;    
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /**
      * The date of expiry of the document.
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;    
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /**
      * Determines if date of expiry is permanent.
      */
-    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;    
+    this.dateOfExpiryPermanent = nativeResult.dateOfExpiryPermanent;
     
     /**
      * The date of issue of the document.
      */
-    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;    
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /**
      * The additional number of the document.
      */
-    this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;    
+    this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;
     
     /**
      * The document number.
      */
-    this.documentNumber = nativeResult.documentNumber;    
+    this.documentNumber = nativeResult.documentNumber;
     
     /**
      * The one more additional number of the document.
      */
-    this.documentOptionalAdditionalNumber = nativeResult.documentOptionalAdditionalNumber;    
+    this.documentOptionalAdditionalNumber = nativeResult.documentOptionalAdditionalNumber;
     
     /**
      * The driver license detailed info.
      */
-    this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;    
+    this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
     
     /**
      * The employer of the document owner.
      */
-    this.employer = nativeResult.employer;    
+    this.employer = nativeResult.employer;
     
     /**
      * Checks whether the document has expired or not by comparing the current
@@ -3147,137 +3262,142 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
      * date of expiry has passed
      * date of expiry is unknown and it is not permanent
      */
-    this.expired = nativeResult.expired;    
+    this.expired = nativeResult.expired;
     
     /**
      * face image from the document if enabled with returnFaceImage property.
      */
-    this.faceImage = nativeResult.faceImage;    
+    this.faceImage = nativeResult.faceImage;
     
     /**
      * face image location from the document if enabled with returnFaceImage property.
      */
-    this.faceImageLocation = nativeResult.faceImageLocation;    
+    this.faceImageLocation = nativeResult.faceImageLocation;
     
     /**
      * side of document that face image is located on if enabled with returnFaceImage property.
      */
-    this.faceImageSide = nativeResult.faceImageSide;    
+    this.faceImageSide = nativeResult.faceImageSide;
     
     /**
      * The father's name of the document owner.
      */
-    this.fathersName = nativeResult.fathersName;    
+    this.fathersName = nativeResult.fathersName;
     
     /**
      * The first name of the document owner.
      */
-    this.firstName = nativeResult.firstName;    
+    this.firstName = nativeResult.firstName;
     
     /**
      * full document image if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentImage = nativeResult.fullDocumentImage;    
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /**
      * The full name of the document owner.
      */
-    this.fullName = nativeResult.fullName;    
+    this.fullName = nativeResult.fullName;
     
     /**
      * Defines possible color and moire statuses determined from scanned image.
      */
-    this.imageAnalysisResult = nativeResult.imageAnalysisResult;    
+    this.imageAnalysisResult = nativeResult.imageAnalysisResult;
     
     /**
      * The issuing authority of the document.
      */
-    this.issuingAuthority = nativeResult.issuingAuthority;    
+    this.issuingAuthority = nativeResult.issuingAuthority;
     
     /**
      * The last name of the document owner.
      */
-    this.lastName = nativeResult.lastName;    
+    this.lastName = nativeResult.lastName;
     
     /**
      * The localized name of the document owner.
      */
-    this.localizedName = nativeResult.localizedName;    
+    this.localizedName = nativeResult.localizedName;
     
     /**
      * The marital status of the document owner.
      */
-    this.maritalStatus = nativeResult.maritalStatus;    
+    this.maritalStatus = nativeResult.maritalStatus;
     
     /**
      * The mother's name of the document owner.
      */
-    this.mothersName = nativeResult.mothersName;    
+    this.mothersName = nativeResult.mothersName;
     
     /**
      * The data extracted from the machine readable zone
      */
-    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;    
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /**
      * The nationality of the documet owner.
      */
-    this.nationality = nativeResult.nationality;    
+    this.nationality = nativeResult.nationality;
     
     /**
      * The personal identification number.
      */
-    this.personalIdNumber = nativeResult.personalIdNumber;    
+    this.personalIdNumber = nativeResult.personalIdNumber;
     
     /**
      * The place of birth of the document owner.
      */
-    this.placeOfBirth = nativeResult.placeOfBirth;    
+    this.placeOfBirth = nativeResult.placeOfBirth;
     
     /**
      * Defines status of the last recognition process.
      */
-    this.processingStatus = nativeResult.processingStatus;    
+    this.processingStatus = nativeResult.processingStatus;
     
     /**
      * The profession of the document owner.
      */
-    this.profession = nativeResult.profession;    
+    this.profession = nativeResult.profession;
     
     /**
      * The race of the document owner.
      */
-    this.race = nativeResult.race;    
+    this.race = nativeResult.race;
     
     /**
      * Recognition mode used to scan current document.
      */
-    this.recognitionMode = nativeResult.recognitionMode;    
+    this.recognitionMode = nativeResult.recognitionMode;
     
     /**
      * The religion of the document owner.
      */
-    this.religion = nativeResult.religion;    
+    this.religion = nativeResult.religion;
     
     /**
      * The residential stauts of the document owner.
      */
-    this.residentialStatus = nativeResult.residentialStatus;    
+    this.residentialStatus = nativeResult.residentialStatus;
     
     /**
      * The sex of the document owner.
      */
-    this.sex = nativeResult.sex;    
+    this.sex = nativeResult.sex;
     
     /**
      * image of the signature if enabled with returnSignatureImage property.
      */
-    this.signatureImage = nativeResult.signatureImage;    
+    this.signatureImage = nativeResult.signatureImage;
+    
+    /**
+     * The sponsor of the document owner.
+     */
+    this.sponsor = nativeResult.sponsor;
     
     /**
      * Defines the data extracted from the visual inspection zone
      */
-    this.vizResult = nativeResult.vizResult;    
+    this.vizResult = nativeResult.vizResult;
     
 }
 
@@ -3436,22 +3556,22 @@ function DocumentFaceRecognizerResult(nativeResult) {
     /**
      * Quadrangle represeting corner points of the document within the input image.
      */
-    this.documentLocation = nativeResult.documentLocation != null ? new Quadrilateral(nativeResult.documentLocation) : null;    
+    this.documentLocation = nativeResult.documentLocation != null ? new Quadrilateral(nativeResult.documentLocation) : null;
     
     /**
      * face image from the document if enabled with returnFaceImage property.
      */
-    this.faceImage = nativeResult.faceImage;    
+    this.faceImage = nativeResult.faceImage;
     
     /**
      * Quadrangle represeting corner points of the face image within the input image.
      */
-    this.faceLocation = nativeResult.faceLocation != null ? new Quadrilateral(nativeResult.faceLocation) : null;    
+    this.faceLocation = nativeResult.faceLocation != null ? new Quadrilateral(nativeResult.faceLocation) : null;
     
     /**
      * full document image if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentImage = nativeResult.fullDocumentImage;    
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
     
 }
 
@@ -3539,73 +3659,73 @@ function IdBarcodeRecognizerResult(nativeResult) {
     /**
      * The additional name information of the document owner.
      */
-    this.additionalNameInformation = nativeResult.additionalNameInformation;    
+    this.additionalNameInformation = nativeResult.additionalNameInformation;
     
     /**
      * The address of the document owner.
      */
-    this.address = nativeResult.address;    
+    this.address = nativeResult.address;
     
     /**
      * The current age of the document owner in years. It is calculated difference
      * between now and date of birth. Now is current time on the device.
      * @return current age of the document owner in years or -1 if date of birth is unknown.
      */
-    this.age = nativeResult.age;    
+    this.age = nativeResult.age;
     
     /**
      * Type of the barcode scanned
      * 
      *  @return Type of the barcode
      */
-    this.barcodeType = nativeResult.barcodeType;    
+    this.barcodeType = nativeResult.barcodeType;
     
     /**
      * The city address portion of the document owner.
      */
-    this.city = nativeResult.city;    
+    this.city = nativeResult.city;
     
     /**
      * The date of birth of the document owner.
      */
-    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;    
+    this.dateOfBirth = nativeResult.dateOfBirth != null ? new Date(nativeResult.dateOfBirth) : null;
     
     /**
      * The date of expiry of the document.
      */
-    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;    
+    this.dateOfExpiry = nativeResult.dateOfExpiry != null ? new Date(nativeResult.dateOfExpiry) : null;
     
     /**
      * The date of issue of the document.
      */
-    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;    
+    this.dateOfIssue = nativeResult.dateOfIssue != null ? new Date(nativeResult.dateOfIssue) : null;
     
     /**
      * The additional number of the document.
      */
-    this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;    
+    this.documentAdditionalNumber = nativeResult.documentAdditionalNumber;
     
     /**
      * The document number.
      */
-    this.documentNumber = nativeResult.documentNumber;    
+    this.documentNumber = nativeResult.documentNumber;
     
     /**
      * The document type deduced from the recognized barcode
      * 
      *  @return Type of the document
      */
-    this.documentType = nativeResult.documentType;    
+    this.documentType = nativeResult.documentType;
     
     /**
      * The employer of the document owner.
      */
-    this.employer = nativeResult.employer;    
+    this.employer = nativeResult.employer;
     
     /**
      * The additional privileges granted to the driver license owner.
      */
-    this.endorsements = nativeResult.endorsements;    
+    this.endorsements = nativeResult.endorsements;
     
     /**
      * Checks whether the document has expired or not by comparing the current
@@ -3616,125 +3736,125 @@ function IdBarcodeRecognizerResult(nativeResult) {
      * date of expiry has passed
      * date of expiry is unknown and it is not permanent
      */
-    this.expired = nativeResult.expired;    
+    this.expired = nativeResult.expired;
     
     /**
      * Document specific extended elements that contain all barcode fields in their original form.
      * 
      * Currently this is only filled for AAMVACompliant documents.
      */
-    this.extendedElements = nativeResult.extendedElements;    
+    this.extendedElements = nativeResult.extendedElements;
     
     /**
      * The first name of the document owner.
      */
-    this.firstName = nativeResult.firstName;    
+    this.firstName = nativeResult.firstName;
     
     /**
      * The full name of the document owner.
      */
-    this.fullName = nativeResult.fullName;    
+    this.fullName = nativeResult.fullName;
     
     /**
      * The issuing authority of the document.
      */
-    this.issuingAuthority = nativeResult.issuingAuthority;    
+    this.issuingAuthority = nativeResult.issuingAuthority;
     
     /**
      * The jurisdiction code address portion of the document owner.
      */
-    this.jurisdiction = nativeResult.jurisdiction;    
+    this.jurisdiction = nativeResult.jurisdiction;
     
     /**
      * The last name of the document owner.
      */
-    this.lastName = nativeResult.lastName;    
+    this.lastName = nativeResult.lastName;
     
     /**
      * The marital status of the document owner.
      */
-    this.maritalStatus = nativeResult.maritalStatus;    
+    this.maritalStatus = nativeResult.maritalStatus;
     
     /**
      * The middle name of the document owner.
      */
-    this.middleName = nativeResult.middleName;    
+    this.middleName = nativeResult.middleName;
     
     /**
      * The nationality of the documet owner.
      */
-    this.nationality = nativeResult.nationality;    
+    this.nationality = nativeResult.nationality;
     
     /**
      * The personal identification number.
      */
-    this.personalIdNumber = nativeResult.personalIdNumber;    
+    this.personalIdNumber = nativeResult.personalIdNumber;
     
     /**
      * The place of birth of the document owner.
      */
-    this.placeOfBirth = nativeResult.placeOfBirth;    
+    this.placeOfBirth = nativeResult.placeOfBirth;
     
     /**
      * The postal code address portion of the document owner.
      */
-    this.postalCode = nativeResult.postalCode;    
+    this.postalCode = nativeResult.postalCode;
     
     /**
      * The profession of the document owner.
      */
-    this.profession = nativeResult.profession;    
+    this.profession = nativeResult.profession;
     
     /**
      * The race of the document owner.
      */
-    this.race = nativeResult.race;    
+    this.race = nativeResult.race;
     
     /**
      * Byte array with result of the scan
      */
-    this.rawData = nativeResult.rawData;    
+    this.rawData = nativeResult.rawData;
     
     /**
      * The religion of the document owner.
      */
-    this.religion = nativeResult.religion;    
+    this.religion = nativeResult.religion;
     
     /**
      * The residential stauts of the document owner.
      */
-    this.residentialStatus = nativeResult.residentialStatus;    
+    this.residentialStatus = nativeResult.residentialStatus;
     
     /**
      * The restrictions to driving privileges for the driver license owner.
      */
-    this.restrictions = nativeResult.restrictions;    
+    this.restrictions = nativeResult.restrictions;
     
     /**
      * The sex of the document owner.
      */
-    this.sex = nativeResult.sex;    
+    this.sex = nativeResult.sex;
     
     /**
      * The street address portion of the document owner.
      */
-    this.street = nativeResult.street;    
+    this.street = nativeResult.street;
     
     /**
      * Retrieves string content of scanned data
      */
-    this.stringData = nativeResult.stringData;    
+    this.stringData = nativeResult.stringData;
     
     /**
      * Flag indicating uncertain scanning data
      * E.g obtained from damaged barcode.
      */
-    this.uncertain = nativeResult.uncertain;    
+    this.uncertain = nativeResult.uncertain;
     
     /**
      * The type of vehicle the driver license owner has privilege to drive.
      */
-    this.vehicleClass = nativeResult.vehicleClass;    
+    this.vehicleClass = nativeResult.vehicleClass;
     
 }
 
@@ -3768,33 +3888,33 @@ function MrtdCombinedRecognizerResult(nativeResult) {
      * of the document and values do not match, this method will return DataMatchStateFailed. Result will
      * be DataMatchStateSuccess only if scanned values for all fields that are compared are the same.
      */
-    this.documentDataMatch = nativeResult.documentDataMatch;    
+    this.documentDataMatch = nativeResult.documentDataMatch;
     
     /**
      * face image from the document if enabled with returnFaceImage property.
      */
-    this.faceImage = nativeResult.faceImage;    
+    this.faceImage = nativeResult.faceImage;
     
     /**
      * back side image of the document if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;    
+    this.fullDocumentBackImage = nativeResult.fullDocumentBackImage;
     
     /**
      * front side image of the document if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;    
+    this.fullDocumentFrontImage = nativeResult.fullDocumentFrontImage;
     
     /**
      * Returns the Data extracted from the machine readable zone.
      */
-    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;    
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
     /**
      * Returns true if recognizer has finished scanning first side and is now scanning back side,
      * false if it's still scanning first side.
      */
-    this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;    
+    this.scanningFirstSideDone = nativeResult.scanningFirstSideDone;
     
 }
 
@@ -3904,12 +4024,12 @@ function MrtdRecognizerResult(nativeResult) {
     /**
      * full document image if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentImage = nativeResult.fullDocumentImage;    
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /**
      * Returns the Data extracted from the machine readable zone.
      */
-    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;    
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
 }
 
@@ -3992,17 +4112,17 @@ function PassportRecognizerResult(nativeResult) {
     /**
      * face image from the document if enabled with returnFaceImage property.
      */
-    this.faceImage = nativeResult.faceImage;    
+    this.faceImage = nativeResult.faceImage;
     
     /**
      * full document image if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentImage = nativeResult.fullDocumentImage;    
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /**
      * The data extracted from the machine readable zone.
      */
-    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;    
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
 }
 
@@ -4085,17 +4205,17 @@ function VisaRecognizerResult(nativeResult) {
     /**
      * face image from the document if enabled with returnFaceImage property.
      */
-    this.faceImage = nativeResult.faceImage;    
+    this.faceImage = nativeResult.faceImage;
     
     /**
      * full document image if enabled with returnFullDocumentImage property.
      */
-    this.fullDocumentImage = nativeResult.fullDocumentImage;    
+    this.fullDocumentImage = nativeResult.fullDocumentImage;
     
     /**
      * The data extracted from the machine readable zone.
      */
-    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;    
+    this.mrzResult = nativeResult.mrzResult != null ? new MrzResult(nativeResult.mrzResult) : null;
     
 }
 
