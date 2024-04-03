@@ -26,6 +26,9 @@ else
   echo "Using plugin from NPM"
 fi
 
+# cordova-plugin-camera plugin needed only for sample application with DirectAPI to get the document images
+cordova plugin add https://github.com/jalios/cordova-plugin-camera.git
+
 # add ios and android support to the project
 cordova platform add android@10
 cordova platform add ios

@@ -92,6 +92,24 @@ h1 {
     margin-right: 38%
 }
 
+#directAPIMultiSideButton {
+    margin-top: 20px;
+    font-size:18px;
+    height: 30px;
+    width: 35%;
+    margin-left: 32%;
+    margin-right: 35%
+}
+
+#directAPISingleSideButton {
+    margin-top: 20px;
+    font-size:18px;
+    height: 30px;
+    width: 35%;
+    margin-left: 32%;
+    margin-right: 35%
+}
+
 #resultDiv {
     margin-top: 20px;
 }
