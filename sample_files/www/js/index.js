@@ -127,13 +127,14 @@ var app = {
                 buildResult(blinkIdResult.processingStatus.description, "Processing status") +
                 buildResult(blinkIdResult.recognitionMode.description, "Recognition mode")
                 ;
-            
-            let dataMatchResult = blinkIdResult.dataMatch;
-            resultString +=
-            buildResult(dataMatchResult.stateForWholeDocument, "State for the whole document") +
-            buildResult(dataMatchResult.states[0].state, "Date of birth") +
-            buildResult(dataMatchResult.states[1].state, "Date of expiry") +
-            buildResult(dataMatchResult.states[2].state, "Document number");
+            if (blinkIdResult == blinkIdMultiSideRecognizer.result) {
+                let dataMatchResult = blinkIdResult.dataMatch;
+                resultString +=
+                buildResult(dataMatchResult.stateForWholeDocument, "State for the whole document") +
+                buildResult(dataMatchResult.states[0].state, "Date of birth") +
+                buildResult(dataMatchResult.states[1].state, "Date of expiry") +
+                buildResult(dataMatchResult.states[2].state, "Document number");
+            }
             
             var licenceInfo = blinkIdResult.driverLicenseDetailedInfo;
             if (licenceInfo) {
@@ -156,18 +157,27 @@ var app = {
 
             // there are other fields to extract - check blinkIdScanner.js for full reference
             resultDiv.innerHTML = resultString;
-
-            var resultDocumentFrontImage = blinkIdMultiSideRecognizer.result.fullDocumentFrontImage;
-            if (resultDocumentFrontImage) {
-                documentFrontImage.src = "data:image/jpg;base64, " + resultDocumentFrontImage;
-                documentFrontImageDiv.style.visibility = "visible";
+            if (blinkIdResult == blinkIdMultiSideRecognizer.result) {
+                var resultDocumentFrontImage = blinkIdResult.fullDocumentFrontImage;
+                if (resultDocumentFrontImage) {
+                    documentFrontImage.src = "data:image/jpg;base64, " + resultDocumentFrontImage;
+                    documentFrontImageDiv.style.visibility = "visible";
+                }
+                var resultDocumentBackImage = blinkIdResult.fullDocumentBackImage;
+                if (resultDocumentBackImage) {
+                    documentBackImage.src = "data:image/jpg;base64, " + resultDocumentBackImage;
+                    documentBackImageDiv.style.visibility = "visible";
+                }
+            } else {
+                var resultDocumentImage = blinkIdResult.fullDocumentImage;
+                if (resultDocumentImage) {
+                    documentFrontImage.src = "data:image/jpg;base64, " + resultDocumentImage;
+                    documentFrontImageDiv.style.visibility = "visible";
+                }
+                documentBackImageDiv.style.visibility = "hidden";
+                documentBackImage.src = "";
             }
-            var resultDocumentBackImage = blinkIdMultiSideRecognizer.result.fullDocumentBackImage;
-            if (resultDocumentBackImage) {
-                documentBackImage.src = "data:image/jpg;base64, " + resultDocumentBackImage;
-                documentBackImageDiv.style.visibility = "visible";
-            }
-            var resultFaceImage = blinkIdMultiSideRecognizer.result.faceImage;
+            var resultFaceImage = blinkIdResult.faceImage;
             if (resultFaceImage) {
                 faceImage.src = "data:image/jpg;base64, " + resultFaceImage;
                 faceImageDiv.style.visibility = "visible";
@@ -296,7 +306,7 @@ var app = {
                     blinkIdSingleSideRecognizer.returnFullDocumentImage = true;
                     blinkIdSingleSideRecognizer.returnFaceImage = true;
 
-                    /* Uncomment line 302 if you're using scanWithDirectApi and you are sending cropped images for processing. 
+                    /* Uncomment line 312 if you're using scanWithDirectApi and you are sending cropped images for processing. 
                     The processing will most likely not work if cropped images are being sent with the scanCroppedDocumentImage property being set to false */
 
                     //blinkIdSingleSideRecognizer.scanCroppedDocumentImage = true;
