@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="blinkid-cordova" 
-        version="6.5.0">
+        version="6.6.0">
 
     <name>BlinkIdScanner</name>
     <description>A small and powerful ID card scanning library</description>
@@ -153,8 +153,7 @@
         <framework src="AudioToolbox.framework" />
         <framework src="OpenGLES.framework" />
         <framework src="Accelerate.framework" />
-        <framework src="src/ios/BlinkID.xcframework" custom="true" embed="true"/>
-        
+        <framework src="src/ios/blinkid-ios/BlinkID.xcframework" custom="true" embed="true"/>
         <preference name="CAMERA_USAGE_DESCRIPTION" default=" " />
         <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
             <string>$CAMERA_USAGE_DESCRIPTION</string>
