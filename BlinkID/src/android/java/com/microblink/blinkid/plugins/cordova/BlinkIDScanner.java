@@ -185,25 +185,26 @@ public class BlinkIDScanner extends CordovaPlugin {
 
     private void setupRecognizerRunner(JSONObject jsonRecognizerCollection, FirstSideRecognitionCallback mFirstSideRecognitionCallback) {
         if (mRecognizerRunner != null) {
-            mRecognizerRunner.resetRecognitionState(true);
-        } else {
-            mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-            try {
-                mRecognizerRunner = RecognizerRunner.getSingletonInstance();
-            } catch (Exception e) {
-                handleDirectApiError("DirectAPI not supported: " + e.getMessage());
-            }
-
-            MetadataCallbacks metadataCallbacks = new MetadataCallbacks();
-            metadataCallbacks.setFirstSideRecognitionCallback(mFirstSideRecognitionCallback);
-            mRecognizerRunner.setMetadataCallbacks(metadataCallbacks);
-            mRecognizerRunner.initialize(cordova.getContext(), mRecognizerBundle, new DirectApiErrorListener() {
-                @Override
-                public void onRecognizerError(@NonNull Throwable throwable) {
-                    handleDirectApiError("Failed to initialize recognizer with DirectAPI: " + throwable.getMessage());
-                }
-            });
+            mRecognizerRunner.terminate();
         }
+        
+        mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+
+        try {
+            mRecognizerRunner = RecognizerRunner.getSingletonInstance();
+        } catch (Exception e) {
+            handleDirectApiError("DirectAPI not supported: " + e.getMessage());
+        }
+
+        MetadataCallbacks metadataCallbacks = new MetadataCallbacks();
+        metadataCallbacks.setFirstSideRecognitionCallback(mFirstSideRecognitionCallback);
+        mRecognizerRunner.setMetadataCallbacks(metadataCallbacks);
+        mRecognizerRunner.initialize(cordova.getContext(), mRecognizerBundle, new DirectApiErrorListener() {
+            @Override
+            public void onRecognizerError(@NonNull Throwable throwable) {
+                handleDirectApiError("Failed to initialize recognizer with DirectAPI: " + throwable.getMessage());
+            }
+        });
     }
 
     private void processImage(String base64Image, ScanResultListener scanResultListener) {
