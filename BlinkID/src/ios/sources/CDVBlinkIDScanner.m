@@ -249,7 +249,7 @@
 }
 
 + (NSString *)EMPTY_IMAGE {
-    return @"The first side image is empty!";
+    return @"The provided image for the 'frontImage' parameter is empty!";
 }
 
 + (NSString *)INVALID_IMAGE_FORMAT {
@@ -257,7 +257,7 @@
 }
 
 + (NSString *)NO_DATA {
-    return @"Could not extract the data with DirectAPI!";
+    return @"Could not extract the information with DirectAPI!";
 }
 
 + (int)COMPRESSED_IMAGE_QUALITY {

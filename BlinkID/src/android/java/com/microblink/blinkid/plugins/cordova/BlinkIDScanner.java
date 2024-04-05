@@ -150,12 +150,12 @@ public class BlinkIDScanner extends CordovaPlugin {
                 if (mFirstSideScanned) {
                     //multiside recognizer used
                     try {
-                        if (!arguments.getString(2).isEmpty() && arguments.getString(2) != "null") {
+                        if (!arguments.getString(2).isEmpty() && !arguments.isNull(2)) {
                              processImage(arguments.getString(2), mScanResultListenerBackSide);
                         } else if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
                             handleDirectApiResult(recognitionSuccessType);
                         } else {
-                            handleDirectApiError("Could not extract the information from the front side and back side is empty!");
+                            handleDirectApiError("Could not extract the information from the front side and the back side is empty!");
                         }
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -165,7 +165,7 @@ public class BlinkIDScanner extends CordovaPlugin {
                     handleDirectApiResult(recognitionSuccessType);
                 } else {
                     mFirstSideScanned = false;
-                    handleDirectApiError("Could not extract the data with DirectAPI!");
+                    handleDirectApiError("Could not extract the information with DirectAPI!");
                 }
             }
             @Override
@@ -176,10 +176,10 @@ public class BlinkIDScanner extends CordovaPlugin {
 
         setupRecognizerRunner(jsonRecognizerCollection, mFirstSideRecognitionCallback);
 
-        if (!arguments.getString(1).isEmpty()) {
+        if (!arguments.getString(1).isEmpty() && !arguments.isNull(1)) {
             processImage(arguments.getString(1), mScanResultListenerFrontSide);
         } else {
-            handleDirectApiError("The first side image is empty!");
+            handleDirectApiError("The provided image for the 'frontImage' parameter is empty!");
         }
     }
 
