@@ -21,6 +21,11 @@
  * Starts the scanning process
  */
 - (void)scanWithCamera:(CDVInvokedUrlCommand *)command;
+
+/**
+ * Starts the image recognition process via DirectAPI
+ */
+- (void)scanWithDirectApi:(CDVInvokedUrlCommand *)command;
 /**
  * Returns successful recognition
  */
