@@ -30,6 +30,7 @@ import com.microblink.blinkid.metadata.recognition.FirstSideRecognitionCallback;
 import com.microblink.blinkid.recognition.RecognitionSuccessType;
 import com.microblink.blinkid.metadata.MetadataCallbacks;
 import com.microblink.blinkid.view.recognition.ScanResultListener;
+import com.microblink.blinkid.licence.exception.LicenceKeyException;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -98,22 +99,22 @@ public class BlinkIDScanner extends CordovaPlugin {
         }
     }
 
-    private void scanWithCamera(JSONArray arguments) throws JSONException{
+    private void scanWithCamera(JSONArray arguments) throws JSONException {
         try {
             JSONObject jsonOverlaySettings = arguments.getJSONObject(0);
             JSONObject jsonRecognizerCollection = arguments.getJSONObject(1);
             JSONObject jsonLicenses = arguments.getJSONObject(2);
+            if (setLicense(jsonLicenses)) {
+                setLanguage(jsonOverlaySettings.getString("language"),
+                        jsonOverlaySettings.getString("country"));
+                mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+                UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(this.cordova.getContext(), jsonOverlaySettings, mRecognizerBundle);
 
-            setLicense(jsonLicenses);
-            setLanguage(jsonOverlaySettings.getString("language"),
-                    jsonOverlaySettings.getString("country"));
-            mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-            UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(this.cordova.getContext(), jsonOverlaySettings, mRecognizerBundle);
-
-            // unable to use ActivityRunner because we need to use cordova's activity launcher
-            Intent intent = new Intent(this.cordova.getContext(), overlaySettings.getTargetActivity());
-            overlaySettings.saveToIntent(intent);
-            this.cordova.startActivityForResult(this, intent, REQUEST_CODE);
+                // unable to use ActivityRunner because we need to use cordova's activity launcher
+                Intent intent = new Intent(this.cordova.getContext(), overlaySettings.getTargetActivity());
+                overlaySettings.saveToIntent(intent);
+                this.cordova.startActivityForResult(this, intent, REQUEST_CODE);   
+            }
         } catch (JSONException e) {
             mCallbackContext.error("Could not start scanWithCamera.\nJSON error: " + e);
         }
@@ -123,63 +124,64 @@ public class BlinkIDScanner extends CordovaPlugin {
         //DirectAPI processing
         JSONObject jsonRecognizerCollection = arguments.getJSONObject(0);
         JSONObject jsonLicense = arguments.getJSONObject(3);
-        setLicense(jsonLicense);
+        if (setLicense(jsonLicense)) {
 
-        ScanResultListener mScanResultListenerBackSide = new ScanResultListener() {
-            @Override
-            public void onScanningDone(@NonNull RecognitionSuccessType recognitionSuccessType) {
-                mFirstSideScanned = false;
-                handleDirectApiResult(recognitionSuccessType);
-            }
-            @Override
-            public void onUnrecoverableError(@NonNull Throwable throwable) {
-                handleDirectApiError(throwable.getMessage());
-            }
-        };
-
-        FirstSideRecognitionCallback  mFirstSideRecognitionCallback = new FirstSideRecognitionCallback() {
-            @Override
-            public void onFirstSideRecognitionFinished() {
-                mFirstSideScanned = true;
-            }
-        };
-
-        ScanResultListener mScanResultListenerFrontSide = new ScanResultListener() {
-            @Override
-            public void onScanningDone(@NonNull RecognitionSuccessType recognitionSuccessType) {
-                if (mFirstSideScanned) {
-                    //multiside recognizer used
-                    try {
-                        if (!arguments.getString(2).isEmpty() && !arguments.isNull(2)) {
-                             processImage(arguments.getString(2), mScanResultListenerBackSide);
-                        } else if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
-                            handleDirectApiResult(recognitionSuccessType);
-                        } else {
-                            handleDirectApiError("Could not extract the information from the front side and the back side is empty!");
-                        }
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                } else if (!mFirstSideScanned && recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL){
-                    //singleside recognizer used
-                    handleDirectApiResult(recognitionSuccessType);
-                } else {
+            ScanResultListener mScanResultListenerBackSide = new ScanResultListener() {
+                @Override
+                public void onScanningDone(@NonNull RecognitionSuccessType recognitionSuccessType) {
                     mFirstSideScanned = false;
-                    handleDirectApiError("Could not extract the information with DirectAPI!");
+                    handleDirectApiResult(recognitionSuccessType);
                 }
-            }
-            @Override
-            public void onUnrecoverableError(@NonNull Throwable throwable) {
-                handleDirectApiError(throwable.getMessage());
-            }
-        };
+                @Override
+                public void onUnrecoverableError(@NonNull Throwable throwable) {
+                    handleDirectApiError(throwable.getMessage());
+                }
+            };
 
-        setupRecognizerRunner(jsonRecognizerCollection, mFirstSideRecognitionCallback);
+            FirstSideRecognitionCallback  mFirstSideRecognitionCallback = new FirstSideRecognitionCallback() {
+                @Override
+                public void onFirstSideRecognitionFinished() {
+                    mFirstSideScanned = true;
+                }
+            };
 
-        if (!arguments.getString(1).isEmpty() && !arguments.isNull(1)) {
-            processImage(arguments.getString(1), mScanResultListenerFrontSide);
-        } else {
-            handleDirectApiError("The provided image for the 'frontImage' parameter is empty!");
+            ScanResultListener mScanResultListenerFrontSide = new ScanResultListener() {
+                @Override
+                public void onScanningDone(@NonNull RecognitionSuccessType recognitionSuccessType) {
+                    if (mFirstSideScanned) {
+                        //multiside recognizer used
+                        try {
+                            if (!arguments.getString(2).isEmpty() && !arguments.isNull(2)) {
+                                processImage(arguments.getString(2), mScanResultListenerBackSide);
+                            } else if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
+                                handleDirectApiResult(recognitionSuccessType);
+                            } else {
+                                handleDirectApiError("Could not extract the information from the front side and the back side is empty!");
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    } else if (!mFirstSideScanned && recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL){
+                        //singleside recognizer used
+                        handleDirectApiResult(recognitionSuccessType);
+                    } else {
+                        mFirstSideScanned = false;
+                        handleDirectApiError("Could not extract the information with DirectAPI!");
+                    }
+                }
+                @Override
+                public void onUnrecoverableError(@NonNull Throwable throwable) {
+                    handleDirectApiError(throwable.getMessage());
+                }
+            };
+
+            setupRecognizerRunner(jsonRecognizerCollection, mFirstSideRecognitionCallback);
+
+            if (!arguments.getString(1).isEmpty() && !arguments.isNull(1)) {
+                processImage(arguments.getString(1), mScanResultListenerFrontSide);
+            } else {
+                handleDirectApiError("The provided image for the 'frontImage' parameter is empty!");
+            }
         }
     }
 
@@ -249,7 +251,7 @@ public class BlinkIDScanner extends CordovaPlugin {
         }
     }
 
-    private void setLicense( JSONObject jsonLicense ) throws JSONException {
+    private boolean setLicense( JSONObject jsonLicense ) throws JSONException {
         MicroblinkSDK.setShowTrialLicenseWarning(
                 jsonLicense.optBoolean("showTrialLicenseKeyWarning", true)
         );
@@ -257,11 +259,22 @@ public class BlinkIDScanner extends CordovaPlugin {
         String licensee = jsonLicense.optString("licensee", null);
         Context context = cordova.getContext();
         if (licensee == null) {
-            MicroblinkSDK.setLicenseKey(androidLicense, context);
+            try {
+                MicroblinkSDK.setLicenseKey(androidLicense, context);
+            } catch (LicenceKeyException licenceKeyException) {
+                mCallbackContext.error("Android license key error: " + licenceKeyException.toString());
+                return false;
+            }
         } else {
-            MicroblinkSDK.setLicenseKey(androidLicense, licensee, context);
+            try {
+                MicroblinkSDK.setLicenseKey(androidLicense, licensee, context);
+            } catch (LicenceKeyException licenceKeyException) {
+                mCallbackContext.error("Android license key error: " + licenceKeyException.toString());
+                return false;
+            }
         }
         MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
+        return true;
     }
 
     private Bitmap base64ToBitmap(String base64String) {
