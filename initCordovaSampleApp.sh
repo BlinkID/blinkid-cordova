@@ -16,7 +16,7 @@ cordova create $APP_NAME com.microblink.sample $APP_NAME
 cd $APP_NAME
 
 # add the BlinkID plugin
-IS_LOCAL_BUILD=true || exit 1
+IS_LOCAL_BUILD=false || exit 1
 if [ "$IS_LOCAL_BUILD" = true ]; then
   # using cordova plugin from NPM
   cordova plugin add ../BlinkID --variable CAMERA_USAGE_DESCRIPTION="Camera permission is required for automated scanning"
