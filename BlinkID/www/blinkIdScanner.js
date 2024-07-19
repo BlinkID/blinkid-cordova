@@ -351,6 +351,29 @@ BlinkID.prototype.ImageAnalysisDetectionStatus = Object.freeze(
 );
 
 /**
+ * AlphabetType represents all of the alphabet types that BlinkID supports extracting.
+ *
+*/
+var AlphabetType = Object.freeze(
+    {
+        /** The Latin alphabet type. */
+        Latin: 0,
+
+        /** The Arabic alphabet type. */
+        Arabic: 1,
+
+        /** The Cyrillic alphabet type. */
+        Cyrillic: 2,
+    }
+);
+
+/**
+ * AlphabetType represents all of the alphabet types that BlinkID supports extracting.
+ *
+*/
+BlinkID.prototype.AlphabetType = AlphabetType;
+
+/**
  * Define level of anonymization performed on recognizer result.
  */
 var AnonymizationMode = Object.freeze(
@@ -494,13 +517,32 @@ BlinkID.prototype.RecognitionMode = Object.freeze(
     NotAvailable: 2,
     }
 );
+/** 
+ * Defines possible strictness levels for blur are glare detection.
+ */
+var StrictnessLevel = Object.freeze(
+    {
+        /** The most strict level for blur are glare detection. */
+        Strict: 0,
+
+        /** The default strictness level for blur are glare detection. */
+        Normal: 1,
+
+        /** The least strict level for blur are glare detection. */
+        Relaxed: 2,
+    }
+);
+
+/** 
+ * Defines possible strictness levels for blur are glare detection.
+ */
+ BlinkID.prototype.StrictnessLevel = StrictnessLevel;
+
 
 /**
  * Defines possible color and moire statuses determined from scanned image.
  */
 function ImageAnalysisResult(nativeImageAnalysisResult) {
-    /**  Whether the image is blurred. */
-    this.blurred = nativeImageAnalysisResult.blurred;
     /** The color status determined from scanned image. */
     this.documentImageColorStatus = nativeImageAnalysisResult.documentImageColorStatus;
     /** The Moire pattern detection status determined from the scanned image. */
@@ -517,6 +559,10 @@ function ImageAnalysisResult(nativeImageAnalysisResult) {
     this.cardRotation = nativeImageAnalysisResult.cardRotation;
     /** RealID detection status determined from the scanned image. */
     this.realIdDetectionStatus = nativeImageAnalysisResult.realIdDetectionStatus;
+    /** Indicates if blur was detected on the scanned image. */
+    this.blurDetected = nativeImageAnalysisResult.blurDetected;
+    /** Indicates if glare was detected on the scanned image. */
+    this.glareDetected = nativeImageAnalysisResult.glareDetected;
 }
 
 /**
@@ -956,6 +1002,7 @@ BlinkID.prototype.Region = Object.freeze(
         GuerreroAcapulcoDeJuarez: 135,
         Haryana: 136,
         Sergipe: 137,
+        Alagos: 138,
     }
 );
 
@@ -1031,6 +1078,10 @@ BlinkID.prototype.Type = Object.freeze(
         NbiClearance: 64,
         ProofOfRegistration: 65,
         TemporaryProtectionPermit: 66,
+        AfghanCitizenCard: 67,
+        EId: 68,
+        Pass: 69,
+        SisId: 70,
     }
 );
 
@@ -1077,6 +1128,10 @@ BlinkID.prototype.FieldType = Object.freeze (
         VehicleClass: 35,
         BloodType: 36,
         Sponsor: 37,
+        VisaType: 38,
+        DocumentSubtype: 39,
+        Remarks: 40,
+        ResidencePermitType: 41
     }
 );
 
@@ -2377,6 +2432,46 @@ function DocumentNumberAnonymizationSettings() {
 }
 
 BlinkID.prototype.DocumentNumberAnonymizationSettings = DocumentNumberAnonymizationSettings;
+
+/**
+ * CustomClassRules represent custom rules of mandatory fields for each class of a document.
+ * Setting the fields in the CustomClassRules will make them mandatory.
+ * If CustomClassRules are not set, all of the default fields are mandatory.
+*/
+function CustomClassRules() {
+    /** Documents from the set country will be used with CustomClassRules */
+    this.country = null;
+    /** Documents from the set region will be used with CustomClassRules */
+    this.region = null;
+    /** Document type that will be used with CustomClassRules */
+    this.type = null;
+    /** An array of the document fields and alphabets that will be used with CustomClassRules. See DetailedFieldType for more information. */
+    this.detailedFieldTypes = [];
+}
+
+/**
+ * CustomClassRules represent custom rules of mandatory fields for each class of a document.
+ * Setting the fields in the CustomClassRules will make them mandatory.
+ * If CustomClassRules are not set, all of the fields are mandatory.
+*/
+BlinkID.prototype.CustomClassRules = CustomClassRules;
+
+/**
+ * DetailedFieldType represents a detailed field type used for custom mandatory fields.
+ * Used with CustomClassRules. A field type (see FieldType for all fields) along with Alphabet type (see AlphabetType for all alphabets) is required.
+*/
+function DetailedFieldType() {
+    /** Field type that will be mandatory for extraction for CustomClassRules. */
+    this.fieldType = null;
+    /** Alphabet type connected with the field type that will be optional for extraction for CustomClassRules. */
+    this.alphabetType = null;
+}
+
+/**
+ * DetailedFieldType represents a detailed field type used for custom mandatory fields.
+ * Used with CustomClassRules. A field type (see FieldType for all fields) along with Alphabet type (see AlphabetType for all alphabets) is required.
+*/
+BlinkID.prototype.DetailedFieldType = DetailedFieldType;
 /**
  * Result of the data matching algorithm for scanned parts/sides of the document.
  */
@@ -2433,6 +2528,70 @@ function OverlaySettings(overlaySettingsType) {
      */
     this.useFrontCamera = false;
 }
+
+/**
+ * Defines possible iOS device camera video resolution preset 
+ */
+var iOSCameraResolutionPreset = Object.freeze (
+    {
+        /** 480p video will always be used */
+        Preset480p: 0,
+
+        /** 720p video will always be used */
+        Preset720p: 1,
+    
+        /** 1080p video will always be used */
+        Preset1080p: 2,
+    
+        /** 4K video will always be used */
+        Preset4K: 3,
+
+        /** The library will calculate optimal resolution based on the use case and device used */
+        PresetOptimal: 4,
+
+        /** Device's maximal video resolution will be used */
+        PresetMax: 5,
+
+        /** Device's photo preview resolution will be used */
+        PresetPhoto: 6
+    }
+);
+
+/**
+ * Defines possible iOS device camera video resolution preset 
+ */
+BlinkID.prototype.iOSCameraResolutionPreset = iOSCameraResolutionPreset;
+
+/**
+ * Defines possible Android device camera video resolution preset 
+ */
+var AndroidCameraResolutionPreset = Object.freeze (
+    {
+        /** Will choose camera video resolution which is best for current device */
+        PresetDefault: 0,
+
+        /** Attempts to choose camera video resolution as closely as 480p */
+        Preset480p: 1,
+    
+        /** Attempts to choose camera video resolution as closely as 720p */
+        Preset720p: 2,
+    
+        /** Attempts to choose camera video resolution as closely as 1080p */
+        Preset1080p: 3,
+
+        /** Attempts to choose camera video resolution as closely as 2160p */
+        Preset2160p: 4,
+
+        /** Will choose max available camera video resolution */
+        PresetMaxAvailable: 5
+    }
+);
+
+/**
+ * Defines possible Android device camera video resolution preset 
+ */
+BlinkID.prototype.AndroidCameraResolutionPreset = AndroidCameraResolutionPreset;
+
 /**
  * Class for setting up document overlay.
  * Document overlay is best suited for recognizers that perform ID document scanning.
@@ -2643,6 +2802,39 @@ function BlinkIdOverlaySettings() {
      * Default: true
     */
     this.showCancelButton = true;
+
+    /**
+    * String: instructions for the user when blur has been detected on the document.
+    * If null, default value will be used.
+    */
+    this.errorBlurDetected = null;
+
+    /**
+    * String: instructions for the user when glare has been detected on the document.
+    * If null, default value will be used.
+    */
+    this.errorGlareDetected = null;
+
+    /**
+     * Defines possible iOS device camera video resolution preset.
+     * 
+     * Default: PresetOptimal
+    */
+    this.iosCameraResolutionPreset = iOSCameraResolutionPreset.PresetOptimal;
+
+    /**
+     * Defines possible Android device camera video resolution preset.
+     * 
+     * Default: PresetDefault
+    */
+    this.androidCameraResolutionPreset = AndroidCameraResolutionPreset.PresetDefault;
+
+    /**
+     * Option to set whether legacy camera API should be used even on Lollipop devices that support newer Camera2 API.
+     * WARNING: This setting should only be used if the new Camera2 API is not working on the device. This setting should not be applied to all devices.
+     * Default: false
+    */
+    this.enableAndroidLegacyCameraApi = false;
 }
 
 BlinkIdOverlaySettings.prototype = new OverlaySettings();
@@ -2815,6 +3007,11 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     this.documentOptionalAdditionalNumber = nativeResult.documentOptionalAdditionalNumber;
     
     /**
+     * The transcription of the document subtype.
+     */
+    this.documentSubtype = nativeResult.documentSubtype;
+    
+    /**
      * The driver license detailed info.
      */
     this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
@@ -2971,6 +3168,16 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     this.religion = nativeResult.religion;
     
     /**
+     * The remarks on the residence permit.
+     */
+    this.remarks = nativeResult.remarks;
+    
+    /**
+     * The residence permit type.
+     */
+    this.residencePermitType = nativeResult.residencePermitType;
+    
+    /**
      * The residential stauts of the document owner.
      */
     this.residentialStatus = nativeResult.residentialStatus;
@@ -2996,6 +3203,11 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
      */
     this.sponsor = nativeResult.sponsor;
     
+    /**
+     * The visa type.
+     */
+    this.visaType = nativeResult.visaType;
+    
 }
 
 BlinkIdMultiSideRecognizerResult.prototype = new RecognizerResult(RecognizerResultState.empty);
@@ -3012,13 +3224,6 @@ function BlinkIdMultiSideRecognizer() {
      * Additional anonymization settings.
      */
     this.additionalAnonymization = [];
-    
-    /**
-     * Defines whether blured frames filtering is allowed
-     * 
-     * 
-     */
-    this.allowBlurFilter = true;
     
     /**
      * Proceed with scanning the back side even if the front side result is uncertain.
@@ -3052,6 +3257,32 @@ function BlinkIdMultiSideRecognizer() {
     this.anonymizationMode = AnonymizationMode.FullResult;
     
     /**
+     * Strictness level for blur detection.
+     * 
+     * 
+     */
+    this.blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    /**
+     * Get custom class rules.
+     */
+    this.customClassRules = [];
+    
+    /**
+     * Skip processing of the blurred frames.
+     * 
+     * 
+     */
+    this.enableBlurFilter = true;
+    
+    /**
+     * Skip processing of the glared frames.
+     * 
+     * 
+     */
+    this.enableGlareFilter = true;
+    
+    /**
      * Property for setting DPI for face images
      * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
      * 
@@ -3074,6 +3305,13 @@ function BlinkIdMultiSideRecognizer() {
      * 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /**
+     * Strictness level for glare detection.
+     * 
+     * 
+     */
+    this.glareStrictnessLevel = StrictnessLevel.Normal;
     
     /**
      * Configure the number of characters per field that are allowed to be inconsistent in data match.
@@ -3265,6 +3503,11 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
     this.documentOptionalAdditionalNumber = nativeResult.documentOptionalAdditionalNumber;
     
     /**
+     * The transcription of the document subtype.
+     */
+    this.documentSubtype = nativeResult.documentSubtype;
+    
+    /**
      * The driver license detailed info.
      */
     this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
@@ -3396,6 +3639,16 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
     this.religion = nativeResult.religion;
     
     /**
+     * The remarks on the residence permit.
+     */
+    this.remarks = nativeResult.remarks;
+    
+    /**
+     * The residence permit type.
+     */
+    this.residencePermitType = nativeResult.residencePermitType;
+    
+    /**
      * The residential stauts of the document owner.
      */
     this.residentialStatus = nativeResult.residentialStatus;
@@ -3414,6 +3667,11 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
      * The sponsor of the document owner.
      */
     this.sponsor = nativeResult.sponsor;
+    
+    /**
+     * The visa type.
+     */
+    this.visaType = nativeResult.visaType;
     
     /**
      * Defines the data extracted from the visual inspection zone
@@ -3436,13 +3694,6 @@ function BlinkIdSingleSideRecognizer() {
      * Additional anonymization settings.
      */
     this.additionalAnonymization = [];
-    
-    /**
-     * Defines whether blured frames filtering is allowed
-     * 
-     * 
-     */
-    this.allowBlurFilter = true;
     
     /**
      * Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
@@ -3468,6 +3719,32 @@ function BlinkIdSingleSideRecognizer() {
     this.anonymizationMode = AnonymizationMode.FullResult;
     
     /**
+     * Strictness level for blur detection.
+     * 
+     * 
+     */
+    this.blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    /**
+     * Get custom class rules.
+     */
+    this.customClassRules = [];
+    
+    /**
+     * Skip processing of the blurred frames.
+     * 
+     * 
+     */
+    this.enableBlurFilter = true;
+    
+    /**
+     * Skip processing of the glared frames.
+     * 
+     * 
+     */
+    this.enableGlareFilter = true;
+    
+    /**
      * Property for setting DPI for face images
      * Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
      * 
@@ -3490,6 +3767,13 @@ function BlinkIdSingleSideRecognizer() {
      * 
      */
     this.fullDocumentImageExtensionFactors = new ImageExtensionFactors();
+    
+    /**
+     * Strictness level for glare detection.
+     * 
+     * 
+     */
+    this.glareStrictnessLevel = StrictnessLevel.Normal;
     
     /**
      * Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
