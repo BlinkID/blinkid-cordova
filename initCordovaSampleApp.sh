@@ -30,7 +30,7 @@ fi
 cordova plugin add https://github.com/jalios/cordova-plugin-camera.git
 
 # add ios and android support to the project
-cordova platform add android@10
+cordova platform add android@13
 cordova platform add ios
 
 # copy content of the www folder
