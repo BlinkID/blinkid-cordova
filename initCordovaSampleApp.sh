@@ -39,8 +39,9 @@ cp  -f -r ../sample_files/www .
 # build app
 cordova prepare
 
-
-
 # how to run
-echo "To run iOS demo application open Xcode project $APP_NAME/platforms/ios/$APP_NAME.xcodeproj, add the NSPhotoLibraryUsageDescription key to Info.plist if DirectAPI will be used; set your development team."
+echo "To run iOS demo application:
+1. Open Xcode project $APP_NAME/platforms/ios/$APP_NAME.xcodeproj
+2. Add the NSPhotoLibraryUsageDescription key to Info.plist if DirectAPI will be used
+3. Set your development team."
 echo "To run Android demo application, position to $APP_NAME folder and type: cordova run android"
