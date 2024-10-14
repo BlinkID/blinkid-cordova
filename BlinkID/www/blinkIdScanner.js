@@ -206,7 +206,7 @@ function RecognizerCollection(recognizerArray) {
      */
     this.allowMultipleResults = false;
     /** Number of miliseconds after first non-empty result becomes available to end scanning with a timeout */
-    this.milisecondsBeforeTimeout = 10000;
+    this.milisecondsBeforeTimeout = 0;
 
     if (!(this.recognizerArray.constructor === Array)) {
         throw new Error("recognizerArray must be array of Recognizer objects!");
@@ -364,6 +364,9 @@ var AlphabetType = Object.freeze(
 
         /** The Cyrillic alphabet type. */
         Cyrillic: 2,
+
+        /** The Greek alphabet type. */
+        Greek: 3
     }
 );
 
@@ -1003,6 +1006,7 @@ BlinkID.prototype.Region = Object.freeze(
         Haryana: 136,
         Sergipe: 137,
         Alagos: 138,
+        Bangsamoro: 139
     }
 );
 
@@ -1082,6 +1086,12 @@ BlinkID.prototype.Type = Object.freeze(
         EId: 68,
         Pass: 69,
         SisId: 70,
+        AsicCard: 71,
+        BidoonCard: 72,
+        InterimHealthInsuranceCard: 73,
+        NonVoterId: 74,
+        ReciprocalHealthInsuranceCard: 75,
+        VehicleRegistration: 76
     }
 );
 
@@ -1131,7 +1141,15 @@ BlinkID.prototype.FieldType = Object.freeze (
         VisaType: 38,
         DocumentSubtype: 39,
         Remarks: 40,
-        ResidencePermitType: 41
+        ResidencePermitType: 41,
+        ManufacturingYear: 42,
+        VehicleType: 43,
+        DependentDateOfBirth: 44,
+        DependentSex: 45,
+        DependentDocumentNumber: 46,
+        DependentFullName: 47,
+        EligibilityCategory: 48,
+        SpecificDocumentValidity: 49
     }
 );
 
@@ -3041,6 +3059,11 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
     
     /**
+     * The manufacturing year..
+     */
+    this.eligibilityCategory = nativeResult.eligibilityCategory;
+    
+    /**
      * The employer of the document owner.
      */
     this.employer = nativeResult.employer;
@@ -3137,6 +3160,11 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     this.localizedName = nativeResult.localizedName;
     
     /**
+     * The manufacturing year.
+     */
+    this.manufacturingYear = nativeResult.manufacturingYear;
+    
+    /**
      * The marital status of the document owner.
      */
     this.maritalStatus = nativeResult.maritalStatus;
@@ -3223,14 +3251,29 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     this.signatureImage = nativeResult.signatureImage;
     
     /**
+     * The specific document validity.
+     */
+    this.specificDocumentValidity = nativeResult.specificDocumentValidity;
+    
+    /**
      * The sponsor of the document owner.
      */
     this.sponsor = nativeResult.sponsor;
     
     /**
+     * The eligibility category.
+     */
+    this.vehicleType = nativeResult.vehicleType;
+    
+    /**
      * The visa type.
      */
     this.visaType = nativeResult.visaType;
+    
+    /**
+     * The dependents info.
+     */
+    this.dependentsInfo = nativeResult.dependentsInfo;
     
 }
 
@@ -3566,6 +3609,11 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
     this.driverLicenseDetailedInfo = nativeResult.driverLicenseDetailedInfo;
     
     /**
+     * The manufacturing year..
+     */
+    this.eligibilityCategory = nativeResult.eligibilityCategory;
+    
+    /**
      * The employer of the document owner.
      */
     this.employer = nativeResult.employer;
@@ -3635,6 +3683,11 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
      * The localized name of the document owner.
      */
     this.localizedName = nativeResult.localizedName;
+    
+    /**
+     * The manufacturing year.
+     */
+    this.manufacturingYear = nativeResult.manufacturingYear;
     
     /**
      * The marital status of the document owner.
@@ -3717,9 +3770,19 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
     this.signatureImage = nativeResult.signatureImage;
     
     /**
+     * The specific document validity.
+     */
+    this.specificDocumentValidity = nativeResult.specificDocumentValidity;
+    
+    /**
      * The sponsor of the document owner.
      */
     this.sponsor = nativeResult.sponsor;
+    
+    /**
+     * The eligibility category.
+     */
+    this.vehicleType = nativeResult.vehicleType;
     
     /**
      * The visa type.
@@ -3730,6 +3793,11 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
      * Defines the data extracted from the visual inspection zone
      */
     this.vizResult = nativeResult.vizResult;
+    
+    /**
+     * The dependents info.
+     */
+    this.dependentsInfo = nativeResult.dependentsInfo;
     
 }
 
