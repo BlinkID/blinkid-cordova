@@ -87,6 +87,7 @@
         MBOverlayViewController *overlayVC = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:jsonOverlaySettings recognizerCollection:self.recognizerCollection delegate:self];
 
         UIViewController<MBRecognizerRunnerViewController>* recognizerRunnerViewController = [MBViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:overlayVC];
+        [recognizerRunnerViewController setModalPresentationStyle:UIModalPresentationFullScreen];
 
         self.scanningViewController = recognizerRunnerViewController;
 

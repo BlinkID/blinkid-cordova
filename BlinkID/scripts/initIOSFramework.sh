@@ -4,7 +4,7 @@
 HERE="$(dirname "$(test -L "$0" && readlink "$0" || echo "$0")")"
 pushd "${HERE}/../src/ios/" > /dev/null
 
-LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v6.10.1/BlinkID.xcframework.zip'
+LINK='https://github.com/BlinkID/blinkid-ios/releases/download/v6.11.0/BlinkID.xcframework.zip'
 FILENAME='BlinkID.xcframework.zip'
 
 # BlinkID framework will be obtained via wget or curl
