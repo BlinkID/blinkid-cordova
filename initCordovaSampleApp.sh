@@ -16,7 +16,7 @@ cordova create $APP_NAME com.microblink.sample $APP_NAME
 cd $APP_NAME
 
 # add the BlinkID plugin
-IS_LOCAL_BUILD=false || exit 1
+IS_LOCAL_BUILD=true || exit 1
 if [ "$IS_LOCAL_BUILD" = true ]; then
   # using cordova plugin from NPM
   cordova plugin add ../BlinkID --variable CAMERA_USAGE_DESCRIPTION="Camera permission is required for automated scanning"
@@ -41,7 +41,10 @@ cordova prepare
 
 # how to run
 echo "To run iOS demo application:
-1. Open Xcode project $APP_NAME/platforms/ios/$APP_NAME.xcodeproj
+1. Open Xcode project in the following path: $APP_NAME/platforms/ios/$APP_NAME.xcodeproj
 2. Add the NSPhotoLibraryUsageDescription key to Info.plist if DirectAPI will be used
 3. Set your development team."
-echo "To run Android demo application, position to $APP_NAME folder and type: cordova run android"
+echo ""
+echo "To run Android demo application:
+1. Position to the $APP_NAME folder
+2. Run the command: cordova run android"

@@ -75,8 +75,8 @@ var app = {
 
         // package name/bundleID com.microblink.sample
         var licenseKeys = {
-            android: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWprMk56STFOemt5TlRZc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PcrAOSeJRWm8NpTScxgcudqfZAkJmFrFr6acjOpEO99vEkqAQpfhPkpGzPHlR73WkYjLL9NmiCAChWAzur4NI0t26FrnVqr/1NZes61Q4iCKi9leea2ygLf1wzLGRw8V/XDjWm/2Exb3NbsL9rWW7PHO2P7XzyPhpQ==',
-            ios: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWprMk56STJNek14TWprc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PZMSFIDjfsc2m+8UnhzvMhED/AmC88IsR2fZxwubpmi0qD4pb5d5WCrFKgZ1cEBZ2DpfK4L4MAPlARj2c24GmAyYAjd8JFuQeN+ZrBQfRBnF/8bBidrvxcMGyzC/AMpWF6Lqw+YbjNfI4vWNHfjbcKqzE+ns4SQDQA=='
+            android: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTXpFMU9EazFNakkzTWpBc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PQgQAmS4jMWlpIrTFuTqNnmxtVlnmcIZur0BfSOYe5024g5BmY6We9lpvD9ok9ZhVhIzz2vVQMdtkCSPemMV9a2kUJu29JfQh97EJibWCo8m02dLKzb+GTJW/9FwErIJWnn2U2JqMdpEytj4xj5ElDQzBm0v6VGUbg==',
+            ios: 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTXpFMU9EazFPRFExTVRJc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PVcl5cUobHO9HsKUmIo2hNgFPbgbNajREsH4k/WP2Zc0QwRQx0ObfqDc14FFJvSYxj8u+PR91m+23+ZuopgaHpVl+QZcbIm5jX8Te04hqQSuPxG/JGIrSxrr7Ic0kAYj9l4YoHH8DHdtRqboelGrrMs0g8JjtrpyLA=='
         };
 
         function buildResult(result, key) {
