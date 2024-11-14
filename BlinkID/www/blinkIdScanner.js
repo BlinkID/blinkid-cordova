@@ -2867,6 +2867,75 @@ function BlinkIdOverlaySettings() {
      * Default: false
     */
     this.enableAndroidLegacyCameraApi = false;
+
+    /**
+     * String: Instructions to scan the passport, shown when scanning of the first side is done, before
+     * scanning the second side of the document.
+     * 
+     * If null, default value will be used.
+    */
+    this.topPageInstructions = null;
+
+    /**
+     * String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+     * side of the document.
+     * 
+     * If null, default value will be used.
+    */
+    this.leftPageInstructions = null;
+
+    /**
+     * String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+     * side of the document.
+     * 
+     * If null, default value will be used.
+    */
+    this.rightPageInstructions = null;
+
+    /**
+     * String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+     * side of the document.
+     * 
+     * If null, default value will be used.
+    */
+    this.turnTopPageInstructions = null;
+
+    /**
+     * String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+     * side of the document.
+     * 
+     * If null, default value will be used.
+    */
+    this.turnLeftPageInstructions = null;
+
+    /**
+     * String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+     * side of the document.
+     * 
+     * If null, default value will be used.
+    */
+    this.turnRightPageInstructions = null;
+
+    /**
+     * String: Instructions for the user when wrong side of passport is being scanned.
+     * 
+     * If null, default value will be used.
+    */
+    this.errorScanningWrongPageTop = null;
+
+    /**
+     * String: Instructions for the user when wrong side of passport is being scanned.
+     * 
+     * If null, default value will be used.
+    */
+    this.errorScanningWrongPageLeft = null;
+
+    /**
+     * String: Instructions for the user when wrong side of passport is being scanned.
+     * 
+     * If null, default value will be used.
+    */
+    this.errorScanningWrongPageRight = null;
 }
 
 BlinkIdOverlaySettings.prototype = new OverlaySettings();
@@ -3458,6 +3527,14 @@ function BlinkIdMultiSideRecognizer() {
      * 
      */
     this.scanCroppedDocumentImage = false;
+    
+    /**
+     * Scan only the data page ( page containing MRZ ) of the passport.
+     * If set to `false`, it will be required to scan the second page of certain passports.
+     * 
+     * 
+     */
+    this.scanPassportDataPageOnly = true;
     
     /**
      * Property for setting DPI for signature images
