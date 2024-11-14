@@ -41,7 +41,10 @@ cordova prepare
 
 # how to run
 echo "To run iOS demo application:
-1. Open Xcode project $APP_NAME/platforms/ios/$APP_NAME.xcodeproj
+1. Open Xcode project in the following path: $APP_NAME/platforms/ios/$APP_NAME.xcodeproj
 2. Add the NSPhotoLibraryUsageDescription key to Info.plist if DirectAPI will be used
 3. Set your development team."
-echo "To run Android demo application, position to $APP_NAME folder and type: cordova run android"
+echo ""
+echo "To run Android demo application:
+1. Position to the $APP_NAME folder
+2. Run the command: cordova run android"
