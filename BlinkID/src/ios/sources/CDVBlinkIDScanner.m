@@ -24,10 +24,10 @@
 #import "MBOverlaySettingsSerializers.h"
 #import "MBRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
+#import "MBBlinkIDSerializationUtils.h"
 
 #import <BlinkID/BlinkID.h>
-
-@interface CDVPlugin () <MBOverlayViewControllerDelegate, MBScanningRecognizerRunnerDelegate, MBFirstSideFinishedRecognizerRunnerDelegate>
+@interface CDVPlugin () <MBOverlayViewControllerDelegate, MBScanningRecognizerRunnerDelegate, MBFirstSideFinishedRecognizerRunnerDelegate, MBBlinkIdMultiSideRecognizerDelegate, MBBlinkIdSingleSideRecognizerDelegate>
 
 @property (nonatomic, retain) CDVInvokedUrlCommand *lastCommand;
 
@@ -38,6 +38,8 @@
 @property (nonatomic, strong) MBRecognizerCollection *recognizerCollection;
 @property (nonatomic) id<MBRecognizerRunnerViewController> scanningViewController;
 @property (nonatomic, strong) MBRecognizerRunner *recognizerRunner;
+@property (nonatomic, strong) MBOverlayViewController *overlayVc;
+@property (nonatomic, strong) NSDictionary *jsonRecognizerCollection;
 
 @property (class, nonatomic, readonly) NSString *RESULT_LIST;
 @property (class, nonatomic, readonly) NSString *CANCELLED;
@@ -75,18 +77,27 @@
     [self setLastCommand:command];
 
     NSDictionary *jsonOverlaySettings = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:0]];
-    NSDictionary *jsonRecognizerCollection = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:1]];
+    _jsonRecognizerCollection = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:1]];
     NSDictionary *jsonLicenses = [self sanitizeDictionary:[self.lastCommand argumentAtIndex:2]];
 
     if([self setLicense:jsonLicenses]) {
         [self setLanguage:(NSString *)jsonOverlaySettings[@"language"] country:(NSString *)jsonOverlaySettings[@"country"]];
 
-        self.recognizerCollection = [[MBRecognizerSerializers sharedInstance] deserializeRecognizerCollection:jsonRecognizerCollection];
+        self.recognizerCollection = [[MBRecognizerSerializers sharedInstance] deserializeRecognizerCollection:_jsonRecognizerCollection];
 
         // create overlay VC
-        MBOverlayViewController *overlayVC = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:jsonOverlaySettings recognizerCollection:self.recognizerCollection delegate:self];
+        _overlayVc = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:jsonOverlaySettings recognizerCollection:self.recognizerCollection delegate:self];
+        for (MBRecognizer *recognizer in self.recognizerCollection.recognizerList) {
+            if([recognizer isKindOfClass:[MBBlinkIdMultiSideRecognizer class]]) {
+                [(MBBlinkIdMultiSideRecognizer *)recognizer setDelegate:self];
+                break;
+            } else if ([recognizer isKindOfClass:[MBBlinkIdSingleSideRecognizer class]]) {
+                [(MBBlinkIdSingleSideRecognizer *)recognizer setDelegate:self];
+                break;
+            }
+        }
 
-        UIViewController<MBRecognizerRunnerViewController>* recognizerRunnerViewController = [MBViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:overlayVC];
+        UIViewController<MBRecognizerRunnerViewController>* recognizerRunnerViewController = [MBViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:_overlayVc];
         [recognizerRunnerViewController setModalPresentationStyle:UIModalPresentationFullScreen];
 
         self.scanningViewController = recognizerRunnerViewController;
@@ -245,6 +256,25 @@
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:resultDict];
     [self.commandDelegate sendPluginResult:result callbackId:self.lastCommand.callbackId];
 }
+- (BOOL)multiSideClassInfoFilter:(nullable MBClassInfo *)classInfo {
+    return [MBBlinkIDSerializationUtils deserializeClassFilter:_jsonRecognizerCollection classInfo:classInfo];
+}
+
+- (void)onMultiSideDocumentSupportStatus:(BOOL)isDocumentSupported {
+    if([_overlayVc isKindOfClass:[MBBlinkIdOverlayViewController class]]) {
+        [(MBBlinkIdOverlayViewController *)_overlayVc onDocumentSupportStatus:isDocumentSupported];
+    }
+}
+
+- (BOOL)classInfoFilter:(MBClassInfo *)classInfo {
+    return [MBBlinkIDSerializationUtils deserializeClassFilter:_jsonRecognizerCollection classInfo:classInfo];
+}
+
+- (void)onDocumentSupportStatus:(BOOL)isDocumentSupported {
+    if([_overlayVc isKindOfClass:[MBBlinkIdOverlayViewController class]]) {
+        [(MBBlinkIdOverlayViewController *)_overlayVc onDocumentSupportStatus:isDocumentSupported];
+    }
+} //TODO SSAD SERZITION UTILS
 
 + (NSString *)RESULT_LIST {
     return @"resultList";
