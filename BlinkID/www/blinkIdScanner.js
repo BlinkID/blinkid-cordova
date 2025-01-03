@@ -1091,7 +1091,8 @@ BlinkID.prototype.Type = Object.freeze(
         InterimHealthInsuranceCard: 73,
         NonVoterId: 74,
         ReciprocalHealthInsuranceCard: 75,
-        VehicleRegistration: 76
+        VehicleRegistration: 76,
+        EsaadCard: 77
     }
 );
 
@@ -1149,7 +1150,8 @@ BlinkID.prototype.FieldType = Object.freeze (
         DependentDocumentNumber: 46,
         DependentFullName: 47,
         EligibilityCategory: 48,
-        SpecificDocumentValidity: 49
+        SpecificDocumentValidity: 49,
+        VehicleOwner: 50,
     }
 );
 
@@ -2504,6 +2506,85 @@ function DetailedFieldType() {
  * Used with CustomClassRules. A field type (see FieldType for all fields) along with Alphabet type (see AlphabetType for all alphabets) is required.
 */
 BlinkID.prototype.DetailedFieldType = DetailedFieldType;
+
+/**
+ * ClassFilter represents the document filter used to determine which documents will be processed.
+ * Document information (Country, Region, Type) is evaluated with the content set in the filter, and their inclusion or exclusion depends on the defined rules.
+ * 
+ * The recognition results of the excluded documents will not be returned.
+ * If using the standard BlinkID Overlay, an alert will be displayed that the document will not be scanned.
+ * 
+ * By default, the ClassFilter is turned off, and all documents will be included.
+ */
+function ClassFilter() {
+    /**
+     * Document classes that will be explicitly accepted by this filter.
+     * Only documents belonging to the specified classes will be processed. All other documents will be rejected.
+     * 
+     * If this array is empty, no restrictions are applied, and documents will be accepted unless explicitly excluded by `excludedClasses`.
+     * 
+     * Example usage:
+     *  
+     * var includedClassOne = new cordova.plugins.BlinkID.FilteredClass();
+     * includedClassOne.country = cordova.plugins.BlinkID.Country.Croatia;
+     * includedClassOne.type = cordova.plugins.BlinkID.Type.Id;
+     * 
+     * var includedClassTwo = new cordova.plugins.BlinkID.FilteredClass();
+     * includedClassTwo.region = cordova.plugins.BlinkID.Region.California;
+     *  
+     * var classFilter = new cordova.plugins.BlinkID.ClassFilter();
+     * classFilter.includeClasses = [includedClassOne, includedClassTwo];
+     * 
+     * NOTE: from the example above, the class filter is set to only accept Croatian IDs, and all documents from the California region.
+     * All other documents will be rejected.
+     * Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+     */
+    this.includeClasses = [];
+    /**
+     * Document classes that will be explicitly rejected by this filter.
+     * Documents belonging to the specified classes will not be processed. Other documents, not included with `excludedClasses` will be accepted.
+     * 
+     * If this array is empty, no restrictions are applied, and documents will be excluded only if not present in `includedClasses`.
+     * If a document class appears in both `includedClasses` and `excludedClasses`, it will be accepted, as `includedClasses` takes precedence.
+     * 
+     * Example usage:
+     *  
+     * var excludedClassOne = new cordova.plugins.BlinkID.FilteredClass();
+     * excludedClassOne.country = cordova.plugins.BlinkID.Country.Croatia;
+     * excludedClassOne.type = cordova.plugins.BlinkID.Type.Id;
+     * 
+     * var excludedClassTwo = new cordova.plugins.BlinkID.FilteredClass();
+     * excludedClassTwo.region = cordova.plugins.BlinkID.Region.California;
+     *  
+     * var classFilter = new cordova.plugins.BlinkID.ClassFilter();
+     * classFilter.excludeClasses = [excludedClassOne, excludedClassTwo];
+     * 
+     * 
+     * NOTE: from the example above, the class filter is set to only reject Croatian IDs, and all documents from the California region.
+     * All other classes will be accepted.
+     * 
+     * Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+     */
+    this.excludeClasses = [];
+}
+
+BlinkID.prototype.ClassFilter = ClassFilter;
+
+/**
+ * FilteredClass represents the document class that is added in the ClassFilter.
+ * By defining the rules of the ClassFilter, the entered class can be included or excluded from processing.
+ * 
+ * See the ClassFilter function for more detailed information.
+ */
+function FilteredClass() {
+    /** Document country which will be added in the filter */
+    this.country = null;
+    /** Document region which will be added in the filter */
+    this.region = null;
+    /** Document type which will be added in the filter */
+    this.type = null;
+}
+BlinkID.prototype.FilteredClass = FilteredClass;
 /**
  * Result of the data matching algorithm for scanned parts/sides of the document.
  */
@@ -3330,6 +3411,11 @@ function BlinkIdMultiSideRecognizerResult(nativeResult) {
     this.sponsor = nativeResult.sponsor;
     
     /**
+     * The vehicle owner.
+     */
+    this.vehicleOwner = nativeResult.vehicleOwner;
+    
+    /**
      * The eligibility category.
      */
     this.vehicleType = nativeResult.vehicleType;
@@ -3408,6 +3494,11 @@ function BlinkIdMultiSideRecognizer() {
      * 
      */
     this.blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    /**
+     * Sets the ClassFilter that can determine whether the document should be processed or filtered out.
+     */
+    this.classFilter = new ClassFilter();
     
     /**
      * Enables the aggregation of data from multiple frames.
@@ -3857,6 +3948,11 @@ function BlinkIdSingleSideRecognizerResult(nativeResult) {
     this.sponsor = nativeResult.sponsor;
     
     /**
+     * The vehicle owner.
+     */
+    this.vehicleOwner = nativeResult.vehicleOwner;
+    
+    /**
      * The eligibility category.
      */
     this.vehicleType = nativeResult.vehicleType;
@@ -3932,6 +4028,11 @@ function BlinkIdSingleSideRecognizer() {
      * 
      */
     this.blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    /**
+     * Sets the ClassFilter that can determine whether the document should be processed or filtered out.
+     */
+    this.classFilter = new ClassFilter();
     
     /**
      * Enables the aggregation of data from multiple frames.
